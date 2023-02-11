@@ -1,0 +1,42 @@
+@import '../../../styles.scss';
+
+.container-login  {
+    min-height: 100vh;
+    background-image: url('../../../assets/energy_gym.jpeg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    // background-size: cover;
+    // background-color: red;
+}
+
+.form-title{
+    font-size: 1.90rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: $color-resaltado;
+    text-align: center;
+
+    &--modify {
+        color: $color-primary;
+    
+    }
+}
+.content-login {
+
+    background-color:  $color-default;
+
+
+}
+.button{
+
+    display: block;
+    width: 98%;
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    // color: $color-resaltado;
+    font-weight: bold;
+    font-size: 1.2rem;
+    background-color: $color-primary;
+
+}
