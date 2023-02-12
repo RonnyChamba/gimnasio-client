@@ -3,16 +3,22 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormLoginComponent } from './auth/form-login/form-login.component';
+
+import { NabSideBarComponent } from './components/auth/nab-side-bar/nab-side-bar.component';
+import { FormHomeComponent } from './components/pages/form-home/form-home.component';
+import { FormUserComponent } from './components/pages/form-user/form-user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FormLoginComponent
+    
+    NabSideBarComponent,
+          FormHomeComponent,
+          FormUserComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
