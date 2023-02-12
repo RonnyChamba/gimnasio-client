@@ -7,20 +7,23 @@ import { AppComponent } from './app.component';
 import { NabSideBarComponent } from './components/auth/nab-side-bar/nab-side-bar.component';
 import { FormHomeComponent } from './components/pages/form-home/form-home.component';
 import { FormUserComponent } from './components/pages/form-user/form-user.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormLoginComponent } from './components/auth/form-login/form-login.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
-    
     NabSideBarComponent,
-          FormHomeComponent,
-          FormUserComponent
+    FormHomeComponent,
+    FormUserComponent,
+    FormLoginComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,
+    BrowserAnimationsModule,
+  
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
