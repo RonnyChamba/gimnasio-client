@@ -10,6 +10,7 @@ import { FormUserComponent } from './components/pages/form-user/form-user.compon
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormLoginComponent } from './components/auth/form-login/form-login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormCustomerComponent } from './components/pages/form-customer/form-customer.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NabSideBarComponent,
     FormHomeComponent,
     FormUserComponent,
-    FormLoginComponent
+    FormLoginComponent,
+    FormCustomerComponent
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,
     BrowserAnimationsModule,

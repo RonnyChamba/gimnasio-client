@@ -22,7 +22,7 @@ export const validMessagesError = {
     },
     {
       type: 'pattern',
-      message: `Debe ingresar ${MIN_CEDULA} números.`,
+      message: `Ingrese ${MIN_CEDULA} números.`,
     },
   ],
 

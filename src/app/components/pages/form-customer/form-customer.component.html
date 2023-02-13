@@ -3,62 +3,13 @@
     class="content-user p-3 mx-auto border border-2 rounded-3"
     style="max-width: 750px"
   >
-    <h2 class="form-title">NUEVO USUARIO</h2>
+    <h2 class="form-title">NUEVO CLIENTE</h2>
 
     <form class="mt-4" [formGroup]="formData" (ngSubmit)="fnSubmit()">
       <div class="card p-3 mb-3">
-        <legend class="fz-1 form-subtitle">Datos Cuenta</legend>
+        <legend class="fz-1 form-subtitle">Datos</legend>
+
         <div class="row">
-          <div class="form-floating mb-3 col-sm-6">
-            <input
-              type="text"
-              class="form-control"
-              id="cedula"
-              placeholder=""
-              formControlName="cedula"
-            />
-            <label for="cedula" class="ms-1">C&eacute;dula</label>
-
-            <div
-              *ngIf="
-                formData.controls['cedula'].invalid &&
-                (formData.controls['cedula'].dirty ||
-                  formData.controls['cedula'].touched)
-              "
-              class="form-text text-danger"
-            >
-              <div *ngFor="let validation of validMessage.cedula">
-                <div
-                  style="font-size: smaller !important"
-                  *ngIf="
-                    formData.get('cedula')?.hasError(validation.type) &&
-                    (formData.get('cedula')?.dirty ||
-                      formData.get('cedula')?.touched)
-                  "
-                >
-                  {{ validation.message }}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-floating mb-3 col-sm-6">
-            <select
-              class="form-select form-select-sm"
-              aria-label=".form-select-lg example"
-              formControlName="rol"
-            >
-              <option
-                value="{{ envi.key }}"
-                *ngFor="let envi of getRoles | keyvalue"
-                selected
-              >
-                {{ envi.value }}
-              </option>
-            </select>
-            <label for="nombres" class="ms-1">Rol</label>
-          </div>
-
           <div class="form-floating mb-3 col-12">
             <input
               type="text"
@@ -83,73 +34,6 @@
                     formData.get('name')?.hasError(validation.type) &&
                     (formData.get('name')?.dirty ||
                       formData.get('name')?.touched)
-                  "
-                >
-                  {{ validation.message }}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-floating mb-3 col-sm-6">
-            <input
-              type="password"
-              class="form-control"
-              id="password"
-              placeholder=""
-              formControlName="password"
-            />
-            <label for="password" class="ms-1">Contraseña</label>
-
-            <div
-              *ngIf="
-                formData.controls['password'].invalid &&
-                (formData.controls['password'].dirty ||
-                  formData.controls['password'].touched)
-              "
-              class="form-text text-danger"
-            >
-              <div *ngFor="let validation of validMessage.password">
-                <div
-                  style="font-size: smaller !important"
-                  *ngIf="
-                    formData.get('password')?.hasError(validation.type) &&
-                    (formData.get('password')?.dirty ||
-                      formData.get('password')?.touched)
-                  "
-                >
-                  {{ validation.message }}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-floating mb-3 col-sm-6">
-            <input
-              type="password"
-              class="form-control"
-              id="repeatPassword"
-              placeholder=""
-              formControlName="repeatPassword"
-              (keydown)="keyPresent($event)"
-            />
-            <label for="repeatPassword" class="ms-1">Repetir Contraseña</label>
-
-            <div
-              *ngIf="
-                formData.controls['repeatPassword'].invalid &&
-                (formData.controls['repeatPassword'].dirty ||
-                  formData.controls['repeatPassword'].touched)
-              "
-              class="form-text text-danger"
-            >
-              <div *ngFor="let validation of validMessage.repeatPassword">
-                <div
-                  style="font-size: smaller !important"
-                  *ngIf="
-                    formData.get('repeatPassword')?.hasError(validation.type) &&
-                    (formData.get('repeatPassword')?.dirty ||
-                      formData.get('repeatPassword')?.touched)
                   "
                 >
                   {{ validation.message }}
@@ -182,6 +66,39 @@
           >
             <div class="accordion-body">
               <div class="row">
+                <div class="form-floating mb-3 col-sm-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="cedula"
+                    placeholder=""
+                    formControlName="cedula"
+                  />
+                  <label for="cedula" class="ms-1">C&eacute;dula</label>
+
+                  <div
+                    *ngIf="
+                      formData.controls['cedula'].invalid &&
+                      (formData.controls['cedula'].dirty ||
+                        formData.controls['cedula'].touched)
+                    "
+                    class="form-text text-danger"
+                  >
+                    <div *ngFor="let validation of validMessage.cedula">
+                      <div
+                        style="font-size: smaller !important"
+                        *ngIf="
+                          formData.get('cedula')?.hasError(validation.type) &&
+                          (formData.get('cedula')?.dirty ||
+                            formData.get('cedula')?.touched)
+                        "
+                      >
+                        {{ validation.message }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="form-floating mb-3 col-sm-6">
                   <input
                     type="email"
@@ -275,6 +192,53 @@
                         "
                       >
                         {{ validation.message }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3 col-sm-6">
+                  <div class="form-control pb-0 pt-0 form-customer">
+                    <label class="label-customer">Genero</label>
+
+                    <div class="d-flex mt-1">
+                      <div class="form-check me-3">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          formControlName="genero"
+                          value="M"
+                          id="man"
+                        />
+                        <label class="form-check-label" for="man">
+                          M
+                        </label>
+                      </div>
+                      <div class="form-check  me-3">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                         formControlName="genero"
+                         value="F"
+                          id="women"
+                         
+                        />
+                        <label class="form-check-label" for="women">
+                          F
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          formControlName="genero"
+                          id="na"
+                          value="N"
+                          checked
+                        />
+                        <label class="form-check-label" for="na">
+                          NA
+                        </label>
                       </div>
                     </div>
                   </div>

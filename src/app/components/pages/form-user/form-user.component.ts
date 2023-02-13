@@ -44,8 +44,9 @@ export class FormUserComponent implements OnInit {
     this.formData = new FormGroup({
       cedula: new FormControl('', [
         Validators.required,
-         Validators.minLength(MIN_CEDULA),
-         Validators.maxLength(MIN_CEDULA)
+        Validators.pattern(`^[0-9]{${MIN_CEDULA}}$`),
+        //  Validators.minLength(MIN_CEDULA),
+        //  Validators.maxLength(MIN_CEDULA)
         
       ]),
       rol: new FormControl(Roles.ROLE_USER, []),
