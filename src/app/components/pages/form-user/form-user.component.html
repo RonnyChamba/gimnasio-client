@@ -1,1 +1,308 @@
-<p>form-user works!</p>
+<div class="container-user w-100">
+  <div
+    class="content-user p-3 mx-auto border border-2 rounded-3"
+    style="max-width: 750px"
+  >
+    <h2 class="form-title">NUEVO USUARIO</h2>
+
+    <form class="mt-4" [formGroup]="formData" (ngSubmit)="fnSubmit()">
+      <div class="card p-3 mb-3">
+        <legend class="fz-1 form-subtitle">Datos de la Cuenta</legend>
+        <div class="row">
+          <div class="form-floating mb-3 col-sm-6">
+            <input
+              type="text"
+              class="form-control"
+              id="cedula"
+              placeholder=""
+              formControlName="cedula"
+            />
+            <label for="cedula" class="ms-1">C&eacute;dula</label>
+
+            <div
+              *ngIf="
+                formData.controls['cedula'].invalid &&
+                (formData.controls['cedula'].dirty ||
+                  formData.controls['cedula'].touched)
+              "
+              class="form-text text-danger"
+            >
+              <div *ngFor="let validation of validMessage.cedula">
+                <div
+                  style="font-size: smaller !important"
+                  *ngIf="
+                    formData.get('cedula')?.hasError(validation.type) &&
+                    (formData.get('cedula')?.dirty ||
+                      formData.get('cedula')?.touched)
+                  "
+                >
+                  {{ validation.message }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-floating mb-3 col-sm-6">
+
+
+
+            <select
+              class="form-select form-select-sm"
+              aria-label=".form-select-lg example"
+              formControlName="rol"
+            >
+            <option value="{{envi.key}}"
+            *ngFor="let envi of  getRoles | keyvalue" selected>
+            {{envi.value}}</option>
+             
+            </select>
+            <label for="nombres" class="ms-1">Rol</label>
+          </div>
+
+          <div class="form-floating mb-3 col-12">
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              placeholder=""
+              formControlName="name"
+            />
+            <label for="name" class="ms-1">Nombres</label>
+            <div
+            *ngIf="
+              formData.controls['name'].invalid &&
+              (formData.controls['name'].dirty ||
+                formData.controls['name'].touched)
+            "
+            class="form-text text-danger"
+          >
+            <div *ngFor="let validation of validMessage.name">
+              <div
+                style="font-size: smaller !important"
+                *ngIf="
+                  formData.get('name')?.hasError(validation.type) &&
+                  (formData.get('name')?.dirty ||
+                    formData.get('name')?.touched)
+                "
+              >
+                {{ validation.message }}
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <div class="form-floating mb-3 col-sm-6">
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              placeholder=""
+              formControlName="password"
+            />
+            <label for="password" class="ms-1">Contraseña</label>
+
+            <div
+            *ngIf="
+              formData.controls['password'].invalid &&
+              (formData.controls['password'].dirty ||
+                formData.controls['password'].touched)
+            "
+            class="form-text text-danger"
+          >
+            <div *ngFor="let validation of validMessage.password">
+              <div
+                style="font-size: smaller !important"
+                *ngIf="
+                  formData.get('password')?.hasError(validation.type) &&
+                  (formData.get('password')?.dirty ||
+                    formData.get('password')?.touched)
+                "
+              >
+                {{ validation.message }}
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <div class="form-floating mb-3 col-sm-6">
+            <input
+              type="password"
+              class="form-control"
+              id="repeatPassword"
+              placeholder=""
+              formControlName="repeatPassword"
+              (keydown)="keyPresent($event)"
+            />
+            <label for="repeatPassword" class="ms-1">Repetir Contraseña</label>
+
+            <div
+            *ngIf="
+              formData.controls['repeatPassword'].invalid &&
+              (formData.controls['repeatPassword'].dirty ||
+                formData.controls['repeatPassword'].touched)
+            "
+            class="form-text text-danger"
+          >
+            <div *ngFor="let validation of validMessage.repeatPassword">
+              <div
+                style="font-size: smaller !important"
+                *ngIf="
+                  formData.get('repeatPassword')?.hasError(validation.type) &&
+                  (formData.get('repeatPassword')?.dirty ||
+                    formData.get('repeatPassword')?.touched)
+                "
+              >
+                {{ validation.message }}
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card p-3">
+        <legend class="fz-1 form-subtitle">Datos Personales</legend>
+        <div class="row">
+          <div class="form-floating mb-3 col-sm-6">
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder=""
+              formControlName="email"
+            />
+            <label for="email" class="ms-1">Email</label>
+            <div
+            *ngIf="
+              formData.controls['email'].invalid &&
+              (formData.controls['email'].dirty ||
+                formData.controls['email'].touched)
+            "
+            class="form-text text-danger"
+          >
+            <div *ngFor="let validation of validMessage.email">
+              <div
+                style="font-size: smaller !important"
+                *ngIf="
+                  formData.get('email')?.hasError(validation.type) &&
+                  (formData.get('email')?.dirty ||
+                    formData.get('email')?.touched)
+                "
+              >
+                {{ validation.message }}
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <div class="form-floating mb-3 col-sm-6">
+            <input
+              type="text"
+              class="form-control"
+              id="address"
+              placeholder=""
+              formControlName="address"
+            />
+            <label for="address" class="ms-1">Direcci&oacute;n</label>
+
+            <div
+            *ngIf="
+              formData.controls['address'].invalid &&
+              (formData.controls['address'].dirty ||
+                formData.controls['address'].touched)
+            "
+            class="form-text text-danger"
+          >
+            <div *ngFor="let validation of validMessage.address">
+              <div
+                style="font-size: smaller !important"
+                *ngIf="
+                  formData.get('address')?.hasError(validation.type) &&
+                  (formData.get('address')?.dirty ||
+                    formData.get('address')?.touched)
+                "
+              >
+                {{ validation.message }}
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <div class="form-floating mb-3 col-sm-6">
+            <input
+              type="text"
+              class="form-control"
+              id="phone"
+              placeholder=""
+              formControlName="phone"
+            />
+            <label for="phone" class="ms-1">Tel&eacute;fono</label>
+
+            <div
+            *ngIf="
+              formData.controls['phone'].invalid &&
+              (formData.controls['phone'].dirty ||
+                formData.controls['phone'].touched)
+            "
+            class="form-text text-danger"
+          >
+            <div *ngFor="let validation of validMessage.phone">
+              <div
+                style="font-size: smaller !important"
+                *ngIf="
+                  formData.get('phone')?.hasError(validation.type) &&
+                  (formData.get('phone')?.dirty ||
+                    formData.get('phone')?.touched)
+                "
+              >
+                {{ validation.message }}
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <div class="form-floating mb-3 col-sm-6">
+            <input
+              type="date"
+              class="form-control"
+              id="born"
+              placeholder=""
+             formControlName="born"
+            />
+            <label for="born" class="ms-1">Fecha Nacimiento</label>
+
+            <div
+            *ngIf="
+              formData.controls['born'].invalid &&
+              (formData.controls['born'].dirty ||
+                formData.controls['born'].touched)
+            "
+            class="form-text text-danger"
+          >
+            <div *ngFor="let validation of validMessage.born">
+              <div
+                style="font-size: smaller !important"
+                *ngIf="
+                  formData.get('born')?.hasError(validation.type) &&
+                  (formData.get('born')?.dirty ||
+                    formData.get('born')?.touched)
+                "
+              >
+                {{ validation.message }}
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="text-center mt-3">
+        <input type="submit"   
+        [disabled]="formData.invalid"
+        class="btn btn-primary button" 
+        value="GUARDAR" />
+      </div>
+    </form>
+  </div>
+</div>

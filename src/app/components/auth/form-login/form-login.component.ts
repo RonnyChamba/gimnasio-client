@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Login } from 'src/app/entities/Login';
-const MIN_CEDULA = 10;
-
-const MIN_PASSWORD = 6;
-const MAX_PASSWORD = 25;
+import {MIN_CEDULA, MIN_PASSWORD, MAX_PASSWORD} from "../../../utils/Constants-Field"
 
 @Component({
   selector: 'app-form-login',
