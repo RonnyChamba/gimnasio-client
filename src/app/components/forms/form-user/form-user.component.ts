@@ -10,27 +10,26 @@ import {
   MIN_EMAIL,
   MIN_PASSWORD,
 } from '../../../utils/Constants-Field';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Roles, UserSrvService } from 'src/app/services/user-srv.service';
-import {validMessagesError} from '../../../utils/MessagesValidation'
+import { validMessagesError } from 'src/app/utils/MessagesValidation';
 
 @Component({
   selector: 'app-form-user',
   templateUrl: './form-user.component.html',
-  styleUrls: ['./form-user.component.scss'],
+  styleUrls: ['./form-user.component.scss']
 })
-
-export class FormUserComponent implements OnInit {
+export class FormUserComponent implements OnInit{
   
   formData: FormGroup;  
   validMessage =  validMessagesError;
-
-  constructor(private userService: UserSrvService) {}
+  
+  constructor(private userService: UserSrvService){}
+  
   ngOnInit(): void {
-
+   
     this.createForm();
   }
-
 
   get getRoles(){
     return this.userService.getRoles;
@@ -111,4 +110,6 @@ export class FormUserComponent implements OnInit {
     ? null : {'mismatch': true};
 
   }
+
+
 }

@@ -1,11 +1,11 @@
 import { Component} from '@angular/core';
 
 @Component({
-  selector: 'app-form-home',
-  templateUrl: './form-home.component.html',
-  styleUrls: ['./form-home.component.scss']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
-export class FormHomeComponent {
+export class HomeComponent {
 
 
   flagClose = true;

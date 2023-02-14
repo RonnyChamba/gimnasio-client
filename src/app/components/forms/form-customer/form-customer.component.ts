@@ -1,3 +1,5 @@
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   MAX_ADDRESS,
   MAX_EMAIL,
@@ -7,28 +9,23 @@ import {
   MIN_CEDULA,
   MIN_EMAIL,
 } from '../../../utils/Constants-Field';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { validMessagesError } from 'src/app/utils/MessagesValidation';
-import { Roles, UserSrvService } from 'src/app/services/user-srv.service';
-
 
 @Component({
   selector: 'app-form-customer',
   templateUrl: './form-customer.component.html',
   styleUrls: ['./form-customer.component.scss']
 })
-export class FormCustomerComponent implements OnInit{
-
+export class FormCustomerComponent  implements OnInit {
+  
   formData: FormGroup;  
   validMessage =  validMessagesError;
 
-  constructor(private userService: UserSrvService){}
+  constructor(){}
+
   ngOnInit(): void {
-    
     this.createForm();
   }
-  
   keyPresent(event: any){
 
   }
