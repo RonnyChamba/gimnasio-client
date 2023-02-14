@@ -1,1 +1,14 @@
-<app-nab-side-bar></app-nab-side-bar>
+
+<app-nab-side-bar class="nav-component" 
+[ngClass]="{'close': flagClose, '': !flagClose}" [open] = "flagClose"  />
+
+<section class="home-section">
+  <div class="home-content" >
+    <i class="bx bx-menu" (click)="onClickMenu()" ></i>
+    <span class="text">Drop Down Sidebar</span>
+  </div>
+
+  <div>
+    <p></p>
+  </div>
+</section>

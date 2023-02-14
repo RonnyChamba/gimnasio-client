@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 
 @Component({
   selector: 'app-form-home',
@@ -6,5 +6,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./form-home.component.scss']
 })
 export class FormHomeComponent {
+
+
+  flagClose = true;
+
+  constructor(){}
+
+
+  onClickMenu(){  
+
+    this.flagClose = !this.flagClose;
+  }
+
 
 }

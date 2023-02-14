@@ -1,0 +1,86 @@
+/*Archivo donde se define los estilos para el wrapper que envolvera  al sidebar y al componente 
+hermano o componente donde va el contenido principal*/
+
+@import '../scss/Constantes.scss';
+
+.nav-component{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: $sidebar-width;
+    z-index: 100;
+    transition: all 0.5s ease;
+}
+.nav-component.close{
+    width: $sidebar-width-close;
+}
+
+
+.home-section{
+    position: relative;
+    background: #E4E9F7;
+    height: 100vh;
+    left: $sidebar-width;
+    // left: 260px;
+    // width: calc(100% - 260px);
+    width: calc(100% - $sidebar-width);
+    transition: all 0.5s ease;
+  }
+
+
+  .nav-component.close ~ .home-section{
+    left: $sidebar-width-close;
+    // left: 78px;
+    // width: calc(100% - 78px);
+    width: calc(100% - $sidebar-width-close);
+  }
+
+
+  .home-section .home-content{
+    height: 60px;
+    display: flex;
+    align-items: center;
+  }
+
+
+  .home-section .home-content .bx-menu,
+  .home-section .home-content .text{
+    color: #11101d;
+    font-size: 35px;
+  }
+
+
+  .home-section .home-content .bx-menu{
+    margin: 0 15px;
+    cursor: pointer;
+  }
+
+  .home-section .home-content .text{
+    font-size: 26px;
+    font-weight: 600;
+  }
+
+
+ @media (max-width: 400px) {
+  
+
+    .nav-component{
+     width: $sidebar-width-close;
+     //  width: 78px;
+    }
+
+    .nav-component.close{
+      width: 0;
+    }
+    .home-section{
+     left: $sidebar-width-close;
+     //  left: 78px;
+      width: calc(100% - $sidebar-width-close);
+      z-index: 100;
+    }
+    .nav-component.close ~ .home-section{
+      width: 100%;
+      left: 0;
+    }
+  }
