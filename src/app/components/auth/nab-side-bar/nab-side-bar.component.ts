@@ -11,12 +11,19 @@ export class NabSideBarComponent implements OnInit {
   @Input('open') flagClose: boolean;
   
 
+  menuOptions = new Map<string, any>;
+
   constructor(private renderer: Renderer2) {}
   ngOnInit(): void {
-    console.log('Hello World');
+
+    this.initMenuOptiosn();
   }
 
- 
+  private initMenuOptiosn (){
+
+    this.menuOptions.set("HOME", "Home");
+    this.menuOptions.set("CUSTOMERS", "Clientes");
+  }
 
   showSubmenu(event: any){
   

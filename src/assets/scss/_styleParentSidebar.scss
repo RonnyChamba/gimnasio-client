@@ -37,26 +37,31 @@ hermano o componente donde va el contenido principal*/
   }
 
 
-  .home-section .home-content{
+  .home-section .home-header,
+  .home-section .home-body{
+    padding:  0 20px;
+  }
+
+  .home-section .home-header{
     height: 60px;
     display: flex;
     align-items: center;
   }
 
 
-  .home-section .home-content .bx-menu,
-  .home-section .home-content .text{
+  .home-section .home-header .bx-menu,
+  .home-section .home-header .text{
     color: #11101d;
     font-size: 35px;
   }
 
 
-  .home-section .home-content .bx-menu{
-    margin: 0 15px;
+  .home-section .home-header .bx-menu{
+    margin-right: 15px;
     cursor: pointer;
   }
 
-  .home-section .home-content .text{
+  .home-section .home-header .text{
     font-size: 26px;
     font-weight: 600;
   }

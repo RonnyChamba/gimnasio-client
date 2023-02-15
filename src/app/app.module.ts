@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeCustomerComponent } from './components/pages/home-customer/home-customer.component';
 import { FormCustomerComponent } from './components/forms/form-customer/form-customer.component';
 import { FormUserComponent } from './components/forms/form-user/form-user.component';
+import { ListCustomerComponent } from './components/list/list-customer/list-customer.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { FormUserComponent } from './components/forms/form-user/form-user.compon
     FormLoginComponent,
     HomeCustomerComponent,
     FormCustomerComponent,
-    FormUserComponent
+    FormUserComponent,
+    ListCustomerComponent
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,
     BrowserAnimationsModule,

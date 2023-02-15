@@ -10,6 +10,7 @@ import {
   MIN_EMAIL,
 } from '../../../utils/Constants-Field';
 import { validMessagesError } from 'src/app/utils/MessagesValidation';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-form-customer',
@@ -21,7 +22,7 @@ export class FormCustomerComponent  implements OnInit {
   formData: FormGroup;  
   validMessage =  validMessagesError;
 
-  constructor(){}
+  constructor(public modal: NgbActiveModal){}
 
   ngOnInit(): void {
     this.createForm();

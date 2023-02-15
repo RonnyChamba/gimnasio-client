@@ -1,296 +1,296 @@
 <div class="container-user w-100">
-    <div
-      class="content-user p-3 mx-auto border border-2 rounded-3"
-      style="max-width: 750px"
-    >
-      <h2 class="form-title">NUEVO CLIENTE</h2>
-  
-      <form class="mt-4" [formGroup]="formData" (ngSubmit)="fnSubmit()">
-        <div class="card p-3 mb-3">
-          <legend class="fz-1 form-subtitle">Datos</legend>
-  
-          <div class="row">
-            <div class="form-floating mb-3 col-12">
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                placeholder=""
-                formControlName="name"
-              />
-              <label for="name" class="ms-1">Nombres</label>
-              <div
-                *ngIf="
-                  formData.controls['name'].invalid &&
-                  (formData.controls['name'].dirty ||
-                    formData.controls['name'].touched)
-                "
-                class="form-text text-danger"
-              >
-                <div *ngFor="let validation of validMessage.name">
-                  <div
-                    style="font-size: smaller !important"
-                    *ngIf="
-                      formData.get('name')?.hasError(validation.type) &&
-                      (formData.get('name')?.dirty ||
-                        formData.get('name')?.touched)
-                    "
-                  >
-                    {{ validation.message }}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        <div class="accordion" id="accordionExample">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo">
-              <button
-                class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseTwo"
-                aria-expanded="false"
-                aria-controls="collapseTwo"
-              >
-                Datos Personales
-              </button>
-            </h2>
-            <div
-              id="collapseTwo"
-              class="accordion-collapse collapse"
-              aria-labelledby="headingTwo"
-              data-bs-parent="#accordionExample"
-            >
-              <div class="accordion-body">
-                <div class="row">
-                  <div class="form-floating mb-3 col-sm-6">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="cedula"
-                      placeholder=""
-                      formControlName="cedula"
-                    />
-                    <label for="cedula" class="ms-1">C&eacute;dula</label>
-  
-                    <div
-                      *ngIf="
-                        formData.controls['cedula'].invalid &&
-                        (formData.controls['cedula'].dirty ||
-                          formData.controls['cedula'].touched)
-                      "
-                      class="form-text text-danger"
-                    >
-                      <div *ngFor="let validation of validMessage.cedula">
-                        <div
-                          style="font-size: smaller !important"
-                          *ngIf="
-                            formData.get('cedula')?.hasError(validation.type) &&
-                            (formData.get('cedula')?.dirty ||
-                              formData.get('cedula')?.touched)
-                          "
-                        >
-                          {{ validation.message }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="form-floating mb-3 col-sm-6">
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="email"
-                      placeholder=""
-                      formControlName="email"
-                    />
-                    <label for="email" class="ms-1">Email</label>
-                    <div
-                      *ngIf="
-                        formData.controls['email'].invalid &&
-                        (formData.controls['email'].dirty ||
-                          formData.controls['email'].touched)
-                      "
-                      class="form-text text-danger"
-                    >
-                      <div *ngFor="let validation of validMessage.email">
-                        <div
-                          style="font-size: smaller !important"
-                          *ngIf="
-                            formData.get('email')?.hasError(validation.type) &&
-                            (formData.get('email')?.dirty ||
-                              formData.get('email')?.touched)
-                          "
-                        >
-                          {{ validation.message }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="form-floating mb-3 col-sm-6">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="address"
-                      placeholder=""
-                      formControlName="address"
-                    />
-                    <label for="address" class="ms-1">Direcci&oacute;n</label>
-  
-                    <div
-                      *ngIf="
-                        formData.controls['address'].invalid &&
-                        (formData.controls['address'].dirty ||
-                          formData.controls['address'].touched)
-                      "
-                      class="form-text text-danger"
-                    >
-                      <div *ngFor="let validation of validMessage.address">
-                        <div
-                          style="font-size: smaller !important"
-                          *ngIf="
-                            formData.get('address')?.hasError(validation.type) &&
-                            (formData.get('address')?.dirty ||
-                              formData.get('address')?.touched)
-                          "
-                        >
-                          {{ validation.message }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="form-floating mb-3 col-sm-6">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="phone"
-                      placeholder=""
-                      formControlName="phone"
-                    />
-                    <label for="phone" class="ms-1">Tel&eacute;fono</label>
-  
-                    <div
-                      *ngIf="
-                        formData.controls['phone'].invalid &&
-                        (formData.controls['phone'].dirty ||
-                          formData.controls['phone'].touched)
-                      "
-                      class="form-text text-danger"
-                    >
-                      <div *ngFor="let validation of validMessage.phone">
-                        <div
-                          style="font-size: smaller !important"
-                          *ngIf="
-                            formData.get('phone')?.hasError(validation.type) &&
-                            (formData.get('phone')?.dirty ||
-                              formData.get('phone')?.touched)
-                          "
-                        >
-                          {{ validation.message }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="mb-3 col-sm-6">
-                    <div class="form-control pb-0 pt-0 form-customer">
-                      <label class="label-customer">Genero</label>
-  
-                      <div class="d-flex mt-1">
-                        <div class="form-check me-3">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            formControlName="genero"
-                            value="M"
-                            id="man"
-                          />
-                          <label class="form-check-label" for="man">
-                            M
-                          </label>
-                        </div>
-                        <div class="form-check  me-3">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                           formControlName="genero"
-                           value="F"
-                            id="women"
-                           
-                          />
-                          <label class="form-check-label" for="women">
-                            F
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            formControlName="genero"
-                            id="na"
-                            value="N"
-                            checked
-                          />
-                          <label class="form-check-label" for="na">
-                            NA
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="form-floating mb-3 col-sm-6">
-                    <input
-                      type="date"
-                      class="form-control"
-                      id="born"
-                      placeholder=""
-                      formControlName="born"
-                    />
-                    <label for="born" class="ms-1">Fecha Nacimiento</label>
-  
-                    <div
-                      *ngIf="
-                        formData.controls['born'].invalid &&
-                        (formData.controls['born'].dirty ||
-                          formData.controls['born'].touched)
-                      "
-                      class="form-text text-danger"
-                    >
-                      <div *ngFor="let validation of validMessage.born">
-                        <div
-                          style="font-size: smaller !important"
-                          *ngIf="
-                            formData.get('born')?.hasError(validation.type) &&
-                            (formData.get('born')?.dirty ||
-                              formData.get('born')?.touched)
-                          "
-                        >
-                          {{ validation.message }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        <div class="text-center mt-3">
-          <input
-            type="submit"
-            [disabled]="formData.invalid"
-            class="btn btn-primary button"
-            value="GUARDAR"
-          />
-        </div>
-      </form>
+  <div
+    class="content-user p-3 mx-auto border border-2 rounded-3"
+  >
+    <div class="d-flex justify-content-between align-items-center">
+      <h4 class="form-title">NUEVO CLIENTE</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()" ></button>
     </div>
+
+    <form class="mt-4" [formGroup]="formData" (ngSubmit)="fnSubmit()">
+      <div class="card p-3 mb-3">
+        <legend class="fz-1 form-subtitle">Datos</legend>
+
+        <div class="row">
+          <div class="form-floating mb-3 col-12">
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              placeholder=""
+              formControlName="name"
+            />
+            <label for="name" class="ms-1">Nombres</label>
+            <div
+              *ngIf="
+                formData.controls['name'].invalid &&
+                (formData.controls['name'].dirty ||
+                  formData.controls['name'].touched)
+              "
+              class="form-text text-danger"
+            >
+              <div *ngFor="let validation of validMessage.name">
+                <div
+                  style="font-size: smaller !important"
+                  *ngIf="
+                    formData.get('name')?.hasError(validation.type) &&
+                    (formData.get('name')?.dirty ||
+                      formData.get('name')?.touched)
+                  "
+                >
+                  {{ validation.message }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseTwo"
+              aria-expanded="false"
+              aria-controls="collapseTwo"
+            >
+              Datos Personales
+            </button>
+          </h2>
+          <div
+            id="collapseTwo"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingTwo"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              <div class="row">
+                <div class="form-floating mb-3 col-sm-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="cedula"
+                    placeholder=""
+                    formControlName="cedula"
+                  />
+                  <label for="cedula" class="ms-1">C&eacute;dula</label>
+
+                  <div
+                    *ngIf="
+                      formData.controls['cedula'].invalid &&
+                      (formData.controls['cedula'].dirty ||
+                        formData.controls['cedula'].touched)
+                    "
+                    class="form-text text-danger"
+                  >
+                    <div *ngFor="let validation of validMessage.cedula">
+                      <div
+                        style="font-size: smaller !important"
+                        *ngIf="
+                          formData.get('cedula')?.hasError(validation.type) &&
+                          (formData.get('cedula')?.dirty ||
+                            formData.get('cedula')?.touched)
+                        "
+                      >
+                        {{ validation.message }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-floating mb-3 col-sm-6">
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder=""
+                    formControlName="email"
+                  />
+                  <label for="email" class="ms-1">Email</label>
+                  <div
+                    *ngIf="
+                      formData.controls['email'].invalid &&
+                      (formData.controls['email'].dirty ||
+                        formData.controls['email'].touched)
+                    "
+                    class="form-text text-danger"
+                  >
+                    <div *ngFor="let validation of validMessage.email">
+                      <div
+                        style="font-size: smaller !important"
+                        *ngIf="
+                          formData.get('email')?.hasError(validation.type) &&
+                          (formData.get('email')?.dirty ||
+                            formData.get('email')?.touched)
+                        "
+                      >
+                        {{ validation.message }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-floating mb-3 col-sm-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="address"
+                    placeholder=""
+                    formControlName="address"
+                  />
+                  <label for="address" class="ms-1">Direcci&oacute;n</label>
+
+                  <div
+                    *ngIf="
+                      formData.controls['address'].invalid &&
+                      (formData.controls['address'].dirty ||
+                        formData.controls['address'].touched)
+                    "
+                    class="form-text text-danger"
+                  >
+                    <div *ngFor="let validation of validMessage.address">
+                      <div
+                        style="font-size: smaller !important"
+                        *ngIf="
+                          formData.get('address')?.hasError(validation.type) &&
+                          (formData.get('address')?.dirty ||
+                            formData.get('address')?.touched)
+                        "
+                      >
+                        {{ validation.message }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-floating mb-3 col-sm-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="phone"
+                    placeholder=""
+                    formControlName="phone"
+                  />
+                  <label for="phone" class="ms-1">Tel&eacute;fono</label>
+
+                  <div
+                    *ngIf="
+                      formData.controls['phone'].invalid &&
+                      (formData.controls['phone'].dirty ||
+                        formData.controls['phone'].touched)
+                    "
+                    class="form-text text-danger"
+                  >
+                    <div *ngFor="let validation of validMessage.phone">
+                      <div
+                        style="font-size: smaller !important"
+                        *ngIf="
+                          formData.get('phone')?.hasError(validation.type) &&
+                          (formData.get('phone')?.dirty ||
+                            formData.get('phone')?.touched)
+                        "
+                      >
+                        {{ validation.message }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3 col-sm-6">
+                  <div class="form-control pb-0 pt-0 form-customer">
+                    <label class="label-customer">Genero</label>
+
+                    <div class="d-flex mt-1">
+                      <div class="form-check me-3">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          formControlName="genero"
+                          value="M"
+                          id="man"
+                        />
+                        <label class="form-check-label" for="man"> M </label>
+                      </div>
+                      <div class="form-check me-3">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          formControlName="genero"
+                          value="F"
+                          id="women"
+                        />
+                        <label class="form-check-label" for="women"> F </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          formControlName="genero"
+                          id="na"
+                          value="N"
+                          checked
+                        />
+                        <label class="form-check-label" for="na"> NA </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-floating mb-3 col-sm-6">
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="born"
+                    placeholder=""
+                    formControlName="born"
+                  />
+                  <label for="born" class="ms-1">Fecha Nacimiento</label>
+
+                  <div
+                    *ngIf="
+                      formData.controls['born'].invalid &&
+                      (formData.controls['born'].dirty ||
+                        formData.controls['born'].touched)
+                    "
+                    class="form-text text-danger"
+                  >
+                    <div *ngFor="let validation of validMessage.born">
+                      <div
+                        style="font-size: smaller !important"
+                        *ngIf="
+                          formData.get('born')?.hasError(validation.type) &&
+                          (formData.get('born')?.dirty ||
+                            formData.get('born')?.touched)
+                        "
+                      >
+                        {{ validation.message }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-end mt-3">
+      <button  type="button"  class="btn btn-secondary me-2" (click)="modal.close()">CERRAR</button>
+
+        <input
+          type="submit"
+          [disabled]="formData.invalid"
+          class="btn btn-primary"
+          value="GUARDAR"
+        />
+
+      
+      </div>
+
+      
+    </form>
   </div>
-  
+</div>

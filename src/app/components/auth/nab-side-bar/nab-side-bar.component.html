@@ -7,10 +7,10 @@
     <li>
       <a href="#">
         <i class="bx bx-grid-alt"></i>
-        <span class="link_name">Dashboard</span>
+        <span class="link_name">{{menuOptions.get('HOME')}}</span>
       </a>
       <ul class="sub-menu blank">
-        <li><a class="link_name" href="#">Category</a></li>
+        <li><a class="link_name" href="#">{{menuOptions.get('HOME')}}</a></li>
       </ul>
     </li>
     <li>
@@ -44,12 +44,12 @@
       </ul>
     </li>
     <li>
-      <a href="#">
+      <a href="#" [routerLink]="['/customer']" >
         <i class="bx bx-pie-chart-alt-2"></i>
-        <span class="link_name">Analytics</span>
+        <span class="link_name">{{menuOptions.get('CUSTOMERS')}}</span>
       </a>
       <ul class="sub-menu blank">
-        <li><a class="link_name" href="#">Analytics</a></li>
+        <li><a class="link_name" href="#" [routerLink]="['/customer']" >{{menuOptions.get('CUSTOMERS')}}</a></li>
       </ul>
     </li>
     <li>
