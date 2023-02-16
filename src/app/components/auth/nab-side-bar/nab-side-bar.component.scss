@@ -1,6 +1,7 @@
  /* Google Fonts Import Link */
 //  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 @import '../../../../assets/scss/Constantes.scss';
+@import '../../../../assets/scss/Colors.scss';
 *{
    margin: 0;
    padding: 0;
@@ -13,7 +14,7 @@
   //  left: 0;
   //  height: 100%;
   //  width: $sidebar-width;
-   background: #11101d;
+   background: $color-sidebar;
   //  z-index: 100;
   //  transition: all 0.5s ease;
  }

@@ -99,4 +99,11 @@ export const validMessagesError = {
       message: `Formato fecha incorrecto`,
     },
   ],
+
+  description: [
+    {
+      type: 'pattern',
+      message: `Formato fecha incorrecto`,
+    },
+  ],
 };

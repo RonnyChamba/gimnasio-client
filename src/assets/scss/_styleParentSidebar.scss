@@ -1,7 +1,8 @@
 /*Archivo donde se define los estilos para el wrapper que envolvera  al sidebar y al componente 
 hermano o componente donde va el contenido principal*/
 
-@import '../scss/Constantes.scss';
+@import './Constantes.scss';
+@import './Colors.scss';
 
 .nav-component{
     position: fixed;
@@ -19,7 +20,7 @@ hermano o componente donde va el contenido principal*/
 
 .home-section{
     position: relative;
-    background: #E4E9F7;
+    // background: #E4E9F7;
     height: 100vh;
     left: $sidebar-width;
     // left: 260px;
@@ -41,11 +42,23 @@ hermano o componente donde va el contenido principal*/
   .home-section .home-body{
     padding:  0 20px;
   }
+  .home-section .home-header .profile {
+
+    height: 45px;
+    width: 45px;
+    margin-right: 10px;
+    object-fit: cover;
+    border-radius: 50%;
+    // object-position:  ;
+  }
 
   .home-section .home-header{
     height: 60px;
     display: flex;
     align-items: center;
+    // background-color: $color-sidebar;
+    // color: #FFF;
+
   }
 
 

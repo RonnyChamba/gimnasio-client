@@ -63,17 +63,20 @@
     </li>
     <li>
       <div class="iocn-link">
-        <a href="#">
+        <a role="button">
           <i class="bx bx-plug"></i>
-          <span class="link_name" >Plugins</span>
+          <span class="link_name" >{{menuOptions.get('SPORTS').title}}</span>
         </a>
         <i class="bx bxs-chevron-down arrow" (click)="showSubmenu($event)" ></i>
       </div>
       <ul class="sub-menu">
-        <li><a class="link_name" href="#">Plugins</a></li>
-        <li><a href="#">UI Face</a></li>
-        <li><a href="#">Pigments</a></li>
-        <li><a href="#">Box Icons</a></li>
+        <li><a class="link_name" role="button" >{{menuOptions.get('SPORTS').title}}</a></li>
+        
+        <ng-container *ngFor="let option of menuOptions.get('SPORTS').options ">
+
+          <li><a href="#" [routerLink]="[option.url]" >{{option.name}}</a></li>
+
+        </ng-container>
       </ul>
     </li>
     <li>

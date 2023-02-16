@@ -11,3 +11,8 @@ export const MIN_PASSWORD = 6;
 export const MAX_PASSWORD = 20;
 export const MIN_EMAIL = 6;
 export const MAX_EMAIL = 40;
+
+
+// Ejercicios
+export const MAX_LEVEL = 25;
+export const MAX_DESCRIPTION = 100;

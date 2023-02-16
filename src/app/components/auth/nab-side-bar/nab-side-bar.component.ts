@@ -23,6 +23,12 @@ export class NabSideBarComponent implements OnInit {
 
     this.menuOptions.set("HOME", "Home");
     this.menuOptions.set("CUSTOMERS", "Clientes");
+    this.menuOptions.set("SPORTS",  
+    {title: "Deportiva", 
+    options:[ 
+      {name: 'Ejercicios', url:'/exercise'},
+      {name: 'Rutina', url:'/routine'},
+      {name: 'Categorias', url:'/category'}]});
   }
 
   showSubmenu(event: any){

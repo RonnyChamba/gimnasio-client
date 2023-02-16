@@ -14,6 +14,9 @@ import { HomeCustomerComponent } from './components/pages/home-customer/home-cus
 import { FormCustomerComponent } from './components/forms/form-customer/form-customer.component';
 import { FormUserComponent } from './components/forms/form-user/form-user.component';
 import { ListCustomerComponent } from './components/list/list-customer/list-customer.component';
+import { HomeExerciseComponent } from './components/pages/home-exercise/home-exercise.component';
+import { ListExerciseComponent } from './components/list/list-exercise/list-exercise.component';
+import { FormExerciseComponent } from './components/forms/form-exercise/form-exercise.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { ListCustomerComponent } from './components/list/list-customer/list-cust
     HomeCustomerComponent,
     FormCustomerComponent,
     FormUserComponent,
-    ListCustomerComponent
+    ListCustomerComponent,
+    HomeExerciseComponent,
+    ListExerciseComponent,
+    FormExerciseComponent
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,
     BrowserAnimationsModule,
