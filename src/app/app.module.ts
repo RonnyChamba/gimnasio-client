@@ -23,6 +23,7 @@ import { FormRoutineComponent } from './components/forms/form-routine/form-routi
 import { HomeRoutineEditorComponent } from './components/pages/home-routine-editor/home-routine-editor.component';
 import { HomeCategoryComponent } from './components/pages/home-category/home-category.component';
 import { ListCategoryComponent } from './components/list/list-category/list-category.component';
+import { FormDailyComponent } from './components/forms/form-daily/form-daily.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ListCategoryComponent } from './components/list/list-category/list-cate
     HomeRoutineEditorComponent,
     HomeCategoryComponent,
     ListCategoryComponent,
+    FormDailyComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,
     BrowserAnimationsModule,

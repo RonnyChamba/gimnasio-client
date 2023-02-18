@@ -1,0 +1,74 @@
+<div class="canvas__btn">
+  <button
+    class="btn btn-primary "
+    type="button"
+    data-bs-toggle="offcanvas"
+    data-bs-target="#offcanvasRight"
+    aria-controls="offcanvasRight"
+  >
+    Control Diario
+  </button>
+  <button
+  class="btn btn-primary "
+  type="button"
+  [routerLink]="['/customer']"
+>
+  Clientes
+</button>
+</div>
+
+<div
+  class="offcanvas offcanvas-end"
+  tabindex="-1"
+  id="offcanvasRight"
+  aria-labelledby="offcanvasRightLabel"
+>
+  <div class="offcanvas-header">
+    <h5 id="offcanvasRightLabel">Registro Diario</h5>
+    <button
+      type="button"
+      class="btn-close text-reset"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    <form [formGroup]="formData" (ngSubmit)="fnSubmit()">
+      <div class="mb-3">
+        <label for="description" class="form-label">Descripci&oacute;n</label>
+        <input
+          type="text"
+          class="form-control"
+          id="description"
+          formControlName="description"
+          placeholder="Ingrese descripción o nombre del cliente"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">$ Precio</label>
+        <input
+          type="number"
+          class="form-control"
+          id="price"
+          formControlName="price"
+          placeholder="2.00"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="count" class="form-label">Cantidad</label>
+        <input
+          type="number"
+          class="form-control"
+          id="count"
+          placeholder="1"
+          formControlName="count"
+        />
+      </div>
+
+      <div>
+        <button class="btn btn-primary">GUARDAR</button>
+      </div>
+    </form>
+  </div>
+</div>
