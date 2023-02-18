@@ -17,6 +17,10 @@ import { ListCustomerComponent } from './components/list/list-customer/list-cust
 import { HomeExerciseComponent } from './components/pages/home-exercise/home-exercise.component';
 import { ListExerciseComponent } from './components/list/list-exercise/list-exercise.component';
 import { FormExerciseComponent } from './components/forms/form-exercise/form-exercise.component';
+import { HomeRoutineComponent } from './components/pages/home-routine/home-routine.component';
+import { ListRoutineComponent } from './components/list/list-routine/list-routine.component';
+import { FormRoutineComponent } from './components/forms/form-routine/form-routine.component';
+import { HomeRoutineEditorComponent } from './components/pages/home-routine-editor/home-routine-editor.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,11 @@ import { FormExerciseComponent } from './components/forms/form-exercise/form-exe
     ListCustomerComponent,
     HomeExerciseComponent,
     ListExerciseComponent,
-    FormExerciseComponent
+    FormExerciseComponent,
+    HomeRoutineComponent,
+    ListRoutineComponent,
+    FormRoutineComponent,
+    HomeRoutineEditorComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,
     BrowserAnimationsModule,

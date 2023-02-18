@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { UtilService } from 'src/app/services/util-service.service';
 import {
   MAX_DESCRIPTION,
   MAX_LEVEL,
@@ -23,17 +24,18 @@ export class FormExerciseComponent implements OnInit {
 
   mapLevel = new Map<any, string>();
 
-  constructor(public modal: NgbActiveModal) {}
+  constructor( private utilService: UtilService, public modal: NgbActiveModal) {}
   ngOnInit(): void {
     this.createForm();
     this.initLevel();
   }
 
+
+
   private initLevel() {
-    this.mapLevel.set(LevelEnum.PRINCIPIANTE, 'Principiante');
-    this.mapLevel.set(LevelEnum.INTERMEDIO, 'Intermedio');
-    this.mapLevel.set(LevelEnum.SENIOR, 'Senior');
-    this.mapLevel.set(null, 'Seleccionar Categoria');
+    
+     this.mapLevel =  this.utilService.getMapLevel;
+     this.mapLevel.set(null, "Seleccione categoria");
   }
   private createForm() {
     this.formData = new FormGroup(

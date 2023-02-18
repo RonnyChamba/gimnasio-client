@@ -6,6 +6,9 @@ import { HomeUserComponent } from './components/pages/home-user/home-user.compon
 import { HomeCustomerComponent } from './components/pages/home-customer/home-customer.component';
 import { HomeExerciseComponent } from './components/pages/home-exercise/home-exercise.component';
 import { FormExerciseComponent } from './components/forms/form-exercise/form-exercise.component';
+import { HomeRoutineComponent } from './components/pages/home-routine/home-routine.component';
+import { FormRoutineComponent } from './components/forms/form-routine/form-routine.component';
+import { HomeRoutineEditorComponent } from './components/pages/home-routine-editor/home-routine-editor.component';
 
 
 const routes: Routes = [
@@ -15,7 +18,12 @@ const routes: Routes = [
   { path: 'user', component: HomeUserComponent },
   { path: 'customer', component: HomeCustomerComponent },
   { path: 'exercise', component: HomeExerciseComponent },
-  { path: 'form-exercise', component: FormExerciseComponent },
+  { path: 'routine', component: HomeRoutineComponent },
+  { path: 'routine/editor', component: HomeRoutineEditorComponent },
+
+  { path: 'form-routine', component: FormRoutineComponent },
+
+  // { path: 'form-exercise', component: FormExerciseComponent },
   // { path: 'list-exercise', component:  ListExerciseComponent },
 ];
 
