@@ -9,6 +9,7 @@ import { FormExerciseComponent } from './components/forms/form-exercise/form-exe
 import { HomeRoutineComponent } from './components/pages/home-routine/home-routine.component';
 import { FormRoutineComponent } from './components/forms/form-routine/form-routine.component';
 import { HomeRoutineEditorComponent } from './components/pages/home-routine-editor/home-routine-editor.component';
+import { HomeCategoryComponent } from './components/pages/home-category/home-category.component';
 
 
 const routes: Routes = [
@@ -20,8 +21,7 @@ const routes: Routes = [
   { path: 'exercise', component: HomeExerciseComponent },
   { path: 'routine', component: HomeRoutineComponent },
   { path: 'routine/editor', component: HomeRoutineEditorComponent },
-
-  { path: 'form-routine', component: FormRoutineComponent },
+  { path: 'category', component: HomeCategoryComponent },
 
   // { path: 'form-exercise', component: FormExerciseComponent },
   // { path: 'list-exercise', component:  ListExerciseComponent },

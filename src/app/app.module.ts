@@ -21,6 +21,8 @@ import { HomeRoutineComponent } from './components/pages/home-routine/home-routi
 import { ListRoutineComponent } from './components/list/list-routine/list-routine.component';
 import { FormRoutineComponent } from './components/forms/form-routine/form-routine.component';
 import { HomeRoutineEditorComponent } from './components/pages/home-routine-editor/home-routine-editor.component';
+import { HomeCategoryComponent } from './components/pages/home-category/home-category.component';
+import { ListCategoryComponent } from './components/list/list-category/list-category.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { HomeRoutineEditorComponent } from './components/pages/home-routine-edit
     ListRoutineComponent,
     FormRoutineComponent,
     HomeRoutineEditorComponent,
+    HomeCategoryComponent,
+    ListCategoryComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,
     BrowserAnimationsModule,
