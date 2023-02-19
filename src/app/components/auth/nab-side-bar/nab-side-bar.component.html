@@ -53,12 +53,12 @@
       </ul>
     </li>
     <li>
-      <a href="#">
+      <a [routerLink]="['/expense']"  >
         <i class="bx bx-line-chart"></i>
-        <span class="link_name">Chart</span>
+        <span class="link_name">{{menuOptions.get('EXPENSES')}}</span>
       </a>
       <ul class="sub-menu blank">
-        <li><a class="link_name" href="#">Chart</a></li>
+        <li><a class="link_name" [routerLink]="['/expense']">{{menuOptions.get('EXPENSES')}}</a></li>
       </ul>
     </li>
     <li>

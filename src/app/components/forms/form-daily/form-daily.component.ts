@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MIN_NAME, MAX_NAME, MIN_CEDULA, MIN_EMAIL, MAX_EMAIL, MAX_ADDRESS, MAX_TELEPHONE } from 'src/app/utils/Constants-Field';
+import { MIN_NAME, MAX_NAME} from 'src/app/utils/Constants-Field';
 import { validMessagesError } from 'src/app/utils/MessagesValidation';
 
 @Component({

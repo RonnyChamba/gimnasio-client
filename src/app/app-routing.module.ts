@@ -9,6 +9,7 @@ import { HomeRoutineComponent } from './components/pages/home-routine/home-routi
 import { HomeRoutineEditorComponent } from './components/pages/home-routine-editor/home-routine-editor.component';
 import { HomeCategoryComponent } from './components/pages/home-category/home-category.component';
 import { FormDailyComponent } from './components/forms/form-daily/form-daily.component';
+import { HomeExpenseComponent } from './components/pages/home-expense/home-expense.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'routine/editor', component: HomeRoutineEditorComponent },
   { path: 'category', component: HomeCategoryComponent },
   { path: 'daily', component: FormDailyComponent },
+  { path: 'expense', component: HomeExpenseComponent },
 
   // { path: 'form-exercise', component: FormExerciseComponent },
   // { path: 'list-exercise', component:  ListExerciseComponent },

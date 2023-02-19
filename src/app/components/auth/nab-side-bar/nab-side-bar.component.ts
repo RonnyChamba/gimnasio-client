@@ -23,6 +23,7 @@ export class NabSideBarComponent implements OnInit {
 
     this.menuOptions.set("HOME", "Home");
     this.menuOptions.set("CUSTOMERS", "Clientes");
+    this.menuOptions.set("EXPENSES", "Gastos");
     this.menuOptions.set("SPORTS",  
     {title: "Deportiva", 
     options:[ 

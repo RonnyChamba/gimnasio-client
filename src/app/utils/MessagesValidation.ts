@@ -106,4 +106,16 @@ export const validMessagesError = {
       message: `Formato fecha incorrecto`,
     },
   ],
+
+  // Valor de campo gastos
+  value: [
+    {
+      type: 'pattern',
+      message: `Formato valor es incorrecto.`,
+    },
+    {
+      type: 'required',
+      message: `Valor es obligatorio.`,
+    },
+  ]
 };

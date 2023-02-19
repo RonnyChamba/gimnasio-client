@@ -24,6 +24,10 @@ import { HomeRoutineEditorComponent } from './components/pages/home-routine-edit
 import { HomeCategoryComponent } from './components/pages/home-category/home-category.component';
 import { ListCategoryComponent } from './components/list/list-category/list-category.component';
 import { FormDailyComponent } from './components/forms/form-daily/form-daily.component';
+import { HomeExpenseComponent } from './components/pages/home-expense/home-expense.component';
+import { FormExpenseComponent } from './components/forms/form-expense/form-expense.component';
+import { ListExpenseComponent } from './components/list/list-expense/list-expense.component';
+import { AccesosDirectosComponent } from './components/util/accesos-directos/accesos-directos.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +50,10 @@ import { FormDailyComponent } from './components/forms/form-daily/form-daily.com
     HomeCategoryComponent,
     ListCategoryComponent,
     FormDailyComponent,
+    HomeExpenseComponent,
+    FormExpenseComponent,
+    ListExpenseComponent,
+    AccesosDirectosComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,
     BrowserAnimationsModule,
