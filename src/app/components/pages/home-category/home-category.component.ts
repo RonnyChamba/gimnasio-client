@@ -15,9 +15,10 @@ export class HomeCategoryComponent implements OnInit {
    
   }
     
-  onClickMenu(){  
+  onClickMenu(value: boolean){  
 
-    this.flagClose = !this.flagClose;
+    this.flagClose = value;
+
   }
 
   

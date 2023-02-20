@@ -37,47 +37,45 @@ hermano o componente donde va el contenido principal*/
     width: calc(100% - $sidebar-width-close);
   }
 
-
-  .home-section .home-header,
   .home-section .home-body{
     padding:  0 20px;
   }
-  .home-section .home-header .profile {
+  // .home-section .home-header .profile {
 
-    height: 45px;
-    width: 45px;
-    margin-right: 10px;
-    object-fit: cover;
-    border-radius: 50%;
-    // object-position:  ;
-  }
+  //   height: 45px;
+  //   width: 45px;
+  //   margin-right: 10px;
+  //   object-fit: cover;
+  //   border-radius: 50%;
+  //   // object-position:  ;
+  // }
 
-  .home-section .home-header{
-    height: 60px;
-    display: flex;
-    align-items: center;
-    // background-color: $color-sidebar;
-    // color: #FFF;
+  // .home-section .home-header{
+  //   height: 60px;
+  //   display: flex;
+  //   align-items: center;
+  //   // background-color: $color-sidebar;
+  //   // color: #FFF;
 
-  }
-
-
-  .home-section .home-header .bx-menu,
-  .home-section .home-header .text{
-    color: #11101d;
-    font-size: 35px;
-  }
+  // }
 
 
-  .home-section .home-header .bx-menu{
-    margin-right: 15px;
-    cursor: pointer;
-  }
+  // .home-section .home-header .bx-menu,
+  // .home-section .home-header .text{
+  //   color: #11101d;
+  //   font-size: 35px;
+  // }
 
-  .home-section .home-header .text{
-    font-size: 26px;
-    font-weight: 600;
-  }
+
+  // .home-section .home-header .bx-menu{
+  //   margin-right: 15px;
+  //   cursor: pointer;
+  // }
+
+  // .home-section .home-header .text{
+  //   font-size: 26px;
+  //   font-weight: 600;
+  // }
 
 
  @media (max-width: 400px) {

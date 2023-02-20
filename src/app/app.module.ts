@@ -32,6 +32,7 @@ import { HomeDailyComponent } from './components/pages/home-daily/home-daily.com
 import { ListDailyComponent } from './components/list/list-daily/list-daily.component';
 import { GroupDailyComponent } from './components/util/group-daily/group-daily.component';
 import { FormDailyCustomerComponent } from './components/forms/form-daily-customer/form-daily-customer.component';
+import { NavbarComponent } from './components/auth/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { FormDailyCustomerComponent } from './components/forms/form-daily-custom
     ListDailyComponent,
     GroupDailyComponent,
     FormDailyCustomerComponent,
+    NavbarComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,
     BrowserAnimationsModule,

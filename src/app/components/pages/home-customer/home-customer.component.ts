@@ -9,18 +9,16 @@ import { FormCustomerComponent } from '../../forms/form-customer/form-customer.c
 export class HomeCustomerComponent implements OnInit{
 
   flagClose = true;
-
  
-  
   constructor(private modalService: NgbModal){}
   ngOnInit(): void {
     
   }
   
   
-  onClickMenu(){  
+  onClickMenu(value:boolean){  
 
-    this.flagClose = !this.flagClose;
+    this.flagClose = value;
   }
 
 

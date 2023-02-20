@@ -17,9 +17,9 @@ export class HomeExerciseComponent  implements OnInit{
 
   }
 
-  onClickMenu(){  
+  onClickMenu(value: boolean){  
 
-    this.flagClose = !this.flagClose;
+    this.flagClose = value;
   }
   openModal(){
 
