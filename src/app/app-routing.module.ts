@@ -8,8 +8,8 @@ import { HomeExerciseComponent } from './components/pages/home-exercise/home-exe
 import { HomeRoutineComponent } from './components/pages/home-routine/home-routine.component';
 import { HomeRoutineEditorComponent } from './components/pages/home-routine-editor/home-routine-editor.component';
 import { HomeCategoryComponent } from './components/pages/home-category/home-category.component';
-import { FormDailyComponent } from './components/forms/form-daily/form-daily.component';
 import { HomeExpenseComponent } from './components/pages/home-expense/home-expense.component';
+import { HomeDailyComponent } from './components/pages/home-daily/home-daily.component';
 
 
 const routes: Routes = [
@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: 'routine', component: HomeRoutineComponent },
   { path: 'routine/editor', component: HomeRoutineEditorComponent },
   { path: 'category', component: HomeCategoryComponent },
-  { path: 'daily', component: FormDailyComponent },
+  { path: 'daily', component: HomeDailyComponent },
   { path: 'expense', component: HomeExpenseComponent },
 
   // { path: 'form-exercise', component: FormExerciseComponent },

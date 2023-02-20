@@ -1,5 +1,6 @@
 import {
   MAX_ADDRESS,
+  MAX_DESCRIPTION,
   MAX_EMAIL,
   MAX_NAME,
   MAX_PASSWORD,
@@ -12,7 +13,7 @@ import {
 
 /**
  * Función donde se define un objeto con los mensajes de error para las validaciones
- * 
+ *
  */
 export const validMessagesError = {
   cedula: [
@@ -102,20 +103,34 @@ export const validMessagesError = {
 
   description: [
     {
-      type: 'pattern',
-      message: `Formato fecha incorrecto`,
+      type: 'required',
+      message: `Campo obligatorio`,
+    },
+    {
+      type: 'maxlength',
+      message: `Descripción puede ingresar hasta ${MAX_DESCRIPTION} caracteres.`,
     },
   ],
 
-  // Valor de campo gastos
+  // Valor de campo gastos e diarios
   value: [
     {
       type: 'pattern',
-      message: `Formato valor es incorrecto.`,
+      message: `Formato incorrecto.`,
     },
     {
       type: 'required',
-      message: `Valor es obligatorio.`,
+      message: `Campo obligatorio.`,
     },
-  ]
+  ],
+  count: [
+    {
+      type: 'pattern',
+      message: `Formato incorrecto.`,
+    },
+    {
+      type: 'required',
+      message: `Campo obligatorio.`,
+    },
+  ],
 };

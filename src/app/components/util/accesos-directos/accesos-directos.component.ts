@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormCustomerComponent } from '../../forms/form-customer/form-customer.component';
+import { FormDailyComponent } from '../../forms/form-daily/form-daily.component';
 import { FormExpenseComponent } from '../../forms/form-expense/form-expense.component';
 
 @Component({
@@ -28,6 +29,14 @@ export class AccesosDirectosComponent implements OnInit {
 
     this.modalService.open(FormExpenseComponent,  {
       size : 'lg'
+    });
+  }
+
+  openModalDaily(){
+
+
+    this.modalService.open(FormDailyComponent, {
+      size: "lg"
     });
   }
 

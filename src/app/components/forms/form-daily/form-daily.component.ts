@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MIN_NAME, MAX_NAME} from 'src/app/utils/Constants-Field';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { MAX_DESCRIPTION} from 'src/app/utils/Constants-Field';
 import { validMessagesError } from 'src/app/utils/MessagesValidation';
 
 @Component({
@@ -12,26 +13,24 @@ export class FormDailyComponent implements OnInit {
  
   formData: FormGroup;  
   validMessage =  validMessagesError;
-  
+  constructor(public modal: NgbActiveModal){}
   ngOnInit(): void {
    this.createForm();
   }
 
-
-
-
   private createForm() {
 
     this.formData = new FormGroup({
-      description: new FormControl('', [
+      description: new FormControl('Diario Normal', [
         Validators.required,
-        Validators.minLength(MIN_NAME),
-        Validators.maxLength(MAX_NAME),
+        Validators.maxLength(MAX_DESCRIPTION),
       ]),
       price: new FormControl(2.00, [
-        // Validators.pattern(`^[0-9]{${MIN_CEDULA}}$`),
+        Validators.required,
+        Validators.pattern(/^[0-9]+(.[0-9]+)?$/)
       ]),
       count: new FormControl(1, [
+        Validators.required,
         Validators.pattern("^[0-9]+$"),
       ]),
 
