@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormDailyComponent } from '../../forms/form-daily/form-daily.component';
+import { GroupDailyComponent } from '../../util/group-daily/group-daily.component';
 
 @Component({
   selector: 'app-home-daily',
@@ -24,7 +24,7 @@ export class HomeDailyComponent implements OnInit{
   openModal(){
 
 
-    this.modalService.open(FormDailyComponent, {
+    this.modalService.open(GroupDailyComponent, {
       size: "lg"
     });
   }

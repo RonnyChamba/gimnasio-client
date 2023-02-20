@@ -30,6 +30,8 @@ import { ListExpenseComponent } from './components/list/list-expense/list-expens
 import { AccesosDirectosComponent } from './components/util/accesos-directos/accesos-directos.component';
 import { HomeDailyComponent } from './components/pages/home-daily/home-daily.component';
 import { ListDailyComponent } from './components/list/list-daily/list-daily.component';
+import { GroupDailyComponent } from './components/util/group-daily/group-daily.component';
+import { FormDailyCustomerComponent } from './components/forms/form-daily-customer/form-daily-customer.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,8 @@ import { ListDailyComponent } from './components/list/list-daily/list-daily.comp
     AccesosDirectosComponent,
     HomeDailyComponent,
     ListDailyComponent,
+    GroupDailyComponent,
+    FormDailyCustomerComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,
     BrowserAnimationsModule,
