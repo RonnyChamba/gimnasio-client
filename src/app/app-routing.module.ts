@@ -10,6 +10,7 @@ import { HomeRoutineEditorComponent } from './components/pages/home-routine-edit
 import { HomeCategoryComponent } from './components/pages/home-category/home-category.component';
 import { HomeExpenseComponent } from './components/pages/home-expense/home-expense.component';
 import { HomeDailyComponent } from './components/pages/home-daily/home-daily.component';
+import { HomeCustomerEditorComponent } from './components/pages/home-customer-editor/home-customer-editor.component';
 
 
 const routes: Routes = [
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'category', component: HomeCategoryComponent },
   { path: 'daily', component: HomeDailyComponent },
   { path: 'expense', component: HomeExpenseComponent },
+  { path: 'customer/:ideCustomer', component: HomeCustomerEditorComponent },
 
   // { path: 'form-exercise', component: FormExerciseComponent },
   // { path: 'list-exercise', component:  ListExerciseComponent },

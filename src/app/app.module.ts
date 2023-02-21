@@ -33,6 +33,12 @@ import { ListDailyComponent } from './components/list/list-daily/list-daily.comp
 import { GroupDailyComponent } from './components/util/group-daily/group-daily.component';
 import { FormDailyCustomerComponent } from './components/forms/form-daily-customer/form-daily-customer.component';
 import { NavbarComponent } from './components/auth/navbar/navbar.component';
+import { HomeCustomerEditorComponent } from './components/pages/home-customer-editor/home-customer-editor.component';
+import { CustomerProfileComponent } from './components/util/customer-profile/customer-profile.component';
+import { CustomerInfoComponent } from './components/util/customer-info/customer-info.component';
+import { CustomerDataComponent } from './components/util/customer-data/customer-data.component';
+import { CustomerDailyComponent } from './components/util/customer-daily/customer-daily.component';
+import { CustomerInvoiceComponent } from './components/util/customer-invoice/customer-invoice.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +70,12 @@ import { NavbarComponent } from './components/auth/navbar/navbar.component';
     GroupDailyComponent,
     FormDailyCustomerComponent,
     NavbarComponent,
+    HomeCustomerEditorComponent,
+    CustomerProfileComponent,
+    CustomerInfoComponent,
+    CustomerDataComponent,
+    CustomerDailyComponent,
+    CustomerInvoiceComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,
     BrowserAnimationsModule,

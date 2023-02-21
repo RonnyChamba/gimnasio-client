@@ -1,0 +1,27 @@
+<div class="information bg-info">
+  <div class="information-header">
+    <ul class="d-flex" style="list-style-type: none">
+      <li class="me-2" (click)="changePanel('DATA')">Info data</li>
+      <li class="me-2" (click)="changePanel('DAILY')">Registro Diario</li>
+      <li (click)="changePanel('MONTH')">Mensualidades</li>
+    </ul>
+  </div>
+
+  <div class="information-body">
+    <!-- Aqio viene varios paneles según la opcion seleccionada -->
+
+    
+    <ng-template [ngIf]="flagPanelCustomer == 'DATA'" >
+        
+        <app-customer-data ></app-customer-data>
+    </ng-template>
+
+    <ng-template [ngIf]="flagPanelCustomer == 'DAILY'">
+      <app-customer-daily></app-customer-daily>
+    </ng-template>
+
+    <ng-template [ngIf]="flagPanelCustomer == 'MONTH'">
+      <app-customer-invoice></app-customer-invoice>
+    </ng-template>
+  </div>
+</div>

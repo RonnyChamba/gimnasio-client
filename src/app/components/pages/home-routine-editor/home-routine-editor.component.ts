@@ -15,9 +15,9 @@ export class HomeRoutineEditorComponent implements OnInit {
     // throw new Error('Method not implemented.');
   }
 
-  onClickMenu(){  
+  onClickMenu(value: boolean){  
 
-    this.flagClose = !this.flagClose;
+    this.flagClose = value;
   }
 
   openModal(){
