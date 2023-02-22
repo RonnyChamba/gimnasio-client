@@ -3,24 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-import { NabSideBarComponent } from './components/auth/nab-side-bar/nab-side-bar.component';
-import { FormHomeComponent } from './components/pages/form-home/form-home.component';
-import { FormUserComponent } from './components/pages/form-user/form-user.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormLoginComponent } from './components/auth/form-login/form-login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
+// import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NabSideBarComponent,
-    FormHomeComponent,
-    FormUserComponent,
-    FormLoginComponent
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule
   
   ],
   providers: [],

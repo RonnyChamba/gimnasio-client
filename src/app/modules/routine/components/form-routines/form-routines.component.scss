@@ -1,0 +1,54 @@
+.col__content {
+    overflow: hidden;
+    position: relative;
+
+    &__img {
+        display: block;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+.actividad__content{
+
+    padding: 0;
+    max-width: 120px;
+    min-width: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &--img{
+        max-width: 100%;
+        object-fit: cover;
+
+        &--md{
+            max-width: 160px;
+            
+            object-fit: cover;
+
+        }
+    }
+
+    &--title{
+        font-size: 1.1rem;
+        color: red;
+        margin-bottom: 0px;
+    }
+
+    &--set{
+        font-size: 0.8rem;
+
+
+    }
+
+}
+
+.content-img__btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 1.3rem;
+    color: #fff;
+    cursor: pointer;
+  }

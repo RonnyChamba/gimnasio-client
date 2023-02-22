@@ -1,0 +1,71 @@
+<app-side-bar  class="nav-component"
+[ngClass]="{ close: flagClose, '': !flagClose }"
+[open]="flagClose">
+</app-side-bar>
+
+<section class="home-section">
+
+    <!-- <app-navbar (newItemEvent)="onClickMenu($event)" ></app-navbar> -->
+    <app-nav-bar (newItemEvent)="onClickMenu($event)" ></app-nav-bar>
+  
+  
+    <div class="home-body mt-3">
+      <div class="home-content p-4 border border-2">
+        <!--  -->
+  
+        <!--  -->
+        <div class="row justify-content-between align-items-center">
+          <div class="col">
+            <h3 class="home-subtitle">Categorias</h3>
+          </div>
+  
+          <div class="col-md-6 mt-3 mt-md-0">
+            <div
+              class="d-flex flex-wrap flex-md-nowrap justify-content-between align-items-start"
+            >
+              <div class="mb-3 me-sm-2 flex-grow-1">
+                <input
+                  type="email"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder="Nueva Categoria"
+                />
+              </div>
+  
+              <button
+                class="text-center btn btn-outline-primary d-flex align-items-center flex-grow-1 flex-md-grow-0"
+              >
+                <i class="bx bx-user-plus" style="color: royalblue"> </i>
+                <span class="ms-1">Guardar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+  
+        <!--  -->
+        <div class="row justify-content-between align-items-center mt-4">
+          <div class="d-flex align-items-center col">
+            <span> Mostrar</span>
+            <select class="form-select mx-3" style="max-width: 100px">
+              <option selected>5</option>
+              <option>10</option>
+              <option>20</option>
+            </select>
+            <span> registros</span>
+          </div>
+  
+          <div class="col-md-6 mt-3 mt-md-0">
+            <input
+              type="search"
+              placeholder="Buscar Categoria"
+              class="form-control col-md-2"
+            />
+          </div>
+        </div>
+        <!--  -->
+        <app-list-categories></app-list-categories>
+      </div>
+    </div>
+  </section>
+  
+  <app-direct-access></app-direct-access>

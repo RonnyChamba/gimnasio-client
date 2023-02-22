@@ -1,0 +1,19 @@
+.content-img{
+    background-color: red;
+    height: 150px;
+    max-width: 150px;
+    overflow: hidden;
+    margin: auto;
+}
+.profile__img{
+    display: block;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.profile__option{
+    text-align: center;
+    // max-width: 150px;
+    // margin: auto;
+}

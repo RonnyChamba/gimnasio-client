@@ -1,0 +1,27 @@
+
+@import '../../../../../assets/scss/Colors.scss';
+
+// import de los estilos 
+
+
+.form-subtitle{
+    // color: red;
+    // border-bottom: 1.5px solid  opacify($color: $color-primary, $amount: 0.8) ;
+    margin-bottom: 20px;
+    font-weight: $subtitle-weight;
+    font-size:  1.1rem;
+}
+
+.button{
+
+    display: block;
+    width: 98%;
+    max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    border: none;    
+    font-weight: bold;
+    font-size: 1.2rem;
+    // background-color: $color-primary;
+
+}
