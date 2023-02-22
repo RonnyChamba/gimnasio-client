@@ -1,0 +1,155 @@
+<div class="container-user w-100">
+    <div class="content-user p-3 mx-auto border border-2 rounded-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <h4 class="form-title">NUEVO EJERCICIO</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()" ></button>
+      </div>
+  
+      <form class="mt-4" [formGroup]="formData" (ngSubmit)="fnSubmit()">
+        <div class="card p-3 mb-3">
+          <legend class="fz-1 form-subtitle">Datos</legend>
+          <div class="row justify-content-center align-items-center">
+            <div class="col-sm-3 mb-3 text-center text-md-start">
+              <div class="content-img">
+                <img src="../../../../assets/gym.jpeg" class="content-img__img" />
+                <span class="content-img__btn"> <i class="bx bx-edit"></i> </span>
+              </div>
+            </div>
+  
+            <div class="form-floating mb-3 col">
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                placeholder=""
+                formControlName="name"
+              />
+              <label for="name" class="ms-1">Nombre</label>
+              <div
+                *ngIf="
+                  formData.controls['name'].invalid &&
+                  (formData.controls['name'].dirty ||
+                    formData.controls['name'].touched)
+                "
+                class="form-text text-danger"
+              >
+                <div *ngFor="let validation of validMessage.name">
+                  <div
+                    style="font-size: smaller !important"
+                    *ngIf="
+                      formData.get('name')?.hasError(validation.type) &&
+                      (formData.get('name')?.dirty ||
+                        formData.get('name')?.touched)
+                    "
+                  >
+                    {{ validation.message }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="accordion" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
+                (click)="onAccordion()"
+              >
+                {{ flagAccordion ? "Ver más detalles" : "Ver menos detalles" }}
+              </button>
+            </h2>
+            <div
+              id="collapseTwo"
+              class="accordion-collapse collapse"
+              aria-labelledby="headingTwo"
+              data-bs-parent="#accordionExample"
+            >
+              <div class="accordion-body">
+                <div class="row">
+                  <div class="col-sm-6 mb-3">
+                    <select
+                      class="form-select form-select-lg"
+                      aria-label="Default select example"
+                      formControlName="level"
+                    >
+                      <option
+                        value="{{ envi.key }}"
+                        *ngFor="let envi of mapLevel | keyvalue"
+                      >
+                        {{ envi.value }}
+                      </option>
+                    </select>
+                  </div>
+  
+                  <div class="col-sm-6 mb-3">
+                    <select
+                      class="form-select form-select-lg"
+                      aria-label="Default select example"
+                    >
+                      <option selected>Seleccione categoria</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                  </div>
+                  <div class="form-floating">
+                    <textarea
+                      class="form-control"
+                      placeholder="Leave a comment here"
+                      id="floatingTextarea"
+                      formControlName="description"
+                      rows="4"
+                    ></textarea>
+                    <label for="floatingTextarea">Descripci&oacute;n</label>
+  
+                    <div
+                      *ngIf="
+                        formData.controls['description'].invalid &&
+                        (formData.controls['description'].dirty ||
+                          formData.controls['description'].touched)
+                      "
+                      class="form-text text-danger"
+                    >
+                      <div *ngFor="let validation of validMessage.description">
+                        <div
+                          style="font-size: smaller !important"
+                          *ngIf="
+                            formData
+                              .get('description')
+                              ?.hasError(validation.type) &&
+                            (formData.get('description')?.dirty ||
+                              formData.get('description')?.touched)
+                          "
+                        >
+                          {{ validation.message }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="text-end mt-3">
+          <button  type="button"  class="btn btn-secondary me-2" (click)="modal.close()">CERRAR</button>
+  
+          <input
+            type="submit"
+            [disabled]="formData.invalid"
+            class="btn btn-primary"
+            value="GUARDAR"
+          />
+        </div>
+      </form>
+    </div>
+  </div>
+  

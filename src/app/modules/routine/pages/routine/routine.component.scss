@@ -1,0 +1,15 @@
+@use  '../../../../../assets/scss/styleParentSidebar';
+button i{
+     color: #fff;
+     font-size: 25px;
+     cursor: pointer;
+     transition: all 0.3s ease;
+}
+.img {
+    &-content{
+        overflow: hidden;
+        padding: 10px;
+        
+        
+    }
+}

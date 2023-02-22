@@ -1,0 +1,34 @@
+<app-side-bar class="nav-component"
+[ngClass]="{ close: flagClose, '': !flagClose }"
+[open]="flagClose">
+
+</app-side-bar>
+<section class="home-section">
+
+<app-nav-bar (newItemEvent)="onClickMenu($event)"> </app-nav-bar>
+
+  
+  <div class="home-body mt-3">
+    <div class="home-content p-4 border border-2">
+      <!--    -->
+      <div class="d-flex flex-wrap justify-content-between align-item-center">
+        <h3 class="home-subtitle"><a routerLink="/customer">Clientes</a>/Ronny Chamba</h3>
+        <button class="btn btn-outline-primary d-flex align-items-center">
+          <i class="bx bx-user-plus" style="color:royalblue"> </i> <span class="ms-1" >ACTUALIZAR DATOS</span>
+        </button>
+      </div>
+
+      <!-- Main content -->
+      <div class="row mt-4">
+            <!-- Col 1 Profile -->
+            <app-customer-profile class="col-sm-auto"></app-customer-profile>
+        
+          
+          <!-- Col 2 info -->
+          <app-info-customer class="col"></app-info-customer>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-direct-access></app-direct-access>

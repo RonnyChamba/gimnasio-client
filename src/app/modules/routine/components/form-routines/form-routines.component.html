@@ -1,0 +1,212 @@
+<div class="">
+    <form action="" [formGroup]="formData" (ngSubmit)="fnSubmit()">
+      <div class="row mb-3">
+        <div class="col">
+          <div
+            class="col__content d-flex justify-content-between align-items-center"
+          >
+            <h3 class="home-subtitle">NUEVA RUTINA</h3>
+            <button class="btn btn-outline-primary d-flex align-items-center">
+              <i class="bx bx-user-plus" style="color: royalblue"> </i>
+              <span class="ms-1">GUARDAR</span>
+            </button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- ROW 2 -->
+      <div class="row mb-3 align-items-center">
+        <!-- col 1 -->
+        <div class="col-sm-4 mb-3 mb-sm-0">
+          <div class="col__content">
+      
+            <img
+              src="../../../../assets/gym.jpeg"
+              width="100"
+              class="col__content__img rounded-3"
+            />
+            <span class="content-img__btn"> <i class="bx bx-edit"></i> </span>
+          </div>
+        </div>
+        <!-- col 2 -->
+        <div class="col-sm-4 mb-3 mb-sm-3">
+          <div class="col__content">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nombre</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                formControlName="name"
+              />
+              <div
+                *ngIf="
+                  formData.controls['name'].invalid &&
+                  (formData.controls['name'].dirty ||
+                    formData.controls['name'].touched)
+                "
+                class="form-text text-danger"
+              >
+                <div *ngFor="let validation of validMessage.name">
+                  <div
+                    style="font-size: smaller !important"
+                    *ngIf="
+                      formData.get('name')?.hasError(validation.type) &&
+                      (formData.get('name')?.dirty ||
+                        formData.get('name')?.touched)
+                    "
+                  >
+                    {{ validation.message }}
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="">
+              <label for="level" class="form-label">Nivel</label>
+  
+              <select class="form-select" id="level" formControlName="level">
+                <option
+                  value="{{ envi.key }}"
+                  *ngFor="let envi of mapLevel | keyvalue"
+                >
+                  {{ envi.value }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- col-3  -->
+        <div class="col-sm-4 align-self-start">
+          <div class="">
+            <label for="descripton" class="form-label">Descripci&oacute;n</label>
+            <textarea
+              class="form-control"
+              placeholder="Agregar descripción"
+              formControlName="description"
+              id="descripton"
+              rows="4"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+  
+      <!-- row 3 -->
+      <div class="row">
+  
+          <div class="col-sm-4">
+  
+              <div class="col__content">
+                  <div
+                  class="col__content--header mb-3 d-flex justify-content-between align-items-center"
+                >
+                  <h3>Ranking</h3>
+                  <button   type="button"  class="btn btn-primary" >+</button>
+                </div>
+              </div>
+  
+          </div>
+        <div class="col-sm-4 mb-3 mb-md-0">
+          <div class="col__content">
+            <div
+              class="col__content--header mb-3 d-flex justify-content-between align-items-center"
+            >
+              <h3>Activdades</h3>
+              <button class="btn btn-primary">+</button>
+            </div>
+  
+            <div class="col__content--body">
+              <div class="row mb-2 bg-warning">
+                <div class="col-auto bg-danger actividad__content">
+                  <img
+                    src="../../../../assets/gym.jpeg"
+                    alt=""
+                    class="actividad__content--img"
+                  />
+                </div>
+                <div class="col bg-primary">
+                  <h3 class="actividad__content--title">SQUAD</h3>
+                  <span class="actividad__content--set">3 set</span>
+                </div>
+  
+                <div class="col-auto bg-info">
+                  <input type="checkbox" />
+                  <!-- <input type="checkbox" /> -->
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-auto bg-danger actividad__content">
+                  <img
+                    src="../../../../assets/gym.jpeg"
+                    alt=""
+                    class="actividad__content--img"
+                  />
+                </div>
+                <div class="col bg-primary">
+                  <h3 class="actividad__content--title">SQUAD</h3>
+                  <span class="actividad__content--set">3 set</span>
+                </div>
+  
+                <div class="col-auto bg-danger">
+                  <input type="checkbox" />
+  
+                  <!-- <input type="checkbox" /> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="col__content">
+            <div class="col__content--body">
+              <div class="d-flex mb-2">
+                <img
+                  src="../../../../assets/gym.jpeg"
+                  class="actividad__content--img--md"
+                />
+                <div class="ms-3">
+                  <h4>Biceps curl</h4>
+                  <span>3 set</span>
+                </div>
+              </div>
+              <div class="series mb-2">
+                <div class="row">
+                  <div
+                    class="col d-flex flex-wrap justify-content-between align-items-center"
+                  >
+                    <div>
+                      <span class="d-block">15X</span>
+                      <span>20</span>
+                    </div>
+                    <div>
+                      <span class="d-block">15X</span>
+                      <span>20</span>
+                    </div>
+                    <div>
+                      <span class="d-block">15X</span>
+                      <span>20</span>
+                    </div>
+                    <div>
+                      <span class="d-block">15X</span>
+                      <span>20</span>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <button class="btn btn-primary">+</button>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <textarea
+                  class="form-control"
+                  placeholder="Agregar descripción"
+                  id="descripton"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  
