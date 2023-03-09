@@ -1,0 +1,5 @@
+export enum TypePayEnum{
+
+    EFECTIVO="EFECTIVO",
+    TRANSFERNCIA=  "TRANSFERENCIA"
+}

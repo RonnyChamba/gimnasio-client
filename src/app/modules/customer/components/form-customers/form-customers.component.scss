@@ -1,33 +1,60 @@
-@import '../../../../../assets//scss/Colors.scss';
+@import "../../../../../assets//scss/Colors.scss";
 
-.form-subtitle{
-    // color: red;
-    // border-bottom: 1.5px solid  opacify($color: $color-primary, $amount: 0.8) ;
-    margin-bottom: 20px;
-    font-weight: $subtitle-weight;
-    font-size:  1.1rem;
+.form-title {
+  font-weight: 400;
+  font-size: 1.5rem;
+}
+.form-subtitle {
+  font-weight: $subtitle-weight;
+  font-size: 1rem;
 }
 
-.form-customer{
-
-    position: relative;
+.form-customer {
+  position: relative;
 }
 
-.label-customer{
-    font-size: 14px;
-    color: #8d8f90;
-    font-weight: 400;
+.label-customer {
+  font-size: 14px;
+  color: #8d8f90;
+  font-weight: 400;
 }
-.button{
 
-    display: block;
-    width: 98%;
-    max-width: 350px;
-    margin-left: auto;
-    margin-right: auto;
-    border: none;    
-    font-weight: bold;
-    font-size: 1.2rem;
-    // background-color: $color-primary;
+.value {
 
+  &__balance{
+    
+    font-weight: 500;
+  }
+  &__total {
+
+    font-weight: 700;
+  }
+}
+.button {
+  display: block;
+  width: 98%;
+  max-width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  border: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+  // background-color: $color-primary;
+}
+
+.content-input {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 0.37rem 0.75rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  & > input {
+    border: none;
+    // padding:  0.370rem 0.75rem;
+    padding: 0;
+    transition: none;
+
+    &:focus{
+        box-shadow: none;
+    }
+  }
 }
