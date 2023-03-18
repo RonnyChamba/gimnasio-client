@@ -28,11 +28,12 @@ export class CustomerComponent  implements OnInit{
     
     console.log("Abrir modal customer");
 
-    this.modalService.open(FormCustomersComponent, {
+     const references =  this.modalService.open(FormCustomersComponent, {
       size: "lg"
     });
-
-    
+        
   }
+
+
 
 }

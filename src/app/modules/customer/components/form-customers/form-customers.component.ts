@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Input,
   OnInit,
   Renderer2,
   ViewChild,
@@ -42,7 +43,13 @@ import { Transaction } from 'src/app/core/models/transaction-model';
 import { Inscription } from 'src/app/core/models/inscription-model';
 import { dniOrEmailValidator } from '../../util/validator';
 import { calImc } from 'src/app/utils/calc-imc';
-import { validaDateBorn, validatorDni } from 'src/app/utils/validators/person.validator';
+import {
+  validaDateBorn,
+  validatorDni,
+} from 'src/app/utils/validators/person.validator';
+
+import { firstValueFrom } from 'rxjs';
+import Swal from 'sweetalert2';
 
 const DEFAULT_ID_MODALITY = -1;
 
@@ -52,6 +59,9 @@ const DEFAULT_ID_MODALITY = -1;
   styleUrls: ['./form-customers.component.scss'],
 })
 export class FormCustomersComponent implements OnInit, AfterViewInit {
+  // is new or update customer
+  @Input('ideCustomer') ideCustomer: number;
+
   formData: FormGroup;
   validMessage = messagesErrorCustomer;
   typeInscriptions = TypeInscriptions;
@@ -82,22 +92,22 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    console.log('customer ide: ' + this.ideCustomer);
     this.createForm();
-    // this.getModalities();
+    this.getModalities();
     this.changePropertiesInicializer();
-    this.onChangeListeners();
+    this.onChangeListeners();  
   }
   private createForm() {
     this.formData = new FormGroup(
       {
         dni: new FormControl(
           null,
-          [Validators.pattern(`^[0-9]{${MIN_CEDULA}}$`), 
-          validatorDni()],
-          [dniOrEmailValidator(this.customerService, "DNI")]
+          [Validators.pattern(`^[0-9]{${MIN_CEDULA}}$`), validatorDni()],
+          [dniOrEmailValidator(this.customerService, 'DNI')]
         ),
 
-        name: new FormControl('', [
+        name: new FormControl(null, [
           Validators.required,
           Validators.minLength(MIN_NAME),
           Validators.maxLength(MAX_NAME),
@@ -105,14 +115,17 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
         phone: new FormControl(null, [
           Validators.pattern(`^[0-9]{${MAX_TELEPHONE}}$`),
-        ]
-        ),
+        ]),
 
-        email: new FormControl(null, [
-          Validators.pattern('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$'),
-          Validators.minLength(MIN_EMAIL),
-          Validators.maxLength(MAX_EMAIL),
-        ] ,   [dniOrEmailValidator(this.customerService, "EMAIL")]),
+        email: new FormControl(
+          null,
+          [
+            Validators.pattern('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$'),
+            Validators.minLength(MIN_EMAIL),
+            Validators.maxLength(MAX_EMAIL),
+          ],
+          [dniOrEmailValidator(this.customerService, 'EMAIL')]
+        ),
 
         genero: new FormControl('N', []),
 
@@ -201,7 +214,6 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
       return null;
     };
   }
-
 
   private validatorDateFinalize(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -307,14 +319,6 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     this.formData.controls['total'].valueChanges.subscribe((newTotal) => {
       this.formData.controls['pay'].updateValueAndValidity();
     });
-
-    // this.formData.controls['dni'].valueChanges.subscribe((value) => {
-    //   if (value && value.length >= 10) {
-    //     this.customerService.findByDni(value).subscribe((data) => {
-    //       console.log(data);
-    //     });
-    //   }
-    // });
   }
 
   private calcTotal(price: number, numMonthOrDays: number) {
@@ -397,25 +401,90 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     }
   }
 
-  fnSubmit() {
+  removeOrAddAsynValidators() {
+    const dni = this.formData.value['dni'];
+    const email = this.formData.value['email'];
+
+    if (!dni) {
+      this.formData.controls['dni'].clearAsyncValidators();
+      this.formData.controls['dni'].updateValueAndValidity();
+    }
+
+    if (!email) {
+      this.formData.controls['email'].clearAsyncValidators();
+      this.formData.controls['email'].updateValueAndValidity();
+    }
+  }
+
+  async fnSubmit() {
+    this.removeOrAddAsynValidators();
+
     // Verificar si el formulario es valido
+
     if (this.formData.valid) {
       this.customerFull = new CustomerFull();
 
       this.customerFull.customer = this.createCustomer();
-
       this.customerFull.inscription = this.createInscription();
-
       this.validCustomerFull();
 
       console.log(this.customerFull);
+      console.log(this.formData)
 
-      this.customerService.save(this.customerFull).subscribe((data) => {
-        console.log(data);
-      });
+      // Cliente existente - nueva membresia
+      if (this.ideCustomer) {
+        return;
+      }
 
-      // Aqui consulta backend
+      // Save new customer
+
+      // Verificar si el nombre ya esta registrado en la bd, solo si no ha ingresado una cedula
+
+      let isNameExist = false;
+
+      if (!this.customerFull.customer.dni) {
+        const obs = this.customerService.verifyIsExistCustomer(
+          this.customerFull.customer.name,
+          'NAME'
+        );
+        isNameExist = await firstValueFrom(obs, { defaultValue: false });
+      }
+
+      if (!isNameExist) {
+        
+        this.customerService.save(this.customerFull).subscribe(data => {
+          console.log(data);
+          this.modal.dismiss()
+        }, error =>{
+          console.log(error)
+        
+
+        });
+
+
+        
+      } else {
+        Swal.fire({
+          title: '¿Guardar Nuevo Cliente?',
+          html: `<p><span style ="color: yellow">Advertencia</span>: El nombre  <b>${this.customerFull.customer.name}</b> ya esta registrado en el sistema, le sugerimos que agregue el número de cédula antes de guardar <p>`,
+          // text: ``,
+          icon: 'question',
+          allowOutsideClick: false,
+          showCancelButton: true,
+          confirmButtonText: 'Guardar de todos modos',
+
+          cancelButtonText: 'Cancelar',
+        }).then((result) => {
+          if (result.value) {
+            this.customerService.save(this.customerFull).subscribe((data) => {
+              console.log(data);
+            });
+          }
+        });
+      }
+
     } else alert('Campos incorrectos');
+    
   }
 
   private validCustomerFull() {
@@ -423,9 +492,9 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
       this.customerFull.inscription.modality = null;
     }
 
-    if (!this.customerFull.inscription.evolution.weight) {
-      this.customerFull.inscription.evolution.weight = 0;
-    }
+    // if (!this.customerFull.inscription.evolution.weight) {
+    //   this.customerFull.inscription.evolution.weight = 0;
+    // }
   }
 
   private getCurrentDate(numberMonthMore: number): string {
@@ -468,6 +537,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     customer.dni = this.formData.value['dni'];
     customer.phone = this.formData.value['phone'];
     customer.born = this.formData.value['born'];
+    customer.status = true;
     customer.genero = this.formData.value['genero'];
 
     return customer;
@@ -481,11 +551,10 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     evolution.typeWeight = this.formData.value['typeWeight'];
     evolution.description = this.formData.value['description'];
 
-    const   {imc, resultImc} =calImc(evolution.weight, evolution.height);
+    const { imc, resultImc } = calImc(evolution.weight, evolution.height);
 
     evolution.imc = imc;
     evolution.resultImc = resultImc;
-
 
     return evolution;
   }

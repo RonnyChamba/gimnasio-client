@@ -18,25 +18,21 @@ export function dniOrEmailValidator(
     // type input or field
     if (field) {
       if (type == 'DNI' && field.length == 10) {
-        return customerService
-
-          .filterByDniOrEmail(field, type)
-          .pipe(
-            map((isExisting) =>
-              isExisting ? { fieldExists: 'Cédula ya esta registrada' } : null
-            )
-          );
+        
+        return customerService.verifyIsExistCustomer(field, type)
+        .pipe (
+          map ( (value) => value? { fieldExists: 'Cédula ya esta registrada' } : null)
+        );
+          
       }
 
       if (type == 'EMAIL' && field.length >= 6) {
-        return customerService
 
-          .filterByDniOrEmail(field, type)
-          .pipe(
-            map((isExisting) =>
-              isExisting ? { fieldExists: 'Email ya esta registrado' } : null
-            )
-          );
+        return customerService.verifyIsExistCustomer(field, type)
+        .pipe (
+          map ( (value) => value? { fieldExists: 'Email ya esta registrada' } : null)
+        );
+
       }
     }
 
@@ -46,3 +42,4 @@ export function dniOrEmailValidator(
     //   return observable;
   };
 }
+
