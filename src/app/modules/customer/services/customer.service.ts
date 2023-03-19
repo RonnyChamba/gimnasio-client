@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, map, Observable, of } from 'rxjs';
 import { CustomerFull } from 'src/app/core/models/customer-full';
+import { Customer } from 'src/app/core/models/customer-model';
+import { paramsPaginator } from 'src/app/core/models/page-render.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -16,28 +18,25 @@ export class CustomerService {
     return this.httpClient.post(`${this.pathApi}/customers`, customerFull);
   }
 
-  findByDni(dni: string): Observable<any> {
-    return this.httpClient.get(`${this.pathApi}/customers/filter`, {
+  findAll ( paramPage: paramsPaginator): Observable<any> {
+    return this.httpClient.get(`${this.pathApi}/customers`, {
       params: {
-        dni,
-      },
+        page: paramPage.page,
+        size: paramPage.size,
+        valueSearch:paramPage.valueSearch as string,
+        typeFilter: paramPage.typeFilter
+      }
     });
   }
-
-  /**
-   *
-   * @param field value
-   * @param type  dni, email or name
-   * @returns
-   */
-  filterCustomer(field: string, type: string): Observable<any> {
-    return this.httpClient.get(`${this.pathApi}/customers/filter`, {
-      params: {
-        field,
-        type,
-      },
-    });
-  }
+  
+  
+  // findByDni(dni: string): Observable<any> {
+  //   return this.httpClient.get(`${this.pathApi}/customers/filter`, {
+  //     params: {
+  //       dni,
+  //     },
+  //   });
+  // }
 
   /**
    *
@@ -54,15 +53,4 @@ export class CustomerService {
     });
   }
 
-  isAlreadyExistingDni(dni: string): Observable<boolean> {
-    const data = false;
-
-    const fakeExistingEmails = ['1723774640', '1234567890'];
-
-    return of(fakeExistingEmails).pipe(
-      // Simulamos un retraso de la respuesta de nuestra supuesta API
-      delay(2500),
-      map((emails: string[]) => emails.includes(dni))
-    );
-  }
 }

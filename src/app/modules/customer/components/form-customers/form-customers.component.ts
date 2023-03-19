@@ -95,9 +95,12 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     console.log('customer ide: ' + this.ideCustomer);
     this.createForm();
     this.getModalities();
+    
     this.changePropertiesInicializer();
     this.onChangeListeners();  
   }
+
+
   private createForm() {
     this.formData = new FormGroup(
       {
