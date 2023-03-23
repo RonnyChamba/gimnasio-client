@@ -83,7 +83,7 @@
                 *ngFor="let item of listModalities"
                 value="{{ item.ide }}"
               >
-                {{ item.ide == -1 ? "" : "$ " + item.price + ": " }}
+                {{ item.price<1 ? "" : "$ " + item.price + ": " }}
                 {{ item.name }}
               </option>
             </select>
@@ -119,6 +119,7 @@
               id="price"
               placeholder=""
               formControlName="price"
+              
             />
             <label for="price" class="ms-1">Precio Real</label>
             <div
@@ -394,6 +395,7 @@
               id="pay"
               placeholder=""
               formControlName="pay"
+              #childPay
             />
             <label for="pay" class="ms-1">Pago</label>
             <div

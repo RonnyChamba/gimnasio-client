@@ -33,6 +33,6 @@ export interface paramsPaginator {
     size: number;
     order?: string;
     asc?: boolean;
-    valueSearch?: string; 
-    typeFilter: boolean;
+    valueSearch?: string | null;
+    dateFilter?: string | null; 
 }

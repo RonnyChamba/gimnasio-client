@@ -1,43 +1,93 @@
 <table class="table mt-4">
   <thead>
     <tr>
+      <th scope="col">#</th>
+      <th scope="col">Foto</th>
       <th scope="col">Nombres</th>
-      <th scope="col">C&oacute;digo</th>
-      <th scope="col">C&eacute;dula</th>
+      <th scope="col">Registro</th>
+      <th scope="col">CI/DNI</th>
+      <th scope="col">Fin Membresia</th>
       <!-- <th scope="col">Email</th> -->
-      <th scope="col">estado</th>
+      <!-- <th scope="col">estado</th> -->
 
       <th scope="col" class="text-end">Acciones</th>
     </tr>
   </thead>
-  <tbody>
-    <tr *ngFor="let item of listData">
-      <td scope="row">{{ item.name | uppercase}}</td>
-      <td>{{ item.codInterno }}</td>
+  <tbody class="position-relative">
+    <tr *ngFor="let item of listData; index as i">
+      <td>{{ i |calcIndexList:pageRender}} </td>
+      <td>
+        <img
+          src="../../../../../assets/img/Default_pfp.svg.png"
+          width="30"
+          height="30"
+        />
+      </td>
+      <td scope="row" class="position-relative">
+        <span>
+          {{ item.name | uppercase }}
+        </span>
+        <!-- <span class="position-absolute  btn btn-primary top-0 start-0"   
+        [ngClass]="{ 'visually-hidden-focusable': !show, 'position-absolute  btn btn-primary top-0 start-0': true }">
+          
+          Asistencia
+        </span> -->
+      </td>
+      <td>{{ item.dateRegister | date:"dd/MM/yyyy" }}</td>
       <td>{{ item.dni }}</td>
+      <td>
+        {{
+          item.inscriptions.length > 0
+            ? (item.inscriptions[0].dateFinalize | date:"dd/MM/yyyy")
+            : "NA"
+        }}
+      </td>
       <!-- <td>ronnychamba96@gmail.com</td> -->
 
-      <td class="action">
+      <!-- <td class="action">
         <span class="bg-success p-1 rounded" role="button">
           <i class="bx bx-add-to-queue"></i>
         </span>
-      </td>
+      </td> -->
 
       <td class="action text-end">
         <span
-          class="bg-warning p-1 me-1 rounded"
+          class="bg-info p-1 me-1 rounded"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          title="Registrar asistencia"
           role="button"
-          (click)="editCustomer(item.ide)"
+          (click)="registerAttendance(item.ide)"
+        >
+          <i class="bx bx-check"></i>
+        </span>
+        <span
+          class="bg-warning p-1 me-1 rounded"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          title="Nueva membresía"
+          role="button"
+          (click)="edit(item.ide)"
         >
           <i class="bx bx-edit"></i>
         </span>
 
-        <span class="bg-danger p-1 me-1 rounded" role="button">
+        <span
+          class="bg-danger p-1 me-1 rounded"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          title="Eliminar cliente"
+          role="button"
+          (click)="delete(item.ide)"
+        >
           <i class="bx bx-trash"></i>
         </span>
 
         <a
           class="bg-info p-1 rounded"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          title="Ver información cliente"
           role="button"
           [routerLink]="['/customer', item.ide]"
         >
@@ -53,7 +103,7 @@
 <div class="mt-5 d-flex justify-content-between align-items-center">
   <div class="d-flex flex-wrap justify-content-between align-items-center">
     <p *ngIf="pageRender" class="fw-bolder fs-6">
-      Mostrando {{ sumaTotalElements}} de {{ pageRender.totalElements }}
+      Mostrando {{ sumaTotalElements }} de {{ pageRender.totalElements }}
     </p>
   </div>
 
@@ -104,14 +154,14 @@
 
       <li
         class="page-item"
-        [ngClass]="{ 'disabled': !pageRender.hasNext, 'page-item': true }"
+        [ngClass]="{ disabled: !pageRender.hasNext, 'page-item': true }"
       >
-        <span class="page-link"  *ngIf="!pageRender.hasNext">&raquo;</span>
+        <span class="page-link" *ngIf="!pageRender.hasNext">&raquo;</span>
         <span
           class="page-link"
           *ngIf="pageRender.hasNext"
           role="button"
-          (click) = "changePage(pageRender.currentPage)"
+          (click)="changePage(pageRender.currentPage)"
           >&raquo;</span
         >
       </li>
@@ -120,13 +170,12 @@
         class="page-item"
         [ngClass]="{ disabled: pageRender.last, 'page-item': true }"
       >
-        <span class="page-link"  *ngIf="pageRender.last">Última</span>
+        <span class="page-link" *ngIf="pageRender.last">Última</span>
         <span
           class="page-link"
           *ngIf="!pageRender.last"
           role="button"
-          (click) = "changePage(pageRender.totalPages-1)"
-        
+          (click)="changePage(pageRender.totalPages - 1)"
           >Última</span
         >
       </li>

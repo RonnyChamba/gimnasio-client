@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, map, Observable, of } from 'rxjs';
+import { Observable, of, Subject, tap } from 'rxjs';
 import { CustomerFull } from 'src/app/core/models/customer-full';
-import { Customer } from 'src/app/core/models/customer-model';
 import { paramsPaginator } from 'src/app/core/models/page-render.model';
 import { environment } from 'src/environments/environment';
 
@@ -12,31 +11,49 @@ import { environment } from 'src/environments/environment';
 export class CustomerService {
   pathApi = environment._APIUrl;
 
+  private refreshUpdateTable = new Subject<void>();
   constructor(private httpClient: HttpClient) {}
+
+  getRefreshUpdateTableObservable(): Observable<void> {
+    return this.refreshUpdateTable.asObservable();
+  }
 
   save(customerFull: CustomerFull): Observable<any> {
     return this.httpClient.post(`${this.pathApi}/customers`, customerFull);
   }
 
-  findAll ( paramPage: paramsPaginator): Observable<any> {
+  saveNewInscription(ide: number, customerFull: CustomerFull): Observable<any> {
+    return this.httpClient.post(
+      `${this.pathApi}/customers/${ide}/inscriptions`,
+      customerFull
+    );
+  }
+
+  saveAttendance(ide: number): Observable<any> {
+    return this.httpClient.post(
+      `${this.pathApi}/customers/${ide}/attendances`,{});
+  }
+
+  findAll(paramPage: paramsPaginator): Observable<any> {
     return this.httpClient.get(`${this.pathApi}/customers`, {
       params: {
         page: paramPage.page,
         size: paramPage.size,
-        valueSearch:paramPage.valueSearch as string,
-        typeFilter: paramPage.typeFilter
-      }
+        valueSearch: paramPage.valueSearch || "",
+        dateFilter: paramPage.dateFilter || ""
+      },
     });
   }
-  
-  
-  // findByDni(dni: string): Observable<any> {
-  //   return this.httpClient.get(`${this.pathApi}/customers/filter`, {
-  //     params: {
-  //       dni,
-  //     },
-  //   });
-  // }
+
+  delete(ide: number): Observable<any> {
+    return this.httpClient
+      .delete(`${this.pathApi}/customers/${ide}`)
+      .pipe(tap(() => this.refreshUpdateTable.next()));
+  }
+
+  findByIde(ide: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.pathApi}/customers/${ide}`);
+  }
 
   /**
    *
@@ -52,5 +69,4 @@ export class CustomerService {
       },
     });
   }
-
 }

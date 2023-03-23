@@ -51,7 +51,7 @@ import {
 import { firstValueFrom } from 'rxjs';
 import Swal from 'sweetalert2';
 
-const DEFAULT_ID_MODALITY = -1;
+// const DEFAULT_ID_MODALITY = 1;
 
 @Component({
   selector: 'app-form-customers',
@@ -70,10 +70,11 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
   // Agregar un objeto por defecto
   listModalities: Modality[] = [
-    { ide: DEFAULT_ID_MODALITY, name: 'Otras', price: 0 },
+    // { ide: DEFAULT_ID_MODALITY, name: 'Otras', price: 0 },
   ];
 
   @ViewChild('childName') inputName: ElementRef;
+  @ViewChild('childPay') inputPay: ElementRef;
 
   constructor(
     public modal: NgbActiveModal,
@@ -88,20 +89,49 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
      */
 
     // this.renderer.selectRootElement(this.inputName).focus();
-    this.inputName.nativeElement.focus(); //  editar
+    // this.inputName.nativeElement.focus(); //  editar
   }
 
   ngOnInit(): void {
-    console.log('customer ide: ' + this.ideCustomer);
+    // console.log('customer nueva membresi: ' + this.ideCustomer);
     this.createForm();
     this.getModalities();
-    
     this.changePropertiesInicializer();
-    this.onChangeListeners();  
+    this.onChangeListeners();
+    this.selectCustomer();
   }
 
 
+  private selectCustomer(){
+
+
+    if (this.ideCustomer){
+      // query backend
+
+      this.customerService.findByIde(this.ideCustomer).subscribe(resp  =>{
+        
+        this.formData.controls['name'].setValue(resp.customer.name)
+        this.formData.controls['weight'].setValue(resp.evolutionCtm.weight);
+        this.formData.controls['height'].setValue(resp.evolutionCtm.height);
+
+        // Este cargar antes de asignar price, ya que modality tiene un evento change para poner su valor de modalidads
+        this.formData.controls['modality'].setValue(resp.modality.ide);
+
+        // Asigno el precio correspondiente a la ultima incripcion
+        this.formData.controls['price'].setValue(resp.transaction.price);
+        
+        this.inputPay.nativeElement.focus(); //  editar
+        
+        console.log(resp)
+      })
+
+
+    }
+
+  }
   private createForm() {
+
+
     this.formData = new FormGroup(
       {
         dni: new FormControl(
@@ -163,7 +193,8 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
           Validators.pattern('^[0-9]{1,2}$'),
         ]),
 
-        modality: new FormControl(DEFAULT_ID_MODALITY),
+        // un valor a lazar el 1
+        modality: new FormControl(1),
 
         descriptionInscription: new FormControl(null, []),
         // DATOS DE LA TRANSACCION
@@ -283,9 +314,9 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     this.formData.controls['modality'].valueChanges.subscribe((data) => {
       let modalityFound = this.listModalities.find((item) => item.ide == data);
 
-      if (modalityFound?.ide != DEFAULT_ID_MODALITY) {
-        this.formData.get('price')?.setValue(modalityFound?.price);
-      }
+      // if (modalityFound?.ide != DEFAULT_ID_MODALITY) {
+      // }
+      this.formData.get('price')?.setValue(modalityFound?.price);
     });
 
     this.formData.controls['numberMonth'].valueChanges.subscribe(
@@ -378,7 +409,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     let total = this.formData.value['total'];
     let balance = pay ? this.formData.value['total'] - pay : total;
 
-    console.log('balance ' + balance);
+    // console.log('balance ' + balance);
     this.formData.controls['balance']?.setValue(balance);
   }
 
@@ -387,17 +418,12 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
  then load the modalities
     */
   private setValueDefault() {
-    if (this.listModalities.length > 1) {
-      let modalityLess = null;
 
-      // Indica que solo hay un registro aparte del registro default
-      if (this.listModalities.length == 2) {
-        modalityLess = this.listModalities[1];
-      } else {
-        // Ordenar el arreglo ascendentemente  tomando el precio como referencia
-        // una vez ordenado, tomar el primer valor(sin contar el valor por default)
-        modalityLess = this.listModalities.sort((a, b) => a.price - b.price)[1];
-      }
+    // console.log(this.listModalities.length)
+    if (this.listModalities.length >=1) {
+
+      // Ubicar la opcion x default en select modality- se eliggue a la de menor precio
+      let  modalityLess = this.listModalities.sort((a, b) => a.price - b.price)[0];
 
       this.formData.get('modality')?.setValue(modalityLess.ide);
       this.formData.get('price')?.setValue(modalityLess.price);
@@ -429,13 +455,19 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
       this.customerFull.customer = this.createCustomer();
       this.customerFull.inscription = this.createInscription();
-      this.validCustomerFull();
+      // this.validCustomerFull();
 
       console.log(this.customerFull);
       console.log(this.formData)
 
       // Cliente existente - nueva membresia
       if (this.ideCustomer) {
+
+        this.customerService.saveNewInscription(this.ideCustomer, this.customerFull).subscribe(resp =>{
+          console.log("Nueva incripcion fue guardada")
+          console.log(resp)
+        });
+
         return;
       }
 
@@ -490,16 +522,6 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     
   }
 
-  private validCustomerFull() {
-    if (this.customerFull.inscription.modality == DEFAULT_ID_MODALITY) {
-      this.customerFull.inscription.modality = null;
-    }
-
-    // if (!this.customerFull.inscription.evolution.weight) {
-    //   this.customerFull.inscription.evolution.weight = 0;
-    // }
-  }
-
   private getCurrentDate(numberMonthMore: number): string {
     let dateCurrent = dayjs().add(numberMonthMore, 'month');
 
@@ -534,7 +556,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
   private createCustomer(): Customer {
     const customer = new Customer();
 
-    customer.name = this.formData.value['name'];
+    customer.name = (this.formData.value['name'] as string).toUpperCase();
     customer.email = this.formData.value['email'];
     customer.address = this.formData.value['address'];
     customer.dni = this.formData.value['dni'];

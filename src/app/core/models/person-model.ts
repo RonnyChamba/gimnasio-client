@@ -11,6 +11,8 @@ export class Person {
 
   // profile: string;
 
+  dateRegister: string | null
+
   phone: string;
 
   born: string;

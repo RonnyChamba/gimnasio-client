@@ -24,3 +24,21 @@ export class Inscription{
     transaction: Transaction;
     
 }
+
+export interface InscriptionRes {
+
+    ide: number;
+
+    dateBegin: string;
+
+    dateFinalize: string;
+
+    workDay: string;
+
+    numberMonth: number;
+
+    typeInscription: string;
+
+    description: string;
+
+}

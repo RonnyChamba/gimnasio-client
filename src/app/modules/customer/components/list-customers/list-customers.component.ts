@@ -6,11 +6,10 @@ import {
   PageRender,
   paramsPaginator,
 } from 'src/app/core/models/page-render.model';
+import Swal from 'sweetalert2';
 import { CustomerService } from '../../services/customer.service';
 import { UtilCustomerService } from '../../services/util-customer.service';
 import { FormCustomersComponent } from '../form-customers/form-customers.component';
-import { FormUpdateCustomerComponent } from '../form-update-customer/form-update-customer.component';
-
 @Component({
   selector: 'app-list-customers',
   templateUrl: './list-customers.component.html',
@@ -18,12 +17,11 @@ import { FormUpdateCustomerComponent } from '../form-update-customer/form-update
 })
 export class ListCustomersComponent implements OnInit, OnDestroy {
   listData: Customer[] = [];
-  @Input('size') size: number;
+  // @Input('size') size: number;
   pageRender: PageRender;
-  paramPaginator: paramsPaginator = { page: 0, size: 5, typeFilter: true };
-
-  searchText: string;
+  paramPaginator: paramsPaginator = { page: 0, size: 5,  dateFilter: null};
   sumaTotalElements = 0;
+
 
   // here add suscriptiones
   private subscription: Subscription = new Subscription();
@@ -38,50 +36,28 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
     // console.log('size default' + this.size);
     this.listdAll();
 
-    // Add una subcriscion in select amount register
+    // Add una subcription, se execute by update table
     this.subscription.add(
-      this.utilCustomerService
-        .getRefreshObservable()
-        .subscribe((sizePaginator) => {
+      
+      this.customerService.getRefreshUpdateTableObservable().subscribe (resp =>{
 
-          this.paramPaginator.size = sizePaginator;
-
-          // // Verify if exists a text in search input
-          // if (this.searchText) {
-          //   this.paramPaginator.typeFilter = false;
-          //   this.paramPaginator.valueSearch = this.searchText;
-          // }else this.paramPaginator.typeFilter = true;
-
-          // this.changePage(this.paramPaginator.page);
-          this.changePage();
-        })
+        this.listdAll();
+      })
     );
 
-    // Add una subcriscion
     this.subscription.add(
-      this.utilCustomerService
-        .getRefreshObservableSearch()
-        .subscribe((searchText) => {
+      this.utilCustomerService.filterTableAsObservable().subscribe (filtePro =>{
 
-          this.searchText = searchText;
+        this.paramPaginator.size = filtePro.sizePage;
+        this.paramPaginator.valueSearch = filtePro.searchText;
+        this.paramPaginator.dateFilter = filtePro.dateFilter;
+        
+        this.changePage();
 
-          this.paramPaginator.valueSearch = this.searchText;
 
-          // if (this.searchText) {
-          //   // Le indica al filtro que busca los clientes pero mediante busqueda
-          //   this.paramPaginator.typeFilter = false;
-          //   this.paramPaginator.valueSearch = searchText;
-          // }else {
-          //   this.paramPaginator.typeFilter = true;
-          //   // this.paramPaginator.valueSearch = textSearh;
-          // }
-
-          // this.listdAll();
-
-          // console.log(searchText);
-          this.changePage();
-        })
-    );
+        console.log(filtePro)
+      })
+    )
 
     // this.calculSumaRegister();
   }
@@ -95,13 +71,15 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
     this.customerService.findAll(this.paramPaginator).subscribe((resp) => {
       this.listData = resp.data;
       this.pageRender = resp.page;
-      // this.sumaTotalElements+= this.listData.length;
-      console.log(resp);
+
+    
+      // console.log(resp);
+      console.log(this.listData);
       this.calculSumaRegister();
     });
   }
-  editCustomer(ide: number) {
-    console.log('Abrir modal customer');
+  edit(ide: number) {
+    // console.log('Abrir modal customer');
 
     const references = this.modalService.open(FormCustomersComponent, {
       size: 'lg',
@@ -110,26 +88,46 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
     references.componentInstance.ideCustomer = ide;
   }
 
+  delete(ide: number){
+
+    console.log("gistro a eliminar: " + ide)
+
+    Swal.fire({
+      title: '¿Seguro eliminar cliente?',
+      text: "Se eliminará todos los registros asociados del cliente a eliminar",
+      // text: ``,
+      icon: 'question',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.value) {
+        this.customerService.delete(ide).subscribe(resp =>{
+
+          console.log(resp)
+        }) 
+      }
+    });
+
+  }
+
   changePage(numberPage?: number) {
     
     console.log(numberPage)
     this.paramPaginator.page = numberPage || numberPage==0? numberPage: this.paramPaginator.page;
-   this.paramPaginator.typeFilter = this.paramPaginator.valueSearch? false: true;
-  // //  this.paramPaginator.valueSearch = this.searchText;
 
-  // console.log(this.paramPaginator)
+    
+    /**
+     * If there is a text input, begggin page 0
+     * 
+     * If sizePage is mayor que el total de elemntos, entonces que muestre los resultado en la pagina 0 
+     */
+    
+    if (this.paramPaginator.valueSearch || (this.paramPaginator.size>= this.pageRender.totalElements)) this.paramPaginator.page =0;
 
-
-    // this.paramPaginator.page = numberPage;
-  //  this.paramPaginator.typeFilter = this.paramPaginator.valueSearch? false: true;
-  //  this.paramPaginator.valueSearch = this.searchText;
-
-
-
-    // Por segurida, true representa que hara la cnsulta normal, no por busqueda
-    // this.paramPaginator.typeFilter = true;
-    // console.log(this.paramPaginator)
-
+  
     this.listdAll();
   }
 
@@ -149,5 +147,16 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
       this.sumaTotalElements =
         this.pageRender.currentPage * this.pageRender.numElementsByPage;
     }
+  }
+
+  registerAttendance (ide: number){
+
+   this.customerService.saveAttendance(ide).subscribe (resp => {
+    console.log(resp)
+   })
+  }
+  calcIndex(index : number){
+    console.log(index)
+
   }
 }

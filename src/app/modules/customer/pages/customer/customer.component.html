@@ -18,30 +18,33 @@
       </div>
 
       <!--  -->
-      <div class="row justify-content-between align-items-center mt-4">
+      <form class="row justify-content-between align-items-center mt-4 border py-3" [formGroup]="formData" >
         <div class="d-flex align-items-center col">
           <span > Mostrar</span>
-          <select class="form-select mx-3" style="max-width: 100px"  (change)="changeNumberPage($event)"   [(ngModel)]="size" >
+          <select class="form-select mx-3" style="max-width: 100px" formControlName ="sizePage" >
             <option  value="5" selected>5</option>
             <option value="10" >10</option>
             <option value="15" >15</option>
           </select>
-          <span> registros</span>
+          <div>
+            
+            <input  type="date"  class="form-control"  formControlName ="dateFilter"/>
+
+          </div>
         </div>
 
         <div class="col-md-4 mt-3 mt-md-0">
           <input
             type="search"
             placeholder="Buscar Cliente"
-            #txtSearch
-            (keyup)="search(txtSearch.value)"
+            formControlName="searchText"
             class="form-control col-md-2"
           />
         </div>
-      </div>
+      </form>
       <!--  -->
       
-      <app-list-customers  [size] = "size" ></app-list-customers>
+      <app-list-customers></app-list-customers>
     </div>
   </div>
 </section>
