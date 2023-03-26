@@ -106,19 +106,21 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
 
     if (this.ideCustomer){
-      // query backend
 
-      this.customerService.findByIde(this.ideCustomer).subscribe(resp  =>{
-        
+      this.customerService.findByIdeFetch(this.ideCustomer).subscribe(resp  =>{
+      
+        // If el cliente no tiene una ultima inscripcionm solo devolvera la informacion del cliente
+        // así que hay tener cuidado con los null, x ello utilizo el signo ?
+
         this.formData.controls['name'].setValue(resp.customer.name)
-        this.formData.controls['weight'].setValue(resp.evolutionCtm.weight);
-        this.formData.controls['height'].setValue(resp.evolutionCtm.height);
+        this.formData.controls['weight'].setValue(resp.evolutionCtm?.weight);
+        this.formData.controls['height'].setValue(resp.evolutionCtm?.height);
 
         // Este cargar antes de asignar price, ya que modality tiene un evento change para poner su valor de modalidads
-        this.formData.controls['modality'].setValue(resp.modality.ide);
+        this.formData.controls['modality'].setValue(resp.modality?.ide);
 
         // Asigno el precio correspondiente a la ultima incripcion
-        this.formData.controls['price'].setValue(resp.transaction.price);
+        this.formData.controls['price'].setValue(resp.transaction?.price);
         
         this.inputPay.nativeElement.focus(); //  editar
         
@@ -260,6 +262,8 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
         // Create a daysJs Object
         let dateFinalizeJs = dayjs(valueDateFinalize);
+
+        // Debe cargar esa funcions para poderla utilizar
         dayjs.extend(isSameOrAfter);
 
         // Getting date begin

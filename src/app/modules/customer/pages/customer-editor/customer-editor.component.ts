@@ -9,35 +9,27 @@ import { ActivatedRoute, Params } from '@angular/router';
 export class CustomerEditorComponent implements OnInit{
 
   flagClose = true;
-  ideCustomeer  = null;
-
-  constructor(private rutaActiva: ActivatedRoute){}
+  ideCustomer: number;
+  nombre: string;
+  constructor(private activePath: ActivatedRoute){}
   
   ngOnInit(): void {
     
-    this.ideCustomeer =  this.rutaActiva.snapshot.params['ideCustomer'];
-    console.log(`Id Customer get : ${this.ideCustomeer}`);
+    this.ideCustomer =  this.activePath.snapshot.params['ideCustomer'];
+    // console.log(`Id Customer get : ${this.ideCustomer}`);
 
-    this.rutaActiva.params.subscribe(
+    this.activePath.params.subscribe(
       (params: Params) => {
-        this.ideCustomeer =  params['ideCustomer'];
+        this.ideCustomer =  params['ideCustomer'];
       }
     );
   }
   
+ 
   
   onClickMenu(value:boolean){  
 
     this.flagClose = value;
   }
 
-
-  // openModal(){
-
-  //   console.log("Abrir modal");
-
-  //   // this.modalService.open(FormCustomerComponent, {
-  //   //   size: "lg"
-  //   // });
-  // }
 }

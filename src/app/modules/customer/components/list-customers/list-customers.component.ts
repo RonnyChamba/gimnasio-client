@@ -55,7 +55,7 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
         this.changePage();
 
 
-        console.log(filtePro)
+        // console.log(filtePro)
       })
     )
 
@@ -74,7 +74,7 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
 
     
       // console.log(resp);
-      console.log(this.listData);
+      // console.log(this.listData);
       this.calculSumaRegister();
     });
   }
@@ -115,7 +115,7 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
 
   changePage(numberPage?: number) {
     
-    console.log(numberPage)
+    // console.log("Number  of  page" +  numberPage)
     this.paramPaginator.page = numberPage || numberPage==0? numberPage: this.paramPaginator.page;
 
     

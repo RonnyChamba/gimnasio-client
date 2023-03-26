@@ -1,46 +1,50 @@
-<div class="information bg-info p-2">
-  <div class="information-header">
-    <ul class="d-flex p-0" style="list-style-type: none">
-      <li class="me-2  ">
-        <button (click)="changePanel('DATA')" class="btn btn-primary">
-          Datos
-        </button>
-      </li>
+<div class="row mt-4">
+  <!-- profile -->
+  <app-customer-profile class="col-sm-3"   [customerCurrent] ="customerCurrent"  (eventChangeStatus)="eventChangeStatus = $event"  ></app-customer-profile>
 
+  <div class="information bg-info p-2 col">
+    <div class="information-header">
+      <ul class="d-flex p-0" style="list-style-type: none">
+        <li class="me-2">
+          <button (click)="changePanel('DATA')" class="btn btn-primary">
+            Datos
+          </button>
+        </li>
 
+        <li class="me-2">
+          <button (click)="changePanel('DAILY')" class="btn btn-primary">
+            Registro Diario
+          </button>
+        </li>
 
-      <li class="me-2">
-        <button (click)="changePanel('DAILY')" class="btn btn-primary">
-          Registro Diario
-        </button>
-      </li>
-      
-      <li >
-        <button (click)="changePanel('MONTH')" class="btn btn-primary">
-          Membresias
-        </button>
-      </li> 
-      <li >
-        <button (click)="changePanel('MONTH')" class="btn btn-primary">
-          Rutinas
-        </button>
-      </li>
-    </ul>
-  </div>
+        <li>
+          <button (click)="changePanel('MONTH')" class="btn btn-primary">
+            Membresias
+          </button>
+        </li>
+        <li>
+          <button (click)="changePanel('MONTH')" class="btn btn-primary">
+            Rutinas
+          </button>
+        </li>
+      </ul>
+    </div>
 
-  <div class="information-body">
-    <!-- Aqio viene varios paneles según la opcion seleccionada -->
+    <div class="information-body">
+      <!-- Aqio viene varios paneles según la opcion seleccionada -->
 
-    <ng-template [ngIf]="flagPanelCustomer == 'DATA'">
-      <app-data-customer></app-data-customer>
-    </ng-template>
+      <ng-template [ngIf]="namePanelInfo == 'DATA'">
+        <!--  (newItemEventName) ="newItemEvent.next($event)"  -->
+        <app-data-customer [idCustomer]="idCustomer"   (customerEvent)=" getCustomer($event)"  ></app-data-customer>
+      </ng-template>
 
-    <ng-template [ngIf]="flagPanelCustomer == 'DAILY'">
-      <app-daily-customer></app-daily-customer>
-    </ng-template>
+      <ng-template [ngIf]="namePanelInfo == 'DAILY'">
+        <app-daily-customer [idCustomer]="idCustomer"></app-daily-customer>
+      </ng-template>
 
-    <ng-template [ngIf]="flagPanelCustomer == 'MONTH'">
-      <app-invoice-customer></app-invoice-customer>
-    </ng-template>
+      <ng-template [ngIf]="namePanelInfo == 'MONTH'">
+        <app-invoice-customer></app-invoice-customer>
+      </ng-template>
+    </div>
   </div>
 </div>

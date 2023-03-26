@@ -12,21 +12,15 @@
     <div class="home-content p-4 border border-2">
       <!--    -->
       <div class="d-flex flex-wrap justify-content-between align-item-center">
-        <h3 class="home-subtitle"><a routerLink="/customer">Clientes</a>/Ronny Chamba</h3>
-        <button class="btn btn-outline-primary d-flex align-items-center">
-          <i class="bx bx-user-plus" style="color:royalblue"> </i> <span class="ms-1" >ACTUALIZAR DATOS</span>
+        <h3 class="home-subtitle"><a routerLink="/customer">Clientes</a>/{{ nombre}} </h3>
+        <button class="btn btn-primary d-flex align-items-center">
+          <i class="bx bx-user-plus" style="color:white"> </i> <span class="ms-1" >aqui ia otro contenuido</span>
         </button>
       </div>
 
       <!-- Main content -->
-      <div class="row mt-4">
-            <!-- Col 1 Profile -->
-            <app-customer-profile class="col-sm-auto"></app-customer-profile>
-        
-          
-          <!-- Col 2 info -->
-          <app-info-customer class="col"></app-info-customer>
-      </div>
+      <app-info-customer [idCustomer] = "ideCustomer"  (eventNameCustomer)="nombre = $event" ></app-info-customer>
+      
     </div>
   </div>
 </section>
