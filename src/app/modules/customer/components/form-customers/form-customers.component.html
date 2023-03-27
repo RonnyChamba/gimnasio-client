@@ -732,7 +732,7 @@
             aria-labelledby="headingControl"
             data-bs-parent="#accordionControl"
           >
-            <div class="accordion-body">
+            <div class="accordion-body" formGroupName="evolution" >
               <div class="row">
                 <div class="form-floating mb-3 col-sm-6">
                   <input
@@ -746,9 +746,9 @@
 
                   <div
                     *ngIf="
-                      formData.controls['weight'].invalid &&
-                      (formData.controls['weight'].dirty ||
-                        formData.controls['weight'].touched)
+                      formData.get('evolution.weight')?.invalid &&
+                      ( formData.get('evolution.weight')?.dirty ||
+                      formData.get('evolution.weight')?.touched)
                     "
                     class="form-text text-danger"
                   >
@@ -756,9 +756,9 @@
                       <div
                         style="font-size: smaller !important"
                         *ngIf="
-                          formData.get('weight')?.hasError(validation.type) &&
-                          (formData.get('weight')?.dirty ||
-                            formData.get('weight')?.touched)
+                          formData.get('evolution.weight')?.hasError(validation.type) &&
+                          (formData.get('evolution.weight')?.dirty ||
+                            formData.get('evolution.weight')?.touched)
                         "
                       >
                         {{ validation.message }}
@@ -779,9 +779,9 @@
 
                   <div
                     *ngIf="
-                      formData.controls['height'].invalid &&
-                      (formData.controls['height'].dirty ||
-                        formData.controls['height'].touched)
+                    formData.get('evolution.height')?.invalid &&
+                      (formData.get('evolution.height')?.dirty ||
+                      formData.get('evolution.height')?.touched)
                     "
                     class="form-text text-danger"
                   >

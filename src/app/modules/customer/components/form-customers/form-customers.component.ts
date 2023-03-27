@@ -81,7 +81,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     private modalityService: ModalityService,
     private utilCustomerService: UtilCustomerService,
     private customerService: CustomerService
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     /**
@@ -102,13 +102,13 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
   }
 
 
-  private selectCustomer(){
+  private selectCustomer() {
 
 
-    if (this.ideCustomer){
+    if (this.ideCustomer) {
 
-      this.customerService.findByIdeFetch(this.ideCustomer).subscribe(resp  =>{
-      
+      this.customerService.findByIdeFetch(this.ideCustomer).subscribe(resp => {
+
         // If el cliente no tiene una ultima inscripcionm solo devolvera la informacion del cliente
         // así que hay tener cuidado con los null, x ello utilizo el signo ?
 
@@ -121,9 +121,9 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
         // Asigno el precio correspondiente a la ultima incripcion
         this.formData.controls['price'].setValue(resp.transaction?.price);
-        
+
         this.inputPay.nativeElement.focus(); //  editar
-        
+
         console.log(resp)
       })
 
@@ -210,16 +210,22 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
         balance: new FormControl(0, [Validators.required, Validators.min(0)]),
         total: new FormControl(0, [Validators.required, Validators.min(0)]),
 
-        // DATOS DE LA EVOLUCION DEL CLIENTE
-        weight: new FormControl(null, [Validators.min(1)]),
-        height: new FormControl(null, [Validators.min(1)]),
-        imc: new FormControl(null, [Validators.min(0)]),
-        resultImc: new FormControl(null),
 
-        typeWeight: new FormControl('KG', [Validators.required]),
-        description: new FormControl(null, [
-          // Validators.required,
-        ]),
+        // DATOS DE LA EVOLUCION DEL CLIENTE
+        evolution: new FormGroup({
+
+          weight: new FormControl(null, [Validators.min(1)]),
+          height: new FormControl(null, [Validators.min(1)]),
+          imc: new FormControl(null, [Validators.min(0)]),
+          resultImc: new FormControl(null),
+
+          typeWeight: new FormControl('KG', [Validators.required]),
+          description: new FormControl(null, [
+            // Validators.required,
+          ]),
+        })
+
+
       },
       this.validarFormGeneral
     );
@@ -296,7 +302,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     if (g.get('pay').value == '-1') g.get('pay').reset();
     // if (g.get('balance').value == '-1') g.get('balance').reset();
 
-    if (g.get('description').value == '') g.get('description').reset();
+    // if (g.get('description').value == '') g.get('description').reset();
 
     return null;
   }
@@ -424,34 +430,17 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
   private setValueDefault() {
 
     // console.log(this.listModalities.length)
-    if (this.listModalities.length >=1) {
+    if (this.listModalities.length >= 1) {
 
       // Ubicar la opcion x default en select modality- se eliggue a la de menor precio
-      let  modalityLess = this.listModalities.sort((a, b) => a.price - b.price)[0];
+      let modalityLess = this.listModalities.sort((a, b) => a.price - b.price)[0];
 
       this.formData.get('modality')?.setValue(modalityLess.ide);
       this.formData.get('price')?.setValue(modalityLess.price);
     }
   }
 
-  removeOrAddAsynValidators() {
-    const dni = this.formData.value['dni'];
-    const email = this.formData.value['email'];
-
-    if (!dni) {
-      this.formData.controls['dni'].clearAsyncValidators();
-      this.formData.controls['dni'].updateValueAndValidity();
-    }
-
-    if (!email) {
-      this.formData.controls['email'].clearAsyncValidators();
-      this.formData.controls['email'].updateValueAndValidity();
-    }
-  }
-
   async fnSubmit() {
-    this.removeOrAddAsynValidators();
-
     // Verificar si el formulario es valido
 
     if (this.formData.valid) {
@@ -459,15 +448,14 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
       this.customerFull.customer = this.createCustomer();
       this.customerFull.inscription = this.createInscription();
-      // this.validCustomerFull();
-
+      
       console.log(this.customerFull);
       console.log(this.formData)
 
       // Cliente existente - nueva membresia
       if (this.ideCustomer) {
 
-        this.customerService.saveNewInscription(this.ideCustomer, this.customerFull).subscribe(resp =>{
+        this.customerService.saveNewInscription(this.ideCustomer, this.customerFull).subscribe(resp => {
           console.log("Nueva incripcion fue guardada")
           console.log(resp)
         });
@@ -490,18 +478,18 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
       }
 
       if (!isNameExist) {
-        
+
         this.customerService.save(this.customerFull).subscribe(data => {
           console.log(data);
           this.modal.dismiss()
-        }, error =>{
+        }, error => {
           console.log(error)
-        
+
 
         });
 
 
-        
+
       } else {
         Swal.fire({
           title: '¿Guardar Nuevo Cliente?',
@@ -523,7 +511,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
       }
 
     } else alert('Campos incorrectos');
-    
+
   }
 
   private getCurrentDate(numberMonthMore: number): string {
@@ -572,18 +560,16 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     return customer;
   }
   private createEvolution(): Evolution {
-    const evolution = new Evolution();
 
-    evolution.weight = this.formData.value['weight'];
-    evolution.height = this.formData.value['height'];
+    const evolution = this.formData.get('evolution')?.value as Evolution;
+    
+    if (evolution.height && evolution.height) {
 
-    evolution.typeWeight = this.formData.value['typeWeight'];
-    evolution.description = this.formData.value['description'];
+      const { imc, resultImc } = calImc(evolution.weight, evolution.height);
 
-    const { imc, resultImc } = calImc(evolution.weight, evolution.height);
-
-    evolution.imc = imc;
-    evolution.resultImc = resultImc;
+      evolution.imc = imc;
+      evolution.resultImc = resultImc;
+    }
 
     return evolution;
   }

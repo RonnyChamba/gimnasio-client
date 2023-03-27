@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Modality } from 'src/app/core/models/modality-model';
 
 @Injectable({
@@ -8,13 +9,13 @@ import { Modality } from 'src/app/core/models/modality-model';
 })
 export class ModalityService {
 
-  private  URL ="http://localhost:8015/api/v1/modalities";
+  pathApi = environment._APIUrl;
   constructor(private httpCliente: HttpClient) {
   }
 
   getModalities() : Observable<any> {
 
-    return this.httpCliente.get<any>(this.URL);
+    return this.httpCliente.get<any>(`${this.pathApi}/modalities`);
   }
 
 }
