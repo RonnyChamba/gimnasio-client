@@ -28,11 +28,24 @@ export class PageItem {
     current: boolean;
 }
 
-export interface paramsPaginator {
-    page: number ;
+export interface ParamsFilter{
+
+  page: number ;
     size: number;
     order?: string;
     asc?: boolean;
+}
+
+export interface paramsPaginator extends ParamsFilter {
     valueSearch?: string | null;
     dateFilter?: string | null; 
+}
+
+
+type typeUser = "all" | "me";
+export interface PaginatorAttendance extends ParamsFilter {
+  dateBegin?: string;
+  dateEnd?: string;
+  // Para saber si lista de todos los usuarios o solo lo que un usuario ha registrado
+  typeUser: typeUser;
 }

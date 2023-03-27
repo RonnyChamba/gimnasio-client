@@ -19,6 +19,8 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
   listData: Customer[] = [];
   // @Input('size') size: number;
   pageRender: PageRender;
+
+  // Asignar esto por default
   paramPaginator: paramsPaginator = { page: 0, size: 5,  dateFilter: null};
   sumaTotalElements = 0;
 

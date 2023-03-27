@@ -6,9 +6,6 @@ import { SharedGlobalModule } from 'src/app/shared/global/shared-global.module';
 import { FormUserComponent } from './components/form-user/form-user.component';
 import { ListUsersComponent } from './components/list-users/list-users.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http'
-import { ModalityService } from './services/modality.service';
-
 
 @NgModule({
   declarations: [

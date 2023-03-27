@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject, tap } from 'rxjs';
+import { Observable,  Subject, tap } from 'rxjs';
 import { typeChangeStatus, typeFilterField } from 'src/app/core/interfaces/types';
 import { CustomerFull } from 'src/app/core/models/customer-full';
 import { Customer } from 'src/app/core/models/customer-model';
-import { paramsPaginator } from 'src/app/core/models/page-render.model';
+import { PaginatorAttendance, paramsPaginator } from 'src/app/core/models/page-render.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -15,10 +15,17 @@ export class CustomerService {
 
   private refreshUpdateTable = new Subject<void>();
 
-  constructor(private httpClient: HttpClient) {}
+  private refreshUpdateTableAttendance = new Subject<void>();
+
+  constructor(private httpClient: HttpClient) { }
 
   getRefreshUpdateTableObservable(): Observable<void> {
     return this.refreshUpdateTable.asObservable();
+  }
+
+  
+  getRefreshUpdateTableAttendanceObservable(): Observable<void> {
+    return this.refreshUpdateTableAttendance.asObservable();
   }
 
   save(customerFull: CustomerFull): Observable<any> {
@@ -34,7 +41,7 @@ export class CustomerService {
 
   saveAttendance(ide: number): Observable<any> {
     return this.httpClient.post(
-      `${this.pathApi}/customers/${ide}/attendances`,{});
+      `${this.pathApi}/customers/${ide}/attendances`, {});
   }
 
   findAll(paramPage: paramsPaginator): Observable<any> {
@@ -46,6 +53,21 @@ export class CustomerService {
         dateFilter: paramPage.dateFilter || ""
       },
     });
+  }
+
+  findAllAttendanceByCustomer(ide: number, filterProperties: PaginatorAttendance): Observable<any> {
+
+    return this.httpClient.get(`${this.pathApi}/customers/${ide}/attendances`, {
+      params: {
+        page: filterProperties.page || 0,
+        size: filterProperties.size || 5,
+        order: filterProperties.order || "dateInto",
+        dateBegin: filterProperties.dateBegin || "",
+        dateEnd: filterProperties.dateEnd || "",
+        typeUser: filterProperties.typeUser
+      }
+    })
+
   }
 
   update(ide: number, customer: Customer): Observable<any> {
@@ -86,15 +108,20 @@ export class CustomerService {
    * @param type  : type field by search
    * @returns
    */
-  verifyIsExistCustomer(valueField: string, type:  typeFilterField, ide?: number): Observable<boolean> {
-    
+  verifyIsExistCustomer(valueField: string, type: typeFilterField, ide?: number): Observable<boolean> {
+
 
     return this.httpClient.get<boolean>(`${this.pathApi}/customers/isExist`, {
       params: {
         valueField,
         type,
-        ide: !ide? "null": ide
+        ide: !ide ? "null" : ide
       },
     });
+  }
+  deleteAttendance(ide: number): Observable<any>{
+
+    return this.httpClient.delete(`${this.pathApi}/attendances/${ide}`)
+    .pipe(tap(() => this.refreshUpdateTableAttendance.next()));
   }
 }
