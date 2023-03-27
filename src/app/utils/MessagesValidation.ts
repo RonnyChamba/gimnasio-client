@@ -16,6 +16,15 @@ import {
  *
  */
 export const validMessagesError = {
+  
+
+  requerid :  [
+    {
+      type: 'required',
+      message: 'Campo obligatorio.',
+    },
+  ],
+  
   cedula: [
     {
       type: 'required',
@@ -133,4 +142,14 @@ export const validMessagesError = {
       message: `Campo obligatorio.`,
     },
   ],
+  dateBegin: [
+    {
+      type: 'pattern',
+      message: `Formato fecha incorrecto`,
+    },
+  ]
 };
+
+
+
+

@@ -1,52 +1,294 @@
-<form>
-    <div class="row container-data m-0 row-cols-1  row-cols-sm-2">
-  
-      <!--  -->
-      <div class="col">
-        <label>Membresia</label>
-      </div>
-      <div class="col bg-success">
-        <input class="form-control" value="12458451245" />
-      </div>
-  
-      <!--  -->
-      <div class="col">
-          <label>Nombres</label>
-        </div>
-        <div class="col">
-          <input class="form-control" value="Ronny Chamba" />
-        </div>
-        <!--  -->
-  
-        <div class="col">
-          <label>Email</label>
-        </div>
-        <div class="col">
-          <input class="form-control" value="ronnychamba@gmail.com" />
-        </div>
-        <!--  -->
-  
-        <div class="col">
-          <label>T&eacute;lefono</label>
-        </div>
-        <div class="col">
-          <input class="form-control" value="0981806210" />
-        </div>
-        <!--  -->
-        <div class="col">
-          <label>Fecha nacimiento</label>
-        </div>
-        <div class="col">
-          <input class="form-control" value="22-04-1996" />
-        </div>
-  
-  <!--  -->
-        <div class="col">
-          <label>Direcci&oacute;n</label>
-        </div>
-        <div class="col">
-          <input class="form-control" value="Santo Domingo" />
-        </div>
+<form [formGroup]="formData" (ngSubmit)="fnSubmit()">
+  <div class="row m-0 row-cols-1 row-cols-sm-2 mb-3">
+    <!--  -->
+    <div class="col-sm-3">
+      <label>Membresia</label>
     </div>
-  </form>
-  
+    <div class="col-sm-9">
+      <input class="form-control" formControlName="codInterno" readonly />
+    </div>
+  </div>
+
+  <div class="row m-0 row-cols-1 row-cols-sm-2 mb-3">
+    <!--  -->
+    <div class="col-sm-3">
+      <label>Nombres</label>
+    </div>
+    <div class="col-sm-9">
+      <input class="form-control" formControlName="name" />
+      <div
+        *ngIf="
+          formData.controls['name'].invalid &&
+          (formData.controls['name'].dirty || formData.controls['name'].touched)
+        "
+        class="form-text text-danger"
+      >
+        <div *ngFor="let validation of validMessage.name">
+          <div
+            style="font-size: smaller !important"
+            *ngIf="
+              formData.get('name')?.hasError(validation.type) &&
+              (formData.get('name')?.dirty || formData.get('name')?.touched)
+            "
+          >
+            {{ validation.message }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row m-0 row-cols-1 row-cols-sm-2 mb-3">
+
+    <!--  -->
+    <div class="col-sm-3">
+      <label>C&eacute;dula</label>
+    </div>
+    <div class="col-sm-9">
+      <input class="form-control" formControlName="dni" />
+
+      <div
+        *ngIf="
+          formData.controls['dni'].invalid &&
+          (formData.controls['dni'].dirty || formData.controls['dni'].touched)
+        "
+        class="form-text text-danger"
+      >
+        <div *ngFor="let validation of validMessage.dni">
+          <div
+            style="font-size: smaller !important"
+            *ngIf="
+              formData.get('dni')?.hasError(validation.type) &&
+              (formData.get('dni')?.dirty || formData.get('dni')?.touched)
+            "
+          >
+            {{ validation.message }}
+          </div>
+        </div>
+        <!-- Valid already exist -->
+        <div
+          style="font-size: smaller !important"
+          *ngIf="
+            formData.get('dni')?.hasError('fieldExists') &&
+            (formData.get('dni')?.dirty || formData.get('dni')?.touched)
+          "
+        >
+          {{ formData.get("dni")?.getError("fieldExists") }}
+        </div>
+
+        <!-- Validar format -->
+        <div
+          style="font-size: smaller !important"
+          *ngIf="
+            formData.get('dni')?.hasError('incorrectDni') &&
+            (formData.get('dni')?.dirty || formData.get('dni')?.touched)
+          "
+        >
+          {{ formData.get("dni")?.getError("incorrectDni") }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row m-0 row-cols-1 row-cols-sm-2 mb-3">
+    <!--  -->
+    <div class="col-sm-3">
+      <label>Email:</label>
+    </div>
+    <div class="col-sm-9">
+      <input class="form-control" formControlName="email" />
+
+      <div
+        *ngIf="
+          formData.controls['email'].invalid &&
+          (formData.controls['email'].dirty ||
+            formData.controls['email'].touched)
+        "
+        class="form-text text-danger"
+      >
+        <div *ngFor="let validation of validMessage.email">
+          <div
+            style="font-size: smaller !important"
+            *ngIf="
+              formData.get('email')?.hasError(validation.type) &&
+              (formData.get('email')?.dirty || formData.get('email')?.touched)
+            "
+          >
+            {{ validation.message }}
+          </div>
+        </div>
+
+        <div
+          style="font-size: smaller !important"
+          *ngIf="
+            formData.get('email')?.hasError('fieldExists') &&
+            (formData.get('email')?.dirty || formData.get('email')?.touched)
+          "
+        >
+          {{ formData.get("email")?.getError("fieldExists") }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row m-0 row-cols-1 row-cols-sm-2 mb-3">
+    <!--  -->
+    <div class="col-sm-3">
+      <label>Tel&eacute;fono</label>
+    </div>
+    <div class="col-sm-9">
+      <input class="form-control" formControlName="phone" />
+      <div
+      *ngIf="
+        formData.controls['phone'].invalid &&
+        (formData.controls['phone'].dirty ||
+          formData.controls['phone'].touched)
+      "
+      class="form-text text-danger"
+    >
+      <div *ngFor="let validation of validMessage.phone">
+        <div
+          style="font-size: smaller !important"
+          *ngIf="
+            formData.get('phone')?.hasError(validation.type) &&
+            (formData.get('phone')?.dirty ||
+              formData.get('phone')?.touched)
+          "
+        >
+          {{ validation.message }}
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <div class="row m-0 row-cols-1 row-cols-sm-2 mb-3">
+    <!--  -->
+    <div class="col-sm-3">
+      <label>Cumpleaños</label>
+    </div>
+    <div class="col-sm-9">
+      <input
+        type="date"
+        class="form-control"
+        id="born"
+        placeholder=""
+        formControlName="born"
+      />
+      <div
+        *ngIf="
+          formData.controls['born'].invalid &&
+          (formData.controls['born'].dirty || formData.controls['born'].touched)
+        "
+        class="form-text text-danger"
+      >
+        <div *ngFor="let validation of validMessage.born">
+          <div
+            style="font-size: smaller !important"
+            *ngIf="
+              formData.get('born')?.hasError(validation.type) &&
+              (formData.get('born')?.dirty || formData.get('born')?.touched)
+            "
+          >
+            {{ validation.message }}
+          </div>
+        </div>
+
+        <!-- Message dinamico -->
+        <div
+          style="font-size: smaller !important"
+          *ngIf="
+            formData.get('born')?.hasError('erroBorn') &&
+            (formData.get('born')?.dirty || formData.get('born')?.touched)
+          "
+        >
+          {{ formData.get("born")?.getError("erroBorn") }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row m-0 row-cols-1 row-cols-sm-2 mb-3">
+    <!--  -->
+    <div class="col-sm-3">
+      <label>Direcci&oacute;n</label>
+    </div>
+    <div class="col-sm-9">
+      <input
+        type="text"
+        class="form-control"
+        id="address"
+        placeholder=""
+        formControlName="address"
+      />
+      <div
+        *ngIf="
+          formData.controls['address'].invalid &&
+          (formData.controls['address'].dirty ||
+            formData.controls['address'].touched)
+        "
+        class="form-text text-danger"
+      >
+        <div *ngFor="let validation of validMessage.address">
+          <div
+            style="font-size: smaller !important"
+            *ngIf="
+              formData.get('address')?.hasError(validation.type) &&
+              (formData.get('address')?.dirty ||
+                formData.get('address')?.touched)
+            "
+          >
+            {{ validation.message }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row m-0 row-cols-1 row-cols-sm-2 mb-3">
+    <!--  -->
+    <div class="col-sm-3">
+      <label>Genero</label>
+    </div>
+
+    <div class="d-flex mt-1">
+      <div class="form-check me-3">
+        <input
+          class="form-check-input"
+          type="radio"
+          formControlName="genero"
+          value="M"
+          id="man"
+        />
+        <label class="form-check-label" for="man"> M </label>
+      </div>
+      <div class="form-check me-3">
+        <input
+          class="form-check-input"
+          type="radio"
+          formControlName="genero"
+          value="F"
+          id="women"
+        />
+        <label class="form-check-label" for="women"> F </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          formControlName="genero"
+          id="na"
+          value="N"
+          checked
+        />
+        <label class="form-check-label" for="na"> NA </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end m-0 mb-3">
+   
+    <button type="button" class="btn btn-secondary me-2" (click)="fnCancel()" >CANCELAR</button>
+    <input  type="submit"  class="btn btn-primary" value="ACTUALIZAR"    [disabled]="formData.invalid" />
+    
+
+  </div>
+
+</form>

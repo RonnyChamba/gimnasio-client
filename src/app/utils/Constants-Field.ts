@@ -4,8 +4,8 @@
  */
 export const MIN_CEDULA = 10;
 export const MIN_NAME = 2;
-export const MAX_NAME = 49;
-export const MAX_ADDRESS = 49;
+export const MAX_NAME = 50;
+export const MAX_ADDRESS = 100;
 export const MAX_TELEPHONE = 10;
 export const MIN_PASSWORD = 6;
 export const MAX_PASSWORD = 20;
