@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Attendance } from 'src/app/core/models/attendance.model';
-import { PageRender, PaginatorAttendance } from 'src/app/core/models/page-render.model';
+import { PageRender, PaginatorAttendanceAndMembresias } from 'src/app/core/models/page-render.model';
 import { CustomerService } from '../../services/customer.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class DailyCustomerComponent implements OnInit, OnDestroy {
   listData : Attendance[];
   pageRender: PageRender;
   sumaTotalElements = 0;
-  paramPaginator: PaginatorAttendance =  { page: 0, size: 5, typeUser: "all"};
+  paramPaginator: PaginatorAttendanceAndMembresias =  { page: 0, size: 5, typeUser: "all"};
   formData: FormGroup;
 
     // here add suscriptiones
@@ -57,7 +57,7 @@ export class DailyCustomerComponent implements OnInit, OnDestroy {
 
       // let paginCurrent = this.paramPaginator.page;
 
-      this.paramPaginator = resp as PaginatorAttendance;
+      this.paramPaginator = resp as PaginatorAttendanceAndMembresias;
 
       // Cuando cambia algun filtro, siempre que empieza por la pgina 0
       this.paramPaginator.page= 0;
@@ -68,6 +68,7 @@ export class DailyCustomerComponent implements OnInit, OnDestroy {
   }
   private findAll(){
 
+  
 
     this.customerService.findAllAttendanceByCustomer(this.idCustomer, this.paramPaginator).subscribe(resp =>{
       

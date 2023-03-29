@@ -11,4 +11,6 @@ export class Transaction{
     balance: number;
 
     typePay: string;
+    
+    dateCreate? : string;
 }

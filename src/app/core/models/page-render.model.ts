@@ -1,3 +1,6 @@
+import { TypePayEnum } from "../enum/pay-enum";
+import { typeUser } from "../interfaces/types";
+
 export class PageRender {
   url: string;
 
@@ -42,10 +45,12 @@ export interface paramsPaginator extends ParamsFilter {
 }
 
 
-type typeUser = "all" | "me";
-export interface PaginatorAttendance extends ParamsFilter {
+
+export interface PaginatorAttendanceAndMembresias extends ParamsFilter {
   dateBegin?: string;
   dateEnd?: string;
   // Para saber si lista de todos los usuarios o solo lo que un usuario ha registrado
   typeUser: typeUser;
+  typePay?: TypePayEnum;
+
 }

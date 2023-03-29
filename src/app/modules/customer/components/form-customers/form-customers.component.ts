@@ -40,7 +40,7 @@ import { CustomerFull } from 'src/app/core/models/customer-full';
 import { Customer } from 'src/app/core/models/customer-model';
 import { Evolution } from 'src/app/core/models/evolution-model';
 import { Transaction } from 'src/app/core/models/transaction-model';
-import { Inscription } from 'src/app/core/models/inscription-model';
+import { InscriptionModel } from 'src/app/core/models/inscription-model';
 import { dniOrEmailValidator } from '../../util/validator';
 import { calImc } from 'src/app/utils/calc-imc';
 import {
@@ -113,8 +113,8 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
         // así que hay tener cuidado con los null, x ello utilizo el signo ?
 
         this.formData.controls['name'].setValue(resp.customer.name)
-        this.formData.controls['weight'].setValue(resp.evolutionCtm?.weight);
-        this.formData.controls['height'].setValue(resp.evolutionCtm?.height);
+        this.formData.get('evolution.weight')?.setValue(resp.evolutionCtm?.weight);
+        this.formData.get('evolution.height')?.setValue(resp.evolutionCtm?.height);
 
         // Este cargar antes de asignar price, ya que modality tiene un evento change para poner su valor de modalidads
         this.formData.controls['modality'].setValue(resp.modality?.ide);
@@ -442,16 +442,17 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
   async fnSubmit() {
     // Verificar si el formulario es valido
+    console.log(this.formData)
 
     if (this.formData.valid) {
       this.customerFull = new CustomerFull();
 
       this.customerFull.customer = this.createCustomer();
       this.customerFull.inscription = this.createInscription();
-      
-      console.log(this.customerFull);
-      console.log(this.formData)
 
+      console.log(this.customerFull);
+
+      // return;
       // Cliente existente - nueva membresia
       if (this.ideCustomer) {
 
@@ -524,23 +525,31 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     return this.utilCustomerService.getListTypePayEnum;
   }
 
-  private createInscription(): Inscription {
-    const inscription = new Inscription();
+  private createInscription(): InscriptionModel {
+    const inscription: InscriptionModel = {
+      ide: null,
+      dateBegin: this.formData.value['dateBegin'],
+      // dateFinalize esta deshabilitado, por lo tanto para acceder al valor
+      // debe acceder al control primeroy de hay al value, de lo contrario
+      // si accede directamente al value, dará undefined
+      dateFinalize: this.formData.controls['dateFinalize'].value,
+      workDay: this.formData.value['workDay'],
+      numberMonth: this.formData.value['numberMonth'],
+      typeInscription: this.formData.value['typeInscription'],
+      description: this.formData.value['descriptionInscription'],
+      modality: this.formData.value['modality'],
+      evolution: this.createEvolution(),
+      transaction: this.createTransaction()
+    };
 
-    inscription.dateBegin = this.formData.value['dateBegin'];
 
-    // dateFinalize esta deshabilitado, por lo tanto para acceder al valor
-    // debe acceder al control primeroy de hay al value, de lo contrario
-    // si accede directamente al value, dará undefined
-    inscription.dateFinalize = this.formData.controls['dateFinalize'].value;
-
-    inscription.workDay = this.formData.value['workDay'];
-    inscription.numberMonth = this.formData.value['numberMonth'];
-    inscription.typeInscription = this.formData.value['typeInscription'];
-    inscription.description = this.formData.value['descriptionInscription'];
-    inscription.modality = this.formData.value['modality'];
-    inscription.evolution = this.createEvolution();
-    inscription.transaction = this.createTransaction();
+    // inscription.workDay =
+    // inscription.numberMonth = ;
+    // inscription.typeInscription = this.formData.value['typeInscription'];
+    // inscription.description = this.formData.value['descriptionInscription'];
+    // inscription.modality = this.formData.value['modality'];
+    // inscription.evolution = this.createEvolution();
+    // inscription.transaction = this.createTransaction();
 
     return inscription;
   }
@@ -562,7 +571,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
   private createEvolution(): Evolution {
 
     const evolution = this.formData.get('evolution')?.value as Evolution;
-    
+
     if (evolution.height && evolution.height) {
 
       const { imc, resultImc } = calImc(evolution.weight, evolution.height);

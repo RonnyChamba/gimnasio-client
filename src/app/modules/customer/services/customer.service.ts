@@ -4,7 +4,7 @@ import { Observable,  Subject, tap } from 'rxjs';
 import { typeChangeStatus, typeFilterField } from 'src/app/core/interfaces/types';
 import { CustomerFull } from 'src/app/core/models/customer-full';
 import { Customer } from 'src/app/core/models/customer-model';
-import { PaginatorAttendance, paramsPaginator } from 'src/app/core/models/page-render.model';
+import { PaginatorAttendanceAndMembresias, paramsPaginator } from 'src/app/core/models/page-render.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -55,7 +55,7 @@ export class CustomerService {
     });
   }
 
-  findAllAttendanceByCustomer(ide: number, filterProperties: PaginatorAttendance): Observable<any> {
+  findAllAttendanceByCustomer(ide: number, filterProperties: PaginatorAttendanceAndMembresias): Observable<any> {
 
     return this.httpClient.get(`${this.pathApi}/customers/${ide}/attendances`, {
       params: {
@@ -69,6 +69,25 @@ export class CustomerService {
     })
 
   }
+
+
+  
+  findAllMembresiasByCustomer(ide: number, filterProperties: PaginatorAttendanceAndMembresias): Observable<any> {
+
+    return this.httpClient.get(`${this.pathApi}/customers/${ide}/inscriptions`, {
+      params: {
+        page: filterProperties.page || 0,
+        size: filterProperties.size || 5,
+        order: filterProperties.order || "ide",
+        dateBegin: filterProperties.dateBegin || "",
+        dateEnd: filterProperties.dateEnd || "",
+        typeUser: filterProperties.typeUser,
+        typePay: filterProperties.typePay || ""
+      }
+    })
+
+  }
+
 
   update(ide: number, customer: Customer): Observable<any> {
 

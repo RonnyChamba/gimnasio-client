@@ -12,3 +12,17 @@ export class CalcIndexListPipe implements PipeTransform {
     return numberElement + (value + 1);
   }
 }
+
+
+@Pipe({
+  name: 'trimNameUser',
+})
+export class TrimNameUserPipe implements PipeTransform {
+  transform(name: string): string {
+
+    console.log(name)
+    if (!name) return name;
+    return name.split(" ")[0];
+  
+  }
+}

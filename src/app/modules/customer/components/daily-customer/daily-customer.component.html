@@ -11,7 +11,7 @@
         </select>
       </div>
 
-      <div class="d-flex align-items-center" >
+      <div class="d-flex align-items-center">
         <input type="date" class="form-control" formControlName="dateBegin" />
         <span class="mx-2">Hasta</span>
         <input type="date" class="form-control" formControlName="dateEnd" />
@@ -24,7 +24,7 @@
         </select>
       </div>
     </div>
-   
+
   </form>
 
 
@@ -52,7 +52,7 @@
             <i class="bx bx-edit"></i>
           </span>
 
-          <span class="bg-danger p-1 me-1 rounded" role="button"  (click)="delete(item.ide)">
+          <span class="bg-danger p-1 me-1 rounded" role="button" (click)="delete(item.ide)">
             <i class="bx bx-trash"></i>
           </span>
         </td>
@@ -61,6 +61,12 @@
 
     </tbody>
   </table>
+
+</div>
+
+
+<div class="alert alert-warning" *ngIf="listData && listData.length<1">
+  <p class="text-center">No hay datos que mostrar</p>
 
 </div>
 

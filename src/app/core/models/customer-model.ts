@@ -1,4 +1,4 @@
-import { InscriptionRes } from "./inscription-model";
+import { InscriptionAttributes } from "./inscription-model";
 import { Person } from "./person-model";
 
 export class Customer extends Person{
@@ -6,6 +6,6 @@ export class Customer extends Person{
     codInterno: string;
     genero: string;
 
-    inscriptions: InscriptionRes[];
+    inscriptions: InscriptionAttributes[];
 
 }
