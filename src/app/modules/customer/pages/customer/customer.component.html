@@ -1,12 +1,9 @@
-
-<app-side-bar class="nav-component"
-[ngClass]="{ close: flagClose, '': !flagClose }"
-[open]="flagClose"></app-side-bar>
+<app-side-bar class="nav-component" [ngClass]="{ close: flagClose, '': !flagClose }" [open]="flagClose"></app-side-bar>
 
 <section class="home-section">
-  
-  <app-nav-bar (newItemEvent)="onClickMenu($event)" ></app-nav-bar>
-  
+
+  <app-nav-bar (newItemEvent)="onClickMenu($event)"></app-nav-bar>
+
   <div class="home-body mt-3">
     <div class="home-content p-4 border border-2">
       <!--    -->
@@ -18,32 +15,34 @@
       </div>
 
       <!--  -->
-      <form class="row justify-content-between align-items-center mt-4 border py-3" [formGroup]="formData" >
+      <form class="row justify-content-between align-items-center mt-4 border py-3" [formGroup]="formData">
         <div class="d-flex align-items-center col">
-          <span > Mostrar</span>
-          <select class="form-select mx-3" style="max-width: 100px" formControlName ="sizePage" >
-            <option  value="5" selected>5</option>
-            <option value="10" >10</option>
-            <option value="15" >15</option>
-          </select>
-          <div>
-            
-            <input  type="date"  class="form-control"  formControlName ="dateFilter"/>
 
+          <div class="d-flex  align-items-center">
+            <span> Mostrar</span>
+            <select class="form-select mx-3" style="max-width: 100px" formControlName="size">
+              <option value="5" selected>5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+            </select>
+          </div>
+
+          <div class="d-flex align-items-center">
+            <input type="date" class="form-control" formControlName="dateBegin" />
+            <span class="mx-2">Hasta</span>
+            <input type="date" class="form-control" formControlName="dateEnd" />
+          </div>
+
+
+          <div class="col-md-4 mt-3 mt-md-0 ms-auto">
+            <input type="search" placeholder="Buscar Cliente" formControlName="valueSearch"
+              class="form-control col-md-2" />
           </div>
         </div>
 
-        <div class="col-md-4 mt-3 mt-md-0">
-          <input
-            type="search"
-            placeholder="Buscar Cliente"
-            formControlName="searchText"
-            class="form-control col-md-2"
-          />
-        </div>
       </form>
       <!--  -->
-      
+
       <app-list-customers></app-list-customers>
     </div>
   </div>

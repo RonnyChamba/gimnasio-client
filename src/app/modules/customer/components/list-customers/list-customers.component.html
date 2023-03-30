@@ -36,11 +36,7 @@
       <td>{{ item.dateRegister | date:"dd/MM/yyyy" }}</td>
       <td>{{ item.dni }}</td>
       <td>
-        {{
-          item.inscriptions.length > 0
-            ? (item.inscriptions[0].dateFinalize | date:"dd/MM/yyyy")
-            : "NA"
-        }}
+        {{item.dateEndInscription| date:"dd/MM/yyyy"}}
       </td>
       <!-- <td>ronnychamba96@gmail.com</td> -->
 

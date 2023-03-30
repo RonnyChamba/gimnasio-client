@@ -4,7 +4,7 @@ import { Observable,  Subject, tap } from 'rxjs';
 import { typeChangeStatus, typeFilterField } from 'src/app/core/interfaces/types';
 import { CustomerFull } from 'src/app/core/models/customer-full';
 import { Customer } from 'src/app/core/models/customer-model';
-import { PaginatorAttendanceAndMembresias, paramsPaginator } from 'src/app/core/models/page-render.model';
+import { PaginatorAttendanceAndMembresias, PaginatorCustomer} from 'src/app/core/models/page-render.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -44,13 +44,14 @@ export class CustomerService {
       `${this.pathApi}/customers/${ide}/attendances`, {});
   }
 
-  findAll(paramPage: paramsPaginator): Observable<any> {
+  findAll(paramPage: PaginatorCustomer): Observable<any> {
     return this.httpClient.get(`${this.pathApi}/customers`, {
       params: {
         page: paramPage.page,
         size: paramPage.size,
         valueSearch: paramPage.valueSearch || "",
-        dateFilter: paramPage.dateFilter || ""
+        startDate: paramPage.dateBegin || "",
+        endDate: paramPage.dateEnd || ""
       },
     });
   }

@@ -27,24 +27,17 @@ export class PageRender {
 
 export class PageItem {
 
-    number: number;
-    current: boolean;
+  number: number;
+  current: boolean;
 }
 
-export interface ParamsFilter{
+export interface ParamsFilter {
 
-  page: number ;
-    size: number;
-    order?: string;
-    asc?: boolean;
+  page: number;
+  size: number;
+  order?: string;
+  asc?: boolean;
 }
-
-export interface paramsPaginator extends ParamsFilter {
-    valueSearch?: string | null;
-    dateFilter?: string | null; 
-}
-
-
 
 export interface PaginatorAttendanceAndMembresias extends ParamsFilter {
   dateBegin?: string;
@@ -52,5 +45,15 @@ export interface PaginatorAttendanceAndMembresias extends ParamsFilter {
   // Para saber si lista de todos los usuarios o solo lo que un usuario ha registrado
   typeUser: typeUser;
   typePay?: TypePayEnum;
+
+}
+
+export interface PaginatorCustomer extends ParamsFilter {
+
+
+  valueSearch?: string | null;
+  dateBegin?: string;
+  dateEnd?: string;
+
 
 }

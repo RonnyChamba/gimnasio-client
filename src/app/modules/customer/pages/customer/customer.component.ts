@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FilterProperties } from 'src/app/core/interfaces/filter-properties.inteface';
+import { PaginatorCustomer } from 'src/app/core/models/page-render.model';
 import { FormCustomersComponent } from '../../components/form-customers/form-customers.component';
 import { UtilCustomerService } from '../../services/util-customer.service';
 
@@ -14,7 +14,7 @@ export class CustomerComponent  implements OnInit{
 
   flagClose = true;
   formData: FormGroup;
-  filteProperties: FilterProperties;
+  // filteProperties: FilterProperties;
 
   constructor(private modalService: NgbModal,
     private utilCustomerService: UtilCustomerService){}
@@ -26,13 +26,9 @@ export class CustomerComponent  implements OnInit{
   private onChangeListeners() {
     
     this.formData.valueChanges.subscribe (data =>{
+      // this.paramPaginator = data;
 
-      this.filteProperties = data;
-
-      if (this.filteProperties.dateFilter =='') this.filteProperties.dateFilter = null;
-      if (this.filteProperties.searchText =='') this.filteProperties.searchText = null;
-
-      this.utilCustomerService.getRefreshFilterTable.next(this.filteProperties);
+      this.utilCustomerService.getRefreshFilterTable.next(data as PaginatorCustomer);
 
     })
 
@@ -43,9 +39,10 @@ export class CustomerComponent  implements OnInit{
     
     this.formData = new FormGroup(
       {
-        sizePage: new FormControl(5, []),
-        dateFilter: new FormControl(null, []),
-        searchText: new FormControl(null, []),
+        size: new FormControl(5, []),
+        dateBegin: new FormControl(null, []),
+        dateEnd: new FormControl(null, []),
+        valueSearch: new FormControl(null, []),
       });
   }
 

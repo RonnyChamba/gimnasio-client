@@ -1,8 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { TypePayEnum } from 'src/app/core/enum/pay-enum';
-import { FilterProperties } from 'src/app/core/interfaces/filter-properties.inteface';
-import { typeChangeStatus } from 'src/app/core/interfaces/types';
+import { PaginatorCustomer } from 'src/app/core/models/page-render.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,7 @@ export class UtilCustomerService implements OnInit {
   private listTypePay: TypePayEnum [] =[];
 
 
-  private refreshFilterTable = new Subject<FilterProperties>();
+  private refreshFilterTable = new Subject<PaginatorCustomer>();
 
   constructor() { 
 
@@ -38,7 +37,7 @@ export class UtilCustomerService implements OnInit {
     this.listTypePay.push(TypePayEnum.TRANSFERNCIA);
   }
 
-  filterTableAsObservable() : Observable<FilterProperties> {
+  filterTableAsObservable() : Observable<PaginatorCustomer> {
     return this.refreshFilterTable.asObservable();
   }
 

@@ -128,6 +128,10 @@ export class InvoiceCustomerComponent implements OnInit, OnDestroy {
     // this.customerService.deleteAttendance(ide).subscribe(resp=>{
     //   console.log(resp)
     // })
+  }
+
+  edit(ide: number){
+    alert("hola " + ide)
 
   }
 

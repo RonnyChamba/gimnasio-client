@@ -1,10 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { Customer } from 'src/app/core/models/customer-model';
+import {  CustomerList } from 'src/app/core/models/customer-model';
 import {
-  PageRender,
-  paramsPaginator,
+  PageRender, PaginatorCustomer
 } from 'src/app/core/models/page-render.model';
 import Swal from 'sweetalert2';
 import { CustomerService } from '../../services/customer.service';
@@ -16,12 +15,12 @@ import { FormCustomersComponent } from '../form-customers/form-customers.compone
   styleUrls: ['./list-customers.component.scss'],
 })
 export class ListCustomersComponent implements OnInit, OnDestroy {
-  listData: Customer[] = [];
+  listData: CustomerList[] = [];
   // @Input('size') size: number;
   pageRender: PageRender;
 
   // Asignar esto por default
-  paramPaginator: paramsPaginator = { page: 0, size: 5,  dateFilter: null};
+  paramPaginator: PaginatorCustomer = { page: 0, size: 5};
   sumaTotalElements = 0;
 
 
@@ -50,9 +49,10 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.utilCustomerService.filterTableAsObservable().subscribe (filtePro =>{
 
-        this.paramPaginator.size = filtePro.sizePage;
-        this.paramPaginator.valueSearch = filtePro.searchText;
-        this.paramPaginator.dateFilter = filtePro.dateFilter;
+        this.paramPaginator.size = filtePro.size;
+        this.paramPaginator.valueSearch = filtePro.valueSearch;
+        this.paramPaginator.dateBegin = filtePro.dateBegin;
+        this.paramPaginator.dateEnd = filtePro.dateEnd;
         
         this.changePage();
 
@@ -75,7 +75,7 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
       this.pageRender = resp.page;
 
     
-      // console.log(resp);
+      console.log(resp);
       // console.log(this.listData);
       this.calculSumaRegister();
     });
