@@ -1,5 +1,5 @@
 import { TypePayEnum } from "../enum/pay-enum";
-import { typeUser } from "../interfaces/types";
+import { typeUser } from "../../utils/types";
 
 export class PageRender {
   url: string;

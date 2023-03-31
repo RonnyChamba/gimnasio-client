@@ -1,3 +1,4 @@
+import { Customer } from "./customer-model";
 import { Evolution } from "./evolution-model";
 import { Modality } from "./modality-model";
 import { Transaction } from "./transaction-model";
@@ -38,6 +39,16 @@ export interface InscriptionListPage extends InscriptionAttributes  {
     customer: string;
     modality: Modality;
     transaction: Transaction;
+    valid: boolean;
 
 
+}
+
+
+export interface InscriptionFetch extends InscriptionAttributes{
+    customer: Customer;
+    modality: Modality;
+    evolutionCtm:Evolution;
+    transaction: Transaction;
+    
 }

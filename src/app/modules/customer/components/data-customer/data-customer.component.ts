@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { firstValueFrom, Subscription } from 'rxjs';
-import { typeChangeStatus } from 'src/app/core/interfaces/types';
 import { Customer } from 'src/app/core/models/customer-model';
 import {
   MAX_ADDRESS,
@@ -25,7 +24,6 @@ import {
 } from 'src/app/utils/validators/person.validator';
 import Swal from 'sweetalert2';
 import { CustomerService } from '../../services/customer.service';
-import { UtilCustomerService } from '../../services/util-customer.service';
 import { messagesErrorCustomer } from '../../util/MessageValidationCustomer';
 import { dniOrEmailValidator } from '../../util/validator';
 
@@ -51,12 +49,11 @@ export class DataCustomerComponent implements OnInit, OnDestroy {
   private customerCurrent: Customer;
 
   constructor(
-    private customerService: CustomerService,
-    private utilCustomerService: UtilCustomerService
+    private customerService: CustomerService
   ) {}
 
   ngOnInit(): void {
-    console.log('en data');
+    // console.log('en data');
     this.createForm();
     this.findCustomer();
     this.addSubscriptions();

@@ -5,7 +5,7 @@ import {
 } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { typeFilterField } from 'src/app/core/interfaces/types';
+import { typeFilterField } from 'src/app/utils/types';
 import { CustomerService } from '../services/customer.service';
 
 /**
@@ -25,8 +25,8 @@ export function dniOrEmailValidator(
   return (control: AbstractControl): Observable<ValidationErrors | null> => {
     let field = control.value as string;
     
-    // type input or field
-    if (field) {
+    // type input or field y ademas solo si el usuario interactua con el control se realizen las validaciones
+    if (field  &&  (control.touched ||  control.dirty)) {
       if (type == 'DNI' && field.length == 10) {
         
         return customerService.verifyIsExistCustomer(field, type,  ide)

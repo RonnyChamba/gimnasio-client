@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PaginatorCustomer } from 'src/app/core/models/page-render.model';
+import { TypeOperationFormInsCustomer } from 'src/app/utils/utilForm';
 import { FormCustomersComponent } from '../../components/form-customers/form-customers.component';
 import { UtilCustomerService } from '../../services/util-customer.service';
 
@@ -57,9 +58,20 @@ export class CustomerComponent  implements OnInit{
 
     console.log("Abrir modal customer");
 
-     const references =  this.modalService.open(FormCustomersComponent, {
+        
+    const param: TypeOperationFormInsCustomer = {
+      type: 'newCliente',
+      // ideOperation: ide
+      write: true
+    }
+
+    const references =  this.modalService.open(FormCustomersComponent, {
       size: "lg"
     });
+    
+    references.componentInstance.operationForm = param;
+
+  
         
   }
 

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable,  Subject, tap } from 'rxjs';
-import { typeChangeStatus, typeFilterField } from 'src/app/core/interfaces/types';
+import { typeChangeStatus, typeFilterField } from 'src/app/utils/types';
 import { CustomerFull } from 'src/app/core/models/customer-full';
 import { Customer } from 'src/app/core/models/customer-model';
 import { PaginatorAttendanceAndMembresias, PaginatorCustomer} from 'src/app/core/models/page-render.model';
@@ -143,5 +143,11 @@ export class CustomerService {
 
     return this.httpClient.delete(`${this.pathApi}/attendances/${ide}`)
     .pipe(tap(() => this.refreshUpdateTableAttendance.next()));
+  }
+
+
+  findByIdeInscriptionFetch(ide: number): Observable<any> {
+
+    return this.httpClient.get<any>(`${this.pathApi}/inscriptions/${ide}`);
   }
 }

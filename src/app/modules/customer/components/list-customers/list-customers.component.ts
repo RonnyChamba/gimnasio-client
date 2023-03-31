@@ -5,6 +5,7 @@ import {  CustomerList } from 'src/app/core/models/customer-model';
 import {
   PageRender, PaginatorCustomer
 } from 'src/app/core/models/page-render.model';
+import { TypeOperationFormInsCustomer } from 'src/app/utils/utilForm';
 import Swal from 'sweetalert2';
 import { CustomerService } from '../../services/customer.service';
 import { UtilCustomerService } from '../../services/util-customer.service';
@@ -75,7 +76,7 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
       this.pageRender = resp.page;
 
     
-      console.log(resp);
+      // console.log(resp);
       // console.log(this.listData);
       this.calculSumaRegister();
     });
@@ -87,7 +88,15 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
       size: 'lg',
     });
 
-    references.componentInstance.ideCustomer = ide;
+    
+    
+    const param: TypeOperationFormInsCustomer = {
+      type: 'newInscription',
+      ideOperation: ide,
+      write: true
+    }
+
+    references.componentInstance.operationForm = param;
   }
 
   delete(ide: number){

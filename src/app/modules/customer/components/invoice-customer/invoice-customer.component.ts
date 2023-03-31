@@ -1,9 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { InscriptionListPage } from 'src/app/core/models/inscription-model';
 import { PageRender, PaginatorAttendanceAndMembresias } from 'src/app/core/models/page-render.model';
+import { TypeOperationFormInsCustomer } from 'src/app/utils/utilForm';
 import { CustomerService } from '../../services/customer.service';
+import { FormCustomersComponent } from '../form-customers/form-customers.component';
 
 @Component({
   selector: 'app-invoice-customer',
@@ -23,7 +26,8 @@ export class InvoiceCustomerComponent implements OnInit, OnDestroy {
 
   // here add suscriptiones
   private subscription: Subscription = new Subscription();
-  constructor(private customerService: CustomerService) { }
+  constructor(private customerService: CustomerService,
+    private modalService: NgbModal,) { }
 
   ngOnInit(): void {
 
@@ -47,7 +51,7 @@ export class InvoiceCustomerComponent implements OnInit, OnDestroy {
     if (this.idCustomer) {
       this.customerService.findAllMembresiasByCustomer(this.idCustomer, this.paramPaginator).subscribe(resp => {
 
-        console.log(resp)
+        // console.log(resp)
         this.listData = resp.data;
         this.pageRender = resp.page;
         this.calculSumaRegister();
@@ -125,14 +129,34 @@ export class InvoiceCustomerComponent implements OnInit, OnDestroy {
   delete(ide: number) {
 
 
+    alert("eliminar inscription")
     // this.customerService.deleteAttendance(ide).subscribe(resp=>{
     //   console.log(resp)
     // })
   }
 
-  edit(ide: number){
-    alert("hola " + ide)
+  edit(ide: number, write: boolean) {
 
+    console.log( ide,write)
+
+
+    const references = this.modalService.open(FormCustomersComponent, {
+      size: "lg"
+    });
+
+    const param: TypeOperationFormInsCustomer = {
+      type: 'updateInscription',
+      ideOperation: ide,
+      write,
+    }
+
+    
+    references.componentInstance.operationForm = param;
+  }
+
+  generateReport(ide: number){
+
+    alert("generar reporte")
   }
 
 }

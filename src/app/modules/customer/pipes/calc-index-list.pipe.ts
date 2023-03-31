@@ -20,7 +20,7 @@ export class CalcIndexListPipe implements PipeTransform {
 export class TrimNameUserPipe implements PipeTransform {
   transform(name: string): string {
 
-    console.log(name)
+    // console.log(name)
     if (!name) return name;
     return name.split(" ")[0];
   
