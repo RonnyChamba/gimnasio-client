@@ -26,10 +26,6 @@
     </div>
 
   </form>
-
-
-
-
   <table class="table mt-4">
     <thead>
       <tr>
@@ -44,8 +40,12 @@
       <tr *ngFor="let item of listData; index as i">
         <td scope="row"> {{i|calcIndexList:pageRender}} </td>
         <td> {{item.dateInto}} </td>
-        <td> {{item.dateLeave}} </td>
-        <td> {{item.user}} </td>
+
+        <td class="d-flex">  
+          <input type="datetime-local" value="{{item.dateLeave}}"  #valueDate class="form-control" style="max-width: 180px;"  />
+          <span class="btn btn bx bx-edit" (click)="updateDateLeave(item.ide,  valueDate.value)" >icon</span>
+        </td>
+        <td> {{item.user  |  trimNameUser}} </td>
 
         <td class="action text-end">
           <span class="bg-warning p-1 me-1 rounded" role="button">

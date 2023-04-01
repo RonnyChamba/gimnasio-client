@@ -1,7 +1,12 @@
-export class Attendance {
-    ide: number;
+export interface AttendanceAttributes {
+
+    ide?: number;
+    dateInto?: string;
+    dateLeave?: string | null;
+}
+
+export interface Attendance extends AttendanceAttributes  {
+    
     customer: string;
-    dateInto: string;
-    dateLeave: string | null;
     user: string;
 }

@@ -191,6 +191,12 @@
                   {{ validation.message }}
                 </div>
               </div>
+
+              <div style="font-size: smaller !important" *ngIf="formData.get('dateBegin')?.hasError('errorDateBegin') &&
+              (formData.get('dateBegin')?.dirty ||
+                formData.get('dateBegin')?.touched)">
+                {{ formData.get("dateBegin")?.getError("errorDateBegin") }}
+              </div>
             </div>
           </div>
 
@@ -546,11 +552,8 @@
       </div>
 
       <div class="d-flex justify-content-between mt-3"
-  
-      [ngClass]="{ 'd-flex': true,  'justify-content-between': showBtnReport() , 'justify-content-end': !showBtnReport() }"
-    >
-        <button *ngIf="showBtnReport()" type="button" class="btn btn-danger"
-           (click)="generateReport()">
+        [ngClass]="{ 'd-flex': true,  'justify-content-between': showBtnReport() , 'justify-content-end': !showBtnReport() }">
+        <button *ngIf="showBtnReport()" type="button" class="btn btn-danger" (click)="generateReport()">
           REPORTE
         </button>
 

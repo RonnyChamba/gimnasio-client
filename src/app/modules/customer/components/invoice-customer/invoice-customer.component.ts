@@ -16,6 +16,8 @@ import { FormCustomersComponent } from '../form-customers/form-customers.compone
 export class InvoiceCustomerComponent implements OnInit, OnDestroy {
 
 
+  // Importante que llegue inyectado por input, además se lo pasamos al formCustomer para editar 
+  // la inscription y recuperar la ultima de fecha de inscription
   @Input() idCustomer: number;
 
   listData: InscriptionListPage[];
@@ -146,7 +148,11 @@ export class InvoiceCustomerComponent implements OnInit, OnDestroy {
 
     const param: TypeOperationFormInsCustomer = {
       type: 'updateInscription',
-      ideOperation: ide,
+
+      // Enviar el ide de la inscripcion a editar
+      ideInscription: ide,
+      // pasamos el ide del cliente para luego el form para editar la insscription, validar la fecha de inicio
+      ideCustomer: this.idCustomer,
       write,
     }
 

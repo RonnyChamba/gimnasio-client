@@ -61,7 +61,6 @@ export class CustomerComponent  implements OnInit{
         
     const param: TypeOperationFormInsCustomer = {
       type: 'newCliente',
-      // ideOperation: ide
       write: true
     }
 

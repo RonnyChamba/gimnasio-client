@@ -150,4 +150,9 @@ export class CustomerService {
 
     return this.httpClient.get<any>(`${this.pathApi}/inscriptions/${ide}`);
   }
+
+  getLasDateBeginInscrition(ide: number): Observable<any>{
+
+    return this.httpClient.get(`${this.pathApi}/customers/${ide}/inscriptions/maxDateBegin`);
+  }
 }

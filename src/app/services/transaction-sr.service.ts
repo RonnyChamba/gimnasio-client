@@ -3,6 +3,7 @@ import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { InscriptionModel } from '../core/models/inscription-model';
+import { AttendanceAttributes } from '../core/models/attendance.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +20,20 @@ export class TransactionSrService implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-   
   }
 
   updateInscription(ide: number, newData: InscriptionModel): Observable<any>{
     
     return this.httpClient.put(`${this.pathApi}/inscriptions/${ide}`, newData);
 
+  }
+
+  updateDateLeaveAttendance(ide: number, dateLeave: string): Observable<AttendanceAttributes>{
+  
+    return  this.httpClient.patch(`${this.pathApi}/attendances/${ide}`,  {
+      dateLeave: dateLeave
+    })
+    
   }
 
 }

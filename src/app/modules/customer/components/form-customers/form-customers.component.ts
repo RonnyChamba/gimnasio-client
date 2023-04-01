@@ -41,7 +41,7 @@ import { Customer } from 'src/app/core/models/customer-model';
 import { Evolution } from 'src/app/core/models/evolution-model';
 import { Transaction } from 'src/app/core/models/transaction-model';
 import { InscriptionFetch, InscriptionModel } from 'src/app/core/models/inscription-model';
-import { dniOrEmailValidator } from '../../util/validator';
+import { dniOrEmailValidator, validDateBegin } from '../../util/validator';
 import { calImc } from 'src/app/utils/calc-imc';
 import {
   validaDateBorn,
@@ -62,10 +62,12 @@ import { TransactionSrService } from 'src/app/services/transaction-sr.service';
 })
 export class FormCustomersComponent implements OnInit, AfterViewInit {
   // new customer | add membresia | edit membresia  
-  @Input('ideCustomer') ideCustomer: number;
+  // @Input('ideCustomer') ideCustomer: number;
 
 
+  // Se inyecta desde el componente del cliente|  editar cliente | lista inscripcines
   @Input() operationForm: TypeOperationFormInsCustomer;
+
   formData: FormGroup;
   validMessage = messagesErrorCustomer;
   typeInscriptions = TypeInscriptions;
@@ -122,10 +124,13 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
   }
 
-
+  
+/**
+ * Obtiene la inscripcion selecciona para editarla 
+ */
   private putDataUpdateInscription() {
 
-    this.customerService.findByIdeInscriptionFetch(this.operationForm.ideOperation as number)
+    this.customerService.findByIdeInscriptionFetch(this.operationForm.ideInscription as number)
       .subscribe(resp => {
         // console.log(resp)
 
@@ -170,9 +175,12 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
   }
 
+  /**
+   * Obtener la ultima inscripcion del cliente y ubicar los datos en el formulario 
+   */
   private putDataNewInscription() {
 
-    this.customerService.findByIdeFetch(this.operationForm.ideOperation as number).subscribe(resp => {
+    this.customerService.findByIdeFetch(this.operationForm.ideCustomer as number).subscribe(resp => {
 
       // If el cliente no tiene una ultima inscripcionm solo devolvera la informacion del cliente
       // así que hay tener cuidado con los null, x ello utilizo el signo ?
@@ -238,7 +246,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
         dateBegin: new FormControl(this.getCurrentDate(0), [
           Validators.required,
           Validators.pattern('^[0-9]{4}(-|/)[0-9]{2}(-|/)[0-9]{2}$'),
-        ]),
+        ],   [validDateBegin(this.customerService, this.operationForm)]),
         dateFinalize: new FormControl(this.getCurrentDate(1), [
           Validators.required,
           Validators.pattern('^[0-9]{4}(-|/)[0-9]{2}(-|/)[0-9]{2}$'),
@@ -576,7 +584,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
   private saveNewInscription() {
 
-    this.customerService.saveNewInscription(this.operationForm.ideOperation as number, this.customerFull).subscribe(resp => {
+    this.customerService.saveNewInscription(this.operationForm.ideCustomer as number, this.customerFull).subscribe(resp => {
       console.log("Nueva incripcion fue guardada")
       console.log(resp)
     });
@@ -587,7 +595,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
   private saveUpdateInscription() {
 
     // Aqui no deseo la informacion del clientes, solo de la inscripcion
-    this.transactionService.updateInscription(this.operationForm.ideOperation as number,
+    this.transactionService.updateInscription(this.operationForm.ideInscription as number,
       this.customerFull.inscription).subscribe(resp =>{
 
         console.log(resp)
@@ -622,23 +630,16 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
       evolution: this.createEvolution(),
       transaction: this.createTransaction()
     };
-
-
-    // inscription.workDay =
-    // inscription.numberMonth = ;
-    // inscription.typeInscription = this.formData.value['typeInscription'];
-    // inscription.description = this.formData.value['descriptionInscription'];
-    // inscription.modality = this.formData.value['modality'];
-    // inscription.evolution = this.createEvolution();
-    // inscription.transaction = this.createTransaction();
-
     return inscription;
   }
 
   private createCustomer(): Customer {
     const customer = new Customer();
 
-    customer.name = (this.formData.value['name'] as string).toUpperCase();
+    // El campo name en ocasiones esta disabled, por elde por seguridad para tener acceso al valor 
+    // utilizo get en ves de acceder director al valor(no se puede)
+    customer.name = (this.formData.get('name')?.value as string).toUpperCase();
+
     customer.email = this.formData.value['email'];
     customer.address = this.formData.value['address'];
     customer.dni = this.formData.value['dni'];

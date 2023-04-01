@@ -92,7 +92,8 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
     
     const param: TypeOperationFormInsCustomer = {
       type: 'newInscription',
-      ideOperation: ide,
+      // paso el ide del cliente para obtener su  utlima inscripcion 
+      ideCustomer: ide,
       write: true
     }
 

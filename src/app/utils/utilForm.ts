@@ -4,8 +4,9 @@ import { typeOpeFormCustomer } from "./types";
 export interface TypeOperationFormInsCustomer{
 
     type: typeOpeFormCustomer;
-    ideOperation?: number;
+    ideInscription?: number;
     write?: boolean;
+    ideCustomer?: number;
 
 
 
