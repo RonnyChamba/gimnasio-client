@@ -65,36 +65,45 @@
           </div>
         </div>
   
-        <div class="mb-3 form-floating">
+        <div class="mb-3 form-floating  mb-3">
           <input
             type="number"
             class="form-control"
-            id="count"
+            id="amount"
             placeholder="1"
-            formControlName="count"
+            formControlName="amount"
           />
-          <label for="count" class="form-label"># Personas</label>
+          <label for="amount" class="form-label"># Personas</label>
           <div
             *ngIf="
-              formData.controls['count'].invalid &&
-              (formData.controls['count'].dirty ||
-                formData.controls['count'].touched)
+              formData.controls['amount'].invalid &&
+              (formData.controls['amount'].dirty ||
+                formData.controls['amount'].touched)
             "
             class="form-text text-danger"
           >
             <!-- Los sms de error para el tipo de datos de valores numeros o precios estan en el objeto value -->
-            <div *ngFor="let validation of validMessage.count">
+            <div *ngFor="let validation of validMessage.amount">
               <div
                 style="font-size: smaller !important"
                 *ngIf="
-                  formData.get('count')?.hasError(validation.type) &&
-                  (formData.get('count')?.dirty || formData.get('count')?.touched)
+                  formData.get('amount')?.hasError(validation.type) &&
+                  (formData.get('amount')?.dirty || formData.get('amount')?.touched)
                 "
               >
                 {{ validation.message }}
               </div>
             </div>
           </div>
+        </div>
+
+        <div class="form-floating">
+          <select class="form-control" id="typePay" formControlName="typePay">
+            <option *ngFor="let item of listTypePay" value="{{ item }}">
+              {{ item.charAt(0) + item.slice(1).toLowerCase() }}
+            </option>
+          </select>
+          <label for="typePay" class="ms-1">Tipo Pago</label>
         </div>
       </div>
     </div>
@@ -111,7 +120,7 @@
         type="submit"
         [disabled]="formData.invalid"
         class="btn btn-primary"
-        value="GUARDAR"
+        value="{{ideDaily? 'ACTUALIZAR DATOS':'GUARDAR'}}"
       />
     </div>
   </form>

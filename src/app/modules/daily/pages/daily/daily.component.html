@@ -11,35 +11,53 @@
       <div class="home-content p-4 border border-2">
         <!--    -->
         <div class="d-flex flex-wrap justify-content-between align-item-center">
-          <h3 class="home-subtitle">Diarios</h3>
+          <h3 class="home-subtitle">Diarios  $ {{sumTotalPriceByPage?sumTotalPriceByPage: ("0.00")}} de <span>{{sumTotalPrice}}</span> </h3>
           <button class="btn btn-outline-primary d-flex align-items-center" (click)="openModal()">
             <i class="bx bx-user-plus" style="color:royalblue"> </i> <span class="ms-1">Nuevo Diario</span>
           </button>
         </div>
 
-          <!--  -->
-          <div class="row justify-content-between align-items-center mt-4  mb-4">
-            <div class="d-flex align-items-center col">
+
+        <form class="row justify-content-between align-items-center mt-4 border py-3" [formGroup]="formData">
+          <div class="d-flex align-items-center col">
+  
+            <div class="d-flex  align-items-center">
               <span> Mostrar</span>
-              <select class="form-select mx-3" style="max-width: 100px">
-                <option selected>5</option>
-                <option>10</option>
-                <option>20</option>
+              <select class="form-select mx-3" style="max-width: 100px" formControlName="size">
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
               </select>
-              <span> registros</span>
             </div>
-    
-            <div class="col-md-4 mt-3 mt-md-0">
-              <input
-                type="search"
-                placeholder="Buscar Diario"
-                class="form-control col-md-2"
-              />
+  
+            <div class="d-flex align-items-center">
+              <input type="date" class="form-control" formControlName="dateBegin" />
+              <span class="mx-2">Hasta</span>
+              <input type="date" class="form-control" formControlName="dateEnd" />
+            </div>
+  
+
+            <div class="ms-auto d-flex ">
+              <select class="form-select" formControlName="typeUser">
+                <option value="all" selected>Todos los usuarios</option>
+                <option value="me">Solo mis registros</option>
+              </select>
+              <select class="form-select" formControlName="typePay">
+                <option value="" selected>Todos</option>
+                <option value="EFECTIVO" selected>Efectivo (E)</option>
+                <option value="TRANSFERENCIA">Transferencia (T)</option>
+              </select>
+            </div>
+            <div class="col-md-4 mt-3 mt-md-0 ms-auto">
+              <input type="search" placeholder="Buscar algo..." formControlName="valueSearch"
+                class="form-control col-md-2" />
             </div>
           </div>
   
+        </form>
+  
 
-        <app-list-dailies></app-list-dailies>
+        <app-list-dailies (sumaTotalByPage)="sumTotalPriceByPage = $event" ></app-list-dailies>
       </div>
     </div>
   </section>

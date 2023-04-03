@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -8,19 +8,22 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class GroupDailyComponent  implements OnInit{
 
+  // typeDaily:boolean= true;
 
-  typeDaily:boolean= true;
+  @Input("ideDaily") ideDaily: number;
 
   constructor(public modal: NgbActiveModal){}
 
   ngOnInit(): void {
 
+    console.log(this.ideDaily)
+
    }
 
-   changeTypeDaily(value:boolean){
+  //  changeTypeDaily(value:boolean){
 
-    this.typeDaily = value;
-   }
+  //   this.typeDaily = value;
+  //  }
  
 }
 

@@ -13,7 +13,6 @@ import { DailyCustomerComponent } from './components/daily-customer/daily-custom
 import { InvoiceCustomerComponent } from './components/invoice-customer/invoice-customer.component';
 import { FormUpdateCustomerComponent } from './components/form-update-customer/form-update-customer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CalcIndexListPipe, TrimNameUserPipe } from './pipes/calc-index-list.pipe';
 
 @NgModule({
   declarations: [CustomerComponent, 
@@ -24,9 +23,7 @@ import { CalcIndexListPipe, TrimNameUserPipe } from './pipes/calc-index-list.pip
     DataCustomerComponent, 
     DailyCustomerComponent, 
     InvoiceCustomerComponent, 
-    FormUpdateCustomerComponent, 
-    CalcIndexListPipe,
-    TrimNameUserPipe],
+    FormUpdateCustomerComponent],
   imports: [
     CommonModule, CustomerRoutingModule,   FormsModule, SharedGlobalModule, FormCustomersModule,  ReactiveFormsModule
   ],

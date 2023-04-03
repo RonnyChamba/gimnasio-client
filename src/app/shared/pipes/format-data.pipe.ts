@@ -26,3 +26,4 @@ export class TrimNameUserPipe implements PipeTransform {
   
   }
 }
+

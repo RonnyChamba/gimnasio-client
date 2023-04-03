@@ -50,10 +50,12 @@ export interface PaginatorAttendanceAndMembresias extends ParamsFilter {
 
 export interface PaginatorCustomer extends ParamsFilter {
 
-
   valueSearch?: string | null;
   dateBegin?: string;
   dateEnd?: string;
+}
 
-
+export interface PaginatorDiary extends   PaginatorAttendanceAndMembresias{
+  
+  valueSearch?: string | null;
 }

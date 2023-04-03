@@ -5,11 +5,12 @@ import { DailyRoutingModule } from './daily-routing.module';
 import { SharedGlobalModule } from 'src/app/shared/global/shared-global.module';
 import { ListDailiesComponent } from './components/list-dailies/list-dailies.component';
 import { GroupDailyModule } from './components/group-daily/group-daily.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [DailyComponent, ListDailiesComponent],
   imports: [
-    CommonModule, DailyRoutingModule, SharedGlobalModule, GroupDailyModule
+    CommonModule, DailyRoutingModule, SharedGlobalModule, GroupDailyModule, ReactiveFormsModule
   ]
 })
 export class DailyModule { }

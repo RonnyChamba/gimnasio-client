@@ -4,14 +4,13 @@ import { NavBarDosComponent } from './components/nav-bar/nav-bar.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { RouterModule } from '@angular/router';
 import { DirectAccessComponent } from './components/direct-access/direct-access.component';
-
-
+import { CalcIndexListPipe, TrimNameUserPipe } from '../pipes/format-data.pipe';
 
 @NgModule({
-  declarations: [NavBarDosComponent, SideBarComponent, DirectAccessComponent],
+  declarations: [NavBarDosComponent, SideBarComponent, DirectAccessComponent, CalcIndexListPipe, TrimNameUserPipe ],
   imports: [
     CommonModule, RouterModule
   ],
-  exports: [NavBarDosComponent, SideBarComponent, DirectAccessComponent]
+  exports: [NavBarDosComponent, SideBarComponent, DirectAccessComponent, CalcIndexListPipe, TrimNameUserPipe]
 })
 export class SharedGlobalModule { }

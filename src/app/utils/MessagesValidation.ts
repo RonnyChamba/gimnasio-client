@@ -132,7 +132,7 @@ export const validMessagesError = {
       message: `Campo obligatorio.`,
     },
   ],
-  count: [
+  amount: [
     {
       type: 'pattern',
       message: `Formato incorrecto.`,
