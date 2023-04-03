@@ -5,6 +5,7 @@ import { ExpenseRoutingModule } from './expense-routing.module';
 import { SharedGlobalModule } from 'src/app/shared/global/shared-global.module';
 import { ListExpensesComponent } from './components/list-expenses/list-expenses.component';
 import { FormExpenseModule } from './components/form-expenses/form-expense.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,7 @@ import { FormExpenseModule } from './components/form-expenses/form-expense.modul
     ListExpensesComponent
   ],
   imports: [
-    CommonModule, ExpenseRoutingModule, SharedGlobalModule, FormExpenseModule
+    CommonModule, ExpenseRoutingModule, SharedGlobalModule, FormExpenseModule, ReactiveFormsModule
   ]
 })
 export class ExpenseModule { }

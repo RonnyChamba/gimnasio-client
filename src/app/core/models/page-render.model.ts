@@ -59,3 +59,8 @@ export interface PaginatorDiary extends   PaginatorAttendanceAndMembresias{
   
   valueSearch?: string | null;
 }
+
+export interface PaginatorExpense  extends   PaginatorDiary{
+  
+  type?: string;
+}

@@ -1,7 +1,7 @@
 <div class="container-user w-100">
     <div class="content-user p-3 mx-auto border border-2 rounded-3">
       <div class="d-flex justify-content-between align-items-center">
-        <h4 class="form-title">Nuevo Gasto</h4>
+        <h4 class="form-title">{{ideExpense ? 'Actualizar Datos': 'Nuevo Gasto'}}</h4>
         <button
           type="button"
           class="btn-close"
@@ -30,27 +30,7 @@
                       </option>
                     </select>
               <label for="name" class="ms-1">Tipo</label>
-              <!-- <div
-                *ngIf="
-                  formData.controls['name'].invalid &&
-                  (formData.controls['name'].dirty ||
-                    formData.controls['name'].touched)
-                "
-                class="form-text text-danger"
-              >
-                <div *ngFor="let validation of validMessage.name">
-                  <div
-                    style="font-size: smaller !important"
-                    *ngIf="
-                      formData.get('name')?.hasError(validation.type) &&
-                      (formData.get('name')?.dirty ||
-                        formData.get('name')?.touched)
-                    "
-                  >
-                    {{ validation.message }}
-                  </div>
-                </div>
-              </div> -->
+ 
             </div>
   
             <div class="form-floating mb-3 col col-sm-6">
@@ -59,24 +39,24 @@
                 class="form-control"
                 id="name"
                 placeholder=""
-                formControlName="value"
+                formControlName="price"
               />
-              <label for="value" class="ms-1">Valor</label>
+              <label for="price" class="ms-1">Valor</label>
               <div
                 *ngIf="
-                  formData.controls['value'].invalid &&
-                  (formData.controls['value'].dirty ||
-                    formData.controls['value'].touched)
+                  formData.controls['price'].invalid &&
+                  (formData.controls['price'].dirty ||
+                    formData.controls['price'].touched)
                 "
                 class="form-text text-danger"
               >
-                <div *ngFor="let validation of validMessage.value">
+                <div *ngFor="let validation of validMessage.price">
                   <div
                     style="font-size: smaller !important"
                     *ngIf="
-                      formData.get('value')?.hasError(validation.type) &&
-                      (formData.get('value')?.dirty ||
-                        formData.get('value')?.touched)
+                      formData.get('price')?.hasError(validation.type) &&
+                      (formData.get('price')?.dirty ||
+                        formData.get('price')?.touched)
                     "
                   >
                     {{ validation.message }}
@@ -86,9 +66,20 @@
             
             </div>
   
-            <div class="form-floating mb-3 col-12">
+
+            <div class="form-floating col-sm-6 ">
+              <select class="form-control" id="typePay" formControlName="typePay">
+                <option *ngFor="let item of listTypePay" value="{{ item }}">
+                  {{ item.charAt(0) + item.slice(1).toLowerCase() }}
+                </option>
+              </select>
+              <label for="typePay" class="ms-1">Tipo Pago</label>
+            </div>
+            
+
+            <div class="form-floating col-sm-6">
              
-              <textarea class="form-control" rows="5" style="min-height: 100px;" formControlName="description"></textarea>
+              <textarea class="form-control"  formControlName="description"></textarea>
               <label for="description" class="ms-1">Detalles</label>
         
             </div>
@@ -107,7 +98,7 @@
             type="submit"
             [disabled]="formData.invalid"
             class="btn btn-primary"
-            value="GUARDAR"
+            value="{{ideExpense ? 'Actualizar Datos': 'GUARDAR DATOS'}}"
           />
         </div>
       </form>

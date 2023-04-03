@@ -122,7 +122,7 @@ export const validMessagesError = {
   ],
 
   // Valor de campo gastos e diarios
-  value: [
+  price: [
     {
       type: 'pattern',
       message: `Formato incorrecto.`,

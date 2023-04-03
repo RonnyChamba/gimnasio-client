@@ -17,7 +17,6 @@ export class ListDailiesComponent  implements OnInit, OnDestroy{
 
 
   listData: DailyAttributes[];
-
   pageRender: PageRender;
   sumaTotalElements = 0;
 
