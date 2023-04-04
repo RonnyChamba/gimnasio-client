@@ -64,8 +64,6 @@ export class DailyComponent implements OnInit{
   }
 
   openModal(){
-
-
     this.modalService.open(GroupDailyComponent, {
       size: "lg"
     });

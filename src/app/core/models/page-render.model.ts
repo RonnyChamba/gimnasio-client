@@ -55,6 +55,8 @@ export interface PaginatorCustomer extends ParamsFilter {
   dateEnd?: string;
 }
 
+
+// Tambne lo utilizado para   listar las categorias
 export interface PaginatorDiary extends   PaginatorAttendanceAndMembresias{
   
   valueSearch?: string | null;

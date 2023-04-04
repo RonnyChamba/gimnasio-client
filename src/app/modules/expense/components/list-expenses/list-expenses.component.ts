@@ -34,9 +34,8 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
 
     this.findAll();
     this.addSubscription();
-
-
   }
+  
   ngOnDestroy(): void {
 
     this.subscription.unsubscribe();
