@@ -28,5 +28,28 @@
     font-size: 1.3rem;
     color: #fff;
     cursor: pointer;
+    &--hide{
+      display: none;
+      // visibility: hidden;
+      // z-index: -10000;
+
+    }
   }
+}
+
+label[for="fileInput"] {
+  display: none;
+}
+.custom-file-upload {
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+  border-radius: 4px;
+}
+
+.custom-file-upload i {
+  margin-right: 8px;
 }

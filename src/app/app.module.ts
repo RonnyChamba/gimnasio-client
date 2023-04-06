@@ -5,9 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-// import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-// import { GenerateIndexPagePipe } from './shared/pipes/format-data.pipe'; 
+import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -16,7 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,
 
-    BrowserAnimationsModule, HttpClientModule
+    BrowserAnimationsModule, HttpClientModule,   ToastrModule.forRoot(), // ToastrModule added
   
   ],
   providers: [],

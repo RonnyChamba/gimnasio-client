@@ -7,7 +7,8 @@ import { TypePayEnum } from '../core/enum/pay-enum';
 })
 export class UtilService {
   
-  mapLevel = new Map<any, string>();
+  // mapLevel = new Map<any, string>();
+  mapLevel: any= [];
   typeExpenses:any = [];
   listTypePay: TypePayEnum[] = [];
 
@@ -28,9 +29,13 @@ export class UtilService {
   }
 
   private initLevel() {
-    this.mapLevel.set(LevelEnum.PRINCIPIANTE, 'Principiante');
-    this.mapLevel.set(LevelEnum.INTERMEDIO, 'Intermedio');
-    this.mapLevel.set(LevelEnum.SENIOR, 'Senior');
+    this.mapLevel.push( {key: "", value: 'Ninguno'});
+    this.mapLevel.push( {key: LevelEnum.PRINCIPIANTE, value: 'Principiante'});
+    this.mapLevel.push( {key: LevelEnum.INTERMEDIO, value: 'Intermedio'});
+    this.mapLevel.push( {key: LevelEnum.SENIOR, value: 'Senior'});
+    
+    // this.mapLevel.push(LevelEnum.INTERMEDIO, 'Intermedio');
+    // this.mapLevel.push(LevelEnum.SENIOR, 'Senior');
   }
   private initTypeExpenses() {
     

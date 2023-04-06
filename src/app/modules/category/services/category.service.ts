@@ -29,6 +29,10 @@ export class CategoryService {
     });
   }
 
+  findAllSingle(): Observable<any> {
+    return this.httpClient.get(`${this.pathApi}/categories/single`);
+  }
+
   findByIde(ide: number): Observable<CategoryAttribute> {
     return this.httpClient.get<CategoryAttribute>(`${this.pathApi}/categories/${ide}`);
   }

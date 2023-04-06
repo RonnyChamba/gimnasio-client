@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { InscriptionModel } from '../core/models/inscription-model';
 import { AttendanceAttributes } from '../core/models/attendance.model';
+import { CategoryService } from '../modules/category/services/category.service';
 
 @Injectable({
   providedIn: 'root'
