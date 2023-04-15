@@ -1,15 +1,36 @@
 @use '../../../../../assets/scss/styleParentSidebar';
-button i{
-     color: #fff;
-     font-size: 25px;
-     cursor: pointer;
-     transition: all 0.3s ease;
+
+button i {
+    color: #fff;
+    font-size: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
+
 .img {
-    &-content{
+    &-content {
         overflow: hidden;
         padding: 10px;
-        
-        
+
+
     }
+}
+
+.home-content {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, auto) 1fr;
+}
+
+.home-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
+}
+
+
+app-list-exercises {
+    // overflow-y: scroll;
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,OnInit} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormExercisesComponent } from '../../components/form-exercises/form-exercises.component';
 
@@ -11,10 +11,11 @@ export class ExerciseComponent  implements OnInit{
  
   flagClose = true;
 
-  constructor(private modalService: NgbModal){}
-  ngOnInit(): void {
-   
+  size: number = 0;
 
+  constructor(private modalService: NgbModal){}
+
+  ngOnInit(): void {
   }
 
   onClickMenu(value: boolean){  
@@ -29,5 +30,8 @@ export class ExerciseComponent  implements OnInit{
       size: "lg"
     });
   }
+
+
+  
 
 }

@@ -1,170 +1,55 @@
-<div>
-    <!-- Container-gallery -->
-  
-    <div class="grid-gallery">
-      <div class="grid-gallery__item">
-        <div class="grid-gallery__img">
-          <img src="../../../../assets/gym.jpeg" alt="profile" />
+<!-- Container-gallery -->
+<div class="scroll">
+<div class="grid-gallery"  *ngIf="listData">
+    <div class="grid-gallery__item"  *ngFor="let item of listData"  (click) ="edit(item.ide)">
+      <div class="grid-gallery__img">
+        <!-- <img src="../../../../assets/gym.jpeg" alt="profile" /> -->
+        <img src="{{item.url}}" alt="profile" />
+      </div>
+
+      <div class="">
+        <h6 class="exercise__name">{{item.name}}</h6>
+        <div class="d-none d-md-block">
+          <p class="exercise__level mb-1">{{item.level}}</p>
+          <p class="exercise__date  m-0">
+            <i class="bx bx-calendar"></i>
+            <span class="ms-1">{{item.createDate}}</span>
+          </p>
+          <!-- Aqui no va descripcion -->
+          <p class="exercise__description"></p>
         </div>
-  
-        <div class="">
-          <h4 class="exercise__name">Press con Banca</h4>
-          <div class="d-none d-md-block">
-            <p class="exercise__level mb-1">Nivel Junior</p>
-            <p class="exercise__date  m-0">
-              <i class="bx bx-calendar"></i>
-              <span class="ms-1">2023-10-12</span>
-            </p>
-            <!-- Aqui no va descripcion -->
-            <p class="exercise__description"></p>
-          </div>
-          <div class="accordion d-md-none" id="accordionExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingThree">
-                <button
-                  class="accordion-button collapsed p-1 exercise__ver-mas"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseThree"
-                  aria-expanded="false"
-                  aria-controls="collapseThree"
-                  (click)="onAccordion()"
-                >
-                  Ver {{ textAccordion }} detalles
-                </button>
-              </h2>
-              <div
-                id="collapseThree"
-                class="accordion-collapse collapse"
-                aria-labelledby="headingThree"
-                data-bs-parent="#accordionExample"
-              >
-                <div class="accordion-body px-1 py-3">
-                  <p class="exercise__level mb-1">Nivel Junior</p>
-                  <p class="exercise__date">
-                    <i class="bx bx-calendar"></i>
-                    <span class="ms-1">2023-10-12</span>
-                  </p>
-                  <p class="exercise__description">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae
-                    minus quibusdam in tenetur,
-                  </p>
-                </div>
+        <div class="accordion d-md-none" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+              <button class="accordion-button collapsed p-1 exercise__ver-mas" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"
+                (click)="onAccordion()">
+                Ver {{ textAccordion }} detalles
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+              data-bs-parent="#accordionExample">
+              <div class="accordion-body px-1 py-3">
+                <p class="exercise__level mb-1">Nivel Junior</p>
+                <p class="exercise__date">
+                  <i class="bx bx-calendar"></i>
+                  <span class="ms-1">2023-10-12</span>
+                </p>
+                <p class="exercise__description">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae
+                  minus quibusdam in tenetur,
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-  
-      <div class="grid-gallery__item">
-        <div class="grid-gallery__img">
-          <img src="../../../../assets/gym.jpeg" alt="profile" />
-        </div>
-  
-        <div class="">
-          <h4 class="exercise__name">Press con Badsdsdsdsd sffdfdfdf fdfd dfd fdfdf nca</h4>
-          <div class="d-none d-md-block">
-            <p class="exercise__level mb-1">Nivel Junior</p>
-            <p class="exercise__date  m-0">
-              <i class="bx bx-calendar"></i>
-              <span class="ms-1">2023-10-12</span>
-            </p>
-            <!-- Aqui no va descripcion -->
-            <p class="exercise__description"></p>
-          </div>
-          <div class="accordion d-md-none" id="accordionExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingThree">
-                <button
-                  class="accordion-button collapsed p-1 exercise__ver-mas"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseThree"
-                  aria-expanded="false"
-                  aria-controls="collapseThree"
-                  (click)="onAccordion()"
-                >
-                  Ver {{ textAccordion }} detalles
-                </button>
-              </h2>
-              <div
-                id="collapseThree"
-                class="accordion-collapse collapse"
-                aria-labelledby="headingThree"
-                data-bs-parent="#accordionExample"
-              >
-                <div class="accordion-body px-1 py-3">
-                  <p class="exercise__level mb-1">Nivel Junior</p>
-                  <p class="exercise__date">
-                    <i class="bx bx-calendar"></i>
-                    <span class="ms-1">2023-10-12</span>
-                  </p>
-                  <p class="exercise__description">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae
-                    minus quibusdam in tenetur,
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <div class="grid-gallery__item">
-        <div class="grid-gallery__img">
-          <img src="../../../../assets/gym.jpeg" alt="profile" />
-        </div>
-  
-        <div class="">
-          <h4 class="exercise__name">Press con Badsdsdsdsd sffdfdfdf fdfd dfd fdfdf nca</h4>
-          <div class="d-none d-md-block">
-            <p class="exercise__level mb-1">Nivel Junior</p>
-            <p class="exercise__date  m-0">
-              <i class="bx bx-calendar"></i>
-              <span class="ms-1">2023-10-12</span>
-            </p>
-            <!-- Aqui no va descripcion -->
-            <p class="exercise__description"></p>
-          </div>
-          <div class="accordion d-md-none" id="accordionExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingThree">
-                <button
-                  class="accordion-button collapsed p-1 exercise__ver-mas"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseThree"
-                  aria-expanded="false"
-                  aria-controls="collapseThree"
-                  (click)="onAccordion()"
-                >
-                  Ver {{ textAccordion }} detalles
-                </button>
-              </h2>
-              <div
-                id="collapseThree"
-                class="accordion-collapse collapse"
-                aria-labelledby="headingThree"
-                data-bs-parent="#accordionExample"
-              >
-                <div class="accordion-body px-1 py-3">
-                  <p class="exercise__level mb-1">Nivel Junior</p>
-                  <p class="exercise__date">
-                    <i class="bx bx-calendar"></i>
-                    <span class="ms-1">2023-10-12</span>
-                  </p>
-                  <p class="exercise__description">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae
-                    minus quibusdam in tenetur,
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-  
     </div>
+
+
+
+
   </div>
-  
+
+
+</div>

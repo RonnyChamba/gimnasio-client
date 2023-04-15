@@ -7,7 +7,87 @@ $breakpoints: (
   "medium": 768px,
   "large": 1024px,
   "xx-large": 1400,
-) !default;
+  ) !default;
+
+
+
+.scroll {
+  background-color: yellow;
+  // height: 100%;
+  // max-height: 380px;
+  // overflow: scroll;
+
+
+  @media all and (min-width: map-get($breakpoints, "large")) {
+
+    overflow-y: auto;
+
+  }
+}
+
+
+.grid-gallery {
+  display: grid;
+  gap: 1rem;
+  grid-auto-rows: 22rem;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)
+  );
+
+&__item {
+  overflow: hidden;
+  border: 2px solid #dee2e6;
+  border-radius: 0.25rem;
+  position: relative;
+  padding: 8px;
+  cursor: pointer;
+}
+
+&__img {
+  margin-bottom: 0.5rem;
+  height: 150px;
+  // border : 1px solid red;
+
+  img {
+    height: 100%;
+    max-width: 100%;
+    // width: 100%;
+    object-fit: cover;
+  }
+}
+
+@media all and (min-width: map-get($breakpoints, "small")) {
+
+  grid-auto-rows: auto;
+
+}
+
+
+}
+
+
+.exercise__name {
+  height: 60px;
+  // border: 1px solid red;
+  // overflow: auto;q
+
+  @media all and (min-width: map-get($breakpoints, "medium")) {
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+
+
+  }
+
+  @media all and (min-width: map-get($breakpoints, "small")) {
+    height: auto;
+
+  }
+
+}
+
+/*
 
 .grid-gallery {
   display: grid;
@@ -137,3 +217,4 @@ $breakpoints: (
     font-size: .9rem;
   }
 }
+*/

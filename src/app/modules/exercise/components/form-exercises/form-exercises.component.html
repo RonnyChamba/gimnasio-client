@@ -1,30 +1,31 @@
-<button ngbToast></button>
+
 <div class="container-user w-100">
   <div class="content-user p-3 mx-auto border border-2 rounded-3">
     <div class="d-flex justify-content-between align-items-center">
-      <h4 class="form-title">NUEVO EJERCICIO</h4>
+      <h4 class="form-title"> {{idExercise? 'ACTUALIZAR': 'NUEVO'}} EJERCICIO</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()"></button>
     </div>
 
     <form class="mt-4" [formGroup]="formData" (ngSubmit)="fnSubmit()">
       <div class="card p-3 mb-3">
-        <legend class="fz-1 form-subtitle">Datos</legend>
+        <div class="d-flex justify-content-between">
+
+          <legend class="fz-1 form-subtitle">Datos</legend>
+          <span  *ngIf="selectedFileUrl" (click) ="deleteExercise()" >X</span>
+        </div>
         <div class="row justify-content-center align-items-center">
           <div class="col-sm-3 mb-3 text-center text-md-start">
-            <div class="content-img bg-danger">
-              <!-- <img src="../../../../assets/gym.jpeg" class="content-img__img" />
-              <span class="content-img__btn bg-danger"> 
-                <input  type="file"  class="content-img__btn content-img__btn--hide"/>
-                <i class="bx bx-edit"></i> 
-              </span> -->
-              
-              <!-- CAMBIAR dsegno  -->
+            
+            <div class="content-img">
 
-              <label for="fileInput" class="custom-file-upload">
-                <i class="bx bx-edit"></i> 
-              </label>
-              <input id="fileInput" type="file"  (change) ="onFileSelected($event)" accept="image/*">
+              <!-- Para eliminar la imagen seleccionar, pero solo debe mostrarse cuando se seleccionar la imagen -->
+              <span class="delete" *ngIf="selectedFileUrl" (click) ="deleteImg()" >X</span>
+              <!-- <div *ngIf="selectedFileUrl"> -->
+                <img [src]="selectedFileUrl? selectedFileUrl:'../../../../../assets//img//Default_pfp.svg.png'" >
+              <!-- </div> -->
             </div>
+
+            <input id="fileInput" type="file"  (change) ="onFileSelected($event)" accept="image/*"  formControlName="url">
           </div>
 
           <div class="form-floating mb-3 col">
@@ -130,7 +131,8 @@
       <div class="text-end mt-3">
         <button type="button" class="btn btn-secondary me-2" (click)="modal.close()">CERRAR</button>
 
-        <input type="submit" [disabled]="formData.invalid" class="btn btn-primary" value="GUARDAR" />
+        <!-- <input type="submit" [disabled]="formData.invalid" class="btn btn-primary" value="GUARDAR" /> -->
+        <button type="submit" [disabled]="formData.invalid" class="btn btn-primary" >{{idExercise? 'ACTUALIZAR': 'GUARDAR'}}</button>
       </div>
     </form>
   </div>

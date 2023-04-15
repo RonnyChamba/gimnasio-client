@@ -211,6 +211,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
           null,
           [Validators.pattern(`^[0-9]{${MIN_CEDULA}}$`), validatorDni()],
           [dniOrEmailValidator(this.customerService, 'DNI')]
+
         ),
 
         name: new FormControl(null, [

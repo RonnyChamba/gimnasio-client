@@ -29,7 +29,7 @@ export class UtilService {
   }
 
   private initLevel() {
-    this.mapLevel.push( {key: "", value: 'Ninguno'});
+    this.mapLevel.push( {key: "No asignado", value: 'Ninguno'});
     this.mapLevel.push( {key: LevelEnum.PRINCIPIANTE, value: 'Principiante'});
     this.mapLevel.push( {key: LevelEnum.INTERMEDIO, value: 'Intermedio'});
     this.mapLevel.push( {key: LevelEnum.SENIOR, value: 'Senior'});
