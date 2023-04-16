@@ -88,15 +88,19 @@
           <li><a class="link_name" [routerLink]="['/daily']">{{menuOptions.get('DAILIES')}}</a></li>
         </ul>
       </li>
+     
+
       <li>
-        <a href="#">
-          <i class="bx bx-history"></i>
-          <span class="link_name">History</span>
+        <a  [routerLink]="['/report']" >
+          <i class="bx bx-compass"></i>
+          <span class="link_name">{{menuOptions.get('REPORTS')}}</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">History</a></li>
+          <li><a class="link_name" [routerLink]="['/report']">{{menuOptions.get('REPORTS')}}</a></li>
         </ul>
       </li>
+
+
       <li>
         <a href="#">
           <i class="bx bx-cog"></i>

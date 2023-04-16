@@ -11,3 +11,5 @@
 
  // Aplica para el form de nuevo cliente, ese formulario se abre para 3 diferentes acciones
  export type typeOpeFormCustomer= "newCliente" | "newInscription" | "updateInscription";
+
+ export type typeReport = "inscriptions" | "dailies" | "expenses" | "payments" | "customers" | "users" | "categories";

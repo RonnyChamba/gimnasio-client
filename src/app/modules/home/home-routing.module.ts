@@ -40,6 +40,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('../admin/admin.module').then((cp) => cp.AdminModule),
   },
+
+  {
+    path: 'report',
+    loadChildren: () =>
+      import('../report/report.module').then((cp) => cp.ReportModule),
+  },
 ];
 
 @NgModule({
