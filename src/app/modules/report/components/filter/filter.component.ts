@@ -9,6 +9,7 @@ import { Person } from 'src/app/core/models/person-model';
 
 import * as dayjs from 'dayjs';
 import { UtilService } from 'src/app/services/util-service.service';
+import { ReportParams } from 'src/app/core/models/page-render.model';
 
 @Component({
   selector: 'app-filter',
@@ -111,8 +112,10 @@ export class FilterComponent implements OnInit, OnDestroy {
 
     console.log("formData", this.formData.value);
 
+    const param = this.formData.value as ReportParams;
+    param.typeAction = "REPORT";
 
-    this.reportService.generateReportInscriptions(this.formData.value).pipe(
+    this.reportService.generateReportInscriptions(param, "blob").pipe(
       tap((resp: any) => {
         console.log("resp", resp);
         const blob = new Blob([resp], { type: 'application/pdf' });
@@ -131,6 +134,31 @@ export class FilterComponent implements OnInit, OnDestroy {
       )).subscribe();
 
   }
+
+
+  countReport() {
+
+    const param = this.formData.value as ReportParams;
+    param.typeAction = "COUNT";
+
+    this.reportService.generateReportInscriptions(param, "json").pipe(
+      tap((resp: any) => {
+        console.log("resp", resp);
+        alert(`Se encontraron ${resp} registros`);
+      }
+      ),
+      catchError((err) => {
+        console.log("err", err);
+        alert("Error  realizar consulta");
+        return of(null);
+        // return throwError(err);
+      })
+
+      ).subscribe();
+
+
+  }
+
 
   get title() {
 
