@@ -15,3 +15,9 @@
 
  // EN EL BACKEND SE USA ESTE TIPO DE DATO PARA LOS REPORTES, TIENE QUE SER EL MISMO
  export type typeReport = "INSCRIPTION" | "DAILY" | "EXPENSE" | "payments" | "customers" | "users" | "categories";
+
+
+ // Para determinar si se genera el reporte o se cuenta los registros
+ export type typeActionReport= "REPORT" | "COUNT";
+
+ export type typeResponseReport = "blob" | "json";

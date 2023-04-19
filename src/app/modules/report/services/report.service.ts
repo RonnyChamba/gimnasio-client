@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { ReportParams } from 'src/app/core/models/page-render.model';
+import { typeResponseReport } from 'src/app/utils/types';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -20,7 +21,9 @@ export class ReportService implements OnInit {
     return this.httpClient.get(`${this.pathApi}/reports/filters`);
   }
 
-  generateReportInscriptions(params: ReportParams) {
+  generateReportInscriptions(params: ReportParams, typeResponse:  typeResponseReport) {
+
+
     return this.httpClient.get(`${this.pathApi}/reports`,
 
       {
@@ -34,9 +37,11 @@ export class ReportService implements OnInit {
           modality: params.modality || "",
           typeExpense: params.typeExpense || "",
           typeReport: params.typeReport || "",
+          typeAction: params.typeAction,
 
         },
-        responseType: 'blob'
-      })
+        responseType:  typeResponse as any
+      }
+      )
   }
 }

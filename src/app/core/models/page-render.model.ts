@@ -1,5 +1,5 @@
 import { TypePayEnum } from "../enum/pay-enum";
-import { typeReport, typeUser } from "../../utils/types";
+import { typeActionReport, typeReport, typeResponseReport, typeUser } from "../../utils/types";
 
 export class PageRender {
   url: string;
@@ -78,4 +78,5 @@ export interface ReportParams {
   modality: string;
   typeExpense?: string;
   typeReport: typeReport;
+  typeAction: typeActionReport;
 }
