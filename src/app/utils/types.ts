@@ -12,4 +12,6 @@
  // Aplica para el form de nuevo cliente, ese formulario se abre para 3 diferentes acciones
  export type typeOpeFormCustomer= "newCliente" | "newInscription" | "updateInscription";
 
- export type typeReport = "inscriptions" | "dailies" | "expenses" | "payments" | "customers" | "users" | "categories";
+
+ // EN EL BACKEND SE USA ESTE TIPO DE DATO PARA LOS REPORTES, TIENE QUE SER EL MISMO
+ export type typeReport = "INSCRIPTION" | "DAILY" | "EXPENSE" | "payments" | "customers" | "users" | "categories";

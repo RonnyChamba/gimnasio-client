@@ -26,7 +26,7 @@ export interface  InscriptionAttributes {
 export interface InscriptionModel extends InscriptionAttributes{
     modality: number | null;
     
-    evolution :Evolution;
+    evolution? :Evolution;
 
     transaction: Transaction;
     

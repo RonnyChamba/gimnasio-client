@@ -7,6 +7,9 @@ import { ReportService } from '../../services/report.service';
 import { Modality } from 'src/app/core/models/modality-model';
 import { Person } from 'src/app/core/models/person-model';
 
+import * as dayjs from 'dayjs';
+import { UtilService } from 'src/app/services/util-service.service';
+
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
@@ -17,8 +20,8 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   typeReport: typeReport;
   formData: FormGroup;
-
   modalities: Modality[] = [];
+  typeExpenses:any = [];
 
   users: Person[] = [];
 
@@ -27,12 +30,17 @@ export class FilterComponent implements OnInit, OnDestroy {
   constructor(
 
     private utilReport: UtilReportService,
-    private reportService: ReportService) { }
+    private reportService: ReportService,
+    private utilService: UtilService,) { }
   ngOnInit(): void {
 
     console.log("typeReport", this.typeReport);
     this.createForm();
     this.addSubscription();
+
+    this.typeExpenses = this.utilService.typeExpenses;
+    // Agregar un elemento al inicio del arreglo
+    this.typeExpenses.unshift({key:   "", value: "Todos"});
     // this.initFilters();
   }
 
@@ -41,7 +49,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     if (this.typeReport) {
 
       this.loadFilterInscriptions();
-    }else {
+    } else {
       console.log("No hay tipo de reporte");
     }
 
@@ -58,13 +66,15 @@ export class FilterComponent implements OnInit, OnDestroy {
 
     this.formData = new FormGroup(
       {
-      
-        dateBegin: new FormControl(null, []),
-        dateEnd: new FormControl(null, []),
-        user: new FormControl("all", []),
-        customer: new FormControl(null, []),
-        typePay: new FormControl("all", []),
-        modality: new FormControl("all", []),
+
+        dateBegin: new FormControl("", []),
+        dateEnd: new FormControl("", []),
+        typeUser: new FormControl("", []),
+        customer: new FormControl("", []),
+        typePay: new FormControl("", []),
+        modality: new FormControl("", []),
+        typeReport: new FormControl("", []),
+        typeExpense: new FormControl("", []),
       });
   }
 
@@ -75,8 +85,12 @@ export class FilterComponent implements OnInit, OnDestroy {
 
         this.typeReport = typeReport;
         console.log("typeReport", this.typeReport);
+        this.formData.get("typeReport")?.setValue(this.typeReport);
 
-        // this.initFilters();  
+
+        this.initFilters();
+
+        this.resetForm();
       }
       ));
   }
@@ -97,7 +111,8 @@ export class FilterComponent implements OnInit, OnDestroy {
 
     console.log("formData", this.formData.value);
 
-    this.reportService.generateReportInscriptions().pipe(
+
+    this.reportService.generateReportInscriptions(this.formData.value).pipe(
       tap((resp: any) => {
         console.log("resp", resp);
         const blob = new Blob([resp], { type: 'application/pdf' });
@@ -112,19 +127,19 @@ export class FilterComponent implements OnInit, OnDestroy {
         // return throwError(err);
       }
 
-    
-    )).subscribe();
+
+      )).subscribe();
 
   }
 
   get title() {
 
     switch (this.typeReport) {
-      case "inscriptions":
+      case "INSCRIPTION":
         return "Inscripciones";
-      case "dailies":
+      case "DAILY":
         return "Diarios";
-      case "expenses":
+      case "EXPENSE":
         return "Gastos";
 
       case "categories":
@@ -135,5 +150,19 @@ export class FilterComponent implements OnInit, OnDestroy {
     }
 
   }
+
+  private resetForm() { 
+     
+      this.formData.patchValue({
+        dateBegin: "",
+        dateEnd: "",
+        typeUser: "",
+        customer: "",
+        typePay: "",
+        modality: "",
+        typeExpense: "",
+
+      });
+    }
 
 }

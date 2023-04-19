@@ -137,6 +137,8 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
         const fullInscription = resp as InscriptionFetch;
 
+        console.log(fullInscription)
+
         // clientes
         this.formData.controls['name'].setValue(fullInscription.customer.name)
 
@@ -146,7 +148,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
         this.formData.get('evolution.height')?.setValue(fullInscription.evolutionCtm?.height);
         this.formData.get('evolution.imc')?.setValue(fullInscription.evolutionCtm?.imc);
         this.formData.get('evolution.resultImc')?.setValue(fullInscription.evolutionCtm?.resultImc);
-        this.formData.get('evolution.typeWeight')?.setValue(fullInscription.evolutionCtm?.typeWeight);
+        this.formData.get('evolution.typeWeight')?.setValue(fullInscription.evolutionCtm?.typeWeight);  
         this.formData.get('evolution.description')?.setValue(fullInscription.evolutionCtm?.description);
 
         // Modality
@@ -169,6 +171,10 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
         this.formData.get('workDay')?.setValue(fullInscription?.workDay);
         this.formData.get('typeInscription')?.setValue(fullInscription?.typeInscription);
         this.formData.get('descriptionInscription')?.setValue(fullInscription?.description);
+
+
+        console.log(this.formData.controls)
+        console.log(this.formData.valid)
 
       })
 
@@ -628,9 +634,12 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
       typeInscription: this.formData.value['typeInscription'],
       description: this.formData.value['descriptionInscription'],
       modality: this.formData.value['modality'],
-      evolution: this.createEvolution(),
       transaction: this.createTransaction()
     };
+
+    
+    let evolution = this.createEvolution();
+    if (evolution) inscription.evolution = evolution;
     return inscription;
   }
 
@@ -651,7 +660,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
     return customer;
   }
-  private createEvolution(): Evolution {
+  private createEvolution(): Evolution | null {
 
     const evolution = this.formData.get('evolution')?.value as Evolution;
 
@@ -661,9 +670,10 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
       evolution.imc = imc;
       evolution.resultImc = resultImc;
-    }
+      return evolution;
 
-    return evolution;
+    }return  null;
+
   }
 
   private createTransaction(): Transaction {
