@@ -27,3 +27,19 @@ export class TrimNameUserPipe implements PipeTransform {
   }
 }
 
+@Pipe({
+  name: 'trimNameRolPipe',
+})
+export class TrimNameRolPipe implements PipeTransform {
+  transform(roles: any): string {
+
+    
+    if(roles.includes('ROLE_ADMIN')){
+      return 'Admin';
+    }
+
+    return 'Usuario';
+     
+  }
+}
+

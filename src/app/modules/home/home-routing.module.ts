@@ -3,7 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  // { path: '', component: HomeComponent },
+
+  {
+    path: '',
+    loadChildren: () =>
+      import('../admin/admin.module').then((cp) => cp.AdminModule),
+  },
   {
     path: 'customer',
     loadChildren: () =>
@@ -35,11 +41,7 @@ const routes: Routes = [
       import('../routine/routine.module').then((cp) => cp.RoutineModule),
   },
 
-  {
-    path: 'admin',
-    loadChildren: () =>
-      import('../admin/admin.module').then((cp) => cp.AdminModule),
-  },
+
 
   {
     path: 'report',

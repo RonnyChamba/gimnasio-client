@@ -147,7 +147,15 @@ export const validMessagesError = {
       type: 'pattern',
       message: `Formato fecha incorrecto`,
     },
-  ]
+  ],
+
+  descriptionModalidad: [
+    {
+      type: 'required',
+      message: `Descripción obligatoria`,
+    },
+    
+  ],
 };
 
 

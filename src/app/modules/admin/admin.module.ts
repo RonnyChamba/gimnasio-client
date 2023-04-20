@@ -6,12 +6,18 @@ import { SharedGlobalModule } from 'src/app/shared/global/shared-global.module';
 import { FormUserComponent } from './components/form-user/form-user.component';
 import { ListUsersComponent } from './components/list-users/list-users.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { GroupPanelComponent } from './components/group-panel/group-panel.component';
+import { ListModalityComponent } from './components/list-modality/list-modality.component';
+import { FormModalityComponent } from './components/form-modality/form-modality.component';
 
 @NgModule({
   declarations: [
     AdminComponent,
     FormUserComponent,
-    ListUsersComponent
+    ListUsersComponent,
+    GroupPanelComponent,
+    ListModalityComponent,
+    FormModalityComponent
   ],
   imports: [
     CommonModule , AdminRoutingModule, ReactiveFormsModule,  SharedGlobalModule

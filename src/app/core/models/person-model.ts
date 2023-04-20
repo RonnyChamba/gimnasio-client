@@ -21,3 +21,10 @@ export class Person {
 
   statusDelete: boolean;
 }
+
+
+export class UserModel extends Person {
+
+  password?: string;
+  roles?: string[];
+}

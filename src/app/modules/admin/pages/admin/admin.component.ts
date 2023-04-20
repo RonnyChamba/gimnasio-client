@@ -1,36 +1,50 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormCustomersComponent } from 'src/app/modules/customer/components/form-customers/form-customers.component';
 import { FormUserComponent } from '../../components/form-user/form-user.component';
+import { FormModalityComponent } from '../../components/form-modality/form-modality.component';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
-export class AdminComponent implements OnInit{
+export class AdminComponent implements OnInit {
 
   flagClose = true;
- 
-  constructor(private modalService: NgbModal){}
+
+  // default users
+  typePanel = true;
+
+  constructor(private modalService: NgbModal) { }
   ngOnInit(): void {
-    
+
   }
-  
-  
-  onClickMenu(value:boolean){  
+
+
+  onClickMenu(value: boolean) {
 
     this.flagClose = value;
   }
 
 
-  openModal(){
+  openModal() {
 
     console.log("Abrir modal");
 
-    this.modalService.open(FormUserComponent, {
-      size: "lg"
-    });
+    if (this.typePanel) {
+      this.modalService.open(FormUserComponent, {
+        size: "lg"
+      });
+    } else {
+
+      this.modalService.open(FormModalityComponent, {
+        size: "md"
+      })
+
+    }
+
+
+
   }
 
 }
