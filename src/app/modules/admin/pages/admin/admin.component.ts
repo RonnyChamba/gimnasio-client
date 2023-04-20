@@ -15,8 +15,10 @@ export class AdminComponent implements OnInit {
   // default users
   typePanel = true;
 
-  constructor(private modalService: NgbModal) { }
+  constructor(
+    private modalService: NgbModal) { }
   ngOnInit(): void {
+
 
   }
 
