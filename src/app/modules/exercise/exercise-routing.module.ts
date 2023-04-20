@@ -5,7 +5,7 @@ import { ExerciseComponent } from './pages/exercise/exercise.component';
 
 
 const routes: Routes = [
-  { path: '', component: ExerciseComponent }
+  { path: '', component: ExerciseComponent,  title: 'Gimnasio | Ejercicios'  }
 ];
 
 @NgModule({

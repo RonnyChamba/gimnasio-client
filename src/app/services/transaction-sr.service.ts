@@ -34,7 +34,12 @@ export class TransactionSrService implements OnInit, OnDestroy {
     return  this.httpClient.patch(`${this.pathApi}/attendances/${ide}`,  {
       dateLeave: dateLeave
     })
-    
   }
+
+  deleteAttendance(ide: number): Observable<any>{
+
+    return this.httpClient.delete(`${this.pathApi}/attendances/${ide}`);
+  }
+
 
 }

@@ -19,7 +19,7 @@ export class DailyCustomerComponent implements OnInit, OnDestroy {
   listData: Attendance[];
   pageRender: PageRender;
   sumaTotalElements = 0;
-  paramPaginator: PaginatorAttendanceAndMembresias = { page: 0, size: 5, typeUser: "all" };
+  paramPaginator: PaginatorAttendanceAndMembresias = { page: 0, size: 5, typeUser: "", typeData: "ATTENDANCE"};
   formData: FormGroup;
 
   // here add suscriptiones
@@ -43,25 +43,14 @@ export class DailyCustomerComponent implements OnInit, OnDestroy {
 
   private addSucriptions() {
 
-    this.subscription.add(
-
-      this.customerService.getRefreshUpdateTableAttendanceObservable()
-        .subscribe(resp => {
-
-
-          this.findAll();
-        })
-    )
-
   }
 
   private onChangeFilter() {
     this.formData.valueChanges.subscribe(resp => {
 
-      // let paginCurrent = this.paramPaginator.page;
-
       this.paramPaginator = resp as PaginatorAttendanceAndMembresias;
-
+      
+      this.paramPaginator.typeData = "ATTENDANCE";
       // Cuando cambia algun filtro, siempre que empieza por la pgina 0
       this.paramPaginator.page = 0;
 
@@ -71,15 +60,14 @@ export class DailyCustomerComponent implements OnInit, OnDestroy {
   }
   private findAll() {
 
-
-
-    this.customerService.findAllAttendanceByCustomer(this.idCustomer, this.paramPaginator).subscribe(resp => {
-
+    this.customerService.findAllMembresiasByCustomer(this.idCustomer, this.paramPaginator).subscribe(resp => {
+      
       console.log(resp)
       this.listData = resp.data;
       this.pageRender = resp.page;
       this.calculSumaRegister();
     })
+
   }
 
   private createForm() {
@@ -89,7 +77,7 @@ export class DailyCustomerComponent implements OnInit, OnDestroy {
         size: new FormControl(5, []),
         dateBegin: new FormControl(null, []),
         dateEnd: new FormControl(null, []),
-        typeUser: new FormControl("all", []),
+        typeUser: new FormControl("", []),
       });
   }
 
@@ -124,9 +112,10 @@ export class DailyCustomerComponent implements OnInit, OnDestroy {
   delete(ide: any) {
 
 
-    this.customerService.deleteAttendance(ide as number).subscribe(resp => {
+    this.transactionService.deleteAttendance(ide as number).subscribe(resp => {
       console.log(resp)
       alert("asistencia eliminada")
+      this.findAll  ();
     })
 
   }

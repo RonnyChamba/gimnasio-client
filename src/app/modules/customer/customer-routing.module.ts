@@ -4,9 +4,9 @@ import { CustomerEditorComponent } from './pages/customer-editor/customer-editor
 import { CustomerComponent } from './pages/customer/customer.component';
 
 const routes: Routes = [
-  { path: '', component: CustomerComponent },
+  { path: '', component: CustomerComponent,  title: 'Gimnasio | Clientes'  },
 
-  { path: ':ideCustomer', component: CustomerEditorComponent }
+  { path: ':ideCustomer', component: CustomerEditorComponent, title: 'Gimnasio | Clientes' }
 ];
 
 @NgModule({

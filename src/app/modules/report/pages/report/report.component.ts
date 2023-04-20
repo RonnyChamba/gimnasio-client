@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { typeReport } from 'src/app/utils/types';
+import { typeModel } from 'src/app/utils/types';
 import { UtilReportService } from '../../services/util.service';
 
 @Component({
@@ -34,7 +34,7 @@ export class ReportComponent  implements OnInit {
   }
 
 
- viewReports( type: typeReport ){
+ viewReports( type: typeModel ){
     // alert("Inscripción"  + + type)  ;
 
     // this.typeReport = type;

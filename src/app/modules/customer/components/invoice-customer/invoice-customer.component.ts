@@ -23,12 +23,13 @@ export class InvoiceCustomerComponent implements OnInit, OnDestroy {
   listData: InscriptionListPage[];
   pageRender: PageRender;
   sumaTotalElements = 0;
-  paramPaginator: PaginatorAttendanceAndMembresias = { page: 0, size: 5, typeUser: "all" };
+  paramPaginator: PaginatorAttendanceAndMembresias = { page: 0, size: 5, typeUser: "", typeData: "INSCRIPTION"};
   formData: FormGroup;
 
   // here add suscriptiones
   private subscription: Subscription = new Subscription();
-  constructor(private customerService: CustomerService,
+  constructor(
+    private customerService: CustomerService,
     private modalService: NgbModal,) { }
 
   ngOnInit(): void {
@@ -69,21 +70,21 @@ export class InvoiceCustomerComponent implements OnInit, OnDestroy {
         size: new FormControl(5, []),
         dateBegin: new FormControl(null, []),
         dateEnd: new FormControl(null, []),
-        typeUser: new FormControl("all", []),
+        typeUser: new FormControl("", []),
         typePay: new FormControl("", [])
       });
   }
   private addSucriptions() {
 
-    this.subscription.add(
+    // this.subscription.add(
 
-      this.customerService.getRefreshUpdateTableAttendanceObservable()
-        .subscribe(resp => {
+    //   this.customerService.getRefreshUpdateTableAttendanceObservable()
+    //     .subscribe(resp => {
 
 
-          this.findAll();
-        })
-    )
+    //       this.findAll();
+    //     })
+    // )
 
   }
 
@@ -97,7 +98,8 @@ export class InvoiceCustomerComponent implements OnInit, OnDestroy {
       // Cuando cambia algun filtro, siempre que empieza por la pgina 0
       this.paramPaginator.page = 0;
 
-      // console.log(this.paramPaginator)
+      this.paramPaginator.typeData = "INSCRIPTION";
+      
       this.findAll();
     })
 

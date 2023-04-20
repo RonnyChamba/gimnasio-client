@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 const routes: Routes = [
-  { path: '', component: CategoryComponent }
+  { path: '', component: CategoryComponent,  title: 'Gimnasio | Categorias'  }
 ];
 
 @NgModule({

@@ -1,5 +1,5 @@
 import { TypePayEnum } from "../enum/pay-enum";
-import { typeActionReport, typeReport, typeResponseReport, typeUser } from "../../utils/types";
+import { typeActionReport, typeModel, typeResponseReport, typeUser } from "../../utils/types";
 
 export class PageRender {
   url: string;
@@ -45,6 +45,7 @@ export interface PaginatorAttendanceAndMembresias extends ParamsFilter {
   // Para saber si lista de todos los usuarios o solo lo que un usuario ha registrado
   typeUser: typeUser;
   typePay?: TypePayEnum;
+  typeData: typeModel;
 
 }
 
@@ -77,6 +78,6 @@ export interface ReportParams {
   typePay?: string;
   modality: string;
   typeExpense?: string;
-  typeReport: typeReport;
+  typeReport: typeModel;
   typeAction: typeActionReport;
 }

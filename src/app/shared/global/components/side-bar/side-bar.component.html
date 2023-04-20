@@ -5,12 +5,12 @@
     </div>
     <ul class="nav-links">
       <li>
-        <a href="/">
+        <a href="#" [routerLink]="['']" >
           <i class="bx bx-grid-alt"></i>
           <span class="link_name">{{menuOptions.get('HOME')}}</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/">{{menuOptions.get('HOME')}}</a></li>
+          <li><a class="link_name" href="#" [routerLink]="['']" >{{menuOptions.get('HOME')}}</a></li>
         </ul>
       </li>
 
@@ -32,6 +32,19 @@
           <li><a class="link_name" href="#" [routerLink]="['/customer']" >{{menuOptions.get('CUSTOMERS')}}</a></li>
         </ul>
       </li>
+
+      <li>
+        <a [routerLink]="['/attendance']"  >
+          <i class="bx bx-line-chart"></i>
+          <span class="link_name">{{menuOptions.get('ATTENDANCE')}}</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" [routerLink]="['/attendance']">{{menuOptions.get('ATTENDANCE')}}</a></li>
+        </ul>
+      </li>
+
+
+
       <li>
         <a [routerLink]="['/expense']"  >
           <i class="bx bx-line-chart"></i>

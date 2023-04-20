@@ -22,7 +22,7 @@ export class ListDailiesComponent  implements OnInit, OnDestroy{
 
   @Output("sumaTotalByPage")  sumaTotalByPage = new EventEmitter<number>;
 
-  paramPaginator: PaginatorDiary = { page: 0, size: 5, typeUser: "all"};
+  paramPaginator: PaginatorDiary = { page: 0, size: 5, typeUser: "all", typeData: "DAILY"};
 
     // here add suscriptiones
     private subscription: Subscription = new Subscription();

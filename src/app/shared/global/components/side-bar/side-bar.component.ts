@@ -22,6 +22,7 @@ export class SideBarComponent implements OnInit {
   private initMenuOptiosn (){
 
     this.menuOptions.set("HOME", "Inicio");
+    this.menuOptions.set("ATTENDANCE", "Asistencia");
     this.menuOptions.set("ADMIN", "Usuarios");
     this.menuOptions.set("CUSTOMERS", "Clientes");
     this.menuOptions.set("EXPENSES", "Gastos");

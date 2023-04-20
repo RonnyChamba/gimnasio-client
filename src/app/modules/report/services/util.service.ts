@@ -1,13 +1,13 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { typeReport } from 'src/app/utils/types';
+import { typeModel } from 'src/app/utils/types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilReportService implements OnInit {
 
-  private subjectTypeReport = new Subject<typeReport>();
+  private subjectTypeReport = new Subject<typeModel>();
   
   constructor() { }
 
@@ -15,7 +15,7 @@ export class UtilReportService implements OnInit {
 
   }
 
-  get getTypeReport(): Subject<typeReport> {
+  get getTypeReport(): Subject<typeModel> {
     return this.subjectTypeReport;
   }
 

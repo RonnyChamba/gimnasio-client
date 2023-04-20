@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { typeReport } from 'src/app/utils/types';
+import { typeModel } from 'src/app/utils/types';
 import { UtilReportService } from '../../services/util.service';
 import { Subscription, catchError, of, tap } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -19,7 +19,7 @@ import { ReportParams } from 'src/app/core/models/page-render.model';
 export class FilterComponent implements OnInit, OnDestroy {
 
 
-  typeReport: typeReport;
+  typeReport: typeModel;
   formData: FormGroup;
   modalities: Modality[] = [];
   typeExpenses:any = [];
@@ -82,7 +82,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   private addSubscription() {
 
     this.subscription.add(
-      this.utilReport.refreshTypeReportAsObservable().subscribe((typeReport: typeReport) => {
+      this.utilReport.refreshTypeReportAsObservable().subscribe((typeReport: typeModel) => {
 
         this.typeReport = typeReport;
         console.log("typeReport", this.typeReport);
@@ -170,7 +170,7 @@ export class FilterComponent implements OnInit, OnDestroy {
       case "EXPENSE":
         return "Gastos";
 
-      case "categories":
+      case "CATEGORY":
         return "Categorias";
       default:
 

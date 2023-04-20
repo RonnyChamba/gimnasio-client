@@ -24,7 +24,7 @@ export class ListCategoriesComponent  implements OnInit, OnDestroy {
 
   
   // El parametro typeUser , aqui no afwca en nada
-  paramPaginator: PaginatorDiary = { page: 0, size: 5, typeUser: "all" };
+  paramPaginator: PaginatorDiary = { page: 0, size: 5, typeUser: "all", typeData: "CATEGORY" };
 
   constructor(private categoryService: CategoryService,
     private modalService: NgbModal,

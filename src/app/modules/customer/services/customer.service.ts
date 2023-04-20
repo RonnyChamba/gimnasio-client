@@ -15,8 +15,6 @@ export class CustomerService {
 
   private refreshUpdateTable = new Subject<void>();
 
-  private refreshUpdateTableAttendance = new Subject<void>();
-
   constructor(private httpClient: HttpClient) { }
 
   getRefreshUpdateTableObservable(): Observable<void> {
@@ -24,10 +22,6 @@ export class CustomerService {
   }
 
   
-  getRefreshUpdateTableAttendanceObservable(): Observable<void> {
-    return this.refreshUpdateTableAttendance.asObservable();
-  }
-
   save(customerFull: CustomerFull): Observable<any> {
     return this.httpClient.post(`${this.pathApi}/customers`, customerFull);
   }
@@ -56,7 +50,7 @@ export class CustomerService {
     });
   }
 
-  findAllAttendanceByCustomer(ide: number, filterProperties: PaginatorAttendanceAndMembresias): Observable<any> {
+  /*findAllAttendanceByCustomer(ide: number, filterProperties: PaginatorAttendanceAndMembresias): Observable<any> {
 
     return this.httpClient.get(`${this.pathApi}/customers/${ide}/attendances`, {
       params: {
@@ -69,21 +63,20 @@ export class CustomerService {
       }
     })
 
-  }
-
-
-  
+  } */ 
   findAllMembresiasByCustomer(ide: number, filterProperties: PaginatorAttendanceAndMembresias): Observable<any> {
 
-    return this.httpClient.get(`${this.pathApi}/customers/${ide}/inscriptions`, {
+    return this.httpClient.get(`${this.pathApi}/customers/${ide}/data`, {
       params: {
         page: filterProperties.page || 0,
         size: filterProperties.size || 5,
-        order: filterProperties.order || "ide",
+        order: filterProperties.order || "",
         dateBegin: filterProperties.dateBegin || "",
         dateEnd: filterProperties.dateEnd || "",
-        typeUser: filterProperties.typeUser,
-        typePay: filterProperties.typePay || ""
+        typeUser: filterProperties.typeUser || "",
+        typePay: filterProperties.typePay || "",
+        typeData: filterProperties.typeData
+
       }
     })
 
@@ -139,12 +132,6 @@ export class CustomerService {
       },
     });
   }
-  deleteAttendance(ide: number): Observable<any>{
-
-    return this.httpClient.delete(`${this.pathApi}/attendances/${ide}`)
-    .pipe(tap(() => this.refreshUpdateTableAttendance.next()));
-  }
-
 
   findByIdeInscriptionFetch(ide: number): Observable<any> {
 

@@ -22,7 +22,7 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
 
   @Output("sumaTotalByPage") sumaTotalByPage = new EventEmitter<number>;
 
-  paramPaginator: PaginatorExpense = { page: 0, size: 5, typeUser: "all" };
+  paramPaginator: PaginatorExpense = { page: 0, size: 5, typeUser: "all", typeData: "EXPENSE" };
 
   // here add suscriptiones
   private subscription: Subscription = new Subscription();
