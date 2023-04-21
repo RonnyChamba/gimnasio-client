@@ -40,8 +40,8 @@ import { CustomerFull } from 'src/app/core/models/customer-full';
 import { Customer } from 'src/app/core/models/customer-model';
 import { Evolution } from 'src/app/core/models/evolution-model';
 import { Transaction } from 'src/app/core/models/transaction-model';
-import { Inscription } from 'src/app/core/models/inscription-model';
-import { dniOrEmailValidator } from '../../util/validator';
+import { InscriptionFetch, InscriptionModel } from 'src/app/core/models/inscription-model';
+import { dniOrEmailValidator, validDateBegin } from '../../util/validator';
 import { calImc } from 'src/app/utils/calc-imc';
 import {
   validaDateBorn,
@@ -50,6 +50,8 @@ import {
 
 import { firstValueFrom } from 'rxjs';
 import Swal from 'sweetalert2';
+import { TypeOperationFormInsCustomer } from 'src/app/utils/utilForm';
+import { TransactionSrService } from 'src/app/services/transaction-sr.service';
 
 // const DEFAULT_ID_MODALITY = 1;
 
@@ -59,8 +61,12 @@ import Swal from 'sweetalert2';
   styleUrls: ['./form-customers.component.scss'],
 })
 export class FormCustomersComponent implements OnInit, AfterViewInit {
-  // is new or update customer
-  @Input('ideCustomer') ideCustomer: number;
+  // new customer | add membresia | edit membresia  
+  // @Input('ideCustomer') ideCustomer: number;
+
+
+  // Se inyecta desde el componente del cliente|  editar cliente | lista inscripcines
+  @Input() operationForm: TypeOperationFormInsCustomer;
 
   formData: FormGroup;
   validMessage = messagesErrorCustomer;
@@ -80,7 +86,8 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     public modal: NgbActiveModal,
     private modalityService: ModalityService,
     private utilCustomerService: UtilCustomerService,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private transactionService: TransactionSrService
   ) { }
 
   ngAfterViewInit(): void {
@@ -98,39 +105,109 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     this.getModalities();
     this.changePropertiesInicializer();
     this.onChangeListeners();
-    this.selectCustomer();
+    this.selectDataInicializer();
+    this.canWriteField();
+    console.log(this.operationForm)
   }
 
 
-  private selectCustomer() {
+  private selectDataInicializer() {
 
-
-    if (this.ideCustomer) {
-
-      this.customerService.findByIdeFetch(this.ideCustomer).subscribe(resp => {
-
-        // If el cliente no tiene una ultima inscripcionm solo devolvera la informacion del cliente
-        // así que hay tener cuidado con los null, x ello utilizo el signo ?
-
-        this.formData.controls['name'].setValue(resp.customer.name)
-        this.formData.controls['weight'].setValue(resp.evolutionCtm?.weight);
-        this.formData.controls['height'].setValue(resp.evolutionCtm?.height);
-
-        // Este cargar antes de asignar price, ya que modality tiene un evento change para poner su valor de modalidads
-        this.formData.controls['modality'].setValue(resp.modality?.ide);
-
-        // Asigno el precio correspondiente a la ultima incripcion
-        this.formData.controls['price'].setValue(resp.transaction?.price);
-
-        this.inputPay.nativeElement.focus(); //  editar
-
-        console.log(resp)
-      })
-
+    // add inscription or update inscription
+    if (this.operationForm.type != "newCliente") {
+      if (this.operationForm.type == "newInscription")
+        this.putDataNewInscription();
+      else this.putDataUpdateInscription();
 
     }
 
+
   }
+
+  
+/**
+ * Obtiene la inscripcion selecciona para editarla 
+ */
+  private putDataUpdateInscription() {
+
+    this.customerService.findByIdeInscriptionFetch(this.operationForm.ideInscription as number)
+      .subscribe(resp => {
+        // console.log(resp)
+
+
+        const fullInscription = resp as InscriptionFetch;
+
+        console.log(fullInscription)
+
+        // clientes
+        this.formData.controls['name'].setValue(fullInscription.customer.name)
+
+
+        // Evolution
+        this.formData.get('evolution.weight')?.setValue(fullInscription.evolutionCtm?.weight);
+        this.formData.get('evolution.height')?.setValue(fullInscription.evolutionCtm?.height);
+        this.formData.get('evolution.imc')?.setValue(fullInscription.evolutionCtm?.imc);
+        this.formData.get('evolution.resultImc')?.setValue(fullInscription.evolutionCtm?.resultImc);
+        this.formData.get('evolution.typeWeight')?.setValue(fullInscription.evolutionCtm?.typeWeight);  
+        this.formData.get('evolution.description')?.setValue(fullInscription.evolutionCtm?.description);
+
+        // Modality
+
+        // Este cargar antes de asignar price, ya que modality tiene un evento change para poner su valor de modalidads
+        this.formData.controls['modality'].setValue(fullInscription.modality?.ide);
+
+        // Transaction
+        this.formData.get('typePay')?.setValue(fullInscription.transaction?.typePay);
+        this.formData.controls['price'].setValue(fullInscription.transaction?.price);
+        this.formData.get('pay')?.setValue(fullInscription.transaction?.pay);
+        this.formData.get('balance')?.setValue(fullInscription.transaction?.balance);
+        this.formData.get('total')?.setValue(fullInscription.transaction?.total);
+
+
+        // Inscription
+        this.formData.get('numberMonth')?.setValue(fullInscription?.numberMonth);
+        this.formData.get('dateBegin')?.setValue(fullInscription?.dateBegin);
+        this.formData.get('dateFinalize')?.setValue(fullInscription?.dateFinalize);
+        this.formData.get('workDay')?.setValue(fullInscription?.workDay);
+        this.formData.get('typeInscription')?.setValue(fullInscription?.typeInscription);
+        this.formData.get('descriptionInscription')?.setValue(fullInscription?.description);
+
+
+        console.log(this.formData.controls)
+        console.log(this.formData.valid)
+
+      })
+
+
+  }
+
+  /**
+   * Obtener la ultima inscripcion del cliente y ubicar los datos en el formulario 
+   */
+  private putDataNewInscription() {
+
+    this.customerService.findByIdeFetch(this.operationForm.ideCustomer as number).subscribe(resp => {
+
+      // If el cliente no tiene una ultima inscripcionm solo devolvera la informacion del cliente
+      // así que hay tener cuidado con los null, x ello utilizo el signo ?
+
+      this.formData.controls['name'].setValue(resp.customer.name)
+      this.formData.get('evolution.weight')?.setValue(resp.evolutionCtm?.weight);
+      this.formData.get('evolution.height')?.setValue(resp.evolutionCtm?.height);
+
+      // Este cargar antes de asignar price, ya que modality tiene un evento change para poner su valor de modalidads
+      this.formData.controls['modality'].setValue(resp.modality?.ide);
+
+      // Asigno el precio correspondiente a la ultima incripcion
+      this.formData.controls['price'].setValue(resp.transaction?.price);
+
+      this.inputPay.nativeElement.focus(); //  editar
+
+      // console.log(resp)
+    })
+
+  }
+
   private createForm() {
 
 
@@ -140,6 +217,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
           null,
           [Validators.pattern(`^[0-9]{${MIN_CEDULA}}$`), validatorDni()],
           [dniOrEmailValidator(this.customerService, 'DNI')]
+
         ),
 
         name: new FormControl(null, [
@@ -175,7 +253,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
         dateBegin: new FormControl(this.getCurrentDate(0), [
           Validators.required,
           Validators.pattern('^[0-9]{4}(-|/)[0-9]{2}(-|/)[0-9]{2}$'),
-        ]),
+        ],   [validDateBegin(this.customerService, this.operationForm)]),
         dateFinalize: new FormControl(this.getCurrentDate(1), [
           Validators.required,
           Validators.pattern('^[0-9]{4}(-|/)[0-9]{2}(-|/)[0-9]{2}$'),
@@ -423,10 +501,8 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     this.formData.controls['balance']?.setValue(balance);
   }
 
-  /**
-   * This method is called
- then load the modalities
-    */
+
+  // This method is called then load the modalities 
   private setValueDefault() {
 
     // console.log(this.listModalities.length)
@@ -440,78 +516,99 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     }
   }
 
-  async fnSubmit() {
-    // Verificar si el formulario es valido
+  fnSubmit() {
 
     if (this.formData.valid) {
+
       this.customerFull = new CustomerFull();
 
       this.customerFull.customer = this.createCustomer();
       this.customerFull.inscription = this.createInscription();
-      
+
       console.log(this.customerFull);
-      console.log(this.formData)
 
-      // Cliente existente - nueva membresia
-      if (this.ideCustomer) {
+      // Cliente existente - nueva membresia 
+      if (this.operationForm.type == "newInscription")
+        this.saveNewInscription();
 
-        this.customerService.saveNewInscription(this.ideCustomer, this.customerFull).subscribe(resp => {
-          console.log("Nueva incripcion fue guardada")
-          console.log(resp)
-        });
+      else if (this.operationForm.type == "newCliente")
+        this.saveNewCustomer();
 
-        return;
-      }
-
-      // Save new customer
-
-      // Verificar si el nombre ya esta registrado en la bd, solo si no ha ingresado una cedula
-
-      let isNameExist = false;
-
-      if (!this.customerFull.customer.dni) {
-        const obs = this.customerService.verifyIsExistCustomer(
-          this.customerFull.customer.name,
-          'NAME'
-        );
-        isNameExist = await firstValueFrom(obs, { defaultValue: false });
-      }
-
-      if (!isNameExist) {
-
-        this.customerService.save(this.customerFull).subscribe(data => {
-          console.log(data);
-          this.modal.dismiss()
-        }, error => {
-          console.log(error)
-
-
-        });
-
-
-
-      } else {
-        Swal.fire({
-          title: '¿Guardar Nuevo Cliente?',
-          html: `<p><span style ="color: yellow">Advertencia</span>: El nombre  <b>${this.customerFull.customer.name}</b> ya esta registrado en el sistema, le sugerimos que agregue el número de cédula antes de guardar <p>`,
-          // text: ``,
-          icon: 'question',
-          allowOutsideClick: false,
-          showCancelButton: true,
-          confirmButtonText: 'Guardar de todos modos',
-
-          cancelButtonText: 'Cancelar',
-        }).then((result) => {
-          if (result.value) {
-            this.customerService.save(this.customerFull).subscribe((data) => {
-              console.log(data);
-            });
-          }
-        });
-      }
+      else this.saveUpdateInscription();
 
     } else alert('Campos incorrectos');
 
+  }
+
+  private async saveNewCustomer() {
+    // Verificar si el nombre ya esta registrado en la bd, solo si no ha ingresado una cedula
+
+    let isNameExist = false;
+
+    if (!this.customerFull.customer.dni) {
+      const obs = this.customerService.verifyIsExistCustomer(
+        this.customerFull.customer.name,
+        'NAME'
+      );
+      isNameExist = await firstValueFrom(obs, { defaultValue: false });
+    }
+
+    if (!isNameExist) {
+
+      this.customerService.save(this.customerFull).subscribe(data => {
+        console.log(data);
+        this.modal.dismiss()
+      }, error => {
+        console.log(error)
+
+
+      });
+
+
+
+    } else {
+      Swal.fire({
+        title: '¿Guardar Nuevo Cliente?',
+        html: `<p><span style ="color: yellow">Advertencia</span>: El nombre  <b>${this.customerFull.customer.name}</b> ya esta registrado en el sistema, le sugerimos que agregue el número de cédula antes de guardar <p>`,
+        // text: ``,
+        icon: 'question',
+        allowOutsideClick: false,
+        showCancelButton: true,
+        confirmButtonText: 'Guardar de todos modos',
+
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.value) {
+          this.customerService.save(this.customerFull).subscribe((data) => {
+            console.log(data);
+          });
+        }
+      });
+    }
+
+
+  }
+
+  private saveNewInscription() {
+
+    this.customerService.saveNewInscription(this.operationForm.ideCustomer as number, this.customerFull).subscribe(resp => {
+      console.log("Nueva incripcion fue guardada")
+      console.log(resp)
+    });
+
+    return;
+  }
+
+  private saveUpdateInscription() {
+
+    // Aqui no deseo la informacion del clientes, solo de la inscripcion
+    this.transactionService.updateInscription(this.operationForm.ideInscription as number,
+      this.customerFull.inscription).subscribe(resp =>{
+
+        console.log(resp)
+        console.log("registro actualizado")
+
+      })  
   }
 
   private getCurrentDate(numberMonthMore: number): string {
@@ -524,31 +621,35 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     return this.utilCustomerService.getListTypePayEnum;
   }
 
-  private createInscription(): Inscription {
-    const inscription = new Inscription();
+  private createInscription(): InscriptionModel {
+    const inscription: InscriptionModel = {
+      ide: null,
+      dateBegin: this.formData.value['dateBegin'],
+      // dateFinalize esta deshabilitado, por lo tanto para acceder al valor
+      // debe acceder al control primeroy de hay al value, de lo contrario
+      // si accede directamente al value, dará undefined
+      dateFinalize: this.formData.controls['dateFinalize'].value,
+      workDay: this.formData.value['workDay'],
+      numberMonth: this.formData.value['numberMonth'],
+      typeInscription: this.formData.value['typeInscription'],
+      description: this.formData.value['descriptionInscription'],
+      modality: this.formData.value['modality'],
+      transaction: this.createTransaction()
+    };
 
-    inscription.dateBegin = this.formData.value['dateBegin'];
-
-    // dateFinalize esta deshabilitado, por lo tanto para acceder al valor
-    // debe acceder al control primeroy de hay al value, de lo contrario
-    // si accede directamente al value, dará undefined
-    inscription.dateFinalize = this.formData.controls['dateFinalize'].value;
-
-    inscription.workDay = this.formData.value['workDay'];
-    inscription.numberMonth = this.formData.value['numberMonth'];
-    inscription.typeInscription = this.formData.value['typeInscription'];
-    inscription.description = this.formData.value['descriptionInscription'];
-    inscription.modality = this.formData.value['modality'];
-    inscription.evolution = this.createEvolution();
-    inscription.transaction = this.createTransaction();
-
+    
+    let evolution = this.createEvolution();
+    if (evolution) inscription.evolution = evolution;
     return inscription;
   }
 
   private createCustomer(): Customer {
     const customer = new Customer();
 
-    customer.name = (this.formData.value['name'] as string).toUpperCase();
+    // El campo name en ocasiones esta disabled, por elde por seguridad para tener acceso al valor 
+    // utilizo get en ves de acceder director al valor(no se puede)
+    customer.name = (this.formData.get('name')?.value as string).toUpperCase();
+
     customer.email = this.formData.value['email'];
     customer.address = this.formData.value['address'];
     customer.dni = this.formData.value['dni'];
@@ -559,19 +660,20 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
     return customer;
   }
-  private createEvolution(): Evolution {
+  private createEvolution(): Evolution | null {
 
     const evolution = this.formData.get('evolution')?.value as Evolution;
-    
+
     if (evolution.height && evolution.height) {
 
       const { imc, resultImc } = calImc(evolution.weight, evolution.height);
 
       evolution.imc = imc;
       evolution.resultImc = resultImc;
-    }
+      return evolution;
 
-    return evolution;
+    }return  null;
+
   }
 
   private createTransaction(): Transaction {
@@ -585,4 +687,40 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
     return transaccion;
   }
+
+  public getTitleForm(): string {
+
+    if (this.operationForm.type == "newInscription") return "Nueva Membresía";
+    if (this.operationForm.type == "updateInscription"   && this.operationForm.write) return "Actualizar Membresía";
+    if (this.operationForm.type == "updateInscription"   && !this.operationForm.write) return "Membresía Finalizada (no editable)";
+    return "Nuevo Cliente";
+
+  }
+
+  public showPanelInfoPerson(): boolean {
+    return this.operationForm.type == "newCliente";
+  }
+
+  private canWriteField(){
+
+    if (!this.operationForm.write) {
+      this.formData.disable();
+    }
+
+    // Cuando sea editar la membresia no se podrá cambiar el nombre de cliente
+    if (this.operationForm.type =="updateInscription"){
+      this.formData.get('name')?.disable();
+    }
+}
+
+generateReport(){
+  alert("generar Reporte")
+}
+
+
+showBtnReport(): boolean{
+
+  return this.operationForm.type == "updateInscription";
+}
+
 }

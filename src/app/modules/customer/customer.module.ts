@@ -13,10 +13,17 @@ import { DailyCustomerComponent } from './components/daily-customer/daily-custom
 import { InvoiceCustomerComponent } from './components/invoice-customer/invoice-customer.component';
 import { FormUpdateCustomerComponent } from './components/form-update-customer/form-update-customer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CalcIndexListPipe } from './pipes/calc-index-list.pipe';
 
 @NgModule({
-  declarations: [CustomerComponent, ListCustomersComponent, CustomerEditorComponent, CustomerProfileComponent, InfoCustomerComponent, DataCustomerComponent, DailyCustomerComponent, InvoiceCustomerComponent, FormUpdateCustomerComponent, CalcIndexListPipe],
+  declarations: [CustomerComponent, 
+    ListCustomersComponent, 
+    CustomerEditorComponent, 
+    CustomerProfileComponent, 
+    InfoCustomerComponent, 
+    DataCustomerComponent, 
+    DailyCustomerComponent, 
+    InvoiceCustomerComponent, 
+    FormUpdateCustomerComponent],
   imports: [
     CommonModule, CustomerRoutingModule,   FormsModule, SharedGlobalModule, FormCustomersModule,  ReactiveFormsModule
   ],

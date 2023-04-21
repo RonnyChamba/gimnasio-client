@@ -13,33 +13,12 @@
       <div class="d-flex flex-wrap justify-content-between align-item-center">
         <h3 class="home-subtitle">Admin Home</h3>
         <button class="btn btn-outline-primary d-flex align-items-center" (click)="openModal()">
-          <i class="bx bx-user-plus" style="color:royalblue"> </i> <span class="ms-1">Nuevo user</span>
+          <i class="bx bx-user-plus" style="color:royalblue"> </i> <span class="ms-1">{{typePanel? 'Nuevo Usuario':'Nueva Modalidad' }}</span>
         </button>
       </div>
 
-      <!--  -->
-      <!-- <div class="row justify-content-between align-items-center mt-4">
-        <div class="d-flex align-items-center col">
-          <span> Mostrar</span>
-          <select class="form-select mx-3" style="max-width: 100px">
-            <option selected>5</option>
-            <option>10</option>
-            <option>20</option>
-          </select>
-          <span> registros</span>
-        </div>
-
-        <div class="col-md-4 mt-3 mt-md-0">
-          <input
-            type="search"
-            placeholder="Buscar Cliente"
-            class="form-control col-md-2"
-          />
-        </div>
-      </div> -->
-      <!--  -->
-      
-      <!-- <app-list-customers></app-list-customers> -->
+      <app-group-panel (typePanelChange)="typePanel =$event"></app-group-panel>
+      <!-- contenido para los user -->
 
     </div>
   </div>

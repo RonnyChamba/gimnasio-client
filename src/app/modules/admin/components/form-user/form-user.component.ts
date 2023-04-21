@@ -1,44 +1,53 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
+import { Observable, catchError, map, of, pipe, tap } from 'rxjs';
 import { UserSrvService, Roles } from 'src/app/services/user-srv.service';
 import { MIN_CEDULA, MIN_NAME, MAX_NAME, MIN_PASSWORD, MAX_PASSWORD, MIN_EMAIL, MAX_EMAIL, MAX_ADDRESS, MAX_TELEPHONE } from 'src/app/utils/Constants-Field';
 import { validMessagesError } from 'src/app/utils/MessagesValidation';
+import { typeFilterField } from 'src/app/utils/types';
+import { validatorDni } from 'src/app/utils/validators/person.validator';
+import { UserService } from '../../services/user.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserModel } from 'src/app/core/models/person-model';
 
 @Component({
   selector: 'app-form-user',
   templateUrl: './form-user.component.html',
   styleUrls: ['./form-user.component.scss']
 })
-export class FormUserComponent   implements OnInit{
-  
-  formData: FormGroup;  
-  validMessage =  validMessagesError;
-  
-  constructor(private userService: UserSrvService){}
-  
+export class FormUserComponent implements OnInit {
+
+  formData: FormGroup;
+  validMessage = validMessagesError;
+
+  constructor(
+    private userUtilService: UserSrvService,
+    private userService: UserService,
+    public modal: NgbActiveModal,) { }
+
   ngOnInit(): void {
-   
+
     this.createForm();
   }
 
-  get getRoles(){
-    return this.userService.getRoles;
+  get getRoles() {
+    return this.userUtilService.getRoles;
   }
 
-  keyPresent(event: any){
+  keyPresent(event: any) {
 
   }
   private createForm() {
 
     this.formData = new FormGroup({
-      cedula: new FormControl('', [
+      dni: new FormControl('', [
         Validators.required,
         Validators.pattern(`^[0-9]{${MIN_CEDULA}}$`),
-        //  Validators.minLength(MIN_CEDULA),
-        //  Validators.maxLength(MIN_CEDULA)
-        
-      ]),
-      rol: new FormControl(Roles.ROLE_USER, []),
+        validatorDni()],
+        [this.dniOrEmailValidator('DNI')]
+
+      ),
+      roles: new FormControl(Roles.ROLE_USER, []),
       name: new FormControl('', [
         Validators.required,
         Validators.minLength(MIN_NAME),
@@ -48,21 +57,22 @@ export class FormUserComponent   implements OnInit{
         Validators.required,
         Validators.minLength(MIN_PASSWORD),
         Validators.maxLength(MAX_PASSWORD),
-        Validators.pattern(/[A-Z]{1}/),
       ]),
 
-      repeatPassword: new FormControl('',{
-        validators : [
+      repeatPassword: new FormControl('', {
+        validators: [
           Validators.required,
-      
+          this.validatorPassword()
+
         ],
-         
+
       }),
       email: new FormControl(null, [
         Validators.pattern("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"),
         Validators.minLength(MIN_EMAIL),
-        Validators.maxLength(MAX_EMAIL),
-      ]),
+        Validators.maxLength(MAX_EMAIL),]
+        , [this.dniOrEmailValidator('EMAIL')]),
+
       address: new FormControl(null, [Validators.maxLength(MAX_ADDRESS)]),
       phone: new FormControl(null, [
         Validators.pattern(`^[0-9]{${MAX_TELEPHONE}}$`),
@@ -71,35 +81,99 @@ export class FormUserComponent   implements OnInit{
       born: new FormControl(null, [
         Validators.pattern("^[0-9]{4}(-|/)[0-9]{2}(-|/)[0-9]{2}$")
       ]),
-    } , this.validarRepeatPassword);
+    });
   }
 
   fnSubmit() {
 
     // Verificar si el formulario es valido
-    if (this.formData.status.toUpperCase()=='VALID'){
-      console.log(this.formData.value);
+    if (this.formData.valid) {
 
       // Aqui consulta backend
-    }else alert("Campos incorrectos")
-    
+
+      this.clearEmptyFields();
+
+      // console.log("this.formData.value", this.formData.value); 
+
+
+      this.userService.save(this.formData.value as UserModel)
+        .pipe
+        (
+          tap((value) => {
+            alert("Registro guardado correctamente");
+            this.modal.close(value);
+          }),
+          catchError((err) => {
+            console.log("err", err);
+
+            alert("Error  al guardar registro");
+            return of(null);
+            // return throwError(err);
+          })
+
+        ).subscribe();
+
+    } else alert("Campos incorrectos")
+
   }
 
+  validatorPassword(): ValidatorFn {
+    return (repeatPassword: AbstractControl): ValidationErrors | null => {
+      if (this.formData) {
+        const password = this.formData.get('password')?.value;
+
+        if (repeatPassword.value && repeatPassword.value != password) {
+          return { 'mismatch': 'Contraseñas no coinciden' }
+
+        }
+      }
+
+      return null;
+
+    };
+  }
   
 
-  validarRepeatPassword (g: any){
+  dniOrEmailValidator(type: typeFilterField): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      let field = control.value as string;
 
-    if (g.get('email').value == '') g.get('email').reset();
-    if (g.get('address').value == '') g.get('address').reset();
-    if (g.get('phone').value == '') g.get('phone').reset();
-    if (g.get('born').value == '') g.get('born').reset();
+      // type input or field y ademas solo si el usuario interactua con el control se realizen las validaciones
+      if (field && (control.touched || control.dirty)) {
 
+        if (type == 'DNI' && field.length == 10) {
 
+          return this.userService.verifyIsExistUser(field, type)
+            .pipe(
+              map((value) => value ? { alreadyExist: 'Cédula ya esta registrada' } : null)
+            );
 
-    return g.get('password').value === g.get('repeatPassword').value
-    ? null : {'mismatch': true};
+        }
 
+        if (type == 'EMAIL' && field.length >= 6) {
+
+          return this.userService.verifyIsExistUser(field, type)
+            .pipe(
+              map((value) => value ? { alreadyExist: 'Email ya esta registrado' } : null)
+            );
+
+        }
+      }
+      // Devuelve un Observable que emite el valor null
+      return of(null);
+
+    };
   }
 
+  private clearEmptyFields() {
 
+    for (const key in this.formData.controls) {
+      if (this.formData.controls.hasOwnProperty(key)) {
+        const element = this.formData.controls[key];
+        if (element.value == '') {
+          element.setValue(null);
+        }
+      }
+    }
+  }
 }

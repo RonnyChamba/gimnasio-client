@@ -1,9 +1,13 @@
+import { Customer } from "./customer-model";
 import { Evolution } from "./evolution-model";
+import { Modality } from "./modality-model";
 import { Transaction } from "./transaction-model";
 
-export class Inscription{
 
-    ide: number;
+
+export interface  InscriptionAttributes {  
+
+    ide?: any;
 
     dateBegin: string;
 
@@ -17,28 +21,34 @@ export class Inscription{
 
     description: string;
 
+}
+
+export interface InscriptionModel extends InscriptionAttributes{
     modality: number | null;
     
-    evolution :Evolution;
+    evolution? :Evolution;
 
     transaction: Transaction;
     
 }
 
-export interface InscriptionRes {
 
-    ide: number;
+export interface InscriptionListPage extends InscriptionAttributes  {
 
-    dateBegin: string;
+    user: string;
+    customer: string;
+    modality: Modality;
+    transaction: Transaction;
+    valid: boolean;
 
-    dateFinalize: string;
 
-    workDay: string;
+}
 
-    numberMonth: number;
 
-    typeInscription: string;
-
-    description: string;
-
+export interface InscriptionFetch extends InscriptionAttributes{
+    customer: Customer;
+    modality: Modality;
+    evolutionCtm:Evolution;
+    transaction: Transaction;
+    
 }

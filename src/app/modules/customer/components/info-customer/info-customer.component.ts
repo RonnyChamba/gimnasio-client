@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { typePanelInfo } from 'src/app/core/interfaces/types';
+import { typePanelInfo } from 'src/app/utils/types';
 import { Customer } from 'src/app/core/models/customer-model';
 
 @Component({

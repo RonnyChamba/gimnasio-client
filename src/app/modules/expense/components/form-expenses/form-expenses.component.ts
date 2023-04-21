@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TypePayEnum } from 'src/app/core/enum/pay-enum';
 import { UtilService } from 'src/app/services/util-service.service';
 import { MAX_DESCRIPTION } from 'src/app/utils/Constants-Field';
 import { TypeExpenseEnum } from 'src/app/utils/enum/enumLevel';
 import { validMessagesError } from 'src/app/utils/MessagesValidation';
+import { ExpenseService } from '../../services/expense.service';
 
 @Component({
   selector: 'app-form-expenses',
@@ -17,21 +19,43 @@ export class FormExpensesComponent implements OnInit{
   validMessage = validMessagesError;
   typeExpenses:any = [];
 
+  @Input("ideExpense") ideExpense: number;
+
   
-  constructor( public modal: NgbActiveModal, private utilService: UtilService ){}
+  constructor( public modal: NgbActiveModal, 
+    private utilService: UtilService,
+    private expenseService: ExpenseService ){}
+
   ngOnInit(): void {
     this.createForm();
     this.typeExpenses = this.utilService.typeExpenses;
-    // this.formData.get('value')?.valueChanges.subscribe (item =>{
-    //   console.log("Valor: " + typeof( item));
-
-    //   if (item ==null ||  typeof(item)== 'object' ){
-
-    //     this.formData.get('value')?.setValue(0);
-    //   }
-    // })
+    this.findByIde();
   
   }
+
+  private findByIde(){
+
+    if (this.ideExpense) {
+      
+      console.log(" es para update")
+
+      this.expenseService.findByIde(this.ideExpense).subscribe(resp =>{
+      
+        this.formData.patchValue(resp)
+      })
+
+
+
+    }else console.log("es un nuevo registro")
+
+
+  }
+
+  get listTypePay () : TypePayEnum[]{
+
+    return this.utilService.getListTypePayEnum;
+  }
+
 
   private createForm() {
     this.formData = new FormGroup(
@@ -40,10 +64,12 @@ export class FormExpensesComponent implements OnInit{
           Validators.required,
         ]),
 
-        value: new FormControl(0, [
+        price: new FormControl(0, [
          Validators.required,
          Validators.pattern(/^[0-9]+(.[0-9]+)?$/)
         ]),
+
+        typePay: new FormControl(TypePayEnum.EFECTIVO, [Validators.required]),
 
         description: new FormControl(null, [Validators.maxLength(MAX_DESCRIPTION)]),
       },
@@ -60,15 +86,30 @@ export class FormExpensesComponent implements OnInit{
   fnSubmit() {
     // Verificar si el formulario es valido
 
-    if (this.formData.status.toUpperCase() == 'VALID') {
+    if (this.formData.valid) {
 
-  // Si level esta '' indica que no eligio ningun nivel y setear a null ese valor 
-
-      // Aqui consulta backend
       console.log(this.formData.value);
 
+      // actualizar registro gasto
+      if (this.ideExpense){
 
-      
+
+        this.expenseService.update(this.ideExpense, this.formData.value).subscribe(resp =>{
+
+          alert("registro actualizado")
+          console.log(resp)
+        })
+        // nuevo gasto
+      }else {
+
+        this.expenseService.save(this.formData.value).subscribe(resp=>{
+
+          alert("registro diario guardado")
+          console.log(resp)
+          
+        })
+
+      }      
     } else alert('Campos incorrectos');
 
   }

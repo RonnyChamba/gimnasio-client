@@ -1,0 +1,43 @@
+
+<app-side-bar class="nav-component" [ngClass]="{ close: flagClose, '': !flagClose }" [open]="flagClose"></app-side-bar>
+
+<app-filter  class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" 
+aria-labelledby="offcanvasTopLabel"></app-filter>
+<section class="home-section">
+    <!-- <app-navbar (newItemEvent)="onClickMenu($event)" ></app-navbar> -->
+    <app-nav-bar (newItemEvent)="onClickMenu($event)"></app-nav-bar>
+
+    <div class="home-body mt-3">
+        <div class="home-content p-4 border border-2">
+            <!--    -->
+            <div class="d-flex flex-wrap justify-content-between align-item-center">
+                <h3 class="home-subtitle">Reportes</h3>
+                <!-- <button class="btn btn-outline-primary d-flex align-items-center" (click)="openModal()">
+            <i class="bx bx-user-plus" style="color:royalblue"> </i> <span class="ms-1">Nuevo Cliente</span>
+          </button> -->
+            </div>
+
+            <div class="grid-container">
+                <div class="grid-container__item">
+
+                    <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"
+                      (click)="viewReports('INSCRIPTION')"  class="btn btn-primary">Inscripciones</button>
+                    
+                </div>
+
+                <div class="grid-container__item">
+                    <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"
+                      (click)="viewReports('DAILY')"  class="btn btn-primary">Diarios</button>
+                </div>
+                <div class="grid-container__item">
+                    <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"
+                    (click)="viewReports('EXPENSE')"  class="btn btn-primary">Gastos</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<app-direct-access></app-direct-access>

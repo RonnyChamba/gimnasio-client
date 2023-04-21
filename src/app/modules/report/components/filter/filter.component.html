@@ -1,0 +1,75 @@
+<!-- <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel"> -->
+<div style="width: 98%;" class="m-auto card">
+  <div class="offcanvas-header card-header">
+    <h5 id="offcanvasTopLabel">Reporte {{title}}</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body card-body">
+
+    <!-- Filtro para inscripciones -->
+    <form class="row justify-content-between align-items-center mt-4 border py-3" [formGroup]="formData">
+      <div class="d-flex  align-items-center col">
+
+        <div class="" *ngIf="typeReport && typeReport =='INSCRIPTION'">
+          <input type="text" class="form-control" formControlName="customer"
+            placeholder="Ingrese cedula o nombre de cliente" />
+        </div>
+
+        <div class="d-flex align-items-center">
+          <input type="date" class="form-control" formControlName="dateBegin" />
+          <span class="mx-2">Hasta</span>
+          <input type="date" class="form-control" formControlName="dateEnd" />
+        </div>
+
+        <div class="ms-auto d-flex ">
+          <select class="form-select" formControlName="typeUser">
+            <option value="" selected>Todos los usuarios</option>
+            <option value="me" selected>Mis Registros</option>
+
+            <option value="{{item.dni}}" *ngFor="let item of users; index as i">{{item.name}}</option>
+          </select>
+          <select class="form-select" formControlName="typePay">
+            <option value="" selected>Todos</option>
+            <option value="EFECTIVO" selected>Efectivo (E)</option>
+            <option value="TRANSFERENCIA">Transferencia (T)</option>
+          </select>
+
+          <select class="form-select" formControlName="modality" *ngIf="typeReport && typeReport =='INSCRIPTION'">
+            <option value="" selected>Todas modalidades</option>
+            <option value="{{item.name}}" *ngFor="let item of modalities; index as i">{{item.name}}</option>
+          </select>
+
+
+          <select class="form-select" aria-label="Default select example" 
+          formControlName="typeExpense"  *ngIf="typeReport && typeReport =='EXPENSE'">
+            <option value="{{ envi.key }}" *ngFor="let envi of typeExpenses">
+              {{ envi.value }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+    </form>
+
+    <div >
+
+      <span>
+        
+
+      </span>
+
+      <button (click)="countReport()">Consultar</button>
+    </div>
+
+    <div class="mt-5 text-center">
+
+      <button (click)="generateReport()" style="max-width: 200px" class="btn btn-primary ">GENERAR REPORTE</button>
+
+    </div>
+    <!-- <div class="text-end">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas" aria-label="">Aceptar</button>
+  
+  
+      </div> -->
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<div class="d-flex mt-2"> 
+    <button class="btn btn-primary me-2" (click) ="changeTypePanel(true)"  >Usuarios</button>
+    <button class="btn btn-primary" (click) ="changeTypePanel(false)">Modalidades</button>
+</div>
+
+<app-list-users *ngIf="typePanel"></app-list-users>
+
+<app-list-modality *ngIf="!typePanel"></app-list-modality>

@@ -3,7 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('../admin/admin.module').then((cp) => cp.AdminModule),
+  },
   {
     path: 'customer',
     loadChildren: () =>
@@ -13,6 +17,11 @@ const routes: Routes = [
     path: 'daily',
     loadChildren: () =>
       import('../daily/daily.module').then((cp) => cp.DailyModule),
+  },
+  {
+    path: 'inscription',
+    loadChildren: () =>
+      import('../inscription/inscription.module').then((cp) => cp.InscriptionModule),
   },
   {
     path: 'expense',
@@ -34,12 +43,17 @@ const routes: Routes = [
     loadChildren: () =>
       import('../routine/routine.module').then((cp) => cp.RoutineModule),
   },
-
   {
-    path: 'admin',
+    path: 'report',
     loadChildren: () =>
-      import('../admin/admin.module').then((cp) => cp.AdminModule),
+      import('../report/report.module').then((cp) => cp.ReportModule),
   },
+  {
+    path: 'attendance',
+    loadChildren: () =>
+      import('../attendance/attendance.module').then((cp) => cp.AttendanceModule),
+  },
+  { path: '', component: HomeComponent,   title: 'Gimnasio | Home' },
 ];
 
 @NgModule({

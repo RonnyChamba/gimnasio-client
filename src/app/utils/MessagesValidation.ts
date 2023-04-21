@@ -122,7 +122,7 @@ export const validMessagesError = {
   ],
 
   // Valor de campo gastos e diarios
-  value: [
+  price: [
     {
       type: 'pattern',
       message: `Formato incorrecto.`,
@@ -132,7 +132,7 @@ export const validMessagesError = {
       message: `Campo obligatorio.`,
     },
   ],
-  count: [
+  amount: [
     {
       type: 'pattern',
       message: `Formato incorrecto.`,
@@ -147,7 +147,15 @@ export const validMessagesError = {
       type: 'pattern',
       message: `Formato fecha incorrecto`,
     },
-  ]
+  ],
+
+  descriptionModalidad: [
+    {
+      type: 'required',
+      message: `Descripción obligatoria`,
+    },
+    
+  ],
 };
 
 

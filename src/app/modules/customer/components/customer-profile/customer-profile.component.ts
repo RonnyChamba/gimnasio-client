@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { typeChangeStatus } from 'src/app/core/interfaces/types';
+import { typeChangeStatus } from 'src/app/utils/types';
 import { Customer } from 'src/app/core/models/customer-model';
 import { CustomerService } from '../../services/customer.service';
 
