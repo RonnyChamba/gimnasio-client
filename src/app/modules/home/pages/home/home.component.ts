@@ -102,7 +102,7 @@ export class HomeComponent implements OnInit{
       {
         ide: 'attendance',
         title: 'Asistencias',
-        url: '/attendances',
+        url: '/attendance',
       },
       {
         ide: 'exercise',

@@ -19,6 +19,11 @@ const routes: Routes = [
       import('../daily/daily.module').then((cp) => cp.DailyModule),
   },
   {
+    path: 'inscription',
+    loadChildren: () =>
+      import('../inscription/inscription.module').then((cp) => cp.InscriptionModule),
+  },
+  {
     path: 'expense',
     loadChildren: () =>
       import('../expense/expense.module').then((cp) => cp.ExpenseModule),
