@@ -1,0 +1,34 @@
+<form class="row justify-content-between align-items-center mt-4 border py-3" [formGroup]="formData">
+    <div class="d-flex align-items-center col">
+
+        <div class="d-flex  align-items-center">
+            <span> Mostrar</span>
+            <select class="form-select mx-3" style="max-width: 100px" formControlName="size">
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+            </select>
+        </div>
+
+        <div class="d-flex align-items-center">
+            <input type="date" class="form-control" formControlName="dateBegin" />
+            <span class="mx-2">Hasta</span>
+            <input type="date" class="form-control" formControlName="dateEnd" />
+        </div>
+
+
+        <div class="ms-auto d-flex ">
+            <select class="form-select" formControlName="typeUser">
+                <option value="" selected>Todos los usuarios</option>
+                <option value="me">Solo mis registros</option>
+            </select>
+
+            <select class="form-select" formControlName="typePay">
+                <option value="" selected>Todos</option>
+                <option value="EFECTIVO" selected>Efectivo (E)</option>
+                <option value="TRANSFERENCIA">Transferencia (T)</option>
+            </select>
+
+        </div>
+    </div>
+</form>

@@ -1,5 +1,4 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { InscriptionListPage } from 'src/app/core/models/inscription-model';
@@ -7,7 +6,7 @@ import { PageRender, PaginatorAttendanceAndMembresias } from 'src/app/core/model
 import { FormCustomersComponent } from 'src/app/modules/customer/components/form-customers/form-customers.component';
 import { CustomerService } from 'src/app/modules/customer/services/customer.service';
 import { TypeOperationFormInsCustomer } from 'src/app/utils/utilForm';
-import { InscriptionService } from '../../services/inscription.service';
+import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
 
 @Component({
   selector: 'app-list-inscription',
@@ -19,6 +18,7 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
 
   @Input() idCustomer: number = 0;
 
+
   listData: InscriptionListPage[];
   pageRender: PageRender;
   sumaTotalElements = 0;
@@ -28,12 +28,11 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
 
   constructor(
     private customerService: CustomerService,
-    private inscriptionService: InscriptionService,
+    private utilFiltersService: UtilFiltersService,
     private modalService: NgbModal,) { }
 
   ngOnInit(): void {
-
-    console.log("idCustomer", this.idCustomer)
+    
     this.findAll();
     this.addSubscription();
   }
@@ -44,9 +43,13 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
   }
 
   private addSubscription() {
-    this.subscription.add(
-      this.inscriptionService.refreshDataTableAsObservable().subscribe(resp => {
+  
 
+    this.subscription.add(
+      this.utilFiltersService.eventFiltersObservable().subscribe(resp => {
+        console.log("Respuesta del filtro", resp)
+
+        
         // Filtro de busqueda
         if (resp) {
           this.paramPaginator = resp as PaginatorAttendanceAndMembresias;
@@ -55,19 +58,17 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
         } // actaulizada la tabla despues de eliminar o editar la inscripcion
 
         this.paramPaginator.typeData = "INSCRIPTION";
-
         this.findAll();
 
-        // this.findAll();
       })
     );
+
+
   }
 
 
   private findAll() {
 
-    // Por si llega undefiniden
-    // if (this.idCustomer) {
     this.customerService.findAllMembresiasByCustomer(this.idCustomer, this.paramPaginator).subscribe(resp => {
 
       console.log(resp)
@@ -96,7 +97,7 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
     }
   }
 
-  changePage(numberPage?: number) {
+  changePage(numberPage: number) {
 
     // console.log("Number  of  page" +  numberPage)
     this.paramPaginator.page = numberPage || numberPage == 0 ? numberPage : this.paramPaginator.page;
@@ -113,7 +114,7 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
   }
 
 
-  edit(ide: number, write: boolean) {
+  edit(ide: number, write: boolean, ideCustomer: any) {
 
     console.log(ide, write)
 
@@ -128,7 +129,9 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
       // Enviar el ide de la inscripcion a editar
       ideInscription: ide,
       // pasamos el ide del cliente para luego el form para editar la insscription, validar la fecha de inicio
-      ideCustomer: this.idCustomer,
+      // Aqui es necesario pasarmelo, pero cuando estamos en editar customer, no es necesario pasarlo, ya que tomo el ide 
+      // del customer que esta en el form
+      ideCustomer: ideCustomer,
       write,
     }
 
@@ -140,5 +143,4 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
 
     alert("generar reporte")
   }
-
 }
