@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { UtilService } from 'src/app/services/util-service.service';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
+import { typeModel } from 'src/app/utils/types';
 
 @Component({
   selector: 'app-filter-attendance',
@@ -9,22 +11,30 @@ import { UtilFiltersService } from 'src/app/shared/services/util-filters.service
 })
 export class FilterAttendanceComponent implements OnInit {
 
+  // Determinar el tipo de modelo  donde se va a utilizar el filtro y segun el tipo de modelo mostrar mas o  menos filtros
+   @Input() typeModel: typeModel;;
   formData: FormGroup;
+  typeExpenses:any = [];
 
-  
   constructor(
-    private utilFiltersService: UtilFiltersService
+    private utilFiltersService: UtilFiltersService,
+    private utilService: UtilService
   ) { }
 
   ngOnInit(): void {
     this.createForm();
 
     this.formData.valueChanges.subscribe(value => {
-      // emitimos el evento
+  
       this.utilFiltersService.eventFiltersEmit(value);
 
     }
     );
+
+
+    // Add filter type expense
+    this.typeExpenses = this.utilService.typeExpenses;
+    
   }
 
   private createForm() {
@@ -35,7 +45,9 @@ export class FilterAttendanceComponent implements OnInit {
         dateBegin: new FormControl(null, []),
         dateEnd: new FormControl(null, []),
         typeUser: new FormControl("", []),
-        typePay: new FormControl("", [])
+        typePay: new FormControl("", []),
+        type: new FormControl("", []), // para listar en expense
+        valueSearch: new FormControl("", []), // para listar en expense
       });
   }
 

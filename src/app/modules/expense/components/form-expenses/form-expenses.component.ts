@@ -7,6 +7,7 @@ import { MAX_DESCRIPTION } from 'src/app/utils/Constants-Field';
 import { TypeExpenseEnum } from 'src/app/utils/enum/enumLevel';
 import { validMessagesError } from 'src/app/utils/MessagesValidation';
 import { ExpenseService } from '../../services/expense.service';
+import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
 
 @Component({
   selector: 'app-form-expenses',
@@ -22,9 +23,11 @@ export class FormExpensesComponent implements OnInit{
   @Input("ideExpense") ideExpense: number;
 
   
-  constructor( public modal: NgbActiveModal, 
+  constructor( 
+    public modal: NgbActiveModal, 
     private utilService: UtilService,
-    private expenseService: ExpenseService ){}
+    private expenseService: ExpenseService,
+    private utilFiltersService: UtilFiltersService ){}
 
   ngOnInit(): void {
     this.createForm();
@@ -71,17 +74,12 @@ export class FormExpensesComponent implements OnInit{
 
         typePay: new FormControl(TypePayEnum.EFECTIVO, [Validators.required]),
 
-        description: new FormControl(null, [Validators.maxLength(MAX_DESCRIPTION)]),
-      },
-      this.validarFormGeneral
+        description: new FormControl("", [Validators.maxLength(MAX_DESCRIPTION)]),
+      }
     );
   }
 
-  validarFormGeneral(g: any) {
-    if (g.get('description').value == '') g.get('description').reset();
 
-    return null;
-  }
 
   fnSubmit() {
     // Verificar si el formulario es valido
@@ -98,6 +96,11 @@ export class FormExpensesComponent implements OnInit{
 
           alert("registro actualizado")
           console.log(resp)
+          this.modal.close();
+
+          // Emitir evento para actualizar la lista de gastos, cuando se pasa null indica que actualza 
+          // la tabla pero no por filtro
+          this.utilFiltersService.eventFiltersEmit(null);
         })
         // nuevo gasto
       }else {
@@ -106,6 +109,8 @@ export class FormExpensesComponent implements OnInit{
 
           alert("registro diario guardado")
           console.log(resp)
+          this.modal.close();
+          this.utilFiltersService.eventFiltersEmit(null);
           
         })
 

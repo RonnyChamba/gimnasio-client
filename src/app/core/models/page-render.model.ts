@@ -1,5 +1,5 @@
 import { TypePayEnum } from "../enum/pay-enum";
-import { typeActionReport, typeModel, typeResponseReport, typeUser } from "../../utils/types";
+import { typeActionReport, typeModel, typeUser } from "../../utils/types";
 
 export class PageRender {
   url: string;
@@ -61,14 +61,8 @@ export interface PaginatorCustomer extends ParamsFilter {
 export interface PaginatorDiary extends   PaginatorAttendanceAndMembresias{
   
   valueSearch?: string | null;
-}
-
-export interface PaginatorExpense  extends   PaginatorDiary{
-  
   type?: string;
 }
-
-
 
 export interface ReportParams {
   dateBegin?: string;

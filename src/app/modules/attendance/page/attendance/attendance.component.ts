@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AttendanceService } from '../../services/attendance.service';
+import { typeModel } from 'src/app/utils/types';
 
 @Component({
   selector: 'app-attendance',
@@ -9,6 +10,8 @@ import { AttendanceService } from '../../services/attendance.service';
 })
 export class AttendanceComponent  implements OnInit{
   
+
+  typeModel: typeModel = "ATTENDANCE";
   flagClose = true;
   formData: FormGroup;
   constructor(

@@ -1,12 +1,13 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ExpenseAttribute } from 'src/app/core/models/expense.model';
-import { PageRender, PaginatorExpense } from 'src/app/core/models/page-render.model';
+import { PageRender, PaginatorDiary } from 'src/app/core/models/page-render.model';
 import { ExpenseService } from '../../services/expense.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormExpensesComponent } from '../form-expenses/form-expenses.component';
 import Swal from 'sweetalert2';
-import { UtilExpenseService } from '../../services/util-expense.service';
+import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
+import { TransactionSrService } from 'src/app/services/transaction-sr.service';
 
 @Component({
   selector: 'app-list-expenses',
@@ -22,13 +23,16 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
 
   @Output("sumaTotalByPage") sumaTotalByPage = new EventEmitter<number>;
 
-  paramPaginator: PaginatorExpense = { page: 0, size: 5, typeUser: "all", typeData: "EXPENSE" };
+  paramPaginator: PaginatorDiary = { page: 0, size: 5, typeUser: "", typeData: "EXPENSE" };
 
   // here add suscriptiones
   private subscription: Subscription = new Subscription();
 
-  constructor(private expenseService: ExpenseService,
-    private modalService: NgbModal,    private utilExpenseService: UtilExpenseService) { }
+  constructor(
+    private expenseService: ExpenseService,
+    private modalService: NgbModal,
+    private transactionSrService: TransactionSrService,
+    private utilFiltersService: UtilFiltersService) { }
 
   ngOnInit(): void {
 
@@ -43,9 +47,9 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
 
   private findAll(){
 
-    this.expenseService.findAll( this.paramPaginator).subscribe(resp =>{
-      console.log(resp)
-      
+    this.paramPaginator.typeData = "EXPENSE";
+    this.transactionSrService.findAll( this.paramPaginator).subscribe(resp =>{
+    
       this.listData = resp.data;
       this.pageRender = resp.page;
       
@@ -57,17 +61,27 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
   }
   private addSubscription() {
 
-    this.utilExpenseService.filterTableAsObservable().subscribe(filtePro => {
+    this.utilFiltersService.eventFiltersObservable().subscribe(filtePro => {
+      
+
+      if (filtePro) {
+
+        let currentPage = this.paramPaginator.page;
+
+        
+  
+        this.paramPaginator = filtePro;
+        this.paramPaginator.page = currentPage;
+        this.changePage();
+
+        // Cuando se actualizaa un registro o elimnar se manda a actualizar todos los registros
+      }else this.findAll();
 
 
-      console.log(filtePro)
+        
+      }
+    )
 
-      let currentPage = this.paramPaginator.page;
-
-      this.paramPaginator = filtePro;
-      this.paramPaginator.page = currentPage;
-      this.changePage();
-    })
   }
   changePage(numberPage?: number) {
     
@@ -134,6 +148,8 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
         this.expenseService.delete(ide).subscribe(resp =>{
 
          alert("eliminado con eexito, falta actualiza la tabla")
+
+         this.findAll();
         })
       }
     });

@@ -4,13 +4,13 @@ import { DailyComponent } from './pages/daily/daily.component';
 import { DailyRoutingModule } from './daily-routing.module';
 import { SharedGlobalModule } from 'src/app/shared/global/shared-global.module';
 import { ListDailiesComponent } from './components/list-dailies/list-dailies.component';
-import { GroupDailyModule } from './components/group-daily/group-daily.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormDailiesComponent } from './components/form-dailies/form-dailies.component';
 
 @NgModule({
-  declarations: [DailyComponent, ListDailiesComponent],
+  declarations: [DailyComponent, ListDailiesComponent, FormDailiesComponent],
   imports: [
-    CommonModule, DailyRoutingModule, SharedGlobalModule, GroupDailyModule, ReactiveFormsModule
+    CommonModule, DailyRoutingModule, SharedGlobalModule, ReactiveFormsModule
   ]
 })
 export class DailyModule { }

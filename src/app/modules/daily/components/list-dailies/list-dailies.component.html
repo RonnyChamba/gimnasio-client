@@ -42,88 +42,9 @@
     </tbody>
   </table>
   
-
   
-<div class="mt-5 d-flex justify-content-between align-items-center">
-  <div class="d-flex flex-wrap justify-content-between align-items-center">
-    <p *ngIf="pageRender" class="fw-bolder fs-6">
-      Mostrando {{ sumaTotalElements }} de {{ pageRender.totalElements }}
-    </p>
-  </div>
-
-  <nav class="flex-grow-1">
-    <ul *ngIf="pageRender" class="pagination justify-content-end">
-      <li
-        class="page-item"
-        [ngClass]="{ disabled: pageRender.first, 'page-item': true }"
-      >
-        <span class="page-link" *ngIf="pageRender.first">Primera</span>
-        <span
-          class="page-link"
-          *ngIf="!pageRender.first"
-          (click)="changePage(0)"
-          role="button"
-          >Primera</span
-        >
-      </li>
-
-      <li
-        class="page-item"
-        [ngClass]="{ disabled: !pageRender.hasPrevious, 'page-item': true }"
-      >
-        <span class="page-link" *ngIf="!pageRender.hasPrevious">&laquo;</span>
-        <span
-          class="page-link"
-          *ngIf="pageRender.hasPrevious"
-          role="button"
-          (click)="changePage(pageRender.currentPage - 2)"
-          >&laquo;</span
-        >
-      </li>
-      <li
-        class="page-item"
-        *ngFor="let item of pageRender.pagesItem"
-        [ngClass]="{ active: item.current, 'page-item': true }"
-      >
-        <span class="page-link" *ngIf="item.current"> {{ item.number }} </span>
-        <span
-          class="page-link"
-          role="button"
-          *ngIf="!item.current"
-          (click)="changePage(item.number - 1)"
-        >
-          {{ item.number }}
-        </span>
-      </li>
-
-      <li
-        class="page-item"
-        [ngClass]="{ disabled: !pageRender.hasNext, 'page-item': true }"
-      >
-        <span class="page-link" *ngIf="!pageRender.hasNext">&raquo;</span>
-        <span
-          class="page-link"
-          *ngIf="pageRender.hasNext"
-          role="button"
-          (click)="changePage(pageRender.currentPage)"
-          >&raquo;</span
-        >
-      </li>
-
-      <li
-        class="page-item"
-        [ngClass]="{ disabled: pageRender.last, 'page-item': true }"
-      >
-        <span class="page-link" *ngIf="pageRender.last">Última</span>
-        <span
-          class="page-link"
-          *ngIf="!pageRender.last"
-          role="button"
-          (click)="changePage(pageRender.totalPages - 1)"
-          >Última</span
-        >
-      </li>
-    </ul>
-  </nav>
-</div>
+<app-paginator [listData]="listData"  
+[pageRender]="pageRender" 
+[sumaTotalElements] ="sumaTotalElements"
+(eventNumberPage)="changePage($event)"></app-paginator>
 

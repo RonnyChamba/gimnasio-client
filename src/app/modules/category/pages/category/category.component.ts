@@ -4,6 +4,7 @@ import { FormCategoryComponent } from '../../components/form-category/form-categ
 import { FormControl, FormGroup } from '@angular/forms';
 import { UtilCategoryService } from '../../services/util-category.service';
 import { PaginatorDiary } from 'src/app/core/models/page-render.model';
+import { typeModel } from 'src/app/utils/types';
 
 @Component({
   selector: 'app-category',
@@ -14,8 +15,10 @@ export class CategoryComponent implements OnInit {
  
   flagClose = true;
   formData: FormGroup;
+  typeModel: typeModel = "CATEGORY"
  
-  constructor(private modalService: NgbModal, 
+  constructor(
+    private modalService: NgbModal, 
     private utilCateService: UtilCategoryService){}
 
   ngOnInit(): void {

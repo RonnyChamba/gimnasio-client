@@ -29,10 +29,10 @@ export class FormCategoryComponent  implements OnInit {
   private createForm() {
 
     this.formData = new FormGroup({
-      description: new FormControl(null, [
+      description: new FormControl("", [
         Validators.maxLength(MAX_DESCRIPTION),
       ]),
-      name: new FormControl(null, [
+      name: new FormControl("", [
         Validators.required,
       ]),
   
@@ -60,7 +60,6 @@ export class FormCategoryComponent  implements OnInit {
   
   validarFormGeneral (g: any){
 
-    if (g.get('description').value == '') g.get('description').reset();
     if (g.get('name').value == '') g.get('name').reset();
 
     return null;
@@ -83,6 +82,8 @@ export class FormCategoryComponent  implements OnInit {
         // new Daily
       }else {
 
+        console.log("es un nuevo registro")
+        console.log(this.formData.value)
         this.categoryService.save(this.formData.value as CategoryAttribute).subscribe(resp =>{
 
     

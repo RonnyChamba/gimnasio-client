@@ -13,6 +13,8 @@ import { DailyCustomerComponent } from './components/daily-customer/daily-custom
 import { InvoiceCustomerComponent } from './components/invoice-customer/invoice-customer.component';
 import { FormUpdateCustomerComponent } from './components/form-update-customer/form-update-customer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InscriptionTableModule } from '../inscription/components/list-inscription/inscription-table.module';
+import { ListAttendanceModule } from '../attendance/components/list-attendance/list-attendance.module';
 
 @NgModule({
   declarations: [CustomerComponent, 
@@ -25,7 +27,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     InvoiceCustomerComponent, 
     FormUpdateCustomerComponent],
   imports: [
-    CommonModule, CustomerRoutingModule,   FormsModule, SharedGlobalModule, FormCustomersModule,  ReactiveFormsModule
+    CommonModule, CustomerRoutingModule,   
+    FormsModule, SharedGlobalModule, FormCustomersModule,  
+    ReactiveFormsModule, InscriptionTableModule, ListAttendanceModule
   ],
 })
 export class CustomerModule { }

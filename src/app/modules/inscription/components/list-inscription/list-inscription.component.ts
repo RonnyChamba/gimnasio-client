@@ -16,9 +16,11 @@ import { UtilFiltersService } from 'src/app/shared/services/util-filters.service
 export class ListInscriptionComponent implements OnInit, OnDestroy {
 
 
+  // Cuando el ide es 0 signfica que tiene que listar todas las inscripciones registradas en la base de datos
+  // Cuando no es 0, equivale al id del cliente, y se listan las inscripciones del cliente en particular 
   @Input() idCustomer: number = 0;
 
-
+  
   listData: InscriptionListPage[];
   pageRender: PageRender;
   sumaTotalElements = 0;

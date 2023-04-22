@@ -23,7 +23,7 @@
         <!--  -->
          <!--  -->
 
-         <form class="row justify-content-between align-items-center mt-4 border py-3" [formGroup]="formData">
+         <!-- <form class="row justify-content-between align-items-center mt-4 border py-3" [formGroup]="formData">
           <div class="d-flex align-items-center col">
   
             <div class="d-flex  align-items-center">
@@ -34,19 +34,17 @@
                 <option value="15">15</option>
               </select>
             </div>
-  
-    
-  
-  
-  
+
             <div class="col-md-4 mt-3 mt-md-0 ms-auto">
               <input type="search" placeholder="Buscar una descripción ..." formControlName="valueSearch"
                 class="form-control col-md-2" />
             </div>
           </div>
   
-        </form>
+        </form> -->
         <!--  -->
+
+        <app-filter-attendance [typeModel] ="typeModel"></app-filter-attendance>
         <app-list-categories></app-list-categories>
       </div>
     </div>

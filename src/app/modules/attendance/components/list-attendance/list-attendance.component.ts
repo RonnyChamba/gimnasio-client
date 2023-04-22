@@ -1,12 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Attendance } from 'src/app/core/models/attendance.model';
 import { PageRender, PaginatorAttendanceAndMembresias } from 'src/app/core/models/page-render.model';
 import { CustomerService } from 'src/app/modules/customer/services/customer.service';
 import { TransactionSrService } from 'src/app/services/transaction-sr.service';
 import * as dayjs from "dayjs";
-import { AttendanceService } from '../../services/attendance.service';
 import { Subscription } from 'rxjs';
+import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
 
 @Component({
   selector: 'app-list-attendance',
@@ -15,6 +14,7 @@ import { Subscription } from 'rxjs';
 })
 export class ListAttendanceComponent  implements OnInit, OnDestroy{
   
+  @Input() idCustomer: number = 0;
 
   listData: Attendance[];
   pageRender: PageRender;
@@ -26,25 +26,28 @@ export class ListAttendanceComponent  implements OnInit, OnDestroy{
   constructor(
       private customerService: CustomerService,
       private transactionService: TransactionSrService,
-      private attendanceService: AttendanceService
+      private utilFiltersService: UtilFiltersService,
     ) { }
     ngOnInit(): void {
       this.findAll();
 
+    
       this.subscription.add(
-        this.attendanceService.refreshFilterAsObservable()
-          .subscribe(resp => {
+        this.utilFiltersService.eventFiltersObservable().subscribe(resp => {
+          console.log("Respuesta del filtro", resp)
 
-            // puede retonar null o un objeto con los datos de los filtros
-            if (resp) {
-              this.paramPaginator = resp;
-              this.paramPaginator.typeData = "ATTENDANCE";
-              this.paramPaginator.page = 0;
-            }
-            this.findAll();
-          }
-          )
+          // Filtro de busqueda
+          if (resp) {
+            this.paramPaginator = resp as PaginatorAttendanceAndMembresias;
+            // Cuando cambia algun filtro, siempre que empieza por la pgina 0
+            this.paramPaginator.page = 0;
+          } // actaulizada la tabla despues de eliminar o editar la inscripcion
+
+          this.paramPaginator.typeData = "ATTENDANCE";
+          this.findAll();
+        })
       )
+    
     }
 
     ngOnDestroy(): void {
@@ -55,7 +58,7 @@ export class ListAttendanceComponent  implements OnInit, OnDestroy{
   private findAll() {
 
     // el valor 0 representa que no es ningun cliente por lo tanto debe traer todos los registros de asistencia
-    this.customerService.findAllMembresiasByCustomer(0, this.paramPaginator).subscribe(resp => {
+    this.customerService.findAllMembresiasByCustomer(this.idCustomer, this.paramPaginator).subscribe(resp => {
       
       console.log(resp)
       this.listData = resp.data;

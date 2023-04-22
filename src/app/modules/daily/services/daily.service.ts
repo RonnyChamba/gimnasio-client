@@ -17,33 +17,23 @@ export class DailyService implements OnInit  {
   ngOnInit(): void {
    
   }
-
-  save(model: DailyAttributes): Observable<DailyAttributes>{
-
-    return this.httpClient.post<DailyAttributes>(`${this.pathApi}/diaries`, model);
-
-  }
-  findAll(paramPage: PaginatorDiary): Observable<any> {
-    return this.httpClient.get(`${this.pathApi}/diaries`, {
-      params: {
-        page: paramPage.page,
-        size: paramPage.size,
-        valueSearch: paramPage.valueSearch || "",
-        startDate: paramPage.dateBegin || "",
-        endDate: paramPage.dateEnd || "",
-        typeUser: paramPage.typeUser,
-        typePay: paramPage.typePay  || ""
-      },
-    });
-  }
+  
   findByIde(ide: number): Observable<DailyAttributes> {
     return this.httpClient.get<DailyAttributes>(`${this.pathApi}/diaries/${ide}`);
   }
 
-  update(ide: number, model: DailyAttributes):  Observable<DailyAttributes>{
+  /**
+   * Guardar o actualizar un registro, cuando el ide es null se crea un nuevo registro y si no se actualiza
+   * @param model
+   * @param ide : number | null : cuando es null se crea un nuevo registro
+   * @returns 
+   */
+  updateOrNew( model: DailyAttributes, ide?: number):  Observable<DailyAttributes>{
 
+    if (ide) {
+      return this.httpClient.put<DailyAttributes>(`${this.pathApi}/diaries/${ide}`, model);
 
-    return this.httpClient.put<DailyAttributes>(`${this.pathApi}/diaries/${ide}`, model);
+    }else   return this.httpClient.post<DailyAttributes>(`${this.pathApi}/diaries`, model);
 
 
   }

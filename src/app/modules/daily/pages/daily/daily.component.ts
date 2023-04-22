@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { GroupDailyComponent } from '../../components/group-daily/group-daily.component';
-import { FormControl, FormGroup } from '@angular/forms';
-import { DailyUtilService } from '../../util/daily-util.service';
-import { PaginatorDiary } from 'src/app/core/models/page-render.model';
 import { DailyService } from '../../services/daily.service';
+import { typeModel } from 'src/app/utils/types';
+import { FormDailiesComponent } from '../../components/form-dailies/form-dailies.component';
 
 @Component({
   selector: 'app-daily',
@@ -14,16 +12,15 @@ import { DailyService } from '../../services/daily.service';
 export class DailyComponent implements OnInit{
  
   flagClose = true;
-  formData: FormGroup;
+  typeModel: typeModel= "DAILY";
+
   sumTotalPrice = 0
   sumTotalPriceByPage = 0
   
-  constructor(private modalService: NgbModal,
-    private dailyUtilService: DailyUtilService,
+  constructor(
+    private modalService: NgbModal,
     private dailyService: DailyService,) {}
   ngOnInit(): void {
-    this.createForm();
-    this.onChangeListeners();
 
     this.dailyService.sumTotalPrice().subscribe(total =>{
       this.sumTotalPrice = total;
@@ -32,30 +29,6 @@ export class DailyComponent implements OnInit{
 
   }
 
-  private createForm() {
-    
-    this.formData = new FormGroup(
-      {
-        size: new FormControl(5, []),
-        dateBegin: new FormControl(null, []),
-        typeUser: new FormControl("all", []),
-        typePay: new FormControl("", []),
-        dateEnd: new FormControl(null, []),
-        valueSearch: new FormControl(null, []),
-      });
-  }
-
-  private onChangeListeners() {
-    
-    this.formData.valueChanges.subscribe (data =>{
-      // this.paramPaginator = data;
-
-      this.dailyUtilService.getRefreshFilterTable.next(data as PaginatorDiary);
-
-    })
-
-    
-  }
 
   
   onClickMenu(value:boolean){  
@@ -64,7 +37,7 @@ export class DailyComponent implements OnInit{
   }
 
   openModal(){
-    this.modalService.open(GroupDailyComponent, {
+    this.modalService.open(FormDailiesComponent, {
       size: "lg"
     });
   }
