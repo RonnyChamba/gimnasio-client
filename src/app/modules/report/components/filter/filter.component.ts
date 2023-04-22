@@ -172,6 +172,9 @@ export class FilterComponent implements OnInit, OnDestroy {
 
       case "CATEGORY":
         return "Categorias";
+
+        case "ATTENDANCE":
+          return "Asistencias";
       default:
 
         return "Reportes";

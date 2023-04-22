@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { InscriptionService } from '../../services/inscription.service';
 import { typeModel } from 'src/app/utils/types';
 
 @Component({

@@ -10,7 +10,7 @@
     <form class="row justify-content-between align-items-center mt-4 border py-3" [formGroup]="formData">
       <div class="d-flex  align-items-center col">
 
-        <div class="" *ngIf="typeReport && typeReport =='INSCRIPTION'">
+        <div class="" *ngIf="typeReport && (typeReport =='INSCRIPTION'   || typeReport =='ATTENDANCE')">
           <input type="text" class="form-control" formControlName="customer"
             placeholder="Ingrese cedula o nombre de cliente" />
         </div>
@@ -28,7 +28,7 @@
 
             <option value="{{item.dni}}" *ngFor="let item of users; index as i">{{item.name}}</option>
           </select>
-          <select class="form-select" formControlName="typePay">
+          <select class="form-select" formControlName="typePay"  *ngIf="typeReport && typeReport !='ATTENDANCE'">
             <option value="" selected>Todos</option>
             <option value="EFECTIVO" selected>Efectivo (E)</option>
             <option value="TRANSFERENCIA">Transferencia (T)</option>
