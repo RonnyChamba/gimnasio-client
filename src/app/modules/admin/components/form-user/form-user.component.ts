@@ -23,7 +23,7 @@ export class FormUserComponent implements OnInit {
   constructor(
     private userUtilService: UserSrvService,
     private userService: UserService,
-    public modal: NgbActiveModal,) { }
+    public modal: NgbActiveModal) { }
 
   ngOnInit(): void {
 

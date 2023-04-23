@@ -23,6 +23,7 @@ export class UserService implements OnInit {
         params: {
           valueField,
           type,
+          isUpdateOrNew: "true"
         },
       });
   }
@@ -38,6 +39,18 @@ export class UserService implements OnInit {
 
   updateStatus(ide: number) : Observable<any>{
     return this.httpCliente.patch(`${this.pathApi}/users/${ide}/status`, {});
+  }
+
+  findUserCurrent() : Observable<any>{
+    return this.httpCliente.get(`${this.pathApi}/users/current`);
+  }
+
+  update(model: any) : Observable<any>{
+    return this.httpCliente.put(`${this.pathApi}/users`, model);
+  }
+
+  countDataByUser(){
+    return this.httpCliente.get(`${this.pathApi}/users/countDataByUser`);
   }
 
 }

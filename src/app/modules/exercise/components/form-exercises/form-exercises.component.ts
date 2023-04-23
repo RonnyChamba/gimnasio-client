@@ -211,7 +211,7 @@ export class FormExercisesComponent implements OnInit {
 
     const exercise = this.formData.value;
 
-    // Si el archivo  se  modifico , envio la misma url que se envio desde el backend, de lo contrario envio null que indica que se elimino el archivo o modificado
+    // Si el archivo  no se  modifico , envio la misma url que se envio desde el backend, de lo contrario envio null que indica que se elimino el archivo o modificado
     exercise.url = this.exerciseEdit.url == this.selectedFileUrl ?
       this.selectedFileUrl : null;
 

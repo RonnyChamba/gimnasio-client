@@ -53,6 +53,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('../attendance/attendance.module').then((cp) => cp.AttendanceModule),
   },
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('../profile/profile.module').then((cp) => cp.ProfileModule),
+  },
   { path: '', component: HomeComponent,   title: 'Gimnasio | Home' },
 ];
 

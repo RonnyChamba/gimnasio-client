@@ -1,0 +1,54 @@
+.home-subtitle{
+  font-weight: 500;
+  font-size: 1.8rem;
+}
+button i{
+  color: #fff;
+  font-size: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.content-img {
+    background-color: green !important;
+    position: relative;
+    max-width: 150px;
+    // display: inline-block;
+  
+    // img {
+    //   max-width: 100%;
+    // }
+  
+    .delete {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      font-size: 1.3rem;
+      color: #fff;
+      cursor: pointer;
+      color: red;
+    }
+  
+    img {
+      display: block;
+      width: 100%;
+      // height: 100%;
+      object-fit: cover;
+    }
+  
+    &__btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      font-size: 1.3rem;
+      color: #fff;
+      cursor: pointer;
+      &--hide{
+        display: none;
+        // visibility: hidden;
+        // z-index: -10000;
+  
+      }
+    }
+  }
+  

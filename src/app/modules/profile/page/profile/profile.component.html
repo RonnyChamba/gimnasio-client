@@ -1,0 +1,23 @@
+<app-side-bar class="nav-component" [ngClass]="{ close: flagClose, '': !flagClose }" [open]="flagClose">
+
+</app-side-bar>
+
+
+<section class="home-section">
+
+    <app-nav-bar (newItemEvent)="onClickMenu($event)"></app-nav-bar>
+  
+    <div class="home-body mt-3">
+      <div class="home-content p-4 border border-2">
+        <!--    -->
+        <!-- <div class="d-flex flex-wrap justify-content-between align-item-center">
+          <h3 class="home-subtitle">Mi Perfil </h3>
+          
+        </div> -->
+        <app-profile-information></app-profile-information>
+        <app-data-count></app-data-count>
+      </div>
+    </div>
+  </section>
+  
+  <app-direct-access></app-direct-access>

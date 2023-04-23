@@ -9,18 +9,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { GroupPanelComponent } from './components/group-panel/group-panel.component';
 import { ListModalityComponent } from './components/list-modality/list-modality.component';
 import { FormModalityComponent } from './components/form-modality/form-modality.component';
+import { FormUserModule } from './components/form-user/form-user.module';
 
 @NgModule({
   declarations: [
     AdminComponent,
-    FormUserComponent,
     ListUsersComponent,
     GroupPanelComponent,
     ListModalityComponent,
-    FormModalityComponent
+    FormModalityComponent,
   ],
   imports: [
-    CommonModule , AdminRoutingModule, ReactiveFormsModule,  SharedGlobalModule
-  ]
+    CommonModule , AdminRoutingModule, ReactiveFormsModule,  SharedGlobalModule, FormUserModule
+  ],
+  exports: []
+
 })
 export class AdminModule { }
