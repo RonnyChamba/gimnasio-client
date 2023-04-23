@@ -15,3 +15,10 @@ export class Evolution {
 
   description: string;
 }
+
+export class  EvolutionList extends Evolution{
+
+  customer: string;
+  user: string;
+
+}

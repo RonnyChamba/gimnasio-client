@@ -71,8 +71,8 @@ export class CustomerService {
         page: filterProperties.page || 0,
         size: filterProperties.size || 5,
         order: filterProperties.order || "",
-        dateBegin: filterProperties.dateBegin || "",
-        dateEnd: filterProperties.dateEnd || "",
+        dateBegin: filterProperties.dateBegin || "", // IMPORTANTE ENVIAR VACIO PARA QUE NO DE ERROR SI ESQUE ES NULL
+        dateEnd: filterProperties.dateEnd || "", // // IMPORTANTE ENVIAR VACIO PARA QUE NO DE ERROR SI ESQUE ES NULL
         typeUser: filterProperties.typeUser || "",
         typePay: filterProperties.typePay || "",
         typeData: filterProperties.typeData

@@ -41,6 +41,9 @@ export class InfoCustomerComponent implements OnInit {
     if (this.namePanelInfo == 'MONTH') {
       // consulta de las membresías de los clientes
     }
+    if (this.namePanelInfo == 'EVOLUTION') {
+      // consulta de las membresías de los clientes
+    }
   }
 
   public getCustomer(customer: Customer){

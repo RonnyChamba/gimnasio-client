@@ -17,14 +17,14 @@
           </button>
         </li>
 
-        <li>
+        <li class="me-2">
           <button (click)="changePanel('MONTH')" class="btn btn-primary">
             Membresias
           </button>
         </li>
         <li>
-          <button (click)="changePanel('MONTH')" class="btn btn-primary">
-            Rutinas
+          <button (click)="changePanel('EVOLUTION')" class="btn btn-primary">
+            Evoluci&oacute;n
           </button>
         </li>
       </ul>
@@ -44,6 +44,10 @@
 
       <ng-template [ngIf]="namePanelInfo == 'MONTH'">
         <app-invoice-customer [idCustomer]="idCustomer" ></app-invoice-customer>
+      </ng-template>
+
+      <ng-template [ngIf]="namePanelInfo == 'EVOLUTION'">
+        <app-evolution-customer [idCustomer]="idCustomer"></app-evolution-customer>
       </ng-template>
     </div>
   </div>

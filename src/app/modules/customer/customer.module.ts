@@ -15,6 +15,7 @@ import { FormUpdateCustomerComponent } from './components/form-update-customer/f
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InscriptionTableModule } from '../inscription/components/list-inscription/inscription-table.module';
 import { ListAttendanceModule } from '../attendance/components/list-attendance/list-attendance.module';
+import { EvolutionCustomerComponent } from './components/evolution-customer/evolution-customer.component';
 
 @NgModule({
   declarations: [CustomerComponent, 
@@ -25,7 +26,7 @@ import { ListAttendanceModule } from '../attendance/components/list-attendance/l
     DataCustomerComponent, 
     DailyCustomerComponent, 
     InvoiceCustomerComponent, 
-    FormUpdateCustomerComponent],
+    FormUpdateCustomerComponent, EvolutionCustomerComponent],
   imports: [
     CommonModule, CustomerRoutingModule,   
     FormsModule, SharedGlobalModule, FormCustomersModule,  

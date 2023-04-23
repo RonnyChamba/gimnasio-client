@@ -1,0 +1,48 @@
+<app-filter-attendance [typeModel]="typeModel"></app-filter-attendance>
+
+<table class="table mt-4">
+    <thead>
+        <tr>
+            <th scope="col">#</th>  
+            <th scope="col">Mes</th>  
+            <th scope="col">Peso(Kg)</th>
+            <th scope="col">Altura</th>
+            <th scope="col">Imc</th>
+            <th scope="col">Resultado</th>
+            <!-- <th scope="col">Usuario</th> -->
+            <th scope="col" class="text-end">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of listData; index as i">
+            <td scope="row"> {{i|calcIndexList:pageRender}} </td>
+            <td>{{item.dateRegister | trimDateToMonthPipe}}</td>
+            <td>{{item.weight || 'NA'}} </td>
+            <td> {{item.height || 'NA'}} </td>
+            <td> {{item.imc || 'NA'}} </td>
+            <td> {{item.resultImc || 'NA'}} </td>
+            <!-- <td> {{item.user  | trimNameUser }} </td> -->
+
+            <td class="action text-end">
+                <!-- <span class="bg-warning p-1 me-1 rounded" role="button" (click)="edit(item.ide, item.valid, item.ideCustomer)">
+                    <i class="bx bx-edit"></i>
+                </span>
+
+                <span class="bg-secondary p-1 me-1 rounded" role="button" (click)="generateReport(item.ide)">
+                    <i class="bx bx-edit"></i>
+                </span>
+
+                <span class="bg-danger p-1 me-1 rounded" role="button" (click)="delete(item.ide)">
+                    <i class="bx bx-trash"></i>
+                </span>
+            </td> -->
+        </tr>
+
+
+    </tbody>
+</table>
+
+<app-paginator [listData]="listData"  
+               [pageRender]="pageRender" 
+               [sumaTotalElements] ="sumaTotalElements"
+               (eventNumberPage)="changePage($event)"></app-paginator>

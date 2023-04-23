@@ -17,7 +17,7 @@
         </div>
 
         <div class="ms-auto d-flex ">
-            <select class="form-select" formControlName="typeUser"  *ngIf="typeModel !='CATEGORY'">
+            <select class="form-select" formControlName="typeUser"  *ngIf="typeModel !='CATEGORY' && typeModel !='EVOLUTION'">
                 <option value="" selected>Todos los usuarios</option>
                 <option value="me">Solo mis registros</option>
             </select>

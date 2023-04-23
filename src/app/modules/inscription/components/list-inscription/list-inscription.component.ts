@@ -59,7 +59,7 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
           this.paramPaginator.page = 0;
         } // actaulizada la tabla despues de eliminar o editar la inscripcion
 
-        this.paramPaginator.typeData = "INSCRIPTION";
+    
         this.findAll();
 
       })
@@ -71,6 +71,7 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
 
   private findAll() {
 
+    this.paramPaginator.typeData = "INSCRIPTION";
     this.customerService.findAllMembresiasByCustomer(this.idCustomer, this.paramPaginator).subscribe(resp => {
 
       console.log(resp)
