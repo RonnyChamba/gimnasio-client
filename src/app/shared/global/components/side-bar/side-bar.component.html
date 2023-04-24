@@ -6,7 +6,8 @@
     <ul class="nav-links">
       <li>
         <a href="#" [routerLink]="['']" >
-          <i class="bx bx-grid-alt"></i>
+          <!-- <i class="bx bx-grid-alt"></i> -->
+          <i class="fa-solid fa-house"></i>
           <span class="link_name">{{menuOptions.get('HOME')}}</span>
         </a>
         <ul class="sub-menu blank">
@@ -16,7 +17,8 @@
 
       <li>
         <a href="#" [routerLink]="['/admin']">
-          <i class="bx bx-grid-alt"></i>
+          <!-- <i class="bx bx-grid-alt"></i> -->
+          <i class="fa-solid fa-people-roof"></i>
           <span class="link_name">{{menuOptions.get('ADMIN')}}</span>
         </a>
         <ul class="sub-menu blank">
@@ -25,7 +27,8 @@
       </li>
       <li>
         <a href="#" [routerLink]="['/customer']" >
-          <i class="bx bx-pie-chart-alt-2"></i>
+          <!-- <i class="bx bx-pie-chart-alt-2"></i> -->
+          <i class="fa-solid fa-users"></i>
           <span class="link_name">{{menuOptions.get('CUSTOMERS')}}</span>
         </a>
         <ul class="sub-menu blank">
@@ -45,7 +48,10 @@
 
       <li>
         <a [routerLink]="['/attendance']"  >
-          <i class="bx bx-line-chart"></i>
+          <!-- <i class="bx bx-line-chart"></i> -->
+          <!-- <i class="fa-sharp fa-regular fa-calendar-users"></i> -->
+          <!-- <i class="fa-duotone fa-bell-concierge"></i> -->
+          <i class="fa-solid fa-clipboard-user"></i>
           <span class="link_name">{{menuOptions.get('ATTENDANCE')}}</span>
         </a>
         <ul class="sub-menu blank">
@@ -57,7 +63,8 @@
 
       <li>
         <a [routerLink]="['/expense']"  >
-          <i class="bx bx-line-chart"></i>
+          <!-- <i class="bx bx-line-chart"></i> -->
+          <i class="fa-solid fa-hand-holding-dollar"></i>
           <span class="link_name">{{menuOptions.get('EXPENSES')}}</span>
         </a>
         <ul class="sub-menu blank">
@@ -67,7 +74,8 @@
       <li>
         <div class="iocn-link">
           <a role="button">
-            <i class="bx bx-plug"></i>
+            <!-- <i class="bx bx-plug"></i> -->
+            <i class="fa-solid fa-dumbbell"></i>
             <span class="link_name" >{{menuOptions.get('SPORTS').title}}</span>
           </a>
           <i class="bx bxs-chevron-down arrow" (click)="showSubmenu($event)" ></i>
@@ -95,7 +103,9 @@
 
       <li>
         <a  [routerLink]="['/report']" >
-          <i class="bx bx-compass"></i>
+          <!-- <i class="bx bx-compass"></i> -->
+          <!-- <i class="fa-sharp fa-solid fa-file-pdf"></i> -->
+          <i class="fa-sharp fa-solid fa-file-export"></i>
           <span class="link_name">{{menuOptions.get('REPORTS')}}</span>
         </a>
         <ul class="sub-menu blank">
@@ -119,8 +129,8 @@
             <!--<img src="image/profile.jpg" alt="profileImg">-->
           </div>
           <div class="name-job">
-            <div class="profile_name">Prem Shahi</div>
-            <div class="job">Web Desginer</div>
+            <div class="profile_name">Ronny Chamba</div>
+            <div class="job">Software Developer</div>
           </div>
           <i class="bx bx-log-out"></i>
         </div>

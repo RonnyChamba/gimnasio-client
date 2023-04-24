@@ -7,13 +7,16 @@
   
   <app-nav-bar (newItemEvent)="onClickMenu($event)" ></app-nav-bar>
   
-  <div class="home-body mt-3">
-    <div class="home-content p-4 border border-2">
+  <div class="home-body mt-0">
+    <div class="home-content p-3 border border-2">
       <!--    -->
       <div class="d-flex flex-wrap justify-content-between align-item-center">
-        <h3 class="home-subtitle">Admin Home</h3>
-        <button class="btn btn-outline-primary d-flex align-items-center" (click)="openModal()">
-          <i class="bx bx-user-plus" style="color:royalblue"> </i> <span class="ms-1">{{typePanel? 'Nuevo Usuario':'Nueva Modalidad' }}</span>
+        <h4 class="home-subtitle">Administrador</h4>
+        <button class="btn btn-primary d-flex align-items-center" (click)="openModal()">
+        
+          <i class="fa-solid fa-plus"  *ngIf="!typePanel"></i>
+          <i class="bx bx-user-plus"  *ngIf="typePanel"> </i> <span class="ms-1">{{typePanel? 'Nuevo Usuario':'Nueva Modalidad' }}</span>
+         
         </button>
       </div>
 

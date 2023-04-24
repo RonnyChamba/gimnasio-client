@@ -13,13 +13,13 @@ import { environment } from 'src/environments/environment';
 export class CustomerService {
   pathApi = environment._APIUrl;
 
-  private refreshUpdateTable = new Subject<void>();
+  // private refreshUpdateTable = new Subject<void>();
 
   constructor(private httpClient: HttpClient) { }
 
-  getRefreshUpdateTableObservable(): Observable<void> {
-    return this.refreshUpdateTable.asObservable();
-  }
+  // getRefreshUpdateTableObservable(): Observable<void> {
+  //   return this.refreshUpdateTable.asObservable();
+  // }
 
   
   save(customerFull: CustomerFull): Observable<any> {
@@ -99,8 +99,7 @@ export class CustomerService {
 
   delete(ide: number): Observable<any> {
     return this.httpClient
-      .delete(`${this.pathApi}/customers/${ide}`)
-      .pipe(tap(() => this.refreshUpdateTable.next()));
+      .delete(`${this.pathApi}/customers/${ide}`);
   }
 
   /**

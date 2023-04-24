@@ -1,12 +1,14 @@
-<div class="container-user w-100">
-    <div class="content-user p-3 mx-auto border border-2 rounded-3">
-        <div class="d-flex justify-content-between align-items-center">
+
+
+<div class="container-user">
+    <div class="content-user mx-auto card rounded-3">
+        <div class="card-header d-flex justify-content-between align-items-center">
             <h4 class="form-title"> {{ideModality? 'Actualizar': 'Nueva'}} Modalidad</h4>
             <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()"></button>
         </div>
 
-        <form class="mt-3" [formGroup]="formData" (ngSubmit)="fnSubmit()">
-            <div class="card p-3 mb-3">
+        <form class="card-body mt-2" [formGroup]="formData" (ngSubmit)="fnSubmit()">
+            <div class="mb-3">
                 <div class="row justify-content-center align-items-center">
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="name" formControlName="name"
@@ -63,10 +65,14 @@
             </div>
             <div class="text-end mt-3">
                 <button type="button" class="btn btn-secondary me-2" (click)="modal.close()">
-                    CERRAR
+                    <i class="fa-solid fa-ban"></i>
+                    CANCELAR
                 </button>
 
-                <input type="submit" [disabled]="formData.invalid" class="btn btn-primary" value="GUARDAR" />
+                <button type="submit" [disabled]="formData.invalid" class="btn btn-primary" >
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    GUARDAR
+                </button>
             </div>
         </form>
 

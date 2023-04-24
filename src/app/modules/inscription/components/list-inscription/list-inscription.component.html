@@ -1,54 +1,82 @@
-<table class="table mt-4">
-    <thead>
-        <tr>
-            <th scope="col">#</th>  
-            <th scope="col">Cliente</th>
-            <th scope="col">Fecha</th>
-            <th scope="col">Modalidad</th>
-            <th scope="col">T.Pago</th>
-            <th scope="col">F. Inicio</th>
-            <th scope="col">F. Fin</th>
-            <th scope="col">Total</th>
-            <th scope="col">Pago</th>
-            <th scope="col">Saldo</th>
-            <th scope="col">Usuario</th>
-            <th scope="col" class="text-end">Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let item of listData; index as i">
-            <td scope="row"> {{i|calcIndexList:pageRender}} </td>
-            <td>{{item.customer}} </td>
-            <td> {{item.transaction.dateCreate}} </td>
-            <td> {{item.modality.name}} </td>
-            <td> {{item.transaction.typePay.substring(0,1)}} </td>
-            <td> {{item.dateBegin}} </td>
-            <td> {{item.dateFinalize}} </td>
-            <td> {{item.transaction.total}} </td>
-            <td> {{item.transaction.pay}} </td>
-            <td> {{item.transaction.balance}} </td>
-            <td> {{item.user | trimNameUser }} </td>
-
-            <td class="action text-end">
-                <span class="bg-warning p-1 me-1 rounded" role="button" (click)="edit(item.ide, item.valid, item.ideCustomer)">
-                    <i class="bx bx-edit"></i>
-                </span>
-
-                <span class="bg-secondary p-1 me-1 rounded" role="button" (click)="generateReport(item.ide)">
-                    <i class="bx bx-edit"></i>
-                </span>
-
-                <span class="bg-danger p-1 me-1 rounded" role="button" (click)="delete(item.ide)">
-                    <i class="bx bx-trash"></i>
-                </span>
-            </td>
-        </tr>
+<div [ngClass]="{'height-data-empty': listData && listData.length<1, 'height-data':  listData && listData.length>=1}"
+    class="table-responsive">
 
 
-    </tbody>
-</table>
 
-<app-paginator [listData]="listData"  
-               [pageRender]="pageRender" 
-               [sumaTotalElements] ="sumaTotalElements"
-               (eventNumberPage)="changePage($event)"></app-paginator>
+
+    <table class="table mt-3 ">
+        <thead class="table-light">
+            <tr [ngClass]="{'expanded-row': showDetails}">
+                <th scope="col">Nro</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Fecha</th>
+                <th scope="col" *ngIf="showDetailsModality">Modalidad</th>
+                <th scope="col">T.Pago <span (click)="showDetailsModality = !showDetailsModality" role="button">
+                        <i class="fa-sharp fa-solid fa-up-right-and-down-left-from-center" *ngIf="showDetailsModality"
+                            title="Contraer columas"></i>
+
+                        <i class="fa-solid fa-arrows-left-right-to-line" *ngIf="!showDetailsModality"
+                            title="Expandir columnas ver modalidad"></i>
+                    </span> </th>
+                <th scope="col"  *ngIf="showDetailsDateBegin">F. Inicio</th>
+                <!-- <th></th> -->
+                <th scope="col">F. Fin <span (click)="showDetailsDateBegin = !showDetailsDateBegin" role="button">
+                    <i class="fa-sharp fa-solid fa-up-right-and-down-left-from-center" *ngIf="showDetailsDateBegin"
+                        title="Contraer columas"></i>
+
+                    <i class="fa-solid fa-arrows-left-right-to-line" *ngIf="!showDetailsDateBegin"
+                        title="Expandir columnas ver fecha inicio"></i>
+                </span></th>
+                <th scope="col" *ngIf="showDetails">Total</th>
+                <th scope="col">Pago <span (click)="showDetails = !showDetails" role="button">
+                        <i class="fa-sharp fa-solid fa-up-right-and-down-left-from-center" *ngIf="showDetails"
+                            title="Contraer columas"></i>
+
+                        <i class="fa-solid fa-arrows-left-right-to-line" *ngIf="!showDetails"
+                            title="Expandir columnas ver total y deuda"></i>
+                    </span>
+
+                </th>
+                <th scope="col" *ngIf="showDetails">Saldo</th>
+                <th scope="col">Usuario</th>
+                <th scope="col" class="text-end">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of listData; index as i">
+                <td scope="row"> {{i|calcIndexList:pageRender}} </td>
+                <td>{{item.customer}} </td>
+                <td> {{item.transaction.dateCreate}} </td>
+                <td  *ngIf="showDetailsModality"> {{item.modality.name}} </td>
+                <td> {{item.transaction.typePay.substring(0,1)}} </td>
+
+                <td *ngIf="showDetailsDateBegin"> {{item.dateBegin}} </td>
+                <td> {{item.dateFinalize}} </td>
+                <td *ngIf="showDetails"> {{item.transaction.total}} </td>
+                <td> {{item.transaction.pay}} </td>
+                <td *ngIf="showDetails"> {{item.transaction.balance}} </td>
+                <td> {{item.user | trimNameUser }} </td>
+
+                <td class="action text-end">
+                    <span class="bg-warning p-1 me-1 rounded" role="button"
+                        (click)="edit(item.ide, item.valid, item.ideCustomer)">
+                        <i class="bx bx-edit"></i>
+                    </span>
+
+                    <!-- <span class="bg-secondary p-1 me-1 rounded" role="button" (click)="generateReport(item.ide)">
+                        <i class="bx bx-edit"></i>
+                    </span> -->
+
+                    <span class="bg-danger p-1 me-1 rounded" role="button" (click)="delete(item.ide)">
+                        <i class="bx bx-trash"></i>
+                    </span>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+
+</div>
+<app-paginator [listData]="listData" [pageRender]="pageRender" [sumaTotalElements]="sumaTotalElements"
+    (eventNumberPage)="changePage($event)"></app-paginator>

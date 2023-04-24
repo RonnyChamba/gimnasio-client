@@ -33,7 +33,7 @@ export class SideBarComponent implements OnInit {
     {title: "Deportiva", 
     options:[ 
       {name: 'Ejercicios', url:'/exercise'},
-      {name: 'Rutina', url:'/routine'},
+      // {name: 'Rutina', url:'/routine'},
       {name: 'Categorias', url:'/category'}]});
   }
 

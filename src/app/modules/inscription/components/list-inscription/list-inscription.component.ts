@@ -26,6 +26,10 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
   sumaTotalElements = 0;
   paramPaginator: PaginatorAttendanceAndMembresias = { page: 0, size: 5, typeUser: "", typeData: "INSCRIPTION" };
 
+  showDetails = false;
+  showDetailsModality = false;
+  showDetailsDateBegin = false;
+  
   private subscription: Subscription = new Subscription();
 
   constructor(
@@ -142,8 +146,8 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
     references.componentInstance.operationForm = param;
   }
 
-  generateReport(ide: number) {
+  // generateReport(ide: number) {
 
-    alert("generar reporte")
-  }
+  //   alert("generar reporte")
+  // }
 }

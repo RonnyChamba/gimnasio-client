@@ -1,11 +1,11 @@
-<div class="container-user w-100">
-  <div class="content-user p-3 mx-auto border border-2 rounded-3">
-    <div class="d-flex justify-content-between align-items-center">
+<div class="container-user">
+  <div class="content-user mx-auto card rounded-3">
+    <div class="card-header d-flex justify-content-between align-items-center">
       <h4 class="form-title">Nuevo Usuario</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()"></button>
     </div>
 
-    <form class="mt-4" [formGroup]="formData" (ngSubmit)="fnSubmit()">
+    <form class="mt-2 card-body" [formGroup]="formData" (ngSubmit)="fnSubmit()">
       <div class="card p-3 mb-3">
         <legend class="fz-1 form-subtitle">Datos Cuenta</legend>
         <div class="row">
@@ -243,15 +243,18 @@
           class="btn btn-secondary me-2"
           (click)="modal.close()"
         >
-          CERRAR
+        <i class="fa-solid fa-ban"></i>
+        CANCELAR
         </button>
     
-        <input
+        <button
           type="submit"
           [disabled]="formData.invalid"
           class="btn btn-primary"
-          value="GUARDAR"
-        />
+        >
+        <i class="fa-solid fa-floppy-disk"></i>
+          GUARDAR
+      </button>
       </div>
     </form>
   </div>

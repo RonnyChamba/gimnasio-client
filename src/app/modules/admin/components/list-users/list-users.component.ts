@@ -3,6 +3,7 @@ import { UserService } from '../../services/user.service';
 import { UserModel } from 'src/app/core/models/person-model';
 import Swal from 'sweetalert2';
 import { catchError, of, tap } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-list-users',
@@ -13,7 +14,10 @@ export class ListUsersComponent implements OnInit{
 
 
   listData: UserModel[] = [];
-  constructor(  private userService: UserService,) { }
+  constructor(
+      private userService: UserService,
+      private toaster: ToastrService
+      ) { }
 
   ngOnInit() {
 
@@ -34,7 +38,6 @@ export class ListUsersComponent implements OnInit{
   edit(ide: any){
 
   }
-
   delete(ide: any, status: boolean){
 
 
@@ -42,7 +45,6 @@ export class ListUsersComponent implements OnInit{
 
     let subtitle = status ? 'El usuario no podrá acceder al sistema hasta que sea activado nuevamente por un administrador'
     : 'El usuario podrá acceder al sistema nuevamente';
-
 
     console.log("registro desactivar: " + ide)
 
@@ -60,17 +62,20 @@ export class ListUsersComponent implements OnInit{
         this.userService.updateStatus(ide).pipe(
 
           tap((data) => {
-            console.log(data);
-
-            alert("Registro actualizado correctamente");
-            // this.findall();
+            // console.log(data);
+            this.toaster.success('Registro actualizado correctamente');
+            // alert("Registro actualizado correctamente");
+            this.findall();
           }),
           catchError((err) => {
-            Swal.fire({
-              title: 'Error',
-              text: err.error.message,
-              icon: 'error',
-            });
+
+            this.toaster.error(`${err.error.message}`, 'Error');
+
+            // Swal.fire({
+            //   title: 'Error',
+            //   text: err.error.message,
+            //   icon: 'error',
+            // });
             return of(null);
           })
   
