@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { typePanelInfo } from 'src/app/utils/types';
+import { typeModel, typePanelInfo } from 'src/app/utils/types';
 import { Customer } from 'src/app/core/models/customer-model';
 
 @Component({
@@ -17,7 +17,8 @@ export class InfoCustomerComponent implements OnInit {
 
   eventChangeStatus: boolean;
   
-  namePanelInfo: typePanelInfo = 'DATA';
+  namePanelInfo: typeModel = 'DATA';
+  @Output() namePanelInfoEmit = new EventEmitter<typeModel>();
 
   constructor() {}
 
@@ -25,20 +26,24 @@ export class InfoCustomerComponent implements OnInit {
     
   }
 
-  changePanel(namePanelInfo: typePanelInfo) {
+  changePanel(namePanelInfo: typeModel) {
     // If touch in same button than current component
     if (this.namePanelInfo == namePanelInfo) return;
 
     this.namePanelInfo = namePanelInfo;
 
+    // Esta variable le paso al padre para saber el tipo de reporte que debera
+    // genear en caso de que se presione el boton de generar reporte
+    this.namePanelInfoEmit.emit(this.namePanelInfo);
+
     if (this.namePanelInfo == 'DATA') {
   
     }
 
-    if (this.namePanelInfo == 'DAILY') {
+    if (this.namePanelInfo == 'ATTENDANCE') {
       // consulta de registros diarios  de los clients
     }
-    if (this.namePanelInfo == 'MONTH') {
+    if (this.namePanelInfo == 'INSCRIPTION') {
       // consulta de las membresías de los clientes
     }
     if (this.namePanelInfo == 'EVOLUTION') {

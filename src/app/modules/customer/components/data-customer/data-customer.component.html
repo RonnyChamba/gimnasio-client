@@ -285,8 +285,11 @@
 
   <div class="d-flex justify-content-end m-0 mb-3">
    
-    <button type="button" class="btn btn-secondary me-2" (click)="fnCancel()" >CANCELAR</button>
-    <input  type="submit"  class="btn btn-primary" value="ACTUALIZAR"    [disabled]="formData.invalid" />
+    <!--  -->
+    <button type="button" class="btn btn-secondary me-2" (click)="fnCancel()" > <i class="fa-solid fa-ban"></i> CANCELAR</button>
+    <button  type="submit"  class="btn btn-primary" [disabled]="formData.invalid" >
+      <i class="fa-solid fa-floppy-disk"></i> ACTUALIZAR
+    </button>
     
 
   </div>

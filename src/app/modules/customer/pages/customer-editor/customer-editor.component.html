@@ -8,18 +8,18 @@
 <app-nav-bar (newItemEvent)="onClickMenu($event)"> </app-nav-bar>
 
   
-  <div class="home-body mt-3">
-    <div class="home-content p-4 border border-2">
+  <div class="home-body">
+    <div class="home-content p-3 border border-2">
       <!--    -->
       <div class="d-flex flex-wrap justify-content-between align-item-center">
-        <h3 class="home-subtitle"><a routerLink="/customer">Clientes</a>/{{ nombre}} </h3>
-        <button class="btn btn-primary d-flex align-items-center">
-          <i class="bx bx-user-plus" style="color:white"> </i> <span class="ms-1" >aqui ia otro contenuido</span>
+        <h4 class="home-subtitle"><a routerLink="/customer">Clientes</a>/{{ nombre}} </h4>
+        <button class="btn btn-danger d-flex align-items-center" (click)="generateReport()" >
+          <i class="fa-solid fa-file-pdf"></i><span class="ms-1" >REPORTE</span>
         </button>
       </div>
 
       <!-- Main content -->
-      <app-info-customer [idCustomer] = "ideCustomer"  (eventNameCustomer)="nombre = $event" ></app-info-customer>
+      <app-info-customer [idCustomer] = "ideCustomer"  (namePanelInfoEmit) ="setTipoPanel($event)"    (eventNameCustomer)="nombre = $event" ></app-info-customer>
       
     </div>
   </div>

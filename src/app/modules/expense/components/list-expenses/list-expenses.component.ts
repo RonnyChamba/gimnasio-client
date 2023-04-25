@@ -39,21 +39,21 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
     this.findAll();
     this.addSubscription();
   }
-  
+
   ngOnDestroy(): void {
 
     this.subscription.unsubscribe();
   }
 
-  private findAll(){
+  private findAll() {
 
     this.paramPaginator.typeData = "EXPENSE";
-    this.transactionSrService.findAll( this.paramPaginator).subscribe(resp =>{
-    
+    this.transactionSrService.findAll(this.paramPaginator).subscribe(resp => {
+
       this.listData = resp.data;
       this.pageRender = resp.page;
-      
-      this.sumaTotalByPage.next (resp.sumaTotalPageable as number);
+
+      this.sumaTotalByPage.next(resp.sumaTotalPageable as number);
 
       this.calculSumaRegister();
     })
@@ -61,46 +61,50 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
   }
   private addSubscription() {
 
-    this.utilFiltersService.eventFiltersObservable().subscribe(filtePro => {
-      
+    this.subscription.add(
 
-      if (filtePro) {
-
-        let currentPage = this.paramPaginator.page;
-
-        
-  
-        this.paramPaginator = filtePro;
-        this.paramPaginator.page = currentPage;
-        this.changePage();
-
-        // Cuando se actualizaa un registro o elimnar se manda a actualizar todos los registros
-      }else this.findAll();
+      this.utilFiltersService.eventFiltersObservable().subscribe(filtePro => {
 
 
-        
+        if (filtePro) {
+
+          let currentPage = this.paramPaginator.page;
+
+
+
+          this.paramPaginator = filtePro;
+          this.paramPaginator.page = currentPage;
+          this.changePage();
+
+          // Cuando se actualizaa un registro o elimnar se manda a actualizar todos los registros
+        } else this.findAll();
       }
-    )
+      )
+
+    );
+
+
+
 
   }
   changePage(numberPage?: number) {
-    
-    // console.log("Number  of  page" +  numberPage)
-    this.paramPaginator.page = numberPage || numberPage==0? numberPage: this.paramPaginator.page;
 
-    
+    // console.log("Number  of  page" +  numberPage)
+    this.paramPaginator.page = numberPage || numberPage == 0 ? numberPage : this.paramPaginator.page;
+
+
     /**
      * If there is a text input, begggin page 0
      * 
      * If sizePage is mayor que el total de elemntos, entonces que muestre los resultado en la pagina 0 
      */
-    
-    if (this.paramPaginator.valueSearch || (this.paramPaginator.size>= this.pageRender.totalElements)) this.paramPaginator.page =0;
+
+    if (this.paramPaginator.valueSearch || (this.paramPaginator.size >= this.pageRender.totalElements)) this.paramPaginator.page = 0;
 
     this.findAll();
   }
 
-  
+
   calculSumaRegister() {
     // console.log(this.pageRender)
 
@@ -121,9 +125,9 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
 
   edit(ide: number) {
     // alert("hola " + ide)
- 
 
-    const references =   this.modalService.open(FormExpensesComponent, {
+
+    const references = this.modalService.open(FormExpensesComponent, {
       size: "lg"
     });
 
@@ -134,7 +138,7 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
 
     Swal.fire({
       title: '¿Eliminar Registro?',
-      
+
       text: `Seguro desea eliminar el registro`,
       icon: 'question',
       allowOutsideClick: false,
@@ -144,17 +148,17 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
-      
-        this.expenseService.delete(ide).subscribe(resp =>{
 
-         alert("eliminado con eexito, falta actualiza la tabla")
+        this.expenseService.delete(ide).subscribe(resp => {
 
-         this.findAll();
+          alert("eliminado con eexito, falta actualiza la tabla")
+
+          this.findAll();
         })
       }
     });
-  
- 
+
+
   }
 
 }

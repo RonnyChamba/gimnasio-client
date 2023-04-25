@@ -1,25 +1,20 @@
-<div class="profile bg-primary">
-
+<div class="profile bg-primary p-1">
     <div class="profile-header mb-3">
-
         <div class="content-img">
 
             <img src="../../../../assets/gym.jpeg" alt="Profile Customer" class="profile__img">
         </div>
     </div>
-
     <div class="profile-body">
         <div class="profile-content">
-
-
             <p class="profile__option"> <i class="bx bx-user"></i> <span>Editar Perfil</span></p>
             <!-- <p class="profile__option"> <i class="bx bx-home"></i> <span>Enviar mensaje</span></p> -->
             <!-- <p class="profile__option"> <i class="bx bx-user"></i> <span>Crear rutina</span></p> -->
-            <p class="profile__option"> <i class="bx bx-home"></i> <span>{{customerCurrent? customerCurrent.dateRegister: ""}}</span></p>
-            <p class="profile__option"> <i class="bx bx-home"></i> <span (click)="changeStatus('STATUS')" >{{customerCurrent? customerCurrent.status: ""}}</span></p>
-            <p class="profile__option"> <i class="bx bx-home"></i> <span  (click)="changeStatus('DELETE')" >{{customerCurrent? customerCurrent.statusDelete: ""}}</span></p>
+            <p class="profile__option"> <i class="fa-solid fa-calendar-days me-1"></i><span>{{customerCurrent? customerCurrent.dateRegister: ""}}</span></p>
+            <p class="profile__option"  role="button"> <i class="bx bx-home"></i> <span (click)="changeStatus('STATUS')" >{{customerCurrent? 
+                (customerCurrent.status? 'Activo': 'Inactivo'  ): "NA"}}</span></p>
+            <p class="profile__option"  role="button" > <i class="bx bx-home"></i> <span  (click)="changeStatus('DELETE')" >{{customerCurrent? customerCurrent.statusDelete: ""}}</span></p>
         </div>
-
     </div>
 </div>
 

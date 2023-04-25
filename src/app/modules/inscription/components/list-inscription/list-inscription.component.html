@@ -1,14 +1,11 @@
 <div [ngClass]="{'height-data-empty': listData && listData.length<1, 'height-data':  listData && listData.length>=1}"
-    class="table-responsive">
-
-
-
+    class="table-wrapper">
 
     <table class="table mt-3 ">
         <thead class="table-light">
             <tr [ngClass]="{'expanded-row': showDetails}">
                 <th scope="col">Nro</th>
-                <th scope="col">Cliente</th>
+                <th scope="col"  *ngIf="!reduceColumns">Cliente</th>
                 <th scope="col">Fecha</th>
                 <th scope="col" *ngIf="showDetailsModality">Modalidad</th>
                 <th scope="col">T.Pago <span (click)="showDetailsModality = !showDetailsModality" role="button">
@@ -45,7 +42,7 @@
         <tbody>
             <tr *ngFor="let item of listData; index as i">
                 <td scope="row"> {{i|calcIndexList:pageRender}} </td>
-                <td>{{item.customer}} </td>
+                <td *ngIf="!reduceColumns">{{item.customer}} </td>
                 <td> {{item.transaction.dateCreate}} </td>
                 <td  *ngIf="showDetailsModality"> {{item.modality.name}} </td>
                 <td> {{item.transaction.typePay.substring(0,1)}} </td>

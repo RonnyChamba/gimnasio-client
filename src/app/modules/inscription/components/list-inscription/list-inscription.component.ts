@@ -19,8 +19,11 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
   // Cuando el ide es 0 signfica que tiene que listar todas las inscripciones registradas en la base de datos
   // Cuando no es 0, equivale al id del cliente, y se listan las inscripciones del cliente en particular 
   @Input() idCustomer: number = 0;
-
   
+  // Esta variable permite mostrar u ocultar el nombre del cliente en la tabla de membresías
+  @Input() reduceColumns: boolean = false;
+
+
   listData: InscriptionListPage[];
   pageRender: PageRender;
   sumaTotalElements = 0;
@@ -55,6 +58,35 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
       this.utilFiltersService.eventFiltersObservable().subscribe(resp => {
         console.log("Respuesta del filtro", resp)
 
+        // asignar los valores de los filtros al servicio de utilidades, este  es el caso que se desea generar un reporte
+        this.utilFiltersService.params = this.paramPaginator;
+
+      /**
+       * 
+       * Procesos cuando se ejecuta el observable
+       * 
+       * 1) Se ejecuta cuando los filtro o parametros de busqueda cambian en el componente de busqueda con 
+       * el fin de listar los datos segun los filtros que se envien, en este caso reciben  como argumento los filtros 
+       * que fueron seleccionados, 
+       * 
+       * 2) Cuando se elimina o edita un registro de la tabla  para actualizar toda la tabla, en este caso se envia como argumento
+       * un valor null para que se ejecute el metodo de listar todos los registros.
+       * 
+       * 3) Cuando se desea generar un reporte desde el component CustomerEditComponent, en este caso se envia como parametro un string 
+       * con el valor "REPORT", en este caso, lo que se debe hacer es simplemente asignar los valores de los filtros que
+       *  se encuentran en el componente de busqueda, para que se genere el reporte con los filtros que se encuentran en el componente
+       * de busqueda. Ademas, no debe actualizar la tabla, por lo tanto no debe ejecutar el metodo de listar todos los registros.
+       * 
+       */
+
+      // Verificar si se desea generar un reporte o actualizar la tabla
+      if (resp && resp == "REPORT") {
+        // indica que se desea generar un reporte, por lo tanto no debe actualizar la tabla ni filtrar
+        console.log("dento del report",);
+        return;
+  
+      }
+
         
         // Filtro de busqueda
         if (resp) {
@@ -75,7 +107,9 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
 
   private findAll() {
 
+    // Importante asignar este tipo que sea iguak¿l a uno de los tipos que se encuentran en el enum TypeReport
     this.paramPaginator.typeData = "INSCRIPTION";
+
     this.customerService.findAllMembresiasByCustomer(this.idCustomer, this.paramPaginator).subscribe(resp => {
 
       console.log(resp)

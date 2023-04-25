@@ -32,11 +32,12 @@ export class FilterAttendanceComponent implements OnInit {
     );
 
 
+
     // Add filter type expense
     this.typeExpenses = this.utilService.typeExpenses;
     
   }
-
+  
   private createForm() {
 
     this.formData = new FormGroup(

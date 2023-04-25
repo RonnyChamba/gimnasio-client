@@ -11,6 +11,15 @@
 
     min-height: 315px;
 }
-table{
-  overflow: scroll;
+
+.table-wrapper {
+  width: 100%; /* ajusta el ancho según tus necesidades */
+  // overflow-x: scroll;
+  // overflow-x: scroll; 
+  /* Desplazamiento horizontal */
+}
+
+table {
+  min-width: 300px; /* ajusta el ancho mínimo según tus necesidades */
+  white-space: nowrap; 
 }

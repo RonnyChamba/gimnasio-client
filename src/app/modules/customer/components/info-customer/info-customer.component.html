@@ -1,9 +1,31 @@
-<div class="row mt-4">
+<div class="row mt-2">
   <!-- profile -->
-  <app-customer-profile class="col-sm-3"   [customerCurrent] ="customerCurrent"  (eventChangeStatus)="eventChangeStatus = $event"  ></app-customer-profile>
+  <app-customer-profile class="col-auto"   [customerCurrent] ="customerCurrent"  (eventChangeStatus)="eventChangeStatus = $event"  ></app-customer-profile>
 
-  <div class="information bg-info p-2 col">
-    <div class="information-header">
+  <div class="information px-2 col">
+    <ul class="nav nav-tabs mb-2">
+      <li class="nav-item">
+        <span class="nav-link" [ngClass]="{'active': namePanelInfo=='DATA'}"  aria-current="page" role="button" (click)="changePanel('DATA')">Datos Personales</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link" [ngClass]="{'active': namePanelInfo=='ATTENDANCE'}" aria-current="page" role="button"  (click)="changePanel('ATTENDANCE')">Asistencias</span>
+      
+      </li>
+      <li class="nav-item">
+
+        <span class="nav-link" [ngClass]="{'active': namePanelInfo=='INSCRIPTION'}" aria-current="page" role="button" (click)="changePanel('INSCRIPTION')" >Membres&iacute;as</span>
+    
+      </li>
+      <li class="nav-item">
+        <span class="nav-link" [ngClass]="{'active': namePanelInfo=='EVOLUTION'}" aria-current="page" role="button" (click)="changePanel('EVOLUTION')">Evoluci&oacute;n</span>
+      </li>
+
+      <!-- <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </li> -->
+    </ul>
+
+    <!-- <div class="information-header">
       <ul class="d-flex p-0" style="list-style-type: none">
         <li class="me-2">
           <button (click)="changePanel('DATA')" class="btn btn-primary">
@@ -28,7 +50,7 @@
           </button>
         </li>
       </ul>
-    </div>
+    </div> -->
 
     <div class="information-body">
       <!-- Aqio viene varios paneles según la opcion seleccionada -->
@@ -38,11 +60,11 @@
         <app-data-customer [idCustomer]="idCustomer"   (customerEvent)=" getCustomer($event)"  ></app-data-customer>
       </ng-template>
 
-      <ng-template [ngIf]="namePanelInfo == 'DAILY'">
+      <ng-template [ngIf]="namePanelInfo == 'ATTENDANCE'">
         <app-daily-customer [idCustomer]="idCustomer"></app-daily-customer>
       </ng-template>
 
-      <ng-template [ngIf]="namePanelInfo == 'MONTH'">
+      <ng-template [ngIf]="namePanelInfo == 'INSCRIPTION'">
         <app-invoice-customer [idCustomer]="idCustomer" ></app-invoice-customer>
       </ng-template>
 

@@ -34,7 +34,7 @@ export class EvolutionCustomerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-  
+
     this.subscription.unsubscribe();
   }
 
@@ -42,9 +42,38 @@ export class EvolutionCustomerComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.utilFiltersService.eventFiltersObservable().subscribe(resp => {
-        console.log("Respuesta del filtro", resp)
+        console.log("Respuesta del filtro", resp);
 
-        
+        // asignar los valores de los filtros al servicio de utilidades, este  es el caso que se desea generar un reporte
+        this.utilFiltersService.params = this.paramPaginator;
+
+        /**
+  * 
+  * Procesos cuando se ejecuta el observable
+  * 
+  * 1) Se ejecuta cuando los filtro o parametros de busqueda cambian en el componente de busqueda con 
+  * el fin de listar los datos segun los filtros que se envien, en este caso reciben  como argumento los filtros 
+  * que fueron seleccionados, 
+  * 
+  * 2) Cuando se elimina o edita un registro de la tabla  para actualizar toda la tabla, en este caso se envia como argumento
+  * un valor null para que se ejecute el metodo de listar todos los registros.
+  * 
+  * 3) Cuando se desea generar un reporte desde el component CustomerEditComponent, en este caso se envia como parametro un string 
+  * con el valor "REPORT", en este caso, lo que se debe hacer es simplemente asignar los valores de los filtros que
+  *  se encuentran en el componente de busqueda, para que se genere el reporte con los filtros que se encuentran en el componente
+  * de busqueda. Ademas, no debe actualizar la tabla, por lo tanto no debe ejecutar el metodo de listar todos los registros.
+  * 
+  */
+
+
+        // Verificar si se desea generar un reporte o actualizar la tabla
+        if (resp && resp == "REPORT") {
+          // indica que se desea generar un reporte, por lo tanto no debe actualizar la tabla ni filtrar
+          console.log("dento del report",);
+          return;
+
+        }
+
         // Filtro de busqueda
         if (resp) {
           this.paramPaginator = resp as PaginatorAttendanceAndMembresias;
@@ -61,29 +90,29 @@ export class EvolutionCustomerComponent implements OnInit, OnDestroy {
   }
 
 
-  private findAll(){
-    
-    this.paramPaginator.typeData="EVOLUTION";
+  private findAll() {
+
+    this.paramPaginator.typeData = "EVOLUTION";
 
     this.customerService.findAllMembresiasByCustomer(this.idCustomer, this.paramPaginator)
-    .pipe(
-      tap (resp => {
+      .pipe(
+        tap(resp => {
 
-        console.log("Respuesta del servicio", resp)
+          console.log("Respuesta del servicio", resp)
 
-        this.listData = resp.data;
-        this.pageRender = resp.page;
-        // this.sumaTotalElements = resp.pageRender.totalElements;
+          this.listData = resp.data;
+          this.pageRender = resp.page;
+          // this.sumaTotalElements = resp.pageRender.totalElements;
 
-        this.calculSumaRegister();
-      }),
-      catchError(err => {
-        console.log("Error en el servicio", err)
-        return of(null);
-      }
-      )
-  
-    ).subscribe();
+          this.calculSumaRegister();
+        }),
+        catchError(err => {
+          console.log("Error en el servicio", err)
+          return of(null);
+        }
+        )
+
+      ).subscribe();
 
   }
 

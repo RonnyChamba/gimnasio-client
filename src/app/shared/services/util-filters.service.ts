@@ -7,6 +7,8 @@ import { Subject } from 'rxjs';
 export class UtilFiltersService {
 
   private eventFilters = new Subject<any| null>  ();
+
+  private paramsSet: any
   constructor() { }
   
   eventFiltersEmit(value: any) {
@@ -16,5 +18,19 @@ export class UtilFiltersService {
   eventFiltersObservable() {
     return this.eventFilters.asObservable();
   }
+
+
+  get params() {
+    return this.paramsSet;
+
+  }
+
+  set params(value: any) {
+    this.paramsSet = value;
+  }
+
+  
+
+
   
 }
