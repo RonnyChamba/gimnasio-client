@@ -29,8 +29,8 @@
                     </li>
 
                 </ul>
-                <div>
-                    <div class="ms-auto d-flex ">
+                <div class="" *ngIf="showFilters || typeModel=='CUSTOMER' || typeModel=='CATEGORY' ">
+                    <div class="ms-auto d-flex">
                         <select class="form-select me-2" formControlName="typeUser"
                             *ngIf="typeModel !='CATEGORY' && typeModel !='EVOLUTION' && typeModel !='CUSTOMER' ">
                             <option value="" selected>Todos los usuarios</option>
@@ -62,6 +62,14 @@
                         <input type="search" placeholder="{{typeModel =='CUSTOMER'? 'Buscar nombre o cédula...':'Buscar descripción...'}}" formControlName="valueSearch"
                             class="form-control" />
                     </div>
+                </div>
+
+                <div *ngIf="typeModel  !='CUSTOMER' && typeModel  !='EVOLUTION' && typeModel  !='CATEGORY' ">
+
+                    <button class="btn btn-info" title="Ver mas filtros" (click)="showFilters =!showFilters"  >
+                        <i class="fa-solid fa-filter"></i>
+                        
+                    </button>
                 </div>
 
             </div>

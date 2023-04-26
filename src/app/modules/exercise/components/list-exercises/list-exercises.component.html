@@ -1,10 +1,25 @@
-<!-- Container-gallery -->
-<div class="scroll">
-<div class="grid-gallery"  *ngIf="listData">
-    <div class="grid-gallery__item"  *ngFor="let item of listData"  (click) ="edit(item.ide)">
+
+<div class="scroll mt-3">
+
+  
+  <!-- Filtro busqueda -->
+  <div class=" d-flex flex-wrap justify-content-between align-items-center mb-2">
+    <input type="search" placeholder="Buscar Ejercicio" class="form-control search order-md-last"
+      [(ngModel)]="searchText" (ngModelChange)="onSearchChange($event)" />
+    <span class="">{{listData? listData.length: 0}} Ejercicios</span>
+    <!-- style="max-width: 200px;" -->
+  </div>
+
+  <!-- Container-gallery -->
+  <div class="grid-gallery" *ngIf="listData">
+
+    <div class="grid-gallery__item" *ngFor="let item of listDataFilter">
+
+      <!-- <span class="delete" title="Eliminar ejercicio" role="button"><i class="fa-solid fa-trash"></i></span> -->
+
       <div class="grid-gallery__img">
         <!-- <img src="../../../../assets/gym.jpeg" alt="profile" /> -->
-        <img src="{{item.url}}" alt="profile" />
+        <img src="{{item.url? item.url:urlImgDefault}}" alt="profile" />
       </div>
 
       <div class="">
@@ -18,17 +33,18 @@
           <!-- Aqui no va descripcion -->
           <p class="exercise__description"></p>
         </div>
-        <div class="accordion d-md-none" id="accordionExample">
+        <!-- accordionExample -->
+        <div class="accordion d-md-none" [id]="calcularIde(item)">
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingThree">
               <button class="accordion-button collapsed p-1 exercise__ver-mas" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"
-                (click)="onAccordion()">
-                Ver {{ textAccordion }} detalles
+                [attr.data-bs-target]="'#collapseThree'+item.ide" aria-expanded="false"
+                [attr.aria-controls]="'collapseThree'+item.ide" (click)="onAccordion()">
+                Ver detalles
               </button>
             </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-              data-bs-parent="#accordionExample">
+            <div [id]="'collapseThree'+item.ide" class="accordion-collapse collapse" aria-labelledby="headingThree"
+              [attr.data-bs-parent]="'#'+calcularIde(item)">
               <div class="accordion-body px-1 py-3">
                 <p class="exercise__level mb-1">Nivel Junior</p>
                 <p class="exercise__date">
@@ -44,10 +60,12 @@
           </div>
         </div>
       </div>
+
+      <div class="item-hover text-end">
+        <button class="btn" (click)="edit(item.ide)"><i class="fa-solid fa-pen-to-square"></i></button>
+        <button class="btn" (click)="delete(item.ide)" ><i class="fa-solid fa-trash"></i></button>
+      </div>
     </div>
-
-
-
 
   </div>
 

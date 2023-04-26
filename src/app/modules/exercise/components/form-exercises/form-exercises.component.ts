@@ -28,10 +28,17 @@ export class FormExercisesComponent implements OnInit {
   mapLevel: any[];
   formDataSend: FormData = new FormData();
   listCategories: any[];
-  selectedFileUrl: string;
+
+
+  // esta url es la imagen por defecto tambien debe estar en list-exercises.component.ts
+  // para mostrar la imagen por defecto 
+  urlImgDefault = "../../../../../assets//img//Default_pfp.svg.png";
+  selectedFileUrl: string = `${this.urlImgDefault}`;
   @Input() idExercise: number;
 
   exerciseEdit: ExerciseFetch;
+
+  cancelButton = false;
 
 
   constructor(private utilService: UtilService,
@@ -61,8 +68,9 @@ export class FormExercisesComponent implements OnInit {
           // console.log(resp);
 
           this.exerciseEdit = resp;
+        
 
-          this.selectedFileUrl = resp.url;
+          this.selectedFileUrl = resp.url? resp.url : `${this.urlImgDefault}`;
 
           this.formData.patchValue({
             name: resp.name,
@@ -70,7 +78,7 @@ export class FormExercisesComponent implements OnInit {
             level: resp.level,
           });
 
-          console.log(resp.url);
+          // console.log(resp.url);
 
           if (resp.categories.length > 0) {
             // Asigna el valor de las categorias al campo categories
@@ -169,7 +177,7 @@ export class FormExercisesComponent implements OnInit {
         // console.log(resul);
 
 
-        this.toastr.success("Registro guardado con exito")
+        this.toastr.info("Registro guardado correctamente")
 
         this.modal.close();
 
@@ -211,18 +219,18 @@ export class FormExercisesComponent implements OnInit {
 
     const exercise = this.formData.value;
 
-    // Si el archivo  no se  modifico , envio la misma url que se envio desde el backend, de lo contrario envio null que indica que se elimino el archivo o modificado
-    exercise.url = this.exerciseEdit.url == this.selectedFileUrl ?
-      this.selectedFileUrl : null;
 
-    this.formDataSend.set("exercise",  JSON.stringify(exercise));
+    // Asigna la url del archivo seleccionado o el valor por defecto si no se selecciono ningun archivo o se elimino el archivo
+    exercise.url = this.selectedFileUrl;
+
+    this.formDataSend.set("exercise", JSON.stringify(exercise));
 
     this.exerciseService.update(this.idExercise, this.formDataSend).pipe(
 
       // maneja el resultado aquí
       tap(resul => {
 
-        this.toastr.success("Registro actualizado con exito")
+        this.toastr.info("Registro actualizado correctamente")
 
         this.modal.close();
 
@@ -299,6 +307,8 @@ export class FormExercisesComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
+
+    console.log("dentro")
     const file: File = event.target.files[0];
 
     const typeFileAllowd = ["jpeg", "png", "jpg"]
@@ -324,64 +334,63 @@ export class FormExercisesComponent implements OnInit {
       } else {
 
         this.toastr.warning(`Archivo  tipo ${typeFile} no permitido,  solo se aceptan imagenes en formato [ ${typeFileAllowd.join(", ")} ]`, "Advertencia");
-        //  alert("formato " + file.type + " no permitido")
 
         this.formData.controls["url"].reset();
       }
 
     } else console.log("no hay imagen seleccionada")
 
-    // console.log(file)
   }
 
   deleteImg() {
 
-    if (this.selectedFileUrl) {
+    this.selectedFileUrl = `${this.urlImgDefault}`;
+    this.formDataSend.delete("photo");
 
-      this.selectedFileUrl = "";
-      this.formDataSend.delete("photo");
-      this.formData.controls["url"].reset();
 
-    }
+    // if (this.selectedFileUrl) {
+
+    //   this.selectedFileUrl = "";
+    //   this.formDataSend.delete("photo");
+    //   this.formData.controls["url"].reset();
+
+    // }
   }
+  onUpload(event: any) {
 
-  deleteExercise() {
-
-
-    if (this.idExercise == null) {
-      this.toastr.warning("No se puede eliminar un ejercicio que no existe", "Advertencia");
-      return;
-    }
-
-    this.exerciseService.delete(this.idExercise).pipe(
-
-      // maneja el resultado aquí
-      tap(resul => {
-
-        this.toastr.success("Registro eliminado con exito")
-
-        this.modal.close();
-
-        // refresca la lista de ejercicios
-        this.exersiceUtilService.refreshExercises.next(resul);
-
-      }),
-
-      // maneja el error aquí
-      catchError(error => {
-
-        if (error) {
-
-          const objError = error.error;
-          this.toastr.warning(objError.message, "Advertencia")
-
-        } else this.toastr.error("Error al eliminar el ejercicio");
+    console.log(event);
 
 
-        // retornamos un observable vacio para que el flujo continúe
-        return of(null);
-      })).subscribe(); // ejecuta el observable| es decir cuando nos suscribimos a un observable  hacemos que los operadores se ejecuten
+    const file: File = event.files[0];
 
+    const typeFileAllowd = ["jpeg", "png", "jpg"]
+    if (file) {
+
+      const typeFile = file.name.split(".").pop() || "";
+
+      // Validar que sea de tipo imagen
+      if (typeFileAllowd.includes(typeFile)) {
+
+        // Verificar si ya exta agregada la imagen al formData
+        this.formDataSend.delete("photo");
+
+        this.formDataSend.append("photo", file);
+
+        console.log(this.formDataSend.get("photo"))
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.selectedFileUrl = reader.result as string;
+        };
+      } else {
+
+        this.toastr.warning(`Archivo  tipo ${typeFile} no permitido,  solo se aceptan imagenes en formato [ ${typeFileAllowd.join(", ")} ]`, "Advertencia");
+
+        this.formData.controls["url"].reset();
+      }
+
+    } else console.log("no hay imagen seleccionada")
 
   }
 }

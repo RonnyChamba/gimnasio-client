@@ -57,5 +57,10 @@ export class TransactionSrService implements OnInit, OnDestroy {
     });
   }
 
+  deleteInscription(ide: number): Observable<any> {
+    
+    return this.httpClient.delete(`${this.pathApi}/inscriptions/${ide}`);
+
+  }
 
 }

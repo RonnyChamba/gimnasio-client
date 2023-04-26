@@ -141,4 +141,5 @@ export class CustomerService {
 
     return this.httpClient.get(`${this.pathApi}/customers/${ide}/inscriptions/maxDateBegin`);
   }
+
 }

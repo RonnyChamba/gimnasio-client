@@ -1,12 +1,15 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError, of, tap } from 'rxjs';
 import { InscriptionListPage } from 'src/app/core/models/inscription-model';
 import { PageRender, PaginatorAttendanceAndMembresias } from 'src/app/core/models/page-render.model';
 import { FormCustomersComponent } from 'src/app/modules/customer/components/form-customers/form-customers.component';
 import { CustomerService } from 'src/app/modules/customer/services/customer.service';
 import { TypeOperationFormInsCustomer } from 'src/app/utils/utilForm';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
+import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
+import { TransactionSrService } from 'src/app/services/transaction-sr.service';
 
 @Component({
   selector: 'app-list-inscription',
@@ -38,6 +41,8 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
   constructor(
     private customerService: CustomerService,
     private utilFiltersService: UtilFiltersService,
+    private toaster: ToastrService,
+    private  transactionSrv: TransactionSrService,
     private modalService: NgbModal,) { }
 
   ngOnInit(): void {
@@ -147,11 +152,42 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
 
   delete(ide: number) {
 
+    Swal.fire({
+      title: '¿Eliminar Membresía?',
+      // html: ``,
+      text: `Se eliminarán todos los datos relacionados con la membresía.`,
+      icon: 'question',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.value) {
 
-    alert("eliminar inscription")
-    // this.customerService.deleteAttendance(ide).subscribe(resp=>{
-    //   console.log(resp)
-    // })
+
+        this.transactionSrv.deleteInscription(ide).pipe(
+
+          tap(resp => {
+            console.log(resp)
+            this.toaster.info("Membresía eliminada correctamente")
+            this.findAll();
+          }),
+          catchError(err => {
+            console.log(err)
+            this.toaster.error("Ocurrio un error al eliminar", "Error")
+            return of(null);
+          })
+        ).subscribe();
+      
+      }
+
+    });
+
+
+    // alert("eliminar inscription")
+
+  
+ 
   }
 
 

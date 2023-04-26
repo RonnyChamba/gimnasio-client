@@ -1,31 +1,49 @@
-
-<div class="container-user w-100">
-  <div class="content-user p-3 mx-auto border border-2 rounded-3">
-    <div class="d-flex justify-content-between align-items-center">
-      <h4 class="form-title"> {{idExercise? 'ACTUALIZAR': 'NUEVO'}} EJERCICIO</h4>
+<div class="container-user">
+  <div class="content-user card mx-auto border rounded-3">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h4 class="form-title"> {{idExercise? 'Actualizar': 'Nuevo'}} Ejercicio</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()"></button>
     </div>
+    
 
-    <form class="mt-4" [formGroup]="formData" (ngSubmit)="fnSubmit()">
-      <div class="card p-3 mb-3">
+    <form class="mt-2 card-body" [formGroup]="formData" (ngSubmit)="fnSubmit()">
+
+      
+      
+      <div class="card p-2 mb-3">
         <div class="d-flex justify-content-between">
 
           <legend class="fz-1 form-subtitle">Datos</legend>
-          <span  *ngIf="selectedFileUrl" (click) ="deleteExercise()" >X</span>
         </div>
         <div class="row justify-content-center align-items-center">
-          <div class="col-sm-3 mb-3 text-center text-md-start">
-            
+
+          <div class="col-sm-5 mb-3 text-center">
+
             <div class="content-img">
 
               <!-- Para eliminar la imagen seleccionar, pero solo debe mostrarse cuando se seleccionar la imagen -->
-              <span class="delete" *ngIf="selectedFileUrl" (click) ="deleteImg()" >X</span>
+              <!-- <span class="delete" *ngIf="selectedFileUrl" (click)="deleteImg()">X</span> -->
               <!-- <div *ngIf="selectedFileUrl"> -->
-                <img [src]="selectedFileUrl? selectedFileUrl:'../../../../../assets//img//Default_pfp.svg.png'" >
+              <img [src]="selectedFileUrl"
+                style="height: 80px; height: 80px;">
               <!-- </div> -->
             </div>
 
-            <input id="fileInput" type="file"  (change) ="onFileSelected($event)" accept="image/*"  formControlName="url">
+            <div>
+              <label for="image" class="btn btn-primary me-1"><i class="fa-sharp fa-regular fa-plus"></i>Seleccionar</label>
+
+              <button   type="button"  (click)="deleteImg()" 
+                       class="btn btn-danger"
+                      [disabled]="urlImgDefault==selectedFileUrl"
+                      >
+
+                     <i class="fa-solid fa-trash"></i>
+              
+              </button>
+              
+                <input id="image" type="file" class="btn btn-primary" (change)="onFileSelected($event)" accept="image/*"
+                style="visibility: hidden;" formControlName="url">
+            </div>
           </div>
 
           <div class="form-floating mb-3 col">
@@ -81,24 +99,6 @@
                   </select>
                   <label for="categories" class="ms-1">Seleccione Categoria</label>
                 </div>
-
-                <!-- <div class="col-sm-6 mb-3">
-                  <select class="form-select form-select-lg" aria-label="Default select example"
-                    formControlName="level">
-                    <option value="{{ envi.key }}" *ngFor="let envi of mapLevel | keyvalue">
-                      {{ envi.value }}
-                    </option>
-                  </select>
-                </div> -->
-
-                <!-- <div class="col-sm-6 mb-3">
-                  <select class="form-select form-select-lg" aria-label="Default select example">
-                    <option selected>Seleccione categoria</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                </div> -->
                 <div class="form-floating mt-3">
                   <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
                     formControlName="description" rows="4"></textarea>
@@ -129,10 +129,14 @@
       </div>
 
       <div class="text-end mt-3">
-        <button type="button" class="btn btn-secondary me-2" (click)="modal.close()">CERRAR</button>
+        <button type="button" class="btn btn-secondary me-2" (click)="modal.close()">
+          <i class="fa-solid fa-ban"></i> CANCELAR
+        </button>
 
         <!-- <input type="submit" [disabled]="formData.invalid" class="btn btn-primary" value="GUARDAR" /> -->
-        <button type="submit" [disabled]="formData.invalid" class="btn btn-primary" >{{idExercise? 'ACTUALIZAR': 'GUARDAR'}}</button>
+        <button type="submit" [disabled]="formData.invalid" class="btn btn-primary">
+
+          <i class="fa-solid fa-floppy-disk"></i> GUARDAR</button>
       </div>
     </form>
   </div>

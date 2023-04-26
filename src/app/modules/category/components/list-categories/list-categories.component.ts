@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { FormCategoryComponent } from '../form-category/form-category.component';
 import Swal from 'sweetalert2';
 import { UtilCategoryService } from '../../services/util-category.service';
+import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
 
 @Component({
   selector: 'app-list-categories',
@@ -28,7 +29,9 @@ export class ListCategoriesComponent  implements OnInit, OnDestroy {
 
   constructor(private categoryService: CategoryService,
     private modalService: NgbModal,
-    private utilCateService: UtilCategoryService){}
+    private utilCateService: UtilCategoryService,
+    private utilFiltersService: UtilFiltersService
+    ){}
 
   ngOnInit(): void {
 
@@ -56,17 +59,14 @@ export class ListCategoriesComponent  implements OnInit, OnDestroy {
 
   private addSubscription() {
 
-    this.utilCateService.filterTableAsObservable().subscribe(filtePro => {
-
-
-      console.log(filtePro)
-
-      let currentPage = this.paramPaginator.page;
-      this.paramPaginator = filtePro;
-      this.paramPaginator.page = currentPage;
-
-      this.changePage();
-    })
+    this.subscription.add(
+      this.utilFiltersService.eventFiltersObservable().subscribe(resp => {
+        console.log(resp)
+        this.paramPaginator = resp;
+        this.paramPaginator.page = 0;
+        this.changePage();
+      })
+    )
   }
 
   changePage(numberPage?: number) {
@@ -109,7 +109,7 @@ export class ListCategoriesComponent  implements OnInit, OnDestroy {
  
 
     const references =   this.modalService.open(FormCategoryComponent, {
-      size: "lg"
+      size: "md"
     });
 
     references.componentInstance.ideCategory = ide;

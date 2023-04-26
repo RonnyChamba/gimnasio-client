@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError, of, tap } from 'rxjs';
 import { ExpenseAttribute } from 'src/app/core/models/expense.model';
 import { PageRender, PaginatorDiary } from 'src/app/core/models/page-render.model';
 import { ExpenseService } from '../../services/expense.service';
@@ -8,6 +8,7 @@ import { FormExpensesComponent } from '../form-expenses/form-expenses.component'
 import Swal from 'sweetalert2';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
 import { TransactionSrService } from 'src/app/services/transaction-sr.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-list-expenses',
@@ -32,6 +33,7 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
     private expenseService: ExpenseService,
     private modalService: NgbModal,
     private transactionSrService: TransactionSrService,
+    private toaster: ToastrService,
     private utilFiltersService: UtilFiltersService) { }
 
   ngOnInit(): void {
@@ -128,7 +130,7 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
 
 
     const references = this.modalService.open(FormExpensesComponent, {
-      size: "lg"
+      size: "md"
     });
 
     references.componentInstance.ideExpense = ide;
@@ -149,12 +151,19 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.value) {
 
-        this.expenseService.delete(ide).subscribe(resp => {
+        this.expenseService.delete(ide).pipe(
+          tap(resp => {
+            // console.log(resp);
 
-          alert("eliminado con eexito, falta actualiza la tabla")
+            this.toaster.info("Registro eliminado exitosamente");
+            this.findAll();
 
-          this.findAll();
-        })
+          }), catchError(err => {
+            // console.log(err)
+            this.toaster.error("Error al eliminar");
+            return of(null);
+          })
+        ).subscribe();
       }
     });
 

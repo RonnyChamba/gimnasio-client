@@ -6,30 +6,20 @@
 
   <app-nav-bar (newItemEvent)="onClickMenu($event)"></app-nav-bar>
 
-  <div class="home-body mt-3">
-    <div class="home-content p-4 border border-2">
+  <div class="home-body">
+    <div class="home-content p-3 border border-2">
       <!--    -->
       <div class="d-flex flex-wrap justify-content-between align-item-center">
-        <h3 class="home-subtitle">Ejercicios</h3>
+        <h4 class="home-subtitle">Ejercicios</h4>
         <button class="btn btn-outline-primary d-flex align-items-center" (click)="openModal()">
           <i class="bx bx-user-plus" style="color: royalblue"> </i>
           <span class="ms-1">Nuevo Ejercicio</span>
         </button>
       </div>
 
-      <!--  -->
-      <div class="row justify-content-between align-items-center mt-4  mb-4">
-        <div class="d-flex align-items-center col">
-          <span>{{size}}  Ejercicios</span>
-    
-        </div>
+   
 
-        <div class="col-md-4 mt-3 mt-md-0">
-          <input type="search" placeholder="Buscar Ejercicio" class="form-control col-md-2" />
-        </div>
-      </div>
-
-      <app-list-exercises class="bg-primary"  (size)="size=$event" ></app-list-exercises>
+      <app-list-exercises></app-list-exercises>
 
     </div>
   </div>

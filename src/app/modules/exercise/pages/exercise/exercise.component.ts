@@ -11,7 +11,6 @@ export class ExerciseComponent  implements OnInit{
  
   flagClose = true;
 
-  size: number = 0;
 
   constructor(private modalService: NgbModal){}
 
@@ -27,7 +26,7 @@ export class ExerciseComponent  implements OnInit{
     // console.log("Abrir modal");
 
     this.modalService.open(FormExercisesComponent, {
-      size: "lg"
+      size: "md"
     });
   }
 

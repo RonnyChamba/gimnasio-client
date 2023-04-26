@@ -8,6 +8,8 @@ import { TypeExpenseEnum } from 'src/app/utils/enum/enumLevel';
 import { validMessagesError } from 'src/app/utils/MessagesValidation';
 import { ExpenseService } from '../../services/expense.service';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-form-expenses',
@@ -27,6 +29,7 @@ export class FormExpensesComponent implements OnInit{
     public modal: NgbActiveModal, 
     private utilService: UtilService,
     private expenseService: ExpenseService,
+    private toaster: ToastrService,
     private utilFiltersService: UtilFiltersService ){}
 
   ngOnInit(): void {
@@ -92,30 +95,34 @@ export class FormExpensesComponent implements OnInit{
       if (this.ideExpense){
 
 
-        this.expenseService.update(this.ideExpense, this.formData.value).subscribe(resp =>{
+        this.expenseService.update(this.ideExpense, this.formData.value).pipe(
+          tap (resp => {
+            this.toaster.info("Gasto actualizado exitosamente")
+            this.modal.close();
+            this.utilFiltersService.eventFiltersEmit(null);
+          }), catchError(err => {
+            this.toaster.error("Error al actualizar")
+            return of(null);
+          })
+        ).subscribe();
 
-          alert("registro actualizado")
-          console.log(resp)
-          this.modal.close();
-
-          // Emitir evento para actualizar la lista de gastos, cuando se pasa null indica que actualza 
-          // la tabla pero no por filtro
-          this.utilFiltersService.eventFiltersEmit(null);
-        })
         // nuevo gasto
       }else {
 
-        this.expenseService.save(this.formData.value).subscribe(resp=>{
 
-          alert("registro diario guardado")
-          console.log(resp)
-          this.modal.close();
-          this.utilFiltersService.eventFiltersEmit(null);
-          
-        })
+        this.expenseService.save(this.formData.value).pipe(
+          tap (resp => {
+            this.toaster.info("Gasto guardado exitosamente")
+            this.modal.close();
+            this.utilFiltersService.eventFiltersEmit(null);
+          }), catchError(err => {
+            this.toaster.error("Error al guardar")
+            return of(null);
+          })
 
+        ).subscribe();
       }      
-    } else alert('Campos incorrectos');
+    } else this.toaster.warning("Los datos son incorrectos")
 
   }
 

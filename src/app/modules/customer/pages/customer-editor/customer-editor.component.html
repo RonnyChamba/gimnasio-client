@@ -13,8 +13,9 @@
       <!--    -->
       <div class="d-flex flex-wrap justify-content-between align-item-center">
         <h4 class="home-subtitle"><a routerLink="/customer">Clientes</a>/{{ nombre}} </h4>
-        <button class="btn btn-danger d-flex align-items-center" (click)="generateReport()" >
-          <i class="fa-solid fa-file-pdf"></i><span class="ms-1" >REPORTE</span>
+        <button class="btn btn-danger d-flex align-items-center" (click)="generateReport()" 
+        *ngIf="statusBtn"  title="Generar reporte {{title}}" >
+          <i class="fa-solid fa-file-pdf"></i><span class="ms-1" >{{title}}</span>
         </button>
       </div>
 

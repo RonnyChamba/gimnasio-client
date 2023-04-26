@@ -4,8 +4,9 @@ import { PageRender, PaginatorAttendanceAndMembresias } from 'src/app/core/model
 import { CustomerService } from 'src/app/modules/customer/services/customer.service';
 import { TransactionSrService } from 'src/app/services/transaction-sr.service';
 import * as dayjs from "dayjs";
-import { Subscription } from 'rxjs';
+import { Subscription, catchError, of, tap } from 'rxjs';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-list-attendance',
@@ -30,6 +31,7 @@ export class ListAttendanceComponent  implements OnInit, OnDestroy{
       private customerService: CustomerService,
       private transactionService: TransactionSrService,
       private utilFiltersService: UtilFiltersService,
+      private toaster: ToastrService
     ) { }
     ngOnInit(): void {
       this.findAll();
@@ -118,14 +120,22 @@ export class ListAttendanceComponent  implements OnInit, OnDestroy{
       const fechaFormateada = dateParse.format('YYYY-MM-DD HH:mm:ss');
       console.log(fechaFormateada)
 
-      this.transactionService.updateDateLeaveAttendance(ide, fechaFormateada).subscribe(resp => {
 
-        console.log(resp)
-        alert("asistencia actualizada")
-        console.log("asitencia actualizada..")
-      })
 
-    } else alert("La fecha no es valida")
+      this.transactionService.updateDateLeaveAttendance(ide, fechaFormateada).pipe(
+        tap(resp => {
+          console.log(resp)
+          this.toaster.info("Fecha de salida actualizada correctamente");
+          this.findAll();
+        }),
+        catchError(err => {
+          console.log(err)
+          this.toaster.error("Error al actualizar la fecha de salida")
+          return of(null);
+        })
+      ).subscribe();
+
+    } else this.toaster.warning("Debe seleccionar una fecha de salida");
   }
 
   changePage(numberPage?: number) {
@@ -138,12 +148,20 @@ export class ListAttendanceComponent  implements OnInit, OnDestroy{
   delete(ide: any ){
 
 
-    this.transactionService.deleteAttendance(ide as number).subscribe(resp => {
-      console.log(resp)
-      alert("asistencia eliminada")
 
-      this.findAll();
-    })
+    this.transactionService.deleteAttendance(ide as number).pipe(
+
+      tap(resp => {
+        console.log(resp)
+        this.toaster.info("Asistencia eliminada corratamente");
+        this.findAll();
+      }),
+      catchError(err => {
+        console.log(err)
+        this.toaster.error("Error al eliminar la asistencia")
+        return of(null);
+      })
+    ).subscribe();
   }
 
   calculSumaRegister() {

@@ -5,7 +5,7 @@ import { ExerciseRoutingModule } from './exercise-routing.module';
 import { SharedGlobalModule } from 'src/app/shared/global/shared-global.module';
 import { ListExercisesComponent } from './components/list-exercises/list-exercises.component';
 import { FormExerciseModule } from './components/form-exercises/form-exercise.module';
-
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -14,7 +14,7 @@ import { FormExerciseModule } from './components/form-exercises/form-exercise.mo
     ListExercisesComponent
   ],
   imports: [
-    CommonModule, ExerciseRoutingModule, SharedGlobalModule, FormExerciseModule
+    CommonModule, ExerciseRoutingModule, SharedGlobalModule, FormExerciseModule, FormsModule
   ]
 })
 export class ExerciseModule { }

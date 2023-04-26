@@ -56,7 +56,7 @@ export class CategoryComponent implements OnInit {
   openModal(){
 
     this.modalService.open(FormCategoryComponent, {
-      size: "lg"
+      size: "md"
     });
     
   }

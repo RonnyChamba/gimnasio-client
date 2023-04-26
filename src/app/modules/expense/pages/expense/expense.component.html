@@ -6,12 +6,12 @@
 
   <app-nav-bar (newItemEvent)="onClickMenu($event)"></app-nav-bar>
 
-  <div class="home-body mt-3">
-    <div class="home-content p-4 border border-2">
+  <div class="home-body">
+    <div class="home-content p-3 border border-2">
       <!--    -->
       <div class="d-flex flex-wrap justify-content-between align-item-center">
-        <h3 class="home-subtitle">Gastos $ {{sumTotalPriceByPage?sumTotalPriceByPage: ("0.00")}} de <span>$
-            {{sumTotalPrice}}</span> </h3>
+        <h4 class="home-subtitle">Gastos $ {{sumTotalPriceByPage?sumTotalPriceByPage: ("0.00")}} de <span>$
+            {{sumTotalPrice}}</span> </h4>
         <button class="btn btn-outline-primary d-flex align-items-center" type="button" (click)="openModal()">
           <i class="bx bx-user-plus" style="color: royalblue"> </i>
           <span class="ms-1">Nuevo Gasto</span>

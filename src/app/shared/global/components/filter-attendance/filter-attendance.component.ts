@@ -15,6 +15,7 @@ export class FilterAttendanceComponent implements OnInit {
    @Input() typeModel: typeModel;;
   formData: FormGroup;
   typeExpenses:any = [];
+  showFilters: boolean = false;
 
   constructor(
     private utilFiltersService: UtilFiltersService,

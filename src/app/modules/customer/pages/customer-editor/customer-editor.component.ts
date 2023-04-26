@@ -16,9 +16,8 @@ export class CustomerEditorComponent implements OnInit{
   flagClose = true;
   ideCustomer: number;
   nombre: string;
-
-
   typePanel: typeModel = 'DATA';
+  statusBtn = false;
   constructor(
     private activePath: ActivatedRoute,
     private reportService: ReportService,
@@ -92,7 +91,25 @@ createPdf(param: any) {
 
 setTipoPanel(value: typeModel){
   this.typePanel = value;
+
+  this.statusBtn = this.typePanel != 'DATA';
+
   console.log("Tipo de panel", this.typePanel);
+}
+
+get title(){
+  switch (this.typePanel) {
+    case 'DATA':
+      return 'Datos';
+    case 'ATTENDANCE':
+      return 'Asistencia';
+    case 'INSCRIPTION':
+      return 'Membresía';
+      case 'EVOLUTION':
+        return 'Evolución';
+    default:  
+      return 'Datos';
+}
 }
 
 }
