@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CategoryService } from 'src/app/modules/category/services/category.service';
 import { UtilService } from 'src/app/services/util-service.service';
-import { MIN_NAME, MAX_NAME, MAX_DESCRIPTION, MAX_LEVEL } from 'src/app/utils/Constants-Field';
+import { MIN_NAME, MAX_NAME, MAX_DESCRIPTION } from 'src/app/utils/Constants-Field';
 import { validMessagesError } from 'src/app/utils/MessagesValidation';
 import { ExerciseService } from '../../services/exercise.service';
 
@@ -41,7 +41,8 @@ export class FormExercisesComponent implements OnInit {
   cancelButton = false;
 
 
-  constructor(private utilService: UtilService,
+  constructor(
+    private utilService: UtilService,
     public modal: NgbActiveModal,
     private categoryService: CategoryService,
     private exerciseService: ExerciseService,
@@ -68,34 +69,24 @@ export class FormExercisesComponent implements OnInit {
           // console.log(resp);
 
           this.exerciseEdit = resp;
-        
 
-          this.selectedFileUrl = resp.url? resp.url : `${this.urlImgDefault}`;
+          console.log(this.exerciseEdit);
+          this.selectedFileUrl = resp.url ? resp.url : `${this.urlImgDefault}`;
 
           this.formData.patchValue({
             name: resp.name,
             description: resp.description,
             level: resp.level,
+
+            // cada ahora solo se puede asignar una categoria, por eso se toma la primera categoria
+            // si no hay categorias el back devuelve un array vacio
+            categories: !resp.categories || resp.categories.length<1? "": resp.categories[0].ide + ""
           });
-
-          // console.log(resp.url);
-
-          if (resp.categories.length > 0) {
-            // Asigna el valor de las categorias al campo categories
-            this.formData.get('categories')?.setValue(resp.categories.map(x => x.ide + ""));
-
-            console.log(this.formData.get('categories')?.value);
-          } else
-            // Si no tiene categorias asigna el valor -1 al campo categories para que no se muestre ninguno
-            this.formData.get('categories')?.setValue(["-1"]);
-
-
-
         }),
         catchError(err => {
 
           // console.log(err);
-          this.toastr.error(err.error.message, "Error");
+          this.toastr.error(err, "Error");
           return of(null);
         })
       ).subscribe();
@@ -109,7 +100,7 @@ export class FormExercisesComponent implements OnInit {
     this.categoryService.findAllSingle().subscribe(resp => {
       this.listCategories = resp;
       // console.log(resp)
-      this.listCategories.unshift({ ide: "-1", name: "Ninguno" })
+      // this.listCategories.unshift({ ide: "-1", name: "Ninguno" })
 
     })
   }
@@ -134,8 +125,8 @@ export class FormExercisesComponent implements OnInit {
         // cuando es edicion, este campo permitara en el backend determinar si se elimino el archivo o no
         url: new FormControl(null, []),
 
-        level: new FormControl("No asignado", [Validators.maxLength(MAX_LEVEL)]),
-        categories: new FormControl(["-1"], []),
+        level: new FormControl("No asignado", []),
+        categories: new FormControl("", []),
       },
       this.validarFormGeneral
     );
@@ -148,13 +139,15 @@ export class FormExercisesComponent implements OnInit {
   }
 
   fnSubmit() {
+
+    // console.log(this.formData.value);
+
     // Verificar si el formulario es valido
     if (this.formData.valid) {
 
-      // Aqui consulta backend
-      // console.log(this.formData.value);
-
       this.clearData();
+
+      // console.log(this.formData.value);
 
       this.formDataSend.append("exercise", JSON.stringify(this.formData.value));
 
@@ -164,7 +157,7 @@ export class FormExercisesComponent implements OnInit {
       else this.saveNewExercise();
 
 
-    } else alert('Campos incorrectos');
+    } else  this.toastr.warning("Formulario invalido", "Advertencia");
 
   }
 
@@ -267,17 +260,21 @@ export class FormExercisesComponent implements OnInit {
     this.formDataSend.delete("exercise");
 
   }
-
+  /**
+   * Formatear categorias
+       * Al backend se envia un array de categorias, si no selecciono ninguna categoria, se envia un array vacio
+       */
   private clearEntryCategory() {
 
-    let categories: string[] = this.formData.get('categories')?.value;
-    console.log(categories)
+    let categories: any = this.formData.get('categories')?.value;
+    // console.log(categories)
 
-    // Menos  -1 q significa la opcion ninguna, se tiene que eliminar del arreglo
-    if (categories.includes("-1")) {
-      // console.log("dentro")      
-      categories = categories.filter(item => item != "-1");
-    }
+    // Si selecciono la opcion Ninguna , asigno un array vacio
+    if (!categories) categories = [];
+    // Si selecciono una categoria, asigno un array con la categoria seleccionada
+    else 
+      categories = [categories];
+  
 
     // Actualizar valores de las categorias
     this.formData.patchValue({
@@ -308,7 +305,7 @@ export class FormExercisesComponent implements OnInit {
 
   onFileSelected(event: any) {
 
-    console.log("dentro")
+    // console.log("dentro")
     const file: File = event.target.files[0];
 
     const typeFileAllowd = ["jpeg", "png", "jpg"]
@@ -324,7 +321,7 @@ export class FormExercisesComponent implements OnInit {
 
         this.formDataSend.append("photo", file);
 
-        console.log(this.formDataSend.get("photo"))
+        // console.log(this.formDataSend.get("photo"))
 
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -346,15 +343,6 @@ export class FormExercisesComponent implements OnInit {
 
     this.selectedFileUrl = `${this.urlImgDefault}`;
     this.formDataSend.delete("photo");
-
-
-    // if (this.selectedFileUrl) {
-
-    //   this.selectedFileUrl = "";
-    //   this.formDataSend.delete("photo");
-    //   this.formData.controls["url"].reset();
-
-    // }
   }
   onUpload(event: any) {
 
