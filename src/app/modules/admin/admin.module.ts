@@ -10,7 +10,6 @@ import { GroupPanelComponent } from './components/group-panel/group-panel.compon
 import { ListModalityComponent } from './components/list-modality/list-modality.component';
 import { FormModalityComponent } from './components/form-modality/form-modality.component';
 import { FormUserModule } from './components/form-user/form-user.module';
-import { TableModule } from 'primeng/table';
 
 
 @NgModule({
@@ -22,7 +21,7 @@ import { TableModule } from 'primeng/table';
     FormModalityComponent
   ],
   imports: [
-    CommonModule , AdminRoutingModule, ReactiveFormsModule,  SharedGlobalModule, FormUserModule, TableModule
+    CommonModule , AdminRoutingModule, ReactiveFormsModule,  SharedGlobalModule, FormUserModule
   ],
   exports: []
 

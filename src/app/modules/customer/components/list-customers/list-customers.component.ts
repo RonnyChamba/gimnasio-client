@@ -10,7 +10,6 @@ import Swal from 'sweetalert2';
 import { CustomerService } from '../../services/customer.service';
 import { UtilCustomerService } from '../../services/util-customer.service';
 import { FormCustomersComponent } from '../form-customers/form-customers.component';
-import { MenuItem } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
 @Component({

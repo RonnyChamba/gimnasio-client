@@ -16,8 +16,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InscriptionTableModule } from '../inscription/components/list-inscription/inscription-table.module';
 import { ListAttendanceModule } from '../attendance/components/list-attendance/list-attendance.module';
 import { EvolutionCustomerComponent } from './components/evolution-customer/evolution-customer.component';
-import { TableModule } from 'primeng/table';
-import { SplitButtonModule } from 'primeng/splitbutton';
 
 
 @NgModule({
@@ -33,7 +31,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
   imports: [
     CommonModule, CustomerRoutingModule,   
     FormsModule, SharedGlobalModule, FormCustomersModule,  
-    ReactiveFormsModule, InscriptionTableModule, ListAttendanceModule, TableModule, SplitButtonModule
+    ReactiveFormsModule, InscriptionTableModule, ListAttendanceModule
   ],
 })
 export class CustomerModule { }
