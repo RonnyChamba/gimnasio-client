@@ -1,26 +1,35 @@
 <div class="">
   <div class="d-flex flex-wrap justify-content-between align-item-bottom">
-    <h3 class="home-subtitle m-0">Mi Perfil </h3>
-    <button class="btn btn-outline-success d-flex align-items-center" type="button" (click)="fnSubmit()">
-      <i class="bx bx-user-plus" style="color: royalblue"> </i>
+    <h4 class="home-subtitle m-0">Mi Perfil </h4>
+    <button class="btn btn-primary d-flex align-items-center" type="button" (click)="fnSubmit()">
+      <i class="fa-solid fa-floppy-disk" style="color: white; font-size: 20px;"></i>
       <span class="ms-1">Actualizar Datos</span>
     </button>
   </div>
-  <form class="mt-3" [formGroup]="formData" (ngSubmit)="fnSubmit()" >
-    <!-- <button type="submit">enviar</button> -->
-    <div class="row  justify-content-center">
-      <div class="col-sm-auto bg-primary">
-        <div class="content-img">
+  <form class="mt-2" [formGroup]="formData" (ngSubmit)="fnSubmit()">
+
+    <div class="row justify-content-center align-items-start">
+      <div class="col-sm-auto">
+        <div class="content-img m-auto">
           <!-- Para eliminar la imagen seleccionar, pero solo debe mostrarse cuando se seleccionar la imagen -->
-          <span class="delete" *ngIf="selectedFileUrl" (click)="deleteImg()">X</span>
+          <!-- <span class="delete" *ngIf="selectedFileUrl" (click)="deleteImg()">X</span> -->
           <!-- <div *ngIf="selectedFileUrl"> -->
-          <img [src]="selectedFileUrl? selectedFileUrl:'../../../../../assets//img//Default_pfp.svg.png'"
-            style=" margin: auto;;">
+          <img [src]="selectedFileUrl" style="height: 80px; height: 80px;">
           <!-- </div> -->
         </div>
+    
+        <div class="text-center mt-1">
+          <label for="image" class="btn btn-primary me-1"><i class="fa-sharp fa-regular fa-plus"></i>Seleccionar</label>
+          <button type="button" (click)="deleteImg()" class="btn btn-danger"
+            [disabled]="urlImgDefault==selectedFileUrl">
+            <i class="fa-solid fa-trash" style="font-size: 15px;"></i>
+          </button>
 
-        <input id="fileInput" type="file" (change)="onFileSelected($event)" accept="image/*" class="bg-danger"
-          formControlName="profile">
+          <input id="image" type="file" class="d-none" (change)="onFileSelected($event)" accept="image/*"
+            style="visibility: hidden;" formControlName="profile">
+
+        </div>
+ 
       </div>
 
       <div class="col mt-3  mt-sm-0">

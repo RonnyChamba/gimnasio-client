@@ -16,6 +16,10 @@ import { validatorDni } from 'src/app/utils/validators/person.validator';
 })
 export class ProfileInformationComponent implements OnInit {
 
+  
+  // esta url es la imagen por defecto tambien debe estar en list-exercises.component.ts
+  // para mostrar la imagen por defecto 
+  urlImgDefault = "../../../../../assets//img//Default_pfp.svg.png";
   formData: FormGroup;
   validMessage = validMessagesError;
   formDataSend: FormData = new FormData();
@@ -128,8 +132,11 @@ export class ProfileInformationComponent implements OnInit {
       const user = this.formData.value as UserModel;
       // Si el archivo  no se  modifico , envio la misma url que se envio desde el backend, de lo contrario envio null que indica que se elimino el archivo o modificado
 
-      user.profile = this.userCurrent.profile == this.selectedFileUrl ?
-        this.selectedFileUrl : null;
+      // user.profile = this.userCurrent.profile == this.selectedFileUrl ?
+      //   this.selectedFileUrl : null;
+
+        user.profile =this.selectedFileUrl
+
 
       // console.log("user", user);
 
@@ -140,7 +147,7 @@ export class ProfileInformationComponent implements OnInit {
       .pipe(
         tap((data) => {
           console.log("data", data);
-          this.toastr.success("Datos actualizados correctamente");
+          this.toastr.info("Datos actualizados con exito");
           this.setData(data);
           this.formDataSend.delete("photo");
 
@@ -199,13 +206,13 @@ export class ProfileInformationComponent implements OnInit {
 
   deleteImg() {
 
-    if (this.selectedFileUrl) {
+    // if (this.selectedFileUrl) {
 
-      this.selectedFileUrl = "";
+      this.selectedFileUrl = `${this.urlImgDefault}`;
       this.formDataSend.delete("photo");
-      this.formData.controls["profile"].reset();
+      // this.formData.controls["profile"].reset();
 
-    }
+    // }
   }
 
   setData(data: any) {
@@ -220,6 +227,6 @@ export class ProfileInformationComponent implements OnInit {
       born: data.born,
     });
 
-    this.selectedFileUrl = data.profile;
+    this.selectedFileUrl = data.profile? data.profile : this.urlImgDefault;
   }
 }

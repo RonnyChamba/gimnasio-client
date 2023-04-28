@@ -14,6 +14,8 @@ export class ListUsersComponent implements OnInit{
 
 
   listData: UserModel[] = [];
+    
+  reduceColumns: boolean = false;
   constructor(
       private userService: UserService,
       private toaster: ToastrService

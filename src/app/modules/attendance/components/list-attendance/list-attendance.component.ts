@@ -16,6 +16,8 @@ import { ToastrService } from 'ngx-toastr';
 export class ListAttendanceComponent  implements OnInit, OnDestroy{
   
   @Input() idCustomer: number = 0;
+  
+  // Determina si se debe mostrar o no ciertas columnas de la tabla
   @Input() reduceColumns: boolean = false;
 
 
@@ -26,6 +28,10 @@ export class ListAttendanceComponent  implements OnInit, OnDestroy{
   paramPaginator: PaginatorAttendanceAndMembresias = { page: 0, size: 5, typeUser: "", typeData: "ATTENDANCE"};
 
   subscription: Subscription = new Subscription();
+
+  // Para mostrar u ocular la fecha de salida
+  showColumn: boolean = false;
+
 
   constructor(
       private customerService: CustomerService,

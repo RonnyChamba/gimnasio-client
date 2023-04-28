@@ -4,9 +4,25 @@
       <span class="text">ENER GYM</span>
     </div>
 
-    <div class="d-flex align-items-center">
-      <img src="../.././../../assets/gym.jpeg" alt class="profile" />
-      <span class="text-user">Juan Santoas</span>
+    <div class="position-relative p-1">
+      <div>
+        <img src="../.././../../assets/gym.jpeg" alt class="profile" />
+        <span class="text-user">Juan Santoas</span>
+
+        <label for="check" class="ms-2" style="cursor: pointer;"><i class="bx bxs-chevron-down arrow"></i></label>
+        
+      </div>
+      <div>
+      
+        <input type="checkbox" id="check"    class="show-profile"  style="display: none" />
+        <div class="data-profile">
+          <ul class="">
+            <li [routerLink]="['/profile']"> <i class="fa-solid fa-user"></i> Perfil</li>
+            <li><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesion</li>
+          </ul>
+        </div>
+      </div>
+    
     </div>
   </div>
 

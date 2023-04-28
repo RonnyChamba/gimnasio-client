@@ -191,7 +191,9 @@
   width: $sidebar-width;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  // justify-content: space-between;
+  justify-content:  center;
+
   background: #1d1b31;
   padding: 12px 0;
   transition: all 0.5s ease;

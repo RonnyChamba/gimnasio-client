@@ -9,7 +9,7 @@
       <!--    -->
       <div class="d-flex flex-wrap justify-content-between align-item-center">
         <h4 class="home-subtitle">Diarios $ {{sumTotalPriceByPage?sumTotalPriceByPage: ("0.00")}} de
-          <span>{{sumTotalPrice}}</span> </h4>
+          <span>$ {{sumTotalPrice}}</span> </h4>
         <button class="btn btn-primary d-flex align-items-center" (click)="openModal()">
           <i class="bx bx-user-plus" style="color:white"> </i> <span class="ms-1">Nuevo Diario</span>
         </button>
@@ -17,7 +17,7 @@
       
       <app-filter-attendance [typeModel] ="typeModel" ></app-filter-attendance>
 
-      <app-list-dailies (sumaTotalByPage)="sumTotalPriceByPage = $event"></app-list-dailies>
+      <app-list-dailies (sumaTotalByPage)="updatesumaTotalByPage($event)"></app-list-dailies>
     </div>
   </div>
 </section>

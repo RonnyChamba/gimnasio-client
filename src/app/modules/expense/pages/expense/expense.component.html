@@ -20,7 +20,7 @@
       
       <app-filter-attendance [typeModel] ="typeModel"></app-filter-attendance>
 
-      <app-list-expenses (sumaTotalByPage)="sumTotalPriceByPage = $event"></app-list-expenses>
+      <app-list-expenses (sumaTotalByPage)="updatesumaTotalByPage($event)"></app-list-expenses>
     </div>
   </div>
 </section>

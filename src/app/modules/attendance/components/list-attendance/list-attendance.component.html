@@ -4,8 +4,16 @@
       
         <th scope="col">Nro</th>
         <th scope="col" *ngIf="!reduceColumns">Cliente</th>
-        <th scope="col">F. Ingreso</th>
-        <th scope="col">F. Salida</th>
+        <th scope="col">F. Ingreso
+          <span (click)="showColumn = !showColumn" role="button">
+            <i class="fa-sharp fa-solid fa-up-right-and-down-left-from-center" *ngIf="showColumn"
+                title="Contraer columas"></i>
+
+            <i class="fa-solid fa-arrows-left-right-to-line" *ngIf="!showColumn"
+                title="Expandir columna fecha salida"></i>
+        </span>
+        </th>
+        <th scope="col"  *ngIf="showColumn">F. Salida</th>
         <th scope="col">Usuario</th>
         <th scope="col" class="text-end">Acciones</th>
       </tr>
@@ -17,7 +25,7 @@
         <td *ngIf="!reduceColumns"> {{item.customer}} </td>
         <td> {{item.dateInto}} </td>
 
-        <td class="d-flex">  
+        <td class="d-flex"  *ngIf="showColumn">  
           <input type="datetime-local" value="{{item.dateLeave}}"  #valueDate class="form-control" style="max-width: 180px;"  />
           <span class="btn btn bx bx-edit" (click)="updateDateLeave(item.ide,  valueDate.value)"  title="Actualizar fecha de salida"></span>
         </td>

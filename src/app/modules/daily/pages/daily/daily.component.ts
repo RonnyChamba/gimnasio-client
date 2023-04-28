@@ -22,15 +22,19 @@ export class DailyComponent implements OnInit{
     private dailyService: DailyService,) {}
   ngOnInit(): void {
 
+    
+    this.getSumaTotal();
+  }
+
+  /**
+   * Obtiene la suma total de todos los registros
+   */
+  private getSumaTotal(){
     this.dailyService.sumTotalPrice().subscribe(total =>{
       this.sumTotalPrice = total;
     })
-
-
   }
 
-
-  
   onClickMenu(value:boolean){  
 
     this.flagClose = value;
@@ -40,6 +44,17 @@ export class DailyComponent implements OnInit{
     this.modalService.open(FormDailiesComponent, {
       size: "md"
     });
+  }
+
+  /**
+   * Cuando se elimina, actualiza o agrega un nuevo registro se actualiza el total de la pagina,
+   * y ademas se actualiza la suma total de todos los registros
+   * @param totalPrice 
+   */
+  updatesumaTotalByPage(value:number){
+    this.sumTotalPriceByPage = value;
+
+    this.getSumaTotal();
   }
 
 
