@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
 import { FormDailiesComponent } from '../form-dailies/form-dailies.component';
 import { TransactionSrService } from 'src/app/services/transaction-sr.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-list-dailies',
@@ -32,6 +33,7 @@ export class ListDailiesComponent implements OnInit, OnDestroy {
     private dailyService: DailyService,
     private utilFiltersService: UtilFiltersService,
     private transactionSrService: TransactionSrService,
+    private toaster: ToastrService,
     private modalService: NgbModal) { }
 
   ngOnInit(): void {
@@ -127,7 +129,7 @@ export class ListDailiesComponent implements OnInit, OnDestroy {
 
 
     const references = this.modalService.open(FormDailiesComponent, {
-      size: "lg"
+      size: "md"
     });
 
     references.componentInstance.ideDaily = ide;
@@ -150,7 +152,8 @@ export class ListDailiesComponent implements OnInit, OnDestroy {
 
         this.dailyService.delete(ide).subscribe(resp => {
 
-          alert("eliminado con eexito, falta actualiza la tabla")
+          // alert("eliminado con eexito, falta actualiza la tabla")
+          this.toaster.info("Registro eliminado con exito");
           this.findAll();
         })
       }

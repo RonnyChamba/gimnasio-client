@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { typeModel } from 'src/app/utils/types';
 import { UtilReportService } from '../../services/util.service';
+
 
 @Component({
   selector: 'app-report',
@@ -11,7 +12,10 @@ export class ReportComponent  implements OnInit {
   
 
   flagClose = true;
-  constructor(private utilReport: UtilReportService){}
+  constructor(
+    private utilReport: UtilReportService,
+    
+    ){}
 
   ngOnInit(): void {
     
@@ -40,6 +44,8 @@ export class ReportComponent  implements OnInit {
     // this.typeReport = type;
 
     this.utilReport.getTypeReport.next(type);
+
+
   }
 
 

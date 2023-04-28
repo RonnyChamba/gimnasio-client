@@ -9,6 +9,7 @@ import { DailyService } from '../../services/daily.service';
 import { DailyAttributes } from 'src/app/core/models/daily.model';
 import { Subscription, catchError, of, tap } from 'rxjs';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({ 
   selector: 'app-form-dailies',
@@ -28,6 +29,7 @@ export class FormDailiesComponent  implements OnInit, OnDestroy {
     public modal: NgbActiveModal,     
     private utilCustomerService: UtilCustomerService,
     private dailyService: DailyService,
+    private toaster: ToastrService,
     private utilFiltersService: UtilFiltersService){}
 
 
@@ -105,14 +107,17 @@ export class FormDailiesComponent  implements OnInit, OnDestroy {
 
           tap(resp =>{
             console.log("Diario " + typeOperation )
-            alert("Diario " + typeOperation )
+            // alert("Diario " + typeOperation )
             this.modal.dismiss();
-            console.log(resp);
+            // console.log(resp);
+            
+            this.toaster.info(`Diario ${this.ideDaily? 'Actualizado': 'Registrado'} con exito `)
             this.utilFiltersService.eventFiltersEmit(null);
           })
           ,catchError(err =>{
             console.log("Error ejecutar " + typeOperation + " registro")
-            alert("Error al ejecutar " + typeOperation + " registro")
+            // alert("Error al ejecutar " + typeOperation + " registro")
+            this.toaster.error(`Error al ${this.ideDaily? 'Actualizar': 'Registrar'} el diario`);
             console.log(err);
             return of(null);
           })

@@ -38,7 +38,7 @@ export class DailyComponent implements OnInit{
 
   openModal(){
     this.modalService.open(FormDailiesComponent, {
-      size: "lg"
+      size: "md"
     });
   }
 

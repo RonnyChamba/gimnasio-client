@@ -8,14 +8,15 @@ import { CalcIndexListPipe, TrimDateToMonthPipe, TrimNameRolPipe, TrimNameUserPi
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { FilterAttendanceComponent } from './components/filter-attendance/filter-attendance.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [NavBarDosComponent, SideBarComponent, DirectAccessComponent,
-     CalcIndexListPipe, TrimNameUserPipe, TrimNameRolPipe, PaginatorComponent, TrimDateToMonthPipe, FilterAttendanceComponent ],
+     CalcIndexListPipe, TrimNameUserPipe, TrimNameRolPipe, PaginatorComponent, TrimDateToMonthPipe, FilterAttendanceComponent, LoaderComponent ],
   imports: [
     CommonModule, RouterModule, ReactiveFormsModule
   ],
   exports: [NavBarDosComponent, SideBarComponent, DirectAccessComponent, 
-    CalcIndexListPipe, TrimNameUserPipe, TrimNameRolPipe, PaginatorComponent,TrimDateToMonthPipe, FilterAttendanceComponent]
+    CalcIndexListPipe, TrimNameUserPipe, TrimNameRolPipe, PaginatorComponent,TrimDateToMonthPipe, FilterAttendanceComponent, LoaderComponent]
 })
 export class SharedGlobalModule { }

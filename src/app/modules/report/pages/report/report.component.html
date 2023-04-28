@@ -1,42 +1,41 @@
-
 <app-side-bar class="nav-component" [ngClass]="{ close: flagClose, '': !flagClose }" [open]="flagClose"></app-side-bar>
 
 <app-filter  class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" 
 aria-labelledby="offcanvasTopLabel"></app-filter>
+
 <section class="home-section">
-    <!-- <app-navbar (newItemEvent)="onClickMenu($event)" ></app-navbar> -->
+
     <app-nav-bar (newItemEvent)="onClickMenu($event)"></app-nav-bar>
 
-    <div class="home-body mt-3">
-        <div class="home-content p-4 border border-2">
+    <div class="home-body">
+        <div class="home-content p-3 border border-2">
             <!--    -->
             <div class="d-flex flex-wrap justify-content-between align-item-center">
-                <h3 class="home-subtitle">Reportes</h3>
-                <!-- <button class="btn btn-outline-primary d-flex align-items-center" (click)="openModal()">
-            <i class="bx bx-user-plus" style="color:royalblue"> </i> <span class="ms-1">Nuevo Cliente</span>
-          </button> -->
+                <h4 class="home-subtitle">Reportes</h4>
+
             </div>
+            <!-- <p>En esta seccion podrá generar difentes tipos de reportes con la información del sistema</p> -->
 
             <div class="grid-container">
                 <div class="grid-container__item">
-
+                   
                     <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"
-                      (click)="viewReports('INSCRIPTION')"  class="btn btn-primary">Inscripciones</button>
-                    
+                      (click)="viewReports('INSCRIPTION')"  class="btn btn-primary">Membres&iacute;as</button>
+                     
                 </div>
 
                 <div class="grid-container__item">
                     <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"
-                      (click)="viewReports('DAILY')"  class="btn btn-primary">Diarios</button>
+                        (click)="viewReports('DAILY')" class="btn btn-primary">Diarios</button>
                 </div>
                 <div class="grid-container__item">
                     <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"
-                    (click)="viewReports('EXPENSE')"  class="btn btn-primary">Gastos</button>
+                        (click)="viewReports('EXPENSE')" class="btn btn-primary">Gastos</button>
                 </div>
 
                 <div class="grid-container__item">
                     <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"
-                    (click)="viewReports('ATTENDANCE')"  class="btn btn-primary">Asistencia</button>
+                        (click)="viewReports('ATTENDANCE')" class="btn btn-primary">Asistencia</button>
                 </div>
 
             </div>

@@ -1,4 +1,5 @@
 @use '../../../../../assets/scss/styleParentSidebar';
+
 button i{
      color: #fff;
      font-size: 25px;
@@ -10,7 +11,7 @@ button i{
 .grid-container {
   display: grid;
   gap: 1rem;
-  grid-auto-rows: 22rem;
+  grid-auto-rows: 15rem;
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)
   );
 //  padding: 10px;
@@ -27,3 +28,4 @@ button i{
 .offcanvas{
   background:none !important;
 }
+

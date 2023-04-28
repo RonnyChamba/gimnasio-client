@@ -1,0 +1,10 @@
+.wrap-inscrption{
+    display:  flex;
+    
+    // Manejar el responsive de los filtros de fecha
+    @media screen and (min-width: 768px) {
+        flex-direction: column;
+       
+    }
+    
+}

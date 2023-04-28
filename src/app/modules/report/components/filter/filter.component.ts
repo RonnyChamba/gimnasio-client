@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { typeModel } from 'src/app/utils/types';
 import { UtilReportService } from '../../services/util.service';
 import { Subscription, catchError, of, tap } from 'rxjs';
@@ -6,10 +6,12 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { ReportService } from '../../services/report.service';
 import { Modality } from 'src/app/core/models/modality-model';
 import { Person } from 'src/app/core/models/person-model';
-
-import * as dayjs from 'dayjs';
 import { UtilService } from 'src/app/services/util-service.service';
 import { ReportParams } from 'src/app/core/models/page-render.model';
+import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
+
+
 
 @Component({
   selector: 'app-filter',
@@ -18,11 +20,12 @@ import { ReportParams } from 'src/app/core/models/page-render.model';
 })
 export class FilterComponent implements OnInit, OnDestroy {
 
+  @ViewChild('miBoton', { static: false }) miBoton: any;
 
   typeReport: typeModel;
   formData: FormGroup;
   modalities: Modality[] = [];
-  typeExpenses:any = [];
+  typeExpenses: any = [];
 
   users: Person[] = [];
 
@@ -32,7 +35,10 @@ export class FilterComponent implements OnInit, OnDestroy {
 
     private utilReport: UtilReportService,
     private reportService: ReportService,
-    private utilService: UtilService,) { }
+    private toater: ToastrService,
+    private utilService: UtilService,
+    private renderer: Renderer2
+    ) { }
   ngOnInit(): void {
 
     console.log("typeReport", this.typeReport);
@@ -41,7 +47,7 @@ export class FilterComponent implements OnInit, OnDestroy {
 
     this.typeExpenses = this.utilService.typeExpenses;
     // Agregar un elemento al inicio del arreglo
-    this.typeExpenses.unshift({key:   "", value: "Todos"});
+    this.typeExpenses.unshift({ key: "", value: "Todos" });
     // this.initFilters();
   }
 
@@ -99,7 +105,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   private loadFilterInscriptions() {
 
     this.reportService.getFilterInscriptions().subscribe((resp: any) => {
-      console.log("resp", resp);
+      // console.log("resp", resp);
 
       this.modalities = resp.modalities;
       this.users = resp.users;
@@ -125,7 +131,8 @@ export class FilterComponent implements OnInit, OnDestroy {
       catchError((err) => {
         console.log("err", err);
 
-        alert("Error al generar el reporte");
+        // alert("Error al generar el reporte");
+        this.toater.error("Surguio un error, intentelo mas tarde");
         return of(null);
         // return throwError(err);
       }
@@ -143,18 +150,61 @@ export class FilterComponent implements OnInit, OnDestroy {
 
     this.reportService.generateReportInscriptions(param, "json").pipe(
       tap((resp: any) => {
+
+        let count = Number.parseInt(resp);
+        if (count<=0) {
+          Swal.fire(
+            'No se encontraron registros para el reporte',
+            '',
+            'info'
+          )
+        }else if (count > 0 && count <=100) {
+
+          // disparar el evento click del boton para ocultar el offcanvas desde aqui
+          this.renderer.selectRootElement(this.miBoton.nativeElement).click();
+          this.generateReport();
+        } else if (count >100 && count <=200 ) {
+
+          Swal.fire({
+            title: '¿Desea generar el reporte?',
+            text: `Se encontraron ${count} registros, esta operacion puede tardar unos minutos`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Generar de todos modos',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+
+            if (result.isConfirmed) {
+
+              // disparar el evento click del boton para ocultar el offcanvas desde aqui
+              this.renderer.selectRootElement(this.miBoton.nativeElement).click();
+              this.generateReport();
+            }
+          }
+          )
+        }else if (count >200) {
+
+          Swal.fire(
+            'No se puede generar el reporte',
+            `Se encontrarón ${count} registros, solo se puede generar reportes hasta maximo 200 registros por consulta`,
+            'error'
+          )
+        }
         console.log("resp", resp);
-        alert(`Se encontraron ${resp} registros`);
+
       }
       ),
       catchError((err) => {
-        console.log("err", err);
-        alert("Error  realizar consulta");
+        // console.log("err", err);
+        // alert("Error  realizar consulta");
+
+      
+        this.toater.error("Surguio un error, intentelo mas tarde");
         return of(null);
         // return throwError(err);
       })
 
-      ).subscribe();
+    ).subscribe();
 
 
   }
@@ -164,7 +214,7 @@ export class FilterComponent implements OnInit, OnDestroy {
 
     switch (this.typeReport) {
       case "INSCRIPTION":
-        return "Inscripciones";
+        return "Membresías";
       case "DAILY":
         return "Diarios";
       case "EXPENSE":
@@ -173,8 +223,8 @@ export class FilterComponent implements OnInit, OnDestroy {
       case "CATEGORY":
         return "Categorias";
 
-        case "ATTENDANCE":
-          return "Asistencias";
+      case "ATTENDANCE":
+        return "Asistencias";
       default:
 
         return "Reportes";
@@ -182,18 +232,19 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   }
 
-  private resetForm() { 
-     
-      this.formData.patchValue({
-        dateBegin: "",
-        dateEnd: "",
-        typeUser: "",
-        customer: "",
-        typePay: "",
-        modality: "",
-        typeExpense: "",
+  private resetForm() {
 
-      });
-    }
+    this.formData.patchValue({
+      dateBegin: "",
+      dateEnd: "",
+      typeUser: "",
+      customer: "",
+      typePay: "",
+      modality: "",
+      typeExpense: "",
+
+    });
+  }
+
 
 }
