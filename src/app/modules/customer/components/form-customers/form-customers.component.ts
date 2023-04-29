@@ -54,6 +54,8 @@ import { TypeOperationFormInsCustomer } from 'src/app/utils/utilForm';
 import { TransactionSrService } from 'src/app/services/transaction-sr.service';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
 import { ToastrService } from 'ngx-toastr';
+import { ReportService } from 'src/app/modules/report/services/report.service';
+import { ReportParams } from 'src/app/core/models/page-render.model';
 
 // const DEFAULT_ID_MODALITY = 1;
 
@@ -91,7 +93,8 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     private toaster: ToastrService,
     private customerService: CustomerService,
     private utilFiltersService: UtilFiltersService,
-    private transactionService: TransactionSrService
+    private transactionService: TransactionSrService,
+    private reportService: ReportService,
   ) { }
 
   ngAfterViewInit(): void {
@@ -782,7 +785,37 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
   }
 
   generateReport() {
-    alert("generar Reporte")
+
+    const params: ReportParams = {
+      typeReport: "INSCRIPTION_BY_CUSTOMER",
+      typeAction: "REPORT",
+      customer: `${this.operationForm.ideInscription}`, // este dato en el backend representa el ide de la inscripcion que se desea generar el repporte, to
+      // todos los reportes se generan en la aplicacion web, apuntan a un unico endpoint, y este se encarga de generar el reporte
+      typeUser: "", // esttos no se usan
+      modality: "" // esttos no se usan
+    }
+
+
+
+    this.reportService.generateReportInscriptions(params, "blob").pipe(
+      tap((resp: any) => {
+        console.log("resp", resp);
+        const blob = new Blob([resp], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+      }),
+      catchError((err) => {
+        console.log("err", err);
+
+        alert("Error al generar el reporte");
+        return of(null);
+        // return throwError(err);
+      }
+
+
+      )).subscribe();
+
+    // alert("generar Reporte")
   }
 
 

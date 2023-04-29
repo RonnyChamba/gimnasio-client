@@ -59,6 +59,10 @@ export class CustomerEditorComponent implements OnInit{
     params.typeReport= this.typePanel;
 
     params.typeAction = "REPORT";
+
+
+    console.log("Parametros para generar el reporte", params);
+    // return;
     this.createPdf(params);
     // console.log("Parametros para generar el reporte", params);
 
