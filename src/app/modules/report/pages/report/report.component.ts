@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { typeModel } from 'src/app/utils/types';
 import { UtilReportService } from '../../services/util.service';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 
 @Component({
@@ -14,8 +15,12 @@ export class ReportComponent  implements OnInit {
   flagClose = true;
   constructor(
     private utilReport: UtilReportService,
+    private tokenService: TokenService,
     
-    ){}
+    ){
+
+      this.flagClose = this.tokenService.getFlagClose();
+    }
 
   ngOnInit(): void {
     
@@ -25,6 +30,7 @@ export class ReportComponent  implements OnInit {
   onClickMenu(value:boolean){  
 
     this.flagClose = value;
+    this.tokenService.setFlagClose(this.flagClose);
   }
 
 

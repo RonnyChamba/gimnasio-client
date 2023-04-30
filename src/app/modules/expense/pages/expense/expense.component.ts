@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormExpensesComponent } from '../../components/form-expenses/form-expenses.component';
 import { ExpenseService } from '../../services/expense.service';
 import { typeModel } from 'src/app/utils/types';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-expense',
@@ -20,7 +21,12 @@ export class ExpenseComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private expenseService: ExpenseService) { }
+    private expenseService: ExpenseService,
+    private tokenService: TokenService
+    ) {
+        
+        this.flagClose = this.tokenService.getFlagClose();
+     }
 
   ngOnInit(): void {
 
@@ -39,6 +45,7 @@ export class ExpenseComponent implements OnInit {
   onClickMenu(value: boolean) {
 
     this.flagClose = value;
+    this.tokenService.setFlagClose(this.flagClose);
   }
 
   openModal() {

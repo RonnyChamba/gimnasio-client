@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { catchError, of, tap } from 'rxjs';
 import { ReportParams } from 'src/app/core/models/page-render.model';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 import { ReportService } from 'src/app/modules/report/services/report.service';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
 import { typeModel } from 'src/app/utils/types';
@@ -21,7 +22,12 @@ export class CustomerEditorComponent implements OnInit{
   constructor(
     private activePath: ActivatedRoute,
     private reportService: ReportService,
-    private utilFiltersService: UtilFiltersService){}
+    private utilFiltersService: UtilFiltersService,
+    private tokenService: TokenService
+    ){
+      this.flagClose = this.tokenService.getFlagClose();
+    }
+  
   
   ngOnInit(): void {
     
@@ -38,6 +44,8 @@ export class CustomerEditorComponent implements OnInit{
   onClickMenu(value:boolean){  
 
     this.flagClose = value;
+
+    this.tokenService.setFlagClose(this.flagClose);
   }
 
   generateReport(){

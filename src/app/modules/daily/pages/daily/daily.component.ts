@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DailyService } from '../../services/daily.service';
 import { typeModel } from 'src/app/utils/types';
 import { FormDailiesComponent } from '../../components/form-dailies/form-dailies.component';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-daily',
@@ -19,7 +20,12 @@ export class DailyComponent implements OnInit{
   
   constructor(
     private modalService: NgbModal,
-    private dailyService: DailyService,) {}
+    private dailyService: DailyService,
+    private tokenService: TokenService
+    ){
+      this.flagClose = this.tokenService.getFlagClose();
+    }
+  
   ngOnInit(): void {
 
     
@@ -38,6 +44,7 @@ export class DailyComponent implements OnInit{
   onClickMenu(value:boolean){  
 
     this.flagClose = value;
+    this.tokenService.setFlagClose(this.flagClose);
   }
 
   openModal(){

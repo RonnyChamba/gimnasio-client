@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HomeService } from '../../services/home.service';
 import { catchError, of, tap } from 'rxjs';
 import { TokenService } from 'src/app/modules/auth/service/token.service';
+// import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +22,7 @@ export class HomeComponent implements OnInit{
     private tokenService: TokenService
     ){
       this.isAdmin = this.tokenService.isAdmin();
+      this.flagClose = this.tokenService.getFlagClose();
     }
   
   
@@ -31,6 +33,7 @@ export class HomeComponent implements OnInit{
 
   onClickMenu(value:boolean){  
     this.flagClose = value;
+    this.tokenService.setFlagClose(this.flagClose);
   }
 
   countRegister(){

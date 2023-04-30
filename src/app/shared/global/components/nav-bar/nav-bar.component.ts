@@ -19,6 +19,8 @@ export class NavBarDosComponent implements OnInit {
   ) { 
 
     this.username = this.tolkenService.getUsername() || '';
+
+    this.flagClose = this.tolkenService.getFlagClose();
   }
   ngOnInit(): void {
     
@@ -27,7 +29,7 @@ export class NavBarDosComponent implements OnInit {
   onClickMenu(){
 
 
-    this.flagClose = !this.flagClose;
+    this.flagClose = !this.tolkenService.getFlagClose();
     
     this.newItemEvent.emit(this.flagClose);
   }

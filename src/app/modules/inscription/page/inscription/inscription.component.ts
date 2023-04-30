@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 import { typeModel } from 'src/app/utils/types';
 
 @Component({
@@ -11,13 +12,20 @@ export class InscriptionComponent  implements OnInit{
   typeModel: typeModel = "INSCRIPTION";
   flagClose = true;
 
-  constructor() { }
+  constructor(
+    private tokenService: TokenService
+    ){
+      this.flagClose = this.tokenService.getFlagClose();
+    }
+  
   ngOnInit(): void {
   }
 
 
   onClickMenu(value:boolean){  
     this.flagClose = value;
+
+    this.tokenService.setFlagClose(this.flagClose);
   }
 
 

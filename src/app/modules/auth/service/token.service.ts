@@ -67,4 +67,13 @@ export class TokenService {
     // this.refresh.next();
 
   }
+
+  setFlagClose(flag: boolean) {
+    window.localStorage.setItem('flagClose', JSON.stringify(flag));
+  }
+
+  getFlagClose(): boolean {
+    const flag = window.localStorage.getItem('flagClose');
+    return JSON.parse(flag!);
+  }
 }

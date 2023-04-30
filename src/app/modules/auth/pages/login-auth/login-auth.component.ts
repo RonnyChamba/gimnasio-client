@@ -40,8 +40,13 @@ export class LoginAuthComponent implements OnInit{
           tap( (resp: any) => {
             console.log(resp);
             this.tokenService.setToken(resp.token);
+
+            // Por defecto el sidebar esta cerrado
+            this.tokenService.setFlagClose(true);
+
             this.toaster.success('Bienvenido', 'Ingreso Exitoso');
             this.router.navigate(['/']);
+
           })
           ,catchError( err => {
             // console.log(err);
