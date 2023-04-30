@@ -15,7 +15,7 @@
         </ul>
       </li>
 
-      <li>
+      <li *ngIf="isAdmin" >
         <a href="#" [routerLink]="['/admin']">
           <!-- <i class="bx bx-grid-alt"></i> -->
           <i class="fa-solid fa-people-roof"></i>

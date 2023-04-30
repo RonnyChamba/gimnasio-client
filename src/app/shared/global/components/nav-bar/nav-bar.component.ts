@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -7,10 +8,18 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class NavBarDosComponent implements OnInit {
  
+  username: string = '';
 
   flagClose = true;
   @Output() newItemEvent = new EventEmitter<boolean>();
 
+  constructor(
+    private tolkenService: TokenService,
+
+  ) { 
+
+    this.username = this.tolkenService.getUsername() || '';
+  }
   ngOnInit(): void {
     
   }
@@ -21,7 +30,10 @@ export class NavBarDosComponent implements OnInit {
     this.flagClose = !this.flagClose;
     
     this.newItemEvent.emit(this.flagClose);
+  }
 
+  logOut(){
+    this.tolkenService.logOut();
 
 
   }

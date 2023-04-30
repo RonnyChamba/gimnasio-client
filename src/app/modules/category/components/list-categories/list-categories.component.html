@@ -20,7 +20,7 @@
             <i class="bx bx-edit" (click)="edit(item.ide)" ></i>
           </span>
   
-          <span class="bg-danger p-1 me-1 rounded" role="button">
+          <span  *ngIf="isAdmin" class="bg-danger p-1 me-1 rounded" role="button">
             <i class="bx bx-trash" (click)="delete(item.ide)" ></i>
           </span>
   

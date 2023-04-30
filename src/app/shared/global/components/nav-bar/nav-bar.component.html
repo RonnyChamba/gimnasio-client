@@ -7,7 +7,7 @@
     <div class="position-relative p-1">
       <div>
         <img src="../.././../../assets/gym.jpeg" alt class="profile" />
-        <span class="text-user">Juan Santoas</span>
+        <span class="text-user">{{username}}</span>
 
         <label for="check" class="ms-2" style="cursor: pointer;"><i class="bx bxs-chevron-down arrow"></i></label>
         
@@ -18,7 +18,7 @@
         <div class="data-profile">
           <ul class="">
             <li [routerLink]="['/profile']"> <i class="fa-solid fa-user"></i> Perfil</li>
-            <li><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesion</li>
+            <li (click)  ="logOut()"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesion</li>
           </ul>
         </div>
       </div>

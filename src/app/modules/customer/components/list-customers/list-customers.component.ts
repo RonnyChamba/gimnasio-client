@@ -12,6 +12,7 @@ import { UtilCustomerService } from '../../services/util-customer.service';
 import { FormCustomersComponent } from '../form-customers/form-customers.component';
 import { ToastrService } from 'ngx-toastr';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 @Component({
   selector: 'app-list-customers',
   templateUrl: './list-customers.component.html',
@@ -26,6 +27,7 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
   paramPaginator: PaginatorCustomer = { page: 0, size: 5 };
   sumaTotalElements = 0;
 
+  isAdmin = false;
 
   // here add suscriptiones
   private subscription: Subscription = new Subscription();
@@ -34,8 +36,9 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private customerService: CustomerService,
     private utilFiltersService: UtilFiltersService,
-    private utilCustomerService: UtilCustomerService,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private toeknService: TokenService,
+
   ) { 
 
   
@@ -45,6 +48,8 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
     // console.log('size default' + this.size);
     this.findAll();
     this.addSubscription();
+
+    this.isAdmin = this.toeknService.isAdmin();
   }
 
   private addSubscription() {

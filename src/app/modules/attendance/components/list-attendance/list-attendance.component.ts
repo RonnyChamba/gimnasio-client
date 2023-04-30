@@ -7,6 +7,7 @@ import * as dayjs from "dayjs";
 import { Subscription, catchError, of, tap } from 'rxjs';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
 import { ToastrService } from 'ngx-toastr';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-list-attendance',
@@ -15,6 +16,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ListAttendanceComponent  implements OnInit, OnDestroy{
   
+  isAdmin = false;
+
   @Input() idCustomer: number = 0;
   
   // Determina si se debe mostrar o no ciertas columnas de la tabla
@@ -37,8 +40,11 @@ export class ListAttendanceComponent  implements OnInit, OnDestroy{
       private customerService: CustomerService,
       private transactionService: TransactionSrService,
       private utilFiltersService: UtilFiltersService,
-      private toaster: ToastrService
-    ) { }
+      private toaster: ToastrService,
+      private tokenService: TokenService
+    ) { 
+      this.isAdmin = this.tokenService.isAdmin();
+    }
     ngOnInit(): void {
       this.findAll();
 

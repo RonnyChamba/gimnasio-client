@@ -64,7 +64,7 @@
                         <i class="bx bx-edit"></i>
                     </span> -->
 
-                    <span class="bg-danger p-1 me-1 rounded" role="button" (click)="delete(item.ide)">
+                    <span   *ngIf="isAdmin"  class="bg-danger p-1 me-1 rounded" role="button" (click)="delete(item.ide)">
                         <i class="bx bx-trash"></i>
                     </span>
                 </td>

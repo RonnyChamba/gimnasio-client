@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormExercisesComponent } from '../form-exercises/form-exercises.component';
 import Swal from 'sweetalert2';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-list-exercises',
@@ -15,6 +16,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./list-exercises.component.scss']
 })
 export class ListExercisesComponent implements OnInit, OnDestroy {
+
+  isAdmin = false;
 
   urlImgDefault = "../../../../../assets//img//Default_pfp.svg.png";
   textAccordion = "más";
@@ -35,7 +38,11 @@ export class ListExercisesComponent implements OnInit, OnDestroy {
     private exerciseService: ExerciseService,
     private exerciseUtil: UtilExerciseService,
     private modalService: NgbModal,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private tokenService: TokenService
+    ) { 
+      this.isAdmin = this.tokenService.isAdmin();
+    }
 
   ngOnInit(): void {
     this.findAll();

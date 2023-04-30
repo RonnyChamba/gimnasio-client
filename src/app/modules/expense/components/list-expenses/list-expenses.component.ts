@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
 import { TransactionSrService } from 'src/app/services/transaction-sr.service';
 import { ToastrService } from 'ngx-toastr';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-list-expenses',
@@ -17,6 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ListExpensesComponent implements OnInit, OnDestroy {
 
+isAdmin = false;
 
   listData: ExpenseAttribute[];
   pageRender: PageRender;
@@ -34,7 +36,12 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private transactionSrService: TransactionSrService,
     private toaster: ToastrService,
-    private utilFiltersService: UtilFiltersService) { }
+    private utilFiltersService: UtilFiltersService,
+    private tokenService: TokenService
+    
+    ) { 
+      this.isAdmin = this.tokenService.isAdmin();
+    }
 
   ngOnInit(): void {
 

@@ -8,6 +8,7 @@ import { FormCategoryComponent } from '../form-category/form-category.component'
 import Swal from 'sweetalert2';
 import { UtilCategoryService } from '../../services/util-category.service';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-list-categories',
@@ -20,6 +21,8 @@ export class ListCategoriesComponent  implements OnInit, OnDestroy {
   pageRender: PageRender;
   sumaTotalElements = 0;
 
+  isAdmin = false;
+
     // here add suscriptiones
     private subscription: Subscription = new Subscription();
 
@@ -30,8 +33,12 @@ export class ListCategoriesComponent  implements OnInit, OnDestroy {
   constructor(private categoryService: CategoryService,
     private modalService: NgbModal,
     private utilCateService: UtilCategoryService,
-    private utilFiltersService: UtilFiltersService
-    ){}
+    private utilFiltersService: UtilFiltersService,
+    private tokenService: TokenService
+    ) { 
+      this.isAdmin = this.tokenService.isAdmin();
+    }
+    
 
   ngOnInit(): void {
 

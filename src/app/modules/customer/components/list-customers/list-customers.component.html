@@ -60,7 +60,7 @@
                 <span class="dropdown-item" role="button" (click)="edit(item.ide)"><i class="fa-solid fa-plus"></i>
                   Nueva Membresia</span>
               </li>
-              <li><span class="dropdown-item" role="button" (click)="delete(item.ide)"> <i class="bx bx-trash"></i>
+              <li *ngIf="isAdmin" ><span class="dropdown-item" role="button" (click)="delete(item.ide)"> <i class="bx bx-trash"></i>
                   Eliminar</span></li>
               <li>
                 <hr class="dropdown-divider">

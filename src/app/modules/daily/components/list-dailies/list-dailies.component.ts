@@ -9,6 +9,7 @@ import { UtilFiltersService } from 'src/app/shared/services/util-filters.service
 import { FormDailiesComponent } from '../form-dailies/form-dailies.component';
 import { TransactionSrService } from 'src/app/services/transaction-sr.service';
 import { ToastrService } from 'ngx-toastr';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-list-dailies',
@@ -22,6 +23,8 @@ export class ListDailiesComponent implements OnInit, OnDestroy {
   pageRender: PageRender;
   sumaTotalElements = 0;
 
+  isAdmin = false;
+
   @Output("sumaTotalByPage") sumaTotalByPage = new EventEmitter<number>;
 
   paramPaginator: PaginatorDiary = { page: 0, size: 5, typeUser: "", typeData: "DAILY" };
@@ -34,7 +37,11 @@ export class ListDailiesComponent implements OnInit, OnDestroy {
     private utilFiltersService: UtilFiltersService,
     private transactionSrService: TransactionSrService,
     private toaster: ToastrService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private tokenService: TokenService
+    ) { 
+      this.isAdmin = this.tokenService.isAdmin();
+    }
 
   ngOnInit(): void {
 

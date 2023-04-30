@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import { interceptorProvider } from './modules/auth/interceptor/general.interceptor';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserAnimationsModule, HttpClientModule,   ToastrModule.forRoot(), // ToastrModule added
   
   ],
-  providers: [],
+  providers: [interceptorProvider],
+ 
   bootstrap: [AppComponent],
 })
 export class AppModule {}

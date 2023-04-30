@@ -63,7 +63,7 @@
 
       <div class="item-hover text-end">
         <button class="btn" (click)="edit(item.ide)"><i class="fa-solid fa-pen-to-square"></i></button>
-        <button class="btn" (click)="delete(item.ide)" ><i class="fa-solid fa-trash"></i></button>
+        <button  *ngIf="isAdmin"   class="btn" (click)="delete(item.ide)" ><i class="fa-solid fa-trash"></i></button>
       </div>
     </div>
 

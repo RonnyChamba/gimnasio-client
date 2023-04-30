@@ -10,6 +10,7 @@ import { UtilFiltersService } from 'src/app/shared/services/util-filters.service
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { TransactionSrService } from 'src/app/services/transaction-sr.service';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-list-inscription',
@@ -38,12 +39,18 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
   
   private subscription: Subscription = new Subscription();
 
+  isAdmin = false;
+
   constructor(
     private customerService: CustomerService,
     private utilFiltersService: UtilFiltersService,
     private toaster: ToastrService,
     private  transactionSrv: TransactionSrService,
-    private modalService: NgbModal,) { }
+    private tokenService: TokenService,
+    private modalService: NgbModal
+    ) {
+      this.isAdmin = this.tokenService.isAdmin();
+     }
 
   ngOnInit(): void {
     

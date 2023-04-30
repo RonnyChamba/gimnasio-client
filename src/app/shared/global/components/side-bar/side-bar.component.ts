@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Renderer2 } from '@angular/core';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -10,10 +11,18 @@ export class SideBarComponent implements OnInit {
   // Recibimos la variable open desde el padre pero le damos un alias flagClose
   @Input('open') flagClose: boolean;
   
+  isAdmin = false;
 
   menuOptions = new Map<string, any>;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(
+    private renderer: Renderer2,
+    private tokenService: TokenService,
+    
+    ) {
+
+      this.isAdmin = this.tokenService.isAdmin();
+    }
   ngOnInit(): void {
 
     this.initMenuOptiosn();
