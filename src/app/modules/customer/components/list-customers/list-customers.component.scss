@@ -1,3 +1,8 @@
+@import '../../../../../assets/scss/SizeDefault.scss';
+table{
+    @include table-comun;
+}
+
 .height-data-empty{
 
     min-height: 200px;

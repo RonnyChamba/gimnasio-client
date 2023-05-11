@@ -1,4 +1,4 @@
-<table class="table mt-3">
+<table class="table mt-2">
   <thead class="table-light">
     <tr>
       <th scope="col">Nro</th>
@@ -20,14 +20,14 @@
       <td>{{item.numberInscription}}</td>
 
       <td class="action text-end">
-        <span class="bg-warning p-1 me-1 rounded" data-bs-toggle="tooltip" data-bs-placement="top"
+        
+        <span class="bg-warning p-1 rounded-start" data-bs-toggle="tooltip" data-bs-placement="top"
           title="Editar Modalidad" role="button" (click)="edit(item.ide)">
-          <i class="bx bx-edit"></i>
+          <i class="fa-solid fa-pen"></i>
         </span>
-
-        <span class="bg-danger p-1 me-1 rounded" data-bs-toggle="tooltip" data-bs-placement="top"
+        <span class="bg-danger p-1 rounded-end" data-bs-toggle="tooltip" data-bs-placement="top"
           title="Eliminar Modalidad" role="button" (click)="delete(item.ide)">
-          <i class="bx bx-trash"></i>
+          <i class="fa-solid fa-x"></i>
         </span>
 
       </td>
@@ -36,7 +36,7 @@
 </table>
 
 
-<div class="">
+<div class="pagination">
   <h5>N&uacute;mero de Registros: {{listData.length}}</h5>
 
 </div>

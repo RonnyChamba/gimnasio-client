@@ -27,7 +27,7 @@
 
           </div>
           <select class="form-select mt-1 mt-sm-0" formControlName="typeUser">
-            <option value="" selected>Todos los usuarios</option>
+            <option value="" selected>Seleccione usuario..</option>
             <option value="me" selected>Mis Registros</option>
             <option value="{{item.dni}}" *ngFor="let item of users; index as i">{{item.name}}</option>
           </select>
@@ -36,13 +36,13 @@
         <div class="ms-auto d-flex">
 
           <select class="form-select" formControlName="typePay" *ngIf="typeReport && typeReport !='ATTENDANCE'">
-            <option value="" selected>Todos</option>
+            <option value="" selected>Seleccion T. Pago</option>
             <option value="EFECTIVO" selected>Efectivo (E)</option>
             <option value="TRANSFERENCIA">Transferencia (T)</option>
           </select>
 
           <select class="form-select mx-1" formControlName="modality" *ngIf="typeReport && typeReport =='INSCRIPTION'">
-            <option value="" selected>Todas modalidades</option>
+            <option value="" selected>Seleccione modalidad</option>
             <option value="{{item.name}}" *ngFor="let item of modalities; index as i">{{item.name}}</option>
           </select>
 

@@ -1,5 +1,5 @@
-<div [ngClass]="{'height-data-empty': listData && listData.length<1, 'height-data':  listData && listData.length>=1}">
-  <table class="table mt-4">
+<div  class="my-2" [ngClass]="{'height-data-empty': listData && listData.length<1, 'height-data':  listData && listData.length>=1}">
+  <table class="table">
     <thead class="table-light">
       <tr>
         <th scope="col">Nro</th>
@@ -102,5 +102,5 @@
   </table>
 
 </div>
-<app-paginator [listData]="listData" [pageRender]="pageRender" [sumaTotalElements]="sumaTotalElements"
+<app-paginator   [listData]="listData" [pageRender]="pageRender" [sumaTotalElements]="sumaTotalElements"
   (eventNumberPage)="changePage($event)"></app-paginator>

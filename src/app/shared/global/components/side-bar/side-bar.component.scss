@@ -2,6 +2,7 @@
 //  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 @import "../../../../../assets/scss/Constantes.scss";
 @import "../../../../../assets/scss/Colors.scss";
+@import "../../../../../assets/scss/SizeDefault.scss";
 * {
   margin: 0;
   padding: 0;
@@ -10,13 +11,15 @@
 .sidebar {
   background: $color-sidebar;
 
+  font-size: $text-size;
+
   .logo-details {
     height: 60px;
     width: 100%;
     display: flex;
     align-items: center;
     i {
-      font-size: 30px;
+      font-size: $text-size-icon;
       color: #fff;
       height: 50px;
       min-width: $sidebar-width-close;
@@ -103,7 +106,7 @@
   text-align: center;
   line-height: 50px;
   color: #fff;
-  font-size: 20px;
+  font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -119,7 +122,7 @@
   text-decoration: none;
 }
 .sidebar .nav-links li a .link_name {
-  font-size: 18px;
+  font-size: $text-size-menu;
   font-weight: 400;
   color: #fff;
   transition: all 0.4s ease;
@@ -139,7 +142,8 @@
 }
 .sidebar .nav-links li .sub-menu a {
   color: #fff;
-  font-size: 15px;
+  // font-size: 15px;
+  font-size: $text-size-menu;
   padding: 5px 0;
   white-space: nowrap;
   opacity: 0.6;
@@ -170,7 +174,8 @@
   display: none;
 }
 .sidebar.close .nav-links li .sub-menu .link_name {
-  font-size: 18px;
+  // font-size: 18px;
+  font-size: $text-size;
   opacity: 1;
   display: block;
 }

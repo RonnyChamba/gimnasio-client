@@ -1,11 +1,16 @@
+@import '../../../../../assets/scss/Colors.scss';
+
+@import '../../../../../assets/scss/SizeDefault.scss';
+
 .home-header {
-  padding: 0 20px;
-  height: 60px;
+  padding: 10px 0;
+  height: 40px;
   position: relative;
+  background-color: $color-primary;
 
   .profile {
-    height: 45px;
-    width: 45px;
+    height: 35px;
+    width: 35px;
     margin-right: 10px;
     object-fit: cover;
     border-radius: 50%;
@@ -13,8 +18,8 @@
 
   .bx-menu {
     color: #11101d;
-    font-size: 35px;
-    margin-right: 15px;
+    font-size: $text-size-icon;
+    // margin-right: 15px;
     cursor: pointer;
   }
 

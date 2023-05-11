@@ -44,7 +44,7 @@ export class LoginAuthComponent implements OnInit{
             // Por defecto el sidebar esta cerrado
             this.tokenService.setFlagClose(true);
 
-            this.toaster.success('Bienvenido', 'Ingreso Exitoso');
+            // this.toaster.success('Bienvenido', 'Ingreso Exitoso');
             this.router.navigate(['/']);
 
           })

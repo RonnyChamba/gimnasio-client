@@ -1,0 +1,22 @@
+@import '../../../../../assets/scss/SizeDefault.scss';
+table{
+    @include table-comun;
+}
+
+.pagination h5{
+  font-size: $text-size;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #F5F5F5;
+  }
+  
+  tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+  }
+  .action span{
+    display: inline-block;
+    width: 30px;
+    color: white;
+    text-align: center;
+  }

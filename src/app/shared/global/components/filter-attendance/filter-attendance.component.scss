@@ -1,0 +1,9 @@
+@import '../../../../../assets/scss/SizeDefault.scss';
+
+.navbar{
+    font-size: $text-size;
+    .form-control, .form-select{
+        font-size: $text-size;
+    }
+}
+
