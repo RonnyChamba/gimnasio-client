@@ -6,16 +6,30 @@
   <app-nav-bar (newItemEvent)="onClickMenu($event)"></app-nav-bar>
 
   <div class="home-body">
-    <div class="home-content p-3 border   border-2">
+    <div class="home-content">
       <!--    -->
-      <div class="d-flex flex-wrap justify-content-between align-item-center">
-        <h4 class="home-subtitle">Membresias</h4>
-      </div>
-      <app-filter-attendance  [typeModel] ="typeModel"></app-filter-attendance>
+      <div class="d-flex flex-wrap justify-content-between align-item-center mt-3">
+        <h4 class="home-subtitle">Membres&iacute;as</h4>
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="navigation">
 
- 
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa-solid fa-house"></i></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/']" class="home">Inicio</a></li>
+            <li class="breadcrumb-item">></li>
+            <li class="breadcrumb-item active" aria-current="page">Membres&iacute;as</li>
+          </ol>
+        </nav>
+
+      </div>
+
+      <div  style="background-color: white" class="content-main  p-3">
+      
+        <app-filter-attendance  [typeModel] ="typeModel"></app-filter-attendance>
       <app-list-inscription  ></app-list-inscription>
 
+      </div>
+
+      
     </div>
   </div>
 </section>

@@ -4,27 +4,39 @@
   <app-nav-bar (newItemEvent)="onClickMenu($event)"></app-nav-bar>
 
   <div class="home-body">
-    <div class="home-content p-3 border border-2">
+    <div class="home-content">
       <!--    -->
-      <div class="d-flex flex-wrap justify-content-between align-item-center">
-        <h4 class="home-subtitle">Home Main</h4>
-        <!-- <button class="btn btn-outline-primary d-flex align-items-center" (click)="openModal()">
-            <i class="bx bx-user-plus" style="color:royalblue"> </i> <span class="ms-1">Nuevo Cliente</span>
-          </button> -->
+      <div class="d-flex flex-wrap justify-content-between align-item-center mt-3">
+        <h4 class="home-subtitle">Inicio</h4>
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="navigation">
+
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa-solid fa-house"></i></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/']" class="home">Inicio</a></li>
+          </ol>
+        </nav>
+
       </div>
 
-      <div class="grid-container">
-        <div  *ngFor="let item of listData"   class="grid-container__item card">
-          <div class="">
-            <img src="../../../../../assets/gym.jpeg" class="img-fluid" />
+      <div class="content-main p-3">
+
+        <div class="grid-container">
+          <div *ngFor="let item of listData" class="grid-container__item card">
+            <div class="">
+              <img src="../../../../../assets/gym.jpeg" class="img-fluid" />
+            </div>
+            <h4 class="mt-2 mb-1 title">{{item.title}}</h4>
+            <p class="paragraph my-0"><span> <i class="bx bx-grid-alt" style="font-size: 15px;"></i></span>:
+              {{item.count}} registros
+            </p>
+  
+            <button class="btn btn-primary mt-2" [routerLink]="[item.url]">Ver</button>
           </div>
-          <h4 class="mt-2 mb-1">{{item.title}}</h4>
-          <p class="paragraph my-0"><span> <i class="bx bx-grid-alt" style="font-size: 15px;"></i></span>: {{item.count}} registros
-          </p>
-        
-          <button  class="btn btn-primary mt-2" [routerLink]="[item.url]">Ver</button>
         </div>
+
+
       </div>
+   
 
     </div>
   </div>

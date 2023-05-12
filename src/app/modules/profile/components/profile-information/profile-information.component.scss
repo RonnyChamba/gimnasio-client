@@ -1,8 +1,14 @@
-.home-subtitle{
-  font-weight: 500;
-  font-size: 1.8rem;
+@import "../../../../../assets/scss/SizeDefault.scss";
+
+.container-main {
+  form input {
+
+    font-size: $text-size;
+  }
+
 }
-button i{
+
+button i {
   color: #fff;
   font-size: 25px;
   cursor: pointer;
@@ -10,53 +16,36 @@ button i{
 }
 
 .content-img {
-    background-color: green !important;
-    position: relative;
-    max-width: 250px;
-    // display: inline-block;
-  
-    // img {
-    //   max-width: 100%;
-    // }
-  
-  
-    img {
-      display: block;
-      width: 100%;
-      // height: 100%;
-      object-fit: cover;
-    }
-  
-    &__btn {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      font-size: 1.3rem;
-      color: #fff;
-      cursor: pointer;
-      &--hide{
-        display: none;
-        // visibility: hidden;
-        // z-index: -10000;
-  
-      }
+  // background-color: green !important;  
+  // position: relative;
+  max-width: 250px;
+
+  img {
+    display: block;
+    width: 70px;
+    height: 70px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 1.3rem;
+    color: #fff;
+    cursor: pointer;
+
+    &--hide {
+      display: none;
+
     }
   }
-  
-  // label[for="fileInput"] {
-  //   display: none;
-  // }
-  // .custom-file-upload {
-  //   display: inline-block;
-  //   padding: 6px 12px;
-  //   cursor: pointer;
-  //   color: #fff;
-  //   background-color: #007bff;
-  //   border-color: #007bff;
-  //   border-radius: 4px;
-  // }
-  
-  // .custom-file-upload i {
-  //   margin-right: 8px;
-  // }
-  
+}
+
+.btn {
+  @include boton-comun;
+  width: auto;
+}

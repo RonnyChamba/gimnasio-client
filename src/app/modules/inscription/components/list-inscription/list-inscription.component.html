@@ -55,17 +55,13 @@
                 <td> {{item.user | trimNameUser }} </td>
 
                 <td class="action text-end">
-                    <span class="bg-warning p-1 me-1 rounded" role="button"
+                    <span class="bg-warning p-1 rounded-start" role="button"
                         (click)="edit(item.ide, item.valid, item.ideCustomer)">
-                        <i class="bx bx-edit"></i>
+                        <i class="fa-solid fa-pen"></i>
                     </span>
 
-                    <!-- <span class="bg-secondary p-1 me-1 rounded" role="button" (click)="generateReport(item.ide)">
-                        <i class="bx bx-edit"></i>
-                    </span> -->
-
-                    <span   *ngIf="isAdmin"  class="bg-danger p-1 me-1 rounded" role="button" (click)="delete(item.ide)">
-                        <i class="bx bx-trash"></i>
+                    <span   *ngIf="isAdmin"  class="bg-danger p-1 rounded-end" role="button" (click)="delete(item.ide)">
+                        <i class="fa-solid fa-x"></i>
                     </span>
                 </td>
             </tr>

@@ -140,7 +140,7 @@ export class DataCustomerComponent implements OnInit, OnDestroy {
           }
         }
 
-        console.log('sin dni');
+        // console.log('sin dni');
         // Guardar directamente el registro
         this.updateData(customerNewData);
       } catch (error) {
@@ -184,7 +184,7 @@ export class DataCustomerComponent implements OnInit, OnDestroy {
       .pipe(
         tap((resp) => {
           this.customerCurrent = resp as Customer;
-          this.toaster.success('Información se actualizo correctamente');
+          this.toaster.info('Información se actualizo correctamente');
           this.refresfData();
         
         }),

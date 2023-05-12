@@ -1,7 +1,6 @@
 // import de los estilos
 @use "../../../../../assets/scss/styleParentSidebar";
-@import "../../../../../assets/scss/SizeDefault.scss";
-
+@use "../../../../../assets/scss/style_general_page";
 button {
   i {
     font-size: 20px;
@@ -10,28 +9,4 @@ button {
   }
 }
 
-.home-subtitle {
-  font-weight: 500;
-  font-size: $title_page;
-}
 
-.navigation {
-  font-size: $text-size;
-
-  .home {
-    text-decoration: none;
-    // color: q;
-    color: black;
-    font-weight: bold;
-
-  }
-}
-
-.content-main {
-  border-top: 1px solid #ccc;
-  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.4);
-}
-
-.btn {
-  @include boton-comun;
-}

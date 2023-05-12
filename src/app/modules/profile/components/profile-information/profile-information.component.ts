@@ -37,17 +37,29 @@ export class ProfileInformationComponent implements OnInit {
     this.createForm();
     this.setDataForm();
     this.formData.get('dni')?.disable();
+    this.changeToUpperCase();
+  }
+
+  private changeToUpperCase() {
+
+    this.formData.get('name')?.valueChanges.subscribe((value) => {
+      this.formData.patchValue({
+        name: value.toUpperCase()
+      }, { emitEvent: false })
+    });
+
   }
   private setDataForm() {
 
     this.userService.findUserCurrent().pipe(
       tap((data: any) => {
-        console.log("Data: ", data);
+        // console.log("Data: ", data);
         this.setData(data);
       }
       ),
       catchError((err) => {
-        console.log("Error: ", err);
+        this.toastr.error('Error al obtener los datos');
+        // console.log("Error: ", err);
         return of(null);
       }
       )).subscribe();
@@ -146,7 +158,7 @@ export class ProfileInformationComponent implements OnInit {
 
       .pipe(
         tap((data) => {
-          console.log("data", data);
+          // console.log("data", data);
           this.toastr.info("Datos actualizados con exito");
           this.setData(data);
           this.formDataSend.delete("photo");

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { catchError, of, tap } from 'rxjs';
 import { UserService } from 'src/app/modules/admin/services/user.service';
 
@@ -13,7 +14,11 @@ export class DataCountComponent implements OnInit {
 
   private titlesModels = this.creatTitleModel();
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private toaster: ToastrService
+    
+    ) { }
 
   ngOnInit(): void {
     this.gettingsData();
@@ -25,13 +30,14 @@ export class DataCountComponent implements OnInit {
     this.userService.countDataByUser()
       .pipe(
         tap((data: any) => {
-          console.log("Data: ", data);
+          // console.log("Data: ", data);
 
           this.createListData(data);
 
         }),
         catchError((err) => {
-          console.log("Error: ", err);
+          this.toaster.error('Error al obtener los datos');
+          // console.log("Error: ", err);
           return of(null);
         })
 
@@ -41,13 +47,13 @@ export class DataCountComponent implements OnInit {
 
   private createListData(data: any) {
 
-    console.log(Object.keys(data));
-    console.log(Object.values(data));
+    // console.log(Object.keys(data));
+    // console.log(Object.values(data));
 
 
     Object.keys(data).forEach((key: any) => {
-      console.log(key);
-      console.log(data[key]);
+      // console.log(key);
+      // console.log(data[key]);
 
       let model = this.titlesModels.find((model: any) => model.ide === key);
 
@@ -56,7 +62,8 @@ export class DataCountComponent implements OnInit {
           ide: model?.ide,
           title: model?.title,
           count: data[key],
-          url: model?.url
+          url: model?.url,
+          icon: model?.icon
         });
       });
   }
@@ -69,16 +76,19 @@ export class DataCountComponent implements OnInit {
         ide: 'customer',
         title: 'Clientes',
         url: '/customer',
+      
       },
       {
         ide: 'expense',
         title: 'Gastos',
         url: '/expense',
+        icon: "fa-solid fa-hand-holding-dollar"
       },
       {
         ide: 'daily',
         title: 'Diarios',
         url: '/daily',
+        icon: "bx bx-compass"
       },
       {
         ide: 'user',
@@ -89,6 +99,7 @@ export class DataCountComponent implements OnInit {
         ide: 'inscription',
         title: 'Membresias',
         url: '/inscription',
+        icon:"bx bx-pie-chart-alt-2"
       },
       {
         ide: 'modality',
@@ -99,6 +110,7 @@ export class DataCountComponent implements OnInit {
         ide: 'attendance',
         title: 'Asistencias',
         url: '/attendance',
+        icon: "fa-solid fa-clipboard-user"
       },
       {
         ide: 'exercise',

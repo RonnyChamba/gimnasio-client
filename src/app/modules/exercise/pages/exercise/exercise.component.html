@@ -7,21 +7,29 @@
   <app-nav-bar (newItemEvent)="onClickMenu($event)"></app-nav-bar>
 
   <div class="home-body">
-    <div class="home-content p-3 border border-2">
+    <div class="home-content">
       <!--    -->
-      <div class="d-flex flex-wrap justify-content-between align-item-center">
-        <h4 class="home-subtitle">Ejercicios</h4>
-        <button class="btn btn-primary d-flex align-items-center" (click)="openModal()">
-          <!-- <i class="bx bx-user-plus" style="color: royalblue"> </i> -->
-          <i class="fa-solid fa-dumbbell" style="color: white"></i>
-          <span class="ms-1">Nuevo Ejercicio</span>
-        </button>
+      <div class="d-flex flex-wrap justify-content-between align-item-center mt-3">
+        <h4 class="home-subtitle">Administrar ejercicios</h4>
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="navigation">
+
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa-solid fa-house"></i></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/']" class="home">Inicio</a></li>
+            <li class="breadcrumb-item">></li>
+            <li class="breadcrumb-item active" aria-current="page">Administrar ejercicios</li>
+          </ol>
+        </nav>
+
       </div>
 
-   
+      <div style="background-color: white" class="content-main  p-3">
 
-      <app-list-exercises></app-list-exercises>
-
+        <button class="btn btn-primary" (click)="openModal()">
+          Nuevo Ejercicio
+        </button>
+        <app-list-exercises></app-list-exercises>
+      </div>
     </div>
   </div>
 </section>

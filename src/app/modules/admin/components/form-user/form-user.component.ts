@@ -28,15 +28,13 @@ export class FormUserComponent implements OnInit {
   ngOnInit(): void {
 
     this.createForm();
+    this.changeToUpperCase();
   }
 
   get getRoles() {
     return this.userUtilService.getRoles;
   }
 
-  keyPresent(event: any) {
-
-  }
   private createForm() {
 
     this.formData = new FormGroup({
@@ -82,6 +80,16 @@ export class FormUserComponent implements OnInit {
         Validators.pattern("^[0-9]{4}(-|/)[0-9]{2}(-|/)[0-9]{2}$")
       ]),
     });
+  }
+
+  private changeToUpperCase() {
+
+    this.formData.get('name')?.valueChanges.subscribe((value) => {
+      this.formData.patchValue({
+        name: value.toUpperCase()
+      }, { emitEvent: false })
+    });
+
   }
 
   fnSubmit() {

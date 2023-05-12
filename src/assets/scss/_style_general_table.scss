@@ -1,0 +1,29 @@
+@import "./SizeDefault.scss";
+
+table{
+    width: 100%;
+    min-width: 300px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #ddd;
+    white-space: nowrap;
+    // margin-bottom: 20px;
+    font-size: $text-size;
+
+    // estilos generales de los botones de acción de la tabla
+    .action span{
+      display: inline-block;
+      width: 30px;
+      color: white;
+      text-align: center;
+    }
+  
+}
+
+tbody tr:nth-child(even) {
+  background-color: #F5F5F5;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}

@@ -474,6 +474,15 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
       onlySelf: true,
       // emitEvent: false,
     });
+
+    this.formData.get('name')?.valueChanges.subscribe((data) => {
+
+
+      this.formData.patchValue({ name: data.toUpperCase() as string }, {  
+        emitEvent: false,
+        });
+    });
+
   }
   private incrementDateFinalize(
     numberMonthOrDays: number,

@@ -1,16 +1,5 @@
+@use '../../../../../assets/scss/style_general_table';
 @import '../../../../../assets/scss/SizeDefault.scss';
-table{
-    @include table-comun;
-}
-
-tbody tr:nth-child(even) {
-  background-color: #F5F5F5;
-}
-
-tbody tr:nth-child(odd) {
-  background-color: #ffffff;
-}
-
 .status {
 
   display: inline-block;

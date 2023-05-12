@@ -1,12 +1,12 @@
 
-<div class="scroll mt-3">
-
-  
-  <!-- Filtro busqueda -->
-  <div class=" d-flex flex-wrap justify-content-between align-items-center mb-2">
+<div class="scroll">
+<!-- Filtro busqueda -->
+<div class=" d-flex flex-wrap justify-content-between align-items-center mb-2">
     <input type="search" placeholder="Buscar Ejercicio" class="form-control search order-md-last"
       [(ngModel)]="searchText" (ngModelChange)="onSearchChange($event)" />
     <span class="">{{listData? listData.length: 0}} Ejercicios</span>
+
+    
     <!-- style="max-width: 200px;" -->
   </div>
 
@@ -14,8 +14,6 @@
   <div class="grid-gallery" *ngIf="listData">
 
     <div class="grid-gallery__item" *ngFor="let item of listDataFilter">
-
-      <!-- <span class="delete" title="Eliminar ejercicio" role="button"><i class="fa-solid fa-trash"></i></span> -->
 
       <div class="grid-gallery__img">
         <!-- <img src="../../../../assets/gym.jpeg" alt="profile" /> -->
@@ -62,8 +60,8 @@
       </div>
 
       <div class="item-hover text-end">
-        <button class="btn" (click)="edit(item.ide)"><i class="fa-solid fa-pen-to-square"></i></button>
-        <button  *ngIf="isAdmin"   class="btn" (click)="delete(item.ide)" ><i class="fa-solid fa-trash"></i></button>
+        <button class="btn btn-warning p-1"  (click)="edit(item.ide)"> <i class="fa-solid fa-pen"></i></button>
+        <button  *ngIf="isAdmin"   class="btn btn-danger p-1 me-1" (click)="delete(item.ide)" >  <i class="fa-solid fa-x"></i></button>
       </div>
     </div>
 

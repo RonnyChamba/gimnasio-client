@@ -5,16 +5,30 @@
   <app-nav-bar (newItemEvent)="onClickMenu($event)"></app-nav-bar>
 
   <div class="home-body">
-    <div class="home-content p-3 border border-2">
+    <div class="home-content">
       <!--    -->
-      <div class="d-flex flex-wrap justify-content-between align-item-center">
-        <h3 class="home-subtitle">Asistencia</h3>
+      <div class="d-flex flex-wrap justify-content-between align-item-center mt-3">
+        <h3 class="home-subtitle">Administrar asistencias</h3>
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="navigation">
+
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><i class="fa-solid fa-house"></i></li>
+              <li class="breadcrumb-item"><a [routerLink]="['/']" class="home">Inicio</a></li>
+              <li class="breadcrumb-item">></li>
+              <li class="breadcrumb-item active" aria-current="page">Administrar asistencias</li>
+          </ol>
+      </nav>
 
       </div>
+      <div style="background-color: white" class="content-main  p-3">
 
-      <app-filter-attendance [typeModel]="typeModel"></app-filter-attendance>
+        <app-filter-attendance [typeModel]="typeModel"></app-filter-attendance>
 
-      <app-list-attendance></app-list-attendance>
+        <app-list-attendance></app-list-attendance>
+      </div>
+
+
+
     </div>
   </div>
 </section>

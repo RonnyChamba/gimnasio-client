@@ -1,0 +1,11 @@
+@import "../../../../../assets/scss/SizeDefault.scss";
+
+.container-main{
+    font-size: $text-size;
+
+}
+
+.btn{
+    @include boton-comun;
+    width: auto;
+}

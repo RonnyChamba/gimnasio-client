@@ -98,7 +98,7 @@
 
           <div class="form-floating mb-3 col-sm-6">
             <input type="password" class="form-control" id="repeatPassword" placeholder=""
-              formControlName="repeatPassword" (keydown)="keyPresent($event)" />
+              formControlName="repeatPassword" />
             <label for="repeatPassword" class="ms-1">Repetir Contraseña</label>
 
             <div *ngIf="
@@ -243,7 +243,7 @@
           class="btn btn-secondary me-2"
           (click)="modal.close()"
         >
-        <i class="fa-solid fa-ban"></i>
+        <!-- <i class="fa-solid fa-ban"></i> -->
         CANCELAR
         </button>
     
@@ -252,7 +252,7 @@
           [disabled]="formData.invalid"
           class="btn btn-primary"
         >
-        <i class="fa-solid fa-floppy-disk"></i>
+        <!-- <i class="fa-solid fa-floppy-disk"></i> -->
           GUARDAR
       </button>
       </div>

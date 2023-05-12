@@ -23,12 +23,12 @@
         <td>{{item.price}}</td>
         <td>{{ (item.user || "") | trimNameUser }}</td>
         <td class="action text-end">
-          <span class="bg-warning p-1 me-1 rounded" role="button"  title="Editar Diario">
-            <i class="bx bx-edit"   (click)="edit(item.ide)"></i>
+          <span class="bg-warning p-1 rounded-start" role="button" (click)="edit(item.ide)"  title="Editar Diario">
+            <i class="fa-solid fa-pen"></i>
           </span>
   
-          <span  *ngIf="isAdmin"  class="bg-danger p-1 me-1 rounded" role="button" title="Eliminar Diario">
-            <i class="bx bx-trash" (click)="delete(item.ide)" ></i>
+          <span  *ngIf="isAdmin"  class="bg-danger p-1 rounded-end"  (click)="delete(item.ide)" role="button" title="Eliminar Diario">
+            <i class="fa-solid fa-x"></i>
           </span>        
         </td>
       </tr>    

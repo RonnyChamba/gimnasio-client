@@ -161,6 +161,15 @@ export class ListExercisesComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  openModal(){
+
+    // console.log("Abrir modal");
+
+    this.modalService.open(FormExercisesComponent, {
+      size: "md"
+    });
+  }
 }
 
 

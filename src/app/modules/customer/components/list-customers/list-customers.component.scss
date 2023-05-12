@@ -1,7 +1,4 @@
-@import '../../../../../assets/scss/SizeDefault.scss';
-table{
-    @include table-comun;
-}
+@use '../../../../../assets/scss/style_general_table';
 
 .height-data-empty{
 

@@ -1,25 +1,20 @@
-.expanded-row {
-    transition: height 0.3s ease-out;
-  }
+@use '../../../../../assets/scss/style_general_table';
 
-  .height-data-empty{
 
-    min-height: 200px;
+.height-data-empty {
+
+  min-height: 200px;
 }
 
-.height-data{
+.height-data {
 
-    min-height: 315px;
+  min-height: 315px;
 }
 
 .table-wrapper {
-  width: 100%; /* ajusta el ancho según tus necesidades */
+  width: 100%;
+  /* ajusta el ancho según tus necesidades */
   // overflow-x: scroll;
   // overflow-x: scroll; 
   /* Desplazamiento horizontal */
-}
-
-table {
-  min-width: 300px; /* ajusta el ancho mínimo según tus necesidades */
-  white-space: nowrap; 
 }

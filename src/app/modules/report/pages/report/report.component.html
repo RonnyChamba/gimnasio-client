@@ -1,45 +1,57 @@
 <app-side-bar class="nav-component" [ngClass]="{ close: flagClose, '': !flagClose }" [open]="flagClose"></app-side-bar>
 
-<app-filter  class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" 
-aria-labelledby="offcanvasTopLabel"></app-filter>
+<app-filter class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop"
+    aria-labelledby="offcanvasTopLabel"></app-filter>
 
 <section class="home-section">
 
     <app-nav-bar (newItemEvent)="onClickMenu($event)"></app-nav-bar>
 
     <div class="home-body">
-        <div class="home-content p-3 border border-2">
+        <div class="home-content">
             <!--    -->
-            <div class="d-flex flex-wrap justify-content-between align-item-center">
-                <h4 class="home-subtitle">Reportes</h4>
+            <div class="d-flex flex-wrap justify-content-between align-item-center mt-3">
+                <h4 class="home-subtitle">Administrar reportes</h4>
+                <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="navigation">
+
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><i class="fa-solid fa-house"></i></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/']" class="home">Inicio</a></li>
+                        <li class="breadcrumb-item">></li>
+                        <li class="breadcrumb-item active" aria-current="page">Administrar reportes</li>
+                    </ol>
+                </nav>
+
+
 
             </div>
             <!-- <p>En esta seccion podrá generar difentes tipos de reportes con la información del sistema</p> -->
 
-            <div class="grid-container">
-                <div class="grid-container__item">
-                   
-                    <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"
-                      (click)="viewReports('INSCRIPTION')"  class="btn btn-primary">Membres&iacute;as</button>
-                     
-                </div>
+            <div style="background-color: white" class="content-main  p-3">
+                <div class="grid-container">
+                    <div class="grid-container__item">
 
-                <div class="grid-container__item">
-                    <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"
-                        (click)="viewReports('DAILY')" class="btn btn-primary">Diarios</button>
-                </div>
-                <div class="grid-container__item">
-                    <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"
-                        (click)="viewReports('EXPENSE')" class="btn btn-primary">Gastos</button>
-                </div>
+                        <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"
+                            (click)="viewReports('INSCRIPTION')" class="btn btn-primary">Membres&iacute;as</button>
 
-                <div class="grid-container__item">
-                    <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"
-                        (click)="viewReports('ATTENDANCE')" class="btn btn-primary">Asistencia</button>
-                </div>
+                    </div>
 
+                    <div class="grid-container__item">
+                        <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"
+                            (click)="viewReports('DAILY')" class="btn btn-primary">Diarios</button>
+                    </div>
+                    <div class="grid-container__item">
+                        <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"
+                            (click)="viewReports('EXPENSE')" class="btn btn-primary">Gastos</button>
+                    </div>
+
+                    <div class="grid-container__item">
+                        <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"
+                            (click)="viewReports('ATTENDANCE')" class="btn btn-primary">Asistencia</button>
+                    </div>
+
+                </div>
             </div>
-
         </div>
     </div>
 </section>

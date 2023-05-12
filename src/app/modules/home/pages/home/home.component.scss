@@ -1,30 +1,38 @@
 // import de los estilos 
 @use '../../../../../assets/scss/styleParentSidebar';
-button i{
-     color: #fff;
-     font-size: 25px;
-     cursor: pointer;
-     transition: all 0.3s ease;
+@use '../../../../../assets/scss/style_general_page';
+
+@import '../../../../../assets/scss/SizeDefault.scss';
+
+button i {
+  color: #fff;
+  font-size: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .grid-container {
-     display: grid;
-     gap: 1rem;
-     grid-auto-rows: 15rem;
-     grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)
-     );
-   //  padding: 10px;
-   
-    &__item {
-      background-color: #fff;
-      padding: 10px;
-     //  border: 1px solid #ccc;
-     //  padding: 20px;
-     //  font-size: 30px;
-     //  text-align: center;
-    }
-    .paragraph{
-     font-size: 0.8rem;
-    }
-   }
+  display: grid;
+  gap: 1rem;
+  grid-auto-rows: 15rem;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  //  padding: 10px;
 
+  &__item {
+    background-color: #fff;
+    padding: 10px;
+
+    .title{
+      font-size: $text-size;
+      font-weight: 700;
+    }
+  }
+
+  .paragraph {
+    font-size: 0.8rem;
+  }
+}
+
+.btn {
+  width: auto
+}

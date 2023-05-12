@@ -31,9 +31,9 @@ export class SideBarComponent implements OnInit {
   private initMenuOptiosn (){
 
     this.menuOptions.set("HOME", "Inicio");
-    this.menuOptions.set("ATTENDANCE", "Asistencia");
+    this.menuOptions.set("ATTENDANCE", "Asistencias");
     this.menuOptions.set("ADMIN", "Usuarios");
-    this.menuOptions.set("INSCRIPTION", "Membresias");
+    this.menuOptions.set("INSCRIPTION", "Membresías");
     this.menuOptions.set("CUSTOMERS", "Clientes");
     this.menuOptions.set("EXPENSES", "Gastos");
     this.menuOptions.set("DAILIES", "Diarios");
@@ -43,7 +43,7 @@ export class SideBarComponent implements OnInit {
     options:[ 
       {name: 'Ejercicios', url:'/exercise'},
       // {name: 'Rutina', url:'/routine'},
-      {name: 'Categorias', url:'/category'}]});
+      {name: 'Categorías', url:'/category'}]});
   }
 
   showSubmenu(event: any){
