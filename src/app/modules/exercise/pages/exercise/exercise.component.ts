@@ -34,7 +34,9 @@ export class ExerciseComponent  implements OnInit{
     // console.log("Abrir modal");
 
     this.modalService.open(FormExercisesComponent, {
-      size: "md"
+      size: "md",
+      backdrop: 'static',
+       keyboard: false
     });
   }
 

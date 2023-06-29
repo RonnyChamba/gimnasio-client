@@ -5,6 +5,7 @@ import { PageRender, PaginatorAttendanceAndMembresias } from 'src/app/core/model
 import { Subscription, catchError, of, tap } from 'rxjs';
 import { EvolutionList } from 'src/app/core/models/evolution-model';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-evolution-customer',
@@ -24,7 +25,9 @@ export class EvolutionCustomerComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   constructor(
     private customerService: CustomerService,
-    private utilFiltersService: UtilFiltersService) { }
+    private utilFiltersService: UtilFiltersService,
+    private messageService: MessageService
+    ) { }
 
   ngOnInit(): void {
     this.findAll();
@@ -91,8 +94,13 @@ export class EvolutionCustomerComponent implements OnInit, OnDestroy {
 
 
   private findAll() {
+    this.messageService.loading(true);
 
-    this.paramPaginator.typeData = "EVOLUTION";
+
+
+    setTimeout ( () =>{
+
+      this.paramPaginator.typeData = "EVOLUTION";
 
     this.customerService.findAllMembresiasByCustomer(this.idCustomer, this.paramPaginator)
       .pipe(
@@ -105,8 +113,11 @@ export class EvolutionCustomerComponent implements OnInit, OnDestroy {
           // this.sumaTotalElements = resp.pageRender.totalElements;
 
           this.calculSumaRegister();
+          this.messageService.loading(false);
         }),
         catchError(err => {
+          this.messageService.loading(false);
+          
           console.log("Error en el servicio", err)
           return of(null);
         }
@@ -114,6 +125,9 @@ export class EvolutionCustomerComponent implements OnInit, OnDestroy {
 
       ).subscribe();
 
+    }, 200 );
+
+    
   }
 
   changePage(numberPage: number) {

@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormExercisesComponent } from '../form-exercises/form-exercises.component';
 import Swal from 'sweetalert2';
 import { TokenService } from 'src/app/modules/auth/service/token.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-list-exercises',
@@ -39,10 +40,11 @@ export class ListExercisesComponent implements OnInit, OnDestroy {
     private exerciseUtil: UtilExerciseService,
     private modalService: NgbModal,
     private toastr: ToastrService,
-    private tokenService: TokenService
-    ) { 
-      this.isAdmin = this.tokenService.isAdmin();
-    }
+    private tokenService: TokenService,
+    private messageService: MessageService
+  ) {
+    this.isAdmin = this.tokenService.isAdmin();
+  }
 
   ngOnInit(): void {
     this.findAll();
@@ -68,27 +70,40 @@ export class ListExercisesComponent implements OnInit, OnDestroy {
   }
 
   findAll() {
-    this.exerciseService.findAll(this.paramsFilter.page,
-      this.paramsFilter.size).pipe(
 
-        tap((response: any) => {
-          this.page = response.page;
-          this.listData = response.data;
-          console.log(this.listData);
-          this.listDataFilter = this.listData;
+    this.messageService.loading(true);
 
-          // this.toastr.success('Datos actualizados correctamente', 'Correcto');
 
-        }),
-        catchError((error) => {
-          console.log(error);
+    setTimeout(() => {
 
-          this.toastr.error('Error al cargar los datos', 'Error');
+      this.exerciseService.findAll(this.paramsFilter.page,
+        this.paramsFilter.size).pipe(
 
-          return of(null);
-        })
+          tap((response: any) => {
+            this.page = response.page;
+            this.listData = response.data;
+            console.log(this.listData);
+            this.listDataFilter = this.listData;
 
-      ).subscribe();
+            // this.toastr.success('Datos actualizados correctamente', 'Correcto');
+
+            this.messageService.loading(false);
+
+          }),
+          catchError((error) => {
+            console.log(error);
+
+            this.messageService.loading(false);
+            this.toastr.error('Error al cargar los datos', 'Error');
+
+
+            return of(null);
+          })
+
+        ).subscribe();
+    }, 200);
+
+
   }
 
   edit(ide: any) {
@@ -98,7 +113,7 @@ export class ListExercisesComponent implements OnInit, OnDestroy {
 
     // El accordeon es un button por eso se valida que no sea un button para que no se abra el modal
     // if (target.tagName != 'BUTTON') {
-    const ref = this.modalService.open(FormExercisesComponent, { size: "md" });
+    const ref = this.modalService.open(FormExercisesComponent, { size: "md", backdrop: 'static', keyboard: false});
     ref.componentInstance.idExercise = ide;
 
     // }
@@ -162,7 +177,7 @@ export class ListExercisesComponent implements OnInit, OnDestroy {
     });
   }
 
-  openModal(){
+  openModal() {
 
     // console.log("Abrir modal");
 

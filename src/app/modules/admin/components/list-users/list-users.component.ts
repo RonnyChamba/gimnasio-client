@@ -4,6 +4,7 @@ import { UserModel } from 'src/app/core/models/person-model';
 import Swal from 'sweetalert2';
 import { catchError, of, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-list-users',
@@ -18,7 +19,8 @@ export class ListUsersComponent implements OnInit{
   reduceColumns: boolean = false;
   constructor(
       private userService: UserService,
-      private toaster: ToastrService
+      private toaster: ToastrService,
+      private messageService: MessageService
       ) { }
 
   ngOnInit() {
@@ -29,10 +31,18 @@ export class ListUsersComponent implements OnInit{
 
   findall() {
   
-    this.userService.findAll().subscribe((data) => {
-      this.listData = data.data;
-      console.log(this.listData);
-    });
+    this.messageService.loading(true);
+
+    setTimeout(() => {
+
+      this.userService.findAll().subscribe((data) => {
+        this.listData = data.data;
+        console.log(this.listData);
+        this.messageService.loading(false);
+      });
+    }, 200);
+
+    
   
   }
 

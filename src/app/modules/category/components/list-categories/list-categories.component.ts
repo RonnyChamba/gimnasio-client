@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { UtilCategoryService } from '../../services/util-category.service';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
 import { TokenService } from 'src/app/modules/auth/service/token.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-list-categories',
@@ -34,7 +35,8 @@ export class ListCategoriesComponent  implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private utilCateService: UtilCategoryService,
     private utilFiltersService: UtilFiltersService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private messageService: MessageService
     ) { 
       this.isAdmin = this.tokenService.isAdmin();
     }
@@ -53,14 +55,26 @@ export class ListCategoriesComponent  implements OnInit, OnDestroy {
   
   private findAll(){
 
-    this.categoryService.findAll( this.paramPaginator).subscribe(resp =>{
-      console.log(resp)
-      
-      this.listData = resp.data;
-      this.pageRender = resp.page;
+    this.messageService.loading(true);
 
-      this.calculSumaRegister();
-    })
+    setTimeout(() => {
+      
+      this.categoryService.findAll( this.paramPaginator).subscribe(resp =>{
+        console.log(resp)
+        
+        this.listData = resp.data;
+        this.pageRender = resp.page;
+  
+        this.calculSumaRegister();
+        
+        this.messageService.loading(false);
+      })
+
+
+    
+    }, 200);
+
+    
 
   }
 

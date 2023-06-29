@@ -7,6 +7,7 @@ import { TokenService } from '../../service/token.service';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-login-auth',
@@ -22,7 +23,8 @@ export class LoginAuthComponent implements OnInit{
     private authService: AuthService,
     private tokenService: TokenService,
     private toaster: ToastrService,
-    private router: Router
+    private router: Router,
+    private messageServie: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -31,6 +33,9 @@ export class LoginAuthComponent implements OnInit{
 
   onLogin() {
     if (this.formLogin.valid) {
+
+
+      this.messageServie.loading(true);
 
         this.login = this.formLogin.value;
         // console.log(this.login);
@@ -44,6 +49,8 @@ export class LoginAuthComponent implements OnInit{
             // Por defecto el sidebar esta cerrado
             this.tokenService.setFlagClose(true);
 
+            this.messageServie.loading(false);
+
             // this.toaster.success('Bienvenido', 'Ingreso Exitoso');
             this.router.navigate(['/']);
 
@@ -52,10 +59,12 @@ export class LoginAuthComponent implements OnInit{
             // console.log(err);
 
             if (err.status == 401) { 
-              this.toaster.error('Credenciales incorrectas', 'Error');
+              
+              this.messageServie.mensajeErrorLogout("Credenciales incorrectas");
+              // this.toaster.error('Credenciales incorrectas', 'Error');
             }else {
 
-              this.toaster.error('Error en el servidor', 'Error');
+              this.toaster.error('Error en el servidor, intentelo mas tarde', 'Error');
             }
             
             return of(null);

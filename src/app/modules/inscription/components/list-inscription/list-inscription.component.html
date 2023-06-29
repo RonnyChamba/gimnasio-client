@@ -5,9 +5,10 @@
         <thead class="table-light">
             <tr [ngClass]="{'expanded-row': showDetails}">
                 <th scope="col">Nro</th>
-                <th scope="col"  *ngIf="!reduceColumns">Cliente</th>
+                <th scope="col" *ngIf="!reduceColumns">Cliente</th>
                 <th scope="col">Fecha</th>
-                <th scope="col" *ngIf="showDetailsModality">Modalidad</th>
+                <th scope="col" *ngIf="showDetailsModality" [ngClass]="{'show-column':showDetailsModality, 'hide-column': !showDetailsModality }" >Modalidad</th>
+                
                 <th scope="col">T.Pago <span (click)="showDetailsModality = !showDetailsModality" role="button">
                         <i class="fa-sharp fa-solid fa-up-right-and-down-left-from-center" *ngIf="showDetailsModality"
                             title="Contraer columas"></i>
@@ -15,15 +16,15 @@
                         <i class="fa-solid fa-arrows-left-right-to-line" *ngIf="!showDetailsModality"
                             title="Expandir columnas ver modalidad"></i>
                     </span> </th>
-                <th scope="col"  *ngIf="showDetailsDateBegin">F. Inicio</th>
+                <th scope="col" *ngIf="showDetailsDateBegin">F. Inicio</th>
                 <!-- <th></th> -->
                 <th scope="col">F. Fin <span (click)="showDetailsDateBegin = !showDetailsDateBegin" role="button">
-                    <i class="fa-sharp fa-solid fa-up-right-and-down-left-from-center" *ngIf="showDetailsDateBegin"
-                        title="Contraer columas"></i>
+                        <i class="fa-sharp fa-solid fa-up-right-and-down-left-from-center" *ngIf="showDetailsDateBegin"
+                            title="Contraer columas"></i>
 
-                    <i class="fa-solid fa-arrows-left-right-to-line" *ngIf="!showDetailsDateBegin"
-                        title="Expandir columnas ver fecha inicio"></i>
-                </span></th>
+                        <i class="fa-solid fa-arrows-left-right-to-line" *ngIf="!showDetailsDateBegin"
+                            title="Expandir columnas ver fecha inicio"></i>
+                    </span></th>
                 <th scope="col" *ngIf="showDetails">Total</th>
                 <th scope="col">Pago <span (click)="showDetails = !showDetails" role="button">
                         <i class="fa-sharp fa-solid fa-up-right-and-down-left-from-center" *ngIf="showDetails"
@@ -45,6 +46,7 @@
                 <td *ngIf="!reduceColumns">{{item.customer}} </td>
                 <td> {{item.transaction.dateCreate}} </td>
                 <td  *ngIf="showDetailsModality"> {{item.modality.name}} </td>
+             
                 <td> {{item.transaction.typePay.substring(0,1)}} </td>
 
                 <td *ngIf="showDetailsDateBegin"> {{item.dateBegin}} </td>
@@ -60,7 +62,7 @@
                         <i class="fa-solid fa-pen"></i>
                     </span>
 
-                    <span   *ngIf="isAdmin"  class="bg-danger p-1 rounded-end" role="button" (click)="delete(item.ide)">
+                    <span *ngIf="isAdmin" class="bg-danger p-1 rounded-end" role="button" (click)="delete(item.ide)">
                         <i class="fa-solid fa-x"></i>
                     </span>
                 </td>

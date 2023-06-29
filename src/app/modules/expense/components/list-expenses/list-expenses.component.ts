@@ -10,6 +10,7 @@ import { UtilFiltersService } from 'src/app/shared/services/util-filters.service
 import { TransactionSrService } from 'src/app/services/transaction-sr.service';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from 'src/app/modules/auth/service/token.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-list-expenses',
@@ -37,7 +38,8 @@ isAdmin = false;
     private transactionSrService: TransactionSrService,
     private toaster: ToastrService,
     private utilFiltersService: UtilFiltersService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private messageService: MessageService
     
     ) { 
       this.isAdmin = this.tokenService.isAdmin();
@@ -56,6 +58,12 @@ isAdmin = false;
 
   private findAll() {
 
+
+    this.messageService.loading(true);
+
+    setTimeout(() => {
+      
+      
     this.paramPaginator.typeData = "EXPENSE";
     this.transactionSrService.findAll(this.paramPaginator).subscribe(resp => {
 
@@ -65,7 +73,11 @@ isAdmin = false;
       this.sumaTotalByPage.next(resp.sumaTotalPageable as number);
 
       this.calculSumaRegister();
+      this.messageService.loading(false);
     })
+    }, 200) ;
+
+    
 
   }
   private addSubscription() {

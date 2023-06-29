@@ -13,6 +13,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { UtilExerciseService } from '../../services/util-exercise.service';
 import { ExerciseFetch } from 'src/app/core/models/exercise.model';
+import { MessageService } from 'src/app/services/message.service';
 
 
 @Component({
@@ -47,7 +48,9 @@ export class FormExercisesComponent implements OnInit {
     private categoryService: CategoryService,
     private exerciseService: ExerciseService,
     private exersiceUtilService: UtilExerciseService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private messageService: MessageService
+    ) { }
   ngOnInit(): void {
     this.createForm();
     this.initLevel();
@@ -57,6 +60,7 @@ export class FormExercisesComponent implements OnInit {
 
   private findEditExercise() {
 
+  
     if (this.idExercise) {
 
 
@@ -144,6 +148,7 @@ export class FormExercisesComponent implements OnInit {
 
     // Verificar si el formulario es valido
     if (this.formData.valid) {
+
 
       this.clearData();
 

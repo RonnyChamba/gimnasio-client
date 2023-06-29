@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { TransactionSrService } from 'src/app/services/transaction-sr.service';
 import { TokenService } from 'src/app/modules/auth/service/token.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-list-inscription',
@@ -47,7 +48,8 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
     private toaster: ToastrService,
     private  transactionSrv: TransactionSrService,
     private tokenService: TokenService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private messageService: MessageService
     ) {
       this.isAdmin = this.tokenService.isAdmin();
      }
@@ -119,16 +121,26 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
 
   private findAll() {
 
+
+    this.messageService.loading(true);
     // Importante asignar este tipo que sea iguak¿l a uno de los tipos que se encuentran en el enum TypeReport
     this.paramPaginator.typeData = "INSCRIPTION";
 
-    this.customerService.findAllMembresiasByCustomer(this.idCustomer, this.paramPaginator).subscribe(resp => {
 
-      console.log(resp)
-      this.listData = resp.data;
-      this.pageRender = resp.page;
-      this.calculSumaRegister();
-    })
+    setTimeout(() => {
+
+      this.customerService.findAllMembresiasByCustomer(this.idCustomer, this.paramPaginator).subscribe(resp => {
+
+        console.log(resp)
+        this.listData = resp.data;
+        this.pageRender = resp.page;
+        this.calculSumaRegister();
+        this.messageService.loading(false);
+      })
+
+    }, 200);
+
+    
     // }
   }
 

@@ -10,6 +10,7 @@ import { UtilService } from 'src/app/services/util-service.service';
 import { ReportParams } from 'src/app/core/models/page-render.model';
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
+import { MessageService } from 'src/app/services/message.service';
 
 
 
@@ -37,7 +38,8 @@ export class FilterComponent implements OnInit, OnDestroy {
     private reportService: ReportService,
     private toater: ToastrService,
     private utilService: UtilService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private messageService: MessageService
     ) { }
   ngOnInit(): void {
 
@@ -126,10 +128,13 @@ export class FilterComponent implements OnInit, OnDestroy {
         console.log("resp", resp);
         const blob = new Blob([resp], { type: 'application/pdf' });
         const url = window.URL.createObjectURL(blob);
+        this.messageService.loading(false);
         window.open(url);
       }),
       catchError((err) => {
         console.log("err", err);
+
+        this.messageService.loading(false);
 
         // alert("Error al generar el reporte");
         this.toater.error("Surguio un error, intentelo mas tarde");
@@ -145,9 +150,14 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   countReport() {
 
+ 
+    this.messageService.loading(true);
+
+    setTimeout(() =>{
+
+        
     const param = this.formData.value as ReportParams;
     param.typeAction = "COUNT";
-
     this.reportService.generateReportInscriptions(param, "json").pipe(
       tap((resp: any) => {
 
@@ -164,7 +174,7 @@ export class FilterComponent implements OnInit, OnDestroy {
           this.renderer.selectRootElement(this.miBoton.nativeElement).click();
           this.generateReport();
         } else if (count >100 && count <=200 ) {
-
+        this.messageService.loading(false);
           Swal.fire({
             title: '¿Desea generar el reporte?',
             text: `Se encontraron ${count} registros, esta operacion puede tardar unos minutos`,
@@ -183,6 +193,8 @@ export class FilterComponent implements OnInit, OnDestroy {
           }
           )
         }else if (count >200) {
+
+        this.messageService.loading(false);
 
           Swal.fire(
             'No se puede generar el reporte',
@@ -205,6 +217,9 @@ export class FilterComponent implements OnInit, OnDestroy {
       })
 
     ).subscribe();
+    }, 400 ) 
+
+  
 
 
   }

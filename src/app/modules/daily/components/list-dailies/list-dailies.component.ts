@@ -10,6 +10,7 @@ import { FormDailiesComponent } from '../form-dailies/form-dailies.component';
 import { TransactionSrService } from 'src/app/services/transaction-sr.service';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from 'src/app/modules/auth/service/token.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-list-dailies',
@@ -38,7 +39,8 @@ export class ListDailiesComponent implements OnInit, OnDestroy {
     private transactionSrService: TransactionSrService,
     private toaster: ToastrService,
     private modalService: NgbModal,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private messageService:  MessageService
     ) { 
       this.isAdmin = this.tokenService.isAdmin();
     }
@@ -57,7 +59,12 @@ export class ListDailiesComponent implements OnInit, OnDestroy {
 
   private findAll() {
 
-    this.paramPaginator.typeData = "DAILY";
+    this.messageService.loading(true);
+
+
+    setTimeout(() => {
+
+      this.paramPaginator.typeData = "DAILY";
     
     this.transactionSrService.findAll(this.paramPaginator).subscribe(resp => {
       console.log(resp)
@@ -67,7 +74,12 @@ export class ListDailiesComponent implements OnInit, OnDestroy {
       this.sumaTotalByPage.next(resp.sumaTotalPageable as number);
 
       this.calculSumaRegister();
+      this.messageService.loading(false);
     })
+
+    }, 200);
+
+    
 
   }
 

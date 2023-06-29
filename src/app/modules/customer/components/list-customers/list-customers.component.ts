@@ -13,6 +13,7 @@ import { FormCustomersComponent } from '../form-customers/form-customers.compone
 import { ToastrService } from 'ngx-toastr';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
 import { TokenService } from 'src/app/modules/auth/service/token.service';
+import { MessageService } from 'src/app/services/message.service';
 @Component({
   selector: 'app-list-customers',
   templateUrl: './list-customers.component.html',
@@ -38,6 +39,7 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
     private utilFiltersService: UtilFiltersService,
     private toaster: ToastrService,
     private toeknService: TokenService,
+    private messageService: MessageService
 
   ) { 
 
@@ -111,15 +113,27 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
   }
 
   findAll() {
-    this.customerService.findAll(this.paramPaginator).subscribe((resp) => {
-      this.listData = resp.data;
-      this.pageRender = resp.page;
+
+    this.messageService.loading(true);
+
+    setTimeout(() => {
+      // this.messageService.loading(false);
+
+      this.customerService.findAll(this.paramPaginator).subscribe((resp) => {
+        this.listData = resp.data;
+        this.pageRender = resp.page;
+  
+  
+        // console.log(resp);
+        // console.log(this.listData);
+        this.messageService.loading(false);
+        this.calculSumaRegister();
+      });
+
+    }, 200 );
 
 
-      // console.log(resp);
-      // console.log(this.listData);
-      this.calculSumaRegister();
-    });
+    
   }
   edit(ide: number) {
     // console.log('Abrir modal customer');
