@@ -149,7 +149,9 @@ isAdmin = false;
 
 
     const references = this.modalService.open(FormExpensesComponent, {
-      size: "md"
+      size: "md",
+      backdrop: "static",
+      keyboard: false,
     });
 
     references.componentInstance.ideExpense = ide;

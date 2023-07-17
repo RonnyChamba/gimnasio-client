@@ -11,10 +11,9 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-list-modality',
   templateUrl: './list-modality.component.html',
-  styleUrls: ['./list-modality.component.scss']
+  styleUrls: ['./list-modality.component.scss'],
 })
-export class ListModalityComponent  implements OnInit, OnDestroy{
-
+export class ListModalityComponent implements OnInit, OnDestroy {
   listData: Modality[] = [];
 
   private subscription = new Subscription();
@@ -24,10 +23,9 @@ export class ListModalityComponent  implements OnInit, OnDestroy{
     private admiUtil: UtilAdminService,
     private toater: ToastrService,
     private modalService: NgbModal
-    ) { }
+  ) {}
 
   ngOnInit(): void {
-
     this.findAll();
     this.addSubscription();
   }
@@ -38,35 +36,32 @@ export class ListModalityComponent  implements OnInit, OnDestroy{
         this.findAll();
       })
     );
- 
-    }
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
   findAll() {
-    
     this.modalityService.getModalities().subscribe((data: any) => {
       this.listData = data.data;
       console.log(data);
     });
   }
 
-  edit(ide: any){
-
-   const ref =    this.modalService.open(FormModalityComponent, {
-      size: "md"
-    })
+  edit(ide: any) {
+    const ref = this.modalService.open(FormModalityComponent, {
+      size: 'md',
+      backdrop: 'static',
+      keyboard: false,
+    });
 
     ref.componentInstance.ideModality = ide;
   }
 
   delete(ide: any) {
-
-
     Swal.fire({
-      title:  `¿Eliminar Modalidad?` ,
+      title: `¿Eliminar Modalidad?`,
       text: 'Esta seguro de eliminar la modalidad seleccionada, esta acción no se puede deshacer',
       icon: 'question',
       allowOutsideClick: false,
@@ -75,35 +70,29 @@ export class ListModalityComponent  implements OnInit, OnDestroy{
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
-       
-        this.modalityService.deleteModality(ide).pipe(
+        this.modalityService
+          .deleteModality(ide)
+          .pipe(
+            tap((data) => {
+              console.log(data);
 
-          tap((data) => {
-            console.log(data);
-
-            // alert("Registro eliminado correctamente");
-            this.toater.success("Registro eliminado correctamente");
-            this.findAll();
-            
-          
-          }),
-          catchError((err) => {
-
-            this.toater.error("Ocurrio un error" ,"Error");
-            // Swal.fire({
-            //   title: 'Error',
-            //   text: err.error.message,
-            //   icon: 'error',
-            // });
-            console.log(err);
-            return of(null);
-          })
-  
-        ).subscribe();
+              // alert("Registro eliminado correctamente");
+              this.toater.success('Registro eliminado correctamente');
+              this.findAll();
+            }),
+            catchError((err) => {
+              this.toater.error('Ocurrio un error', 'Error');
+              // Swal.fire({
+              //   title: 'Error',
+              //   text: err.error.message,
+              //   icon: 'error',
+              // });
+              console.log(err);
+              return of(null);
+            })
+          )
+          .subscribe();
       }
     });
-
-
-
   }
 }

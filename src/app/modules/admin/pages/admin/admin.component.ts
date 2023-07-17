@@ -42,12 +42,16 @@ export class AdminComponent implements OnInit {
 
     if (this.typePanel) {
       this.modalService.open(FormUserComponent, {
-        size: "md"
+        size: "md",
+        backdrop: "static",
+        keyboard: false,
       });
     } else {
 
       this.modalService.open(FormModalityComponent, {
-        size: "md"
+        size: "md",
+        backdrop: "static",
+        keyboard: false,
       })
 
     }

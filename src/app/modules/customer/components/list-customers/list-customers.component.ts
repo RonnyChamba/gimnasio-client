@@ -3,7 +3,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription, catchError, of, tap } from 'rxjs';
 import { CustomerList } from 'src/app/core/models/customer-model';
 import {
-  PageRender, PaginatorCustomer
+  PageRender,
+  PaginatorCustomer,
 } from 'src/app/core/models/page-render.model';
 import { TypeOperationFormInsCustomer } from 'src/app/utils/utilForm';
 import Swal from 'sweetalert2';
@@ -40,14 +41,11 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
     private toaster: ToastrService,
     private toeknService: TokenService,
     private messageService: MessageService
-
-  ) { 
-
-  
-  }
+  ) {}
 
   ngOnInit(): void {
     // console.log('size default' + this.size);
+    this.messageService.loading(true);
     this.findAll();
     this.addSubscription();
 
@@ -55,9 +53,8 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
   }
 
   private addSubscription() {
-
     // Add una subcription, se execute by update table
-    
+
     // this.subscription.add(
 
     //   this.customerService.getRefreshUpdateTableObservable().subscribe(resp => {
@@ -76,34 +73,26 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
 
     //     this.changePage();
 
-        
-        
-
     //     // console.log(filtePro)
     //   })
     // )
 
     this.subscription.add(
-      
-      this.utilFiltersService.eventFiltersObservable().subscribe(resp => {
-            
-        console.log("eventFiltersObservable in list-customers")
+      this.utilFiltersService.eventFiltersObservable().subscribe((resp) => {
+        console.log('eventFiltersObservable in list-customers');
 
         // List by filter
         if (resp) {
-
           console.log(resp);
           this.paramPaginator = resp as PaginatorCustomer;
-          this.paramPaginator.page=0;
+          this.paramPaginator.page = 0;
           this.changePage();
 
           // list all by new inscriptions or delete customer
-        }else this.findAll ();
-      
+        } else this.findAll();
       })
-    
-      )
-      // cambio de prueba
+    );
+    // cambio de prueba
   }
 
   ngOnDestroy(): void {
@@ -112,54 +101,69 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
   }
 
   findAll() {
-
-    this.messageService.loading(true);
-
     setTimeout(() => {
-      // this.messageService.loading(false);
+      this.customerService
+        .findAll(this.paramPaginator)
+        .pipe(
+          tap((resp) => {
+            this.listData = resp.data;
+            this.pageRender = resp.page;
 
-      this.customerService.findAll(this.paramPaginator).subscribe((resp) => {
-        this.listData = resp.data;
-        this.pageRender = resp.page;
-  
-  
-        // console.log(resp);
-        // console.log(this.listData);
-        this.messageService.loading(false);
-        this.calculSumaRegister();
-      });
+            // console.log(resp);
+            // console.log(this.listData);
+            this.messageService.loading(false);
+            this.calculSumaRegister();
+          }),
+          catchError((err) => {
+            this.messageService.loading(false);
+            return of(null);
+          })
+        )
+        .subscribe();
 
-    }, 200 );
+      // this.customerService.findAll(this.paramPaginator).subscribe((resp) => {
+      //   this.listData = resp.data;
+      //   this.pageRender = resp.page;
 
-
-    
+      //   // console.log(resp);
+      //   // console.log(this.listData);
+      //   this.messageService.loading(false);
+      //   this.calculSumaRegister();
+      // }
+      // ,
+      // err => {
+      //   this.messageService.loading(false);
+      //   // console.log(err)
+      // }
+      // );
+    }, 200);
   }
   edit(ide: number) {
     // console.log('Abrir modal customer');
 
     const references = this.modalService.open(FormCustomersComponent, {
       size: 'lg',
+      // scrollable: true,
+      backdrop: 'static',
+      keyboard: false,
     });
-
-
 
     const param: TypeOperationFormInsCustomer = {
       type: 'newInscription',
-      // paso el ide del cliente para obtener su  utlima inscripcion 
+      // paso el ide del cliente para obtener su  utlima inscripcion
       ideCustomer: ide,
-      write: true
-    }
+      write: true,
+    };
 
     references.componentInstance.operationForm = param;
   }
 
   delete(ide: number) {
-
-    console.log("gistro a eliminar: " + ide)
+    console.log('gistro a eliminar: ' + ide);
 
     Swal.fire({
       title: '¿Seguro eliminar cliente?',
-      text: "Se eliminará todos los registros asociados del cliente a eliminar",
+      text: 'Se eliminará todos los registros asociados del cliente a eliminar',
       // text: ``,
       icon: 'question',
       allowOutsideClick: false,
@@ -169,48 +173,49 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
+        this.customerService
+          .delete(ide)
+          .pipe(
+            tap((resp) => {
+              console.log(resp);
 
+              this.toaster.success('Cliente eliminado correctamente');
 
-        this.customerService.delete(ide).pipe(
-          tap(resp => {
+              this.findAll();
+            }),
+            catchError((err) => {
+              console.log(err);
+              this.toaster.error('Error al eliminar cliente');
+              return of(null);
+            })
+          )
+          .subscribe();
 
-            console.log(resp)
-            this.toaster.success("Cliente eliminado correctamente");
-            this.findAll();
-
-          }),
-          catchError(err => {
-
-            console.log(err)
-            this.toaster.error("Error al eliminar cliente")
-            return of(null)
-          })
-        ).subscribe()
-
-
-        this.customerService.delete(ide).subscribe(resp => {
-
-          console.log(resp)
-        })
+        this.customerService.delete(ide).subscribe((resp) => {
+          console.log(resp);
+        });
       }
     });
-
   }
 
   changePage(numberPage?: number) {
-
     // console.log("Number  of  page" +  numberPage)
-    this.paramPaginator.page = numberPage || numberPage == 0 ? numberPage : this.paramPaginator.page;
-
+    this.paramPaginator.page =
+      numberPage || numberPage == 0 ? numberPage : this.paramPaginator.page;
 
     /**
      * If there is a text input, begggin page 0
-     * 
-     * If sizePage is mayor que el total de elemntos, entonces que muestre los resultado en la pagina 0 
+     *
+     * If sizePage is mayor que el total de elemntos, entonces que muestre los resultado en la pagina 0
      */
 
-    if (this.paramPaginator.valueSearch || (this.paramPaginator.size >= this.pageRender.totalElements)) this.paramPaginator.page = 0;
+    if (
+      this.paramPaginator.valueSearch ||
+      this.paramPaginator.size >= this.pageRender.totalElements
+    )
+      this.paramPaginator.page = 0;
 
+    // this.messageService.loading(true);
     this.findAll();
   }
 
@@ -233,20 +238,19 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
   }
 
   registerAttendance(ide: number) {
-
-    this.customerService.saveAttendance(ide)
-    .pipe(
-      tap(resp => {
-        console.log(resp)
-        this.toaster.success('Registro de asistencia exitoso', 'Asistencia')
-      }),
-      catchError(err => {
-        console.log(err)
-        this.toaster.error('Error al registrar asistencia', 'Asistencia')
-        return of(null);
-      })
-    ).subscribe();
-  
+    this.customerService
+      .saveAttendance(ide)
+      .pipe(
+        tap((resp) => {
+          console.log(resp);
+          this.toaster.success('Registro de asistencia exitoso', 'Asistencia');
+        }),
+        catchError((err) => {
+          console.log(err);
+          this.toaster.error('Error al registrar asistencia', 'Asistencia');
+          return of(null);
+        })
+      )
+      .subscribe();
   }
-
 }

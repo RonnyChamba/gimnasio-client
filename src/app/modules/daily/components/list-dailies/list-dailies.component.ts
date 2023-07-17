@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { DailyService } from '../../services/daily.service';
 import { DailyAttributes } from 'src/app/core/models/daily.model';
 import { PageRender, PaginatorDiary } from 'src/app/core/models/page-render.model';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError, of, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
@@ -47,6 +47,7 @@ export class ListDailiesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
+    this.messageService.loading(true);
     this.findAll();
     this.addSubscription();
 
@@ -59,25 +60,49 @@ export class ListDailiesComponent implements OnInit, OnDestroy {
 
   private findAll() {
 
-    this.messageService.loading(true);
+  
 
 
     setTimeout(() => {
 
       this.paramPaginator.typeData = "DAILY";
+
+
+      this.transactionSrService.findAll(this.paramPaginator).pipe(
+
+        tap(resp => {
+            
+          console.log(resp)
+
+          this.listData = resp.data;
+          this.pageRender = resp.page;
+          this.sumaTotalByPage.next(resp.sumaTotalPageable as number);
     
-    this.transactionSrService.findAll(this.paramPaginator).subscribe(resp => {
-      console.log(resp)
+          this.calculSumaRegister();
+          this.messageService.loading(false);
+          }
+        ),
+        catchError(err => {
+          this.messageService.loading(false);
+          this.toaster.error(err.error.message);
+          return of(null);
+        }
+        )
 
-      this.listData = resp.data;
-      this.pageRender = resp.page;
-      this.sumaTotalByPage.next(resp.sumaTotalPageable as number);
 
-      this.calculSumaRegister();
-      this.messageService.loading(false);
-    })
+      ).subscribe();
+    // this.transactionSrService.findAll(this.paramPaginator).subscribe(resp => {
+    //   console.log(resp)
 
-    }, 200);
+    //   this.listData = resp.data;
+    //   this.pageRender = resp.page;
+    //   this.sumaTotalByPage.next(resp.sumaTotalPageable as number);
+
+    //   this.calculSumaRegister();
+    //   this.messageService.loading(false);
+    // })
+
+    }, 180);
 
     
 
@@ -148,7 +173,9 @@ export class ListDailiesComponent implements OnInit, OnDestroy {
 
 
     const references = this.modalService.open(FormDailiesComponent, {
-      size: "md"
+      size: "md",
+      backdrop: "static",
+      keyboard: false,
     });
 
     references.componentInstance.ideDaily = ide;

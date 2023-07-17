@@ -47,7 +47,9 @@ export class CustomerComponent  implements OnInit{
     }
 
     const references =  this.modalService.open(FormCustomersComponent, {
-      size: "lg"
+      size: "lg",
+      backdrop: "static",
+      keyboard: false,
     });
     
     references.componentInstance.operationForm = param;

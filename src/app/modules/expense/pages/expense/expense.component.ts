@@ -53,7 +53,9 @@ export class ExpenseComponent implements OnInit {
     // console.log("Abrir modal");
 
     this.modalService.open(FormExpensesComponent, {
-      size: "md"
+      size: "md",
+      backdrop: "static",
+      keyboard: false,
     });
   }
 

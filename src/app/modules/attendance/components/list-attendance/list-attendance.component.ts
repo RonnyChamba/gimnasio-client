@@ -175,7 +175,7 @@ export class ListAttendanceComponent implements OnInit, OnDestroy {
 
       tap(resp => {
         console.log(resp)
-        this.toaster.info("Asistencia eliminada corratamente");
+        this.toaster.info("Asistencia eliminada correctamente");
         this.findAll();
       }),
       catchError(err => {
