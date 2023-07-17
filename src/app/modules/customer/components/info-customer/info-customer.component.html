@@ -1,33 +1,35 @@
-<div class="row mt-4">
+<div class="row mt-2 container-main">
   <!-- profile -->
-  <app-customer-profile class="col-sm-3"   [customerCurrent] ="customerCurrent"  (eventChangeStatus)="eventChangeStatus = $event"  ></app-customer-profile>
+  <app-customer-profile class="col-auto" [customerCurrent]="customerCurrent"
+    (eventChangeStatus)="eventChangeStatus = $event"></app-customer-profile>
 
-  <div class="information bg-info p-2 col">
-    <div class="information-header">
-      <ul class="d-flex p-0" style="list-style-type: none">
-        <li class="me-2">
-          <button (click)="changePanel('DATA')" class="btn btn-primary">
-            Datos
-          </button>
+  <div class="information px-2 col">
+    <div class="d-flex justify-content-between align-item-center mb-2">
+      <ul class="nav nav-tabs flex-grow-1">
+        <li class="nav-item">
+          <span class="nav-link" [ngClass]="{'active': namePanelInfo=='DATA'}" aria-current="page" role="button"
+            (click)="changePanel('DATA')">Datos Personales</span>
         </li>
+        <li class="nav-item">
+          <span class="nav-link" [ngClass]="{'active': namePanelInfo=='ATTENDANCE'}" aria-current="page" role="button"
+            (click)="changePanel('ATTENDANCE')">Asistencias</span>
 
-        <li class="me-2">
-          <button (click)="changePanel('DAILY')" class="btn btn-primary">
-            Registro Diario
-          </button>
         </li>
+        <li class="nav-item">
 
-        <li>
-          <button (click)="changePanel('MONTH')" class="btn btn-primary">
-            Membresias
-          </button>
+          <span class="nav-link" [ngClass]="{'active': namePanelInfo=='INSCRIPTION'}" aria-current="page" role="button"
+            (click)="changePanel('INSCRIPTION')">Membres&iacute;as</span>
+
         </li>
-        <li>
-          <button (click)="changePanel('MONTH')" class="btn btn-primary">
-            Rutinas
-          </button>
+        <li class="nav-item">
+          <span class="nav-link" [ngClass]="{'active': namePanelInfo=='EVOLUTION'}" aria-current="page" role="button"
+            (click)="changePanel('EVOLUTION')">Evoluci&oacute;n</span>
         </li>
       </ul>
+      <button class="btn btn-danger" (click)="generateReport()" *ngIf="namePanelInfo !='DATA'"
+        title="Generar reporte {{title}}">
+        Reporte {{title}}
+      </button>
     </div>
 
     <div class="information-body">
@@ -35,15 +37,19 @@
 
       <ng-template [ngIf]="namePanelInfo == 'DATA'">
         <!--  (newItemEventName) ="newItemEvent.next($event)"  -->
-        <app-data-customer [idCustomer]="idCustomer"   (customerEvent)=" getCustomer($event)"  ></app-data-customer>
+        <app-data-customer [idCustomer]="idCustomer" (customerEvent)=" getCustomer($event)"></app-data-customer>
       </ng-template>
 
-      <ng-template [ngIf]="namePanelInfo == 'DAILY'">
+      <ng-template [ngIf]="namePanelInfo == 'ATTENDANCE'">
         <app-daily-customer [idCustomer]="idCustomer"></app-daily-customer>
       </ng-template>
 
-      <ng-template [ngIf]="namePanelInfo == 'MONTH'">
-        <app-invoice-customer [idCustomer]="idCustomer" ></app-invoice-customer>
+      <ng-template [ngIf]="namePanelInfo == 'INSCRIPTION'">
+        <app-invoice-customer [idCustomer]="idCustomer"></app-invoice-customer>
+      </ng-template>
+
+      <ng-template [ngIf]="namePanelInfo == 'EVOLUTION'">
+        <app-evolution-customer [idCustomer]="idCustomer"></app-evolution-customer>
       </ng-template>
     </div>
   </div>

@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Login } from 'src/app/core/models/login-model';
+import { CredentialUser } from 'src/app/core/models/login-model';
 import { MIN_CEDULA, MIN_PASSWORD, MAX_PASSWORD } from 'src/app/utils/Constants-Field';
+import { AuthService } from '../../service/auth.service';
+import { TokenService } from '../../service/token.service';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, of, tap } from 'rxjs';
+import { Router } from '@angular/router';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-login-auth',
@@ -11,27 +17,69 @@ import { MIN_CEDULA, MIN_PASSWORD, MAX_PASSWORD } from 'src/app/utils/Constants-
 export class LoginAuthComponent implements OnInit{
 
   formLogin: FormGroup;
-  login: Login = new Login();
+  login: CredentialUser = new CredentialUser();
 
-  constructor() {}
+  constructor(
+    private authService: AuthService,
+    private tokenService: TokenService,
+    private toaster: ToastrService,
+    private router: Router,
+    private messageServie: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.createForm();
   }
 
   onLogin() {
-    if (this.formLogin.status.toUpperCase() == 'VALID') {
-    
-        this.login = this.formLogin.value;
-        console.log(this.login);
+    if (this.formLogin.valid) {
 
-        // Aqui consulta al backend
+
+      this.messageServie.loading(true);
+
+        this.login = this.formLogin.value;
+        // console.log(this.login);
+
+        this.authService.onLogin(this.login).pipe(
+
+          tap( (resp: any) => {
+            console.log(resp);
+            this.tokenService.setToken(resp.token);
+
+            // Por defecto el sidebar esta cerrado
+            this.tokenService.setFlagClose(true);
+
+            this.messageServie.loading(false);
+
+            // this.toaster.success('Bienvenido', 'Ingreso Exitoso');
+            this.router.navigate(['/']);
+
+          })
+          ,catchError( err => {
+            // console.log(err);
+
+            if (err.status == 401) { 
+              
+              this.messageServie.mensajeErrorLogout("Credenciales incorrectas");
+              // this.toaster.error('Credenciales incorrectas', 'Error');
+            }else {
+
+              this.toaster.error('Error en el servidor, intentelo mas tarde', 'Error');
+            }
+            
+            return of(null);
+          })
+        ).subscribe();
+
+    }else {
+
+      this.toaster.warning('Ingrese los datos correctamente', 'Advertencia');
     }
   }
 
   private createForm() {
     this.formLogin = new FormGroup({
-      cedula: new FormControl('', [
+      username: new FormControl('', [
         Validators.required,
         Validators.minLength(MIN_CEDULA),
         Validators.maxLength(MIN_CEDULA),
@@ -45,7 +93,7 @@ export class LoginAuthComponent implements OnInit{
   }
 
   validMessage = {
-    cedula: [
+    username: [
       {
         type: 'required',
         message: 'Cédula es obligatoria.',

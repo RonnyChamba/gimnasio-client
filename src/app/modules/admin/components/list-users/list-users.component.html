@@ -1,77 +1,60 @@
-<table class="table mt-4">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Foto</th>
-        <th scope="col">Nombres</th>
-        <th scope="col">CI/DNI</th>
-        <th scope="col">Email</th>
-        <th scope="col">Rol</th>
-        <th scope="col">Registro</th>
-        <th scope="col">Activo</th>
-        <th scope="col" class="text-end">Acciones</th>
-      </tr>
-    </thead>
-    <tbody class="position-relative">
-      <tr *ngFor="let item of listData; index as i">
-        <td>{{i+1}}</td>
-        <td>
-          <img
-            src="../../../../../assets/img/Default_pfp.svg.png"
-            width="30"
-            height="30"
-          />
-        </td>
-        <td scope="row" class="position-relative">
-          <span>
-            {{ item.name | uppercase }}
-          </span>
-        </td>
-        <td>{{ item.dni }}</td>
-        <td>{{ item.email }}</td>
-        <td>
-            {{item.roles | trimNameRolPipe}}
-          </td>
-        <td>{{ item.dateRegister | date:"dd/MM/yyyy" }}</td>
-        <td [className]="!item.status ? 'text-danger' : 'text-success'"> <b>{{ item.status? 'Si': 'No'}}</b> </td>
+<table class="table mt-2">
+  <thead class="table-light">
+    <tr>
+      <th scope="col">Nro</th>
+      <th scope="col">Foto</th>
+      <th scope="col">Nombres</th>
+      <th scope="col"  >CI/DNI  
+        <span (click)="reduceColumns = !reduceColumns" role="button">
+          <i class="fa-sharp fa-solid fa-up-right-and-down-left-from-center" *ngIf="reduceColumns"
+              title="Contraer columas"></i>
+
+          <i class="fa-solid fa-arrows-left-right-to-line" *ngIf="!reduceColumns"
+              title="Expandir columnas ver email y fecha registro"></i>
+      </span> 
+      </th>
+      <th scope="col" *ngIf="reduceColumns">Email</th>
+      <th scope="col"  *ngIf="reduceColumns">Registro</th>
+      <th scope="col">Rol</th>
+      <th scope="col" class="text-end">Estado</th>
+      <!-- <th scope="col" class="text-end">Acciones</th> -->
+    </tr>
+  </thead>
+  <tbody class="position-relative">
+    <tr *ngFor="let item of listData; index as i">
+      <td>{{i+1}}</td>
+      <td>
+        <img src="../../../../../assets/img/Default_pfp.svg.png" width="30" height="30" />
+      </td>
+      <td scope="row" class="position-relative">
+        <span>
+          {{ item.name | uppercase }}
+        </span>
+      </td>
+      <td>{{ item.dni }}</td>
+      <td  *ngIf="reduceColumns">{{ item.email }}</td>
+      <td  *ngIf="reduceColumns">{{ item.dateRegister | date:"dd/MM/yyyy" }}</td>
+      <td>
+        {{item.roles | trimNameRolPipe}}
+      </td>
       
-        <!-- <td>ronnychamba96@gmail.com</td> -->
-  
-        <!-- <td class="action"><
-          <span class="bg-success p-1 rounded" role="button">
-            <i class="bx bx-add-to-queue"></i>
-          </span>
-        </td> -->
-  
-        <td class="action text-end">
-          <span
-            class="bg-warning p-1 me-1 rounded"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="Nueva membresía"
-            role="button"
-            (click)="edit(item.ide)"
-          >
-            <i class="bx bx-edit"></i>
-          </span>
-  
-          <span
-            class="bg-danger p-1 me-1 rounded"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="Eliminar cliente"
-            role="button"
-            (click)="delete(item.ide, item.status)"
-          >
-            <i class="bx bx-trash"></i>
-          </span>
+      <td  class="text-end">
+      
+        <span  role="button"  
+        class="btn status"  
+        title="{{item.status? 'Desactivar usuario': 'Activar usuario'}}"
+        [ngClass]="{'btn-success': item.status, 'btn-danger': !item.status}"
+        (click)="delete(item.ide, item.status)"
+        
+        >{{ item.status? 'activado': 'desactivado'}}</span>
+        <!-- <b>{{ item.status? 'Si': 'No'}}</b> -->
+      
+      </td>
 
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div> 
-    <p>Total Registro:  {{listData.length}}  </p>
-  </div>
+    </tr>
+  </tbody>
+</table>
+<div class="pagination">
+  <h5>N&uacute;mero de Registros: {{listData.length}}</h5>
   
+</div>

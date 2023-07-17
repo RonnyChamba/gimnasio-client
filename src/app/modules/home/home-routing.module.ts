@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
+import { PathGuard } from 'src/app/guards/path.guard';
 
 const routes: Routes = [
   {
@@ -53,7 +54,15 @@ const routes: Routes = [
     loadChildren: () =>
       import('../attendance/attendance.module').then((cp) => cp.AttendanceModule),
   },
-  { path: '', component: HomeComponent,   title: 'Gimnasio | Home' },
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('../profile/profile.module').then((cp) => cp.ProfileModule),
+  },
+  { path: '', component: HomeComponent,  
+  title: 'Gimnasio | Home',
+  canActivate: [PathGuard],
+  data: { expectedRol: ['admin', 'user'] } },
 ];
 
 @NgModule({

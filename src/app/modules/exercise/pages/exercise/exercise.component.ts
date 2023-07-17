@@ -1,6 +1,7 @@
 import { Component,OnInit} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormExercisesComponent } from '../../components/form-exercises/form-exercises.component';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-exercise',
@@ -11,9 +12,14 @@ export class ExerciseComponent  implements OnInit{
  
   flagClose = true;
 
-  size: number = 0;
 
-  constructor(private modalService: NgbModal){}
+  constructor(
+    private modalService: NgbModal,
+    private tokenService: TokenService
+    ){
+
+      this.flagClose = this.tokenService.getFlagClose();
+    }
 
   ngOnInit(): void {
   }
@@ -21,13 +27,16 @@ export class ExerciseComponent  implements OnInit{
   onClickMenu(value: boolean){  
 
     this.flagClose = value;
+    this.tokenService.setFlagClose(this.flagClose);
   }
   openModal(){
 
     // console.log("Abrir modal");
 
     this.modalService.open(FormExercisesComponent, {
-      size: "lg"
+      size: "md",
+      backdrop: 'static',
+       keyboard: false
     });
   }
 

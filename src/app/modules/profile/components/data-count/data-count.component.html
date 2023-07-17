@@ -1,0 +1,22 @@
+<div class="mt-3 container-main">
+    
+    <h4 class="text-title">Mis movimientos</h4>
+    <div class="grid-container">
+        <div  *ngFor="let item of listData"   class="grid-container__item card"  >
+    
+          <h5 class="mt-2 mb-1 text-subtitle">{{item.title}}</h5>
+          <p class="paragraph my-0"><span> 
+            
+            <i  [ngClass]="item.icon" style="font-size: 15px;"></i>
+
+            <!-- <i class="bx bx-compass"></i> -->
+          
+          </span>: {{item.count}} registros
+          </p>
+        
+     
+        </div>
+      </div>
+
+
+</div>

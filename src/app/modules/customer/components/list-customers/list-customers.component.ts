@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError, of, tap } from 'rxjs';
 import { CustomerList } from 'src/app/core/models/customer-model';
 import {
   PageRender, PaginatorCustomer
@@ -10,6 +10,10 @@ import Swal from 'sweetalert2';
 import { CustomerService } from '../../services/customer.service';
 import { UtilCustomerService } from '../../services/util-customer.service';
 import { FormCustomersComponent } from '../form-customers/form-customers.component';
+import { ToastrService } from 'ngx-toastr';
+import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
+import { MessageService } from 'src/app/services/message.service';
 @Component({
   selector: 'app-list-customers',
   templateUrl: './list-customers.component.html',
@@ -24,6 +28,7 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
   paramPaginator: PaginatorCustomer = { page: 0, size: 5 };
   sumaTotalElements = 0;
 
+  isAdmin = false;
 
   // here add suscriptiones
   private subscription: Subscription = new Subscription();
@@ -31,44 +36,74 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
   constructor(
     private modalService: NgbModal,
     private customerService: CustomerService,
-    private utilCustomerService: UtilCustomerService
-  ) { }
+    private utilFiltersService: UtilFiltersService,
+    private toaster: ToastrService,
+    private toeknService: TokenService,
+    private messageService: MessageService
+
+  ) { 
+
+  
+  }
 
   ngOnInit(): void {
     // console.log('size default' + this.size);
-    this.listdAll();
+    this.findAll();
     this.addSubscription();
+
+    this.isAdmin = this.toeknService.isAdmin();
   }
 
   private addSubscription() {
 
-
     // Add una subcription, se execute by update table
+    
+    // this.subscription.add(
+
+    //   this.customerService.getRefreshUpdateTableObservable().subscribe(resp => {
+
+    //     this.findAll();
+    //   })
+    // )
+    //     this.subscription.add(
+    //   this.utilCustomerService.filterTableAsObservable().subscribe(filtePro => {
+
+    //     this.paramPaginator.size = filtePro.size;
+    //     this.paramPaginator.valueSearch = filtePro.valueSearch;
+    //     this.paramPaginator.dateBegin = filtePro.dateBegin;
+    //     this.paramPaginator.dateEnd = filtePro.dateEnd;
+    //     this.paramPaginator.page=0;
+
+    //     this.changePage();
+
+        
+        
+
+    //     // console.log(filtePro)
+    //   })
+    // )
+
     this.subscription.add(
+      
+      this.utilFiltersService.eventFiltersObservable().subscribe(resp => {
+            
+        console.log("eventFiltersObservable in list-customers")
 
-      this.customerService.getRefreshUpdateTableObservable().subscribe(resp => {
+        // List by filter
+        if (resp) {
 
-        this.listdAll();
+          console.log(resp);
+          this.paramPaginator = resp as PaginatorCustomer;
+          this.paramPaginator.page=0;
+          this.changePage();
+
+          // list all by new inscriptions or delete customer
+        }else this.findAll ();
+      
       })
-    );
-
-    this.subscription.add(
-      this.utilCustomerService.filterTableAsObservable().subscribe(filtePro => {
-
-        this.paramPaginator.size = filtePro.size;
-        this.paramPaginator.valueSearch = filtePro.valueSearch;
-        this.paramPaginator.dateBegin = filtePro.dateBegin;
-        this.paramPaginator.dateEnd = filtePro.dateEnd;
-
-        this.changePage();
-
-
-        // console.log(filtePro)
-      })
-    )
-
-    // this.calculSumaRegister();
-
+    
+      )
+      // cambio de prueba
   }
 
   ngOnDestroy(): void {
@@ -76,16 +111,28 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  listdAll() {
-    this.customerService.findAll(this.paramPaginator).subscribe((resp) => {
-      this.listData = resp.data;
-      this.pageRender = resp.page;
+  findAll() {
+
+    this.messageService.loading(true);
+
+    setTimeout(() => {
+      // this.messageService.loading(false);
+
+      this.customerService.findAll(this.paramPaginator).subscribe((resp) => {
+        this.listData = resp.data;
+        this.pageRender = resp.page;
+  
+  
+        // console.log(resp);
+        // console.log(this.listData);
+        this.messageService.loading(false);
+        this.calculSumaRegister();
+      });
+
+    }, 200 );
 
 
-      // console.log(resp);
-      // console.log(this.listData);
-      this.calculSumaRegister();
-    });
+    
   }
   edit(ide: number) {
     // console.log('Abrir modal customer');
@@ -122,6 +169,25 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
+
+
+        this.customerService.delete(ide).pipe(
+          tap(resp => {
+
+            console.log(resp)
+            this.toaster.success("Cliente eliminado correctamente");
+            this.findAll();
+
+          }),
+          catchError(err => {
+
+            console.log(err)
+            this.toaster.error("Error al eliminar cliente")
+            return of(null)
+          })
+        ).subscribe()
+
+
         this.customerService.delete(ide).subscribe(resp => {
 
           console.log(resp)
@@ -145,8 +211,7 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
 
     if (this.paramPaginator.valueSearch || (this.paramPaginator.size >= this.pageRender.totalElements)) this.paramPaginator.page = 0;
 
-
-    this.listdAll();
+    this.findAll();
   }
 
   calculSumaRegister() {
@@ -169,12 +234,19 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
 
   registerAttendance(ide: number) {
 
-    this.customerService.saveAttendance(ide).subscribe(resp => {
-      console.log(resp)
-    })
+    this.customerService.saveAttendance(ide)
+    .pipe(
+      tap(resp => {
+        console.log(resp)
+        this.toaster.success('Registro de asistencia exitoso', 'Asistencia')
+      }),
+      catchError(err => {
+        console.log(err)
+        this.toaster.error('Error al registrar asistencia', 'Asistencia')
+        return of(null);
+      })
+    ).subscribe();
+  
   }
-  // calcIndex(index: number) {
-  //   console.log(index)
 
-  // }
 }

@@ -1,5 +1,5 @@
  // Para los panes de la informacionde del cliente
- export type typePanelInfo = "DATA" | "MONTH" | "DAILY";
+ export type typePanelInfo = "DATA" | "MONTH" | "DAILY" | "EVOLUTION";
 
  export type typeFilterField = "EMAIL" | "DNI" | "NAME";
 
@@ -15,7 +15,7 @@
 
  // EN EL BACKEND SE USA ESTE TIPO DE DATO PARA LOS REPORTES, TIENE QUE SER EL MISMO
  // Además, se la utiliza para consultar el tipo de informacion del cliente
- export type typeModel = "INSCRIPTION" | "DAILY" | "EXPENSE" | "ATTENDANCE" | "CUSTOMER" | "USER" | "CATEGORY";
+ export type typeModel = "INSCRIPTION" | "DAILY" | "EXPENSE" | "ATTENDANCE" | "CUSTOMER" | "USER" | "CATEGORY"  | "EVOLUTION"  | "DATA" | "INSCRIPTION_BY_CUSTOMER";
 
 
  // Para determinar si se genera el reporte o se cuenta los registros

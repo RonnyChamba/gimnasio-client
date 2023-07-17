@@ -4,6 +4,8 @@ import { FormCategoryComponent } from '../../components/form-category/form-categ
 import { FormControl, FormGroup } from '@angular/forms';
 import { UtilCategoryService } from '../../services/util-category.service';
 import { PaginatorDiary } from 'src/app/core/models/page-render.model';
+import { typeModel } from 'src/app/utils/types';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-category',
@@ -14,9 +16,16 @@ export class CategoryComponent implements OnInit {
  
   flagClose = true;
   formData: FormGroup;
+  typeModel: typeModel = "CATEGORY"
  
-  constructor(private modalService: NgbModal, 
-    private utilCateService: UtilCategoryService){}
+  constructor(
+    private modalService: NgbModal, 
+    private utilCateService: UtilCategoryService,
+    private tokenService: TokenService
+    ){
+      this.flagClose = this.tokenService.getFlagClose();
+    }
+  
 
   ngOnInit(): void {
     this.createForm();
@@ -47,13 +56,14 @@ export class CategoryComponent implements OnInit {
   onClickMenu(value: boolean){  
 
     this.flagClose = value;
+    this.tokenService.setFlagClose(this.flagClose);
 
   }
 
   openModal(){
 
     this.modalService.open(FormCategoryComponent, {
-      size: "lg"
+      size: "md"
     });
     
   }

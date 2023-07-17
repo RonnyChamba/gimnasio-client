@@ -7,6 +7,9 @@ import { MAX_DESCRIPTION } from 'src/app/utils/Constants-Field';
 import { TypeExpenseEnum } from 'src/app/utils/enum/enumLevel';
 import { validMessagesError } from 'src/app/utils/MessagesValidation';
 import { ExpenseService } from '../../services/expense.service';
+import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-form-expenses',
@@ -22,9 +25,12 @@ export class FormExpensesComponent implements OnInit{
   @Input("ideExpense") ideExpense: number;
 
   
-  constructor( public modal: NgbActiveModal, 
+  constructor( 
+    public modal: NgbActiveModal, 
     private utilService: UtilService,
-    private expenseService: ExpenseService ){}
+    private expenseService: ExpenseService,
+    private toaster: ToastrService,
+    private utilFiltersService: UtilFiltersService ){}
 
   ngOnInit(): void {
     this.createForm();
@@ -71,17 +77,12 @@ export class FormExpensesComponent implements OnInit{
 
         typePay: new FormControl(TypePayEnum.EFECTIVO, [Validators.required]),
 
-        description: new FormControl(null, [Validators.maxLength(MAX_DESCRIPTION)]),
-      },
-      this.validarFormGeneral
+        description: new FormControl("", [Validators.maxLength(MAX_DESCRIPTION)]),
+      }
     );
   }
 
-  validarFormGeneral(g: any) {
-    if (g.get('description').value == '') g.get('description').reset();
 
-    return null;
-  }
 
   fnSubmit() {
     // Verificar si el formulario es valido
@@ -94,23 +95,34 @@ export class FormExpensesComponent implements OnInit{
       if (this.ideExpense){
 
 
-        this.expenseService.update(this.ideExpense, this.formData.value).subscribe(resp =>{
+        this.expenseService.update(this.ideExpense, this.formData.value).pipe(
+          tap (resp => {
+            this.toaster.info("Gasto actualizado exitosamente")
+            this.modal.close();
+            this.utilFiltersService.eventFiltersEmit(null);
+          }), catchError(err => {
+            this.toaster.error("Error al actualizar")
+            return of(null);
+          })
+        ).subscribe();
 
-          alert("registro actualizado")
-          console.log(resp)
-        })
         // nuevo gasto
       }else {
 
-        this.expenseService.save(this.formData.value).subscribe(resp=>{
 
-          alert("registro diario guardado")
-          console.log(resp)
-          
-        })
+        this.expenseService.save(this.formData.value).pipe(
+          tap (resp => {
+            this.toaster.info("Gasto guardado exitosamente")
+            this.modal.close();
+            this.utilFiltersService.eventFiltersEmit(null);
+          }), catchError(err => {
+            this.toaster.error("Error al guardar")
+            return of(null);
+          })
 
+        ).subscribe();
       }      
-    } else alert('Campos incorrectos');
+    } else this.toaster.warning("Los datos son incorrectos")
 
   }
 

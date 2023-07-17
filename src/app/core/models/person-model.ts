@@ -9,7 +9,7 @@ export class Person {
 
   name: string;
 
-  // profile: string;
+  profile?: string | null;
 
   dateRegister: string | null
 

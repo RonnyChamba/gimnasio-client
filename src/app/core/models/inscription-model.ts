@@ -37,6 +37,7 @@ export interface InscriptionListPage extends InscriptionAttributes  {
 
     user: string;
     customer: string;
+    ideCustomer?: number;
     modality: Modality;
     transaction: Transaction;
     valid: boolean;

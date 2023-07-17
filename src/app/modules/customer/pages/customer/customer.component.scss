@@ -1,13 +1,12 @@
 // import de los estilos
 @use "../../../../../assets/scss/styleParentSidebar";
+@use "../../../../../assets/scss/style_general_page";
 button {
   i {
-    font-size: 25px;
+    font-size: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
-  }}
-
-  .home-subtitle{
-     font-weight: 500;
-     font-size: 1.8rem;
   }
+}
+
+

@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { firstValueFrom, Subscription } from 'rxjs';
+import { catchError, firstValueFrom, of, Subscription, tap } from 'rxjs';
 import { Customer } from 'src/app/core/models/customer-model';
 import {
   MAX_ADDRESS,
@@ -26,6 +26,7 @@ import Swal from 'sweetalert2';
 import { CustomerService } from '../../services/customer.service';
 import { messagesErrorCustomer } from '../../util/MessageValidationCustomer';
 import { dniOrEmailValidator } from '../../util/validator';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-data-customer',
@@ -49,8 +50,9 @@ export class DataCustomerComponent implements OnInit, OnDestroy {
   private customerCurrent: Customer;
 
   constructor(
-    private customerService: CustomerService
-  ) {}
+    private customerService: CustomerService,
+    private toaster: ToastrService
+  ) { }
 
   ngOnInit(): void {
     // console.log('en data');
@@ -60,9 +62,9 @@ export class DataCustomerComponent implements OnInit, OnDestroy {
   }
 
   private addSubscriptions() {
-  
+
   }
-  
+
   private findCustomer() {
     this.customerService.findByIde(this.idCustomer).subscribe((resp) => {
       this.customerCurrent = resp as Customer;
@@ -138,7 +140,7 @@ export class DataCustomerComponent implements OnInit, OnDestroy {
           }
         }
 
-        console.log('sin dni');
+        // console.log('sin dni');
         // Guardar directamente el registro
         this.updateData(customerNewData);
       } catch (error) {
@@ -179,11 +181,20 @@ export class DataCustomerComponent implements OnInit, OnDestroy {
   private updateData(customerData: Customer) {
     this.customerService
       .update(this.idCustomer, customerData)
-      .subscribe((resp) => {
-        this.customerCurrent = resp as Customer;
-        // Put new value in the form and emitt new data customer
-        this.refresfData();
-      });
+      .pipe(
+        tap((resp) => {
+          this.customerCurrent = resp as Customer;
+          this.toaster.info('Información se actualizo correctamente');
+          this.refresfData();
+        
+        }),
+        catchError((err) => {
+          this.toaster.error('Error al actualizar la información');
+          console.log(err);
+          return of(null);
+        })
+
+      ).subscribe();
   }
   private refresfData() {
     this.customerEvent.next(this.customerCurrent);

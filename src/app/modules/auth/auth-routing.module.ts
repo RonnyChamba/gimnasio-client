@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginAuthComponent } from './pages/login-auth/login-auth.component';
+import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
-  { path: '', component: LoginAuthComponent }
+  { path: '', component: LoginAuthComponent , canActivate: [LoginGuard]}
 ];
 
 @NgModule({

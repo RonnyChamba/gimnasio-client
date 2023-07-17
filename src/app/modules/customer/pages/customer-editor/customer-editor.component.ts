@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
+import { typeModel } from 'src/app/utils/types';
 
 @Component({
   selector: 'app-customer-editor',
@@ -11,7 +13,14 @@ export class CustomerEditorComponent implements OnInit{
   flagClose = true;
   ideCustomer: number;
   nombre: string;
-  constructor(private activePath: ActivatedRoute){}
+  typePanel: typeModel = 'DATA';
+  constructor(
+    private activePath: ActivatedRoute,
+    private tokenService: TokenService
+    ){
+      this.flagClose = this.tokenService.getFlagClose();
+    }
+  
   
   ngOnInit(): void {
     
@@ -24,12 +33,13 @@ export class CustomerEditorComponent implements OnInit{
       }
     );
   }
-  
  
-  
   onClickMenu(value:boolean){  
 
     this.flagClose = value;
+
+    this.tokenService.setFlagClose(this.flagClose);
   }
+
 
 }

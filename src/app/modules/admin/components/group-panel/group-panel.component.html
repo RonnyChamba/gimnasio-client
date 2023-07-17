@@ -1,7 +1,13 @@
-<div class="d-flex mt-2"> 
-    <button class="btn btn-primary me-2" (click) ="changeTypePanel(true)"  >Usuarios</button>
-    <button class="btn btn-primary" (click) ="changeTypePanel(false)">Modalidades</button>
-</div>
+<ul class="nav nav-tabs mt-2">
+    <li class="nav-item">
+      <!-- <a class="nav-link active" aria-current="page" href="#" role="button">Usuarios</a> -->
+      <span class="nav-link" [ngClass]="{'active': typePanel}"   aria-current="page" role="button"  (click) ="changeTypePanel(true)">Usuarios</span>
+    </li>
+    <li class="nav-item">
+      <!-- <a class="nav-link" href="#">Modalidades</a> -->
+      <span class="nav-link" role="button"   [ngClass]="{'active': !typePanel}"  (click) ="changeTypePanel(false)">Modalidades</span>
+    </li>
+  </ul>
 
 <app-list-users *ngIf="typePanel"></app-list-users>
 

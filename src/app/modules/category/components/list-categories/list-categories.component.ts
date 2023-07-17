@@ -7,6 +7,9 @@ import { Subscription } from 'rxjs';
 import { FormCategoryComponent } from '../form-category/form-category.component';
 import Swal from 'sweetalert2';
 import { UtilCategoryService } from '../../services/util-category.service';
+import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-list-categories',
@@ -19,6 +22,8 @@ export class ListCategoriesComponent  implements OnInit, OnDestroy {
   pageRender: PageRender;
   sumaTotalElements = 0;
 
+  isAdmin = false;
+
     // here add suscriptiones
     private subscription: Subscription = new Subscription();
 
@@ -28,7 +33,14 @@ export class ListCategoriesComponent  implements OnInit, OnDestroy {
 
   constructor(private categoryService: CategoryService,
     private modalService: NgbModal,
-    private utilCateService: UtilCategoryService){}
+    private utilCateService: UtilCategoryService,
+    private utilFiltersService: UtilFiltersService,
+    private tokenService: TokenService,
+    private messageService: MessageService
+    ) { 
+      this.isAdmin = this.tokenService.isAdmin();
+    }
+    
 
   ngOnInit(): void {
 
@@ -43,30 +55,39 @@ export class ListCategoriesComponent  implements OnInit, OnDestroy {
   
   private findAll(){
 
-    this.categoryService.findAll( this.paramPaginator).subscribe(resp =>{
-      console.log(resp)
-      
-      this.listData = resp.data;
-      this.pageRender = resp.page;
+    this.messageService.loading(true);
 
-      this.calculSumaRegister();
-    })
+    setTimeout(() => {
+      
+      this.categoryService.findAll( this.paramPaginator).subscribe(resp =>{
+        console.log(resp)
+        
+        this.listData = resp.data;
+        this.pageRender = resp.page;
+  
+        this.calculSumaRegister();
+        
+        this.messageService.loading(false);
+      })
+
+
+    
+    }, 200);
+
+    
 
   }
 
   private addSubscription() {
 
-    this.utilCateService.filterTableAsObservable().subscribe(filtePro => {
-
-
-      console.log(filtePro)
-
-      let currentPage = this.paramPaginator.page;
-      this.paramPaginator = filtePro;
-      this.paramPaginator.page = currentPage;
-
-      this.changePage();
-    })
+    this.subscription.add(
+      this.utilFiltersService.eventFiltersObservable().subscribe(resp => {
+        console.log(resp)
+        this.paramPaginator = resp;
+        this.paramPaginator.page = 0;
+        this.changePage();
+      })
+    )
   }
 
   changePage(numberPage?: number) {
@@ -109,7 +130,7 @@ export class ListCategoriesComponent  implements OnInit, OnDestroy {
  
 
     const references =   this.modalService.open(FormCategoryComponent, {
-      size: "lg"
+      size: "md"
     });
 
     references.componentInstance.ideCategory = ide;

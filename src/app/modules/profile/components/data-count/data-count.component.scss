@@ -1,0 +1,27 @@
+@import "../../../../../assets/scss/SizeDefault.scss";
+
+
+
+.text-title{
+  font-size:1rem
+}
+.text-subtitle{
+  font-size:$text-size;
+}
+.grid-container {
+    display: grid;
+    gap: 1rem;
+    justify-content: center;
+    grid-auto-rows: 5rem;
+    // grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)
+    );
+  
+   &__item {
+     background-color: #fff;
+     padding: 10px;
+   }
+   .paragraph{
+    font-size: $text-size;
+   }
+  }

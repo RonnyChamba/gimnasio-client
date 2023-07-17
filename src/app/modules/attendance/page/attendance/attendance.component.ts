@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AttendanceService } from '../../services/attendance.service';
+import { typeModel } from 'src/app/utils/types';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-attendance',
@@ -9,11 +11,17 @@ import { AttendanceService } from '../../services/attendance.service';
 })
 export class AttendanceComponent  implements OnInit{
   
+
+  typeModel: typeModel = "ATTENDANCE";
   flagClose = true;
   formData: FormGroup;
   constructor(
-    private attendanceService: AttendanceService
-  ) { }
+    private attendanceService: AttendanceService,
+    private tokenService: TokenService
+    ){
+      this.flagClose = this.tokenService.getFlagClose();
+    }
+  
   
   ngOnInit(): void {
     this.createForm();
@@ -44,6 +52,8 @@ export class AttendanceComponent  implements OnInit{
   onClickMenu(value:boolean){  
 
     this.flagClose = value;
+
+    this.tokenService.setFlagClose(this.flagClose);
   }
 
 }

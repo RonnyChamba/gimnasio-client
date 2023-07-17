@@ -1,15 +1,11 @@
-// .container-data [class^="col"]:nth-child(even){
-//     background-color: blue;
+@import "../../../../../assets/scss/SizeDefault.scss";
 
-// }
-
-// @media (min-width: 575.98px) {
-//   .container-data [class^="col"]:nth-child(odd) {
-//     background-color: blue;
-//  width: 400px;
-//   }
-// }
 
 .row >* {
     padding: 0;
+}
+
+form input {
+
+    font-size: $text-size;
 }

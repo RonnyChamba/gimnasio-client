@@ -1,11 +1,11 @@
-<div class="container-user w-100">
-  <div class="content-user p-3 mx-auto border border-2 rounded-3">
-    <div class="d-flex justify-content-between align-items-center">
+<div class="container-user">
+  <div class="content-user mx-auto border card rounded-3">
+    <div class="card-header d-flex justify-content-between align-items-center">
       <h4 class="form-title">{{ getTitleForm()}} </h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()"></button>
     </div>
 
-    <form class="mt-2" [formGroup]="formData" (ngSubmit)="fnSubmit()">
+    <form class="mt-2 card-body" [formGroup]="formData" (ngSubmit)="fnSubmit()">
       <div class="card p-3 mb-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <!-- <legend class="fz-1 form-subtitle">Datos Factura</legend> -->
@@ -554,15 +554,19 @@
       <div class="d-flex justify-content-between mt-3"
         [ngClass]="{ 'd-flex': true,  'justify-content-between': showBtnReport() , 'justify-content-end': !showBtnReport() }">
         <button *ngIf="showBtnReport()" type="button" class="btn btn-danger" (click)="generateReport()">
-          REPORTE
+          <i class="fa-solid fa-file-pdf"></i> REPORTE
         </button>
 
         <div>
           <button type="button" class="btn btn-secondary me-2" (click)="modal.close()">
-            CERRAR
+            <!-- <i class="fa-solid fa-ban"></i>  -->
+             CANCELAR
           </button>
-          <input *ngIf="operationForm.write" type="submit" [disabled]="formData.invalid" class="btn btn-primary"
-            value="GUARDAR" />
+          <button *ngIf="operationForm.write" type="submit" [disabled]="formData.invalid" class="btn btn-primary"
+             >
+            <!-- <i class="fa-solid fa-floppy-disk"></i>  -->
+            GUARDAR
+          </button>
 
         </div>
 

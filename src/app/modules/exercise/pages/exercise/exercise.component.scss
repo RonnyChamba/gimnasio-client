@@ -1,4 +1,5 @@
-@use '../../../../../assets/scss/styleParentSidebar';
+@use "../../../../../assets/scss/styleParentSidebar";
+@use "../../../../../assets/scss/style_general_page";
 
 button i {
     color: #fff;
@@ -11,8 +12,6 @@ button i {
     &-content {
         overflow: hidden;
         padding: 10px;
-
-
     }
 }
 
@@ -23,14 +22,3 @@ button i {
     grid-template-rows: repeat(2, auto) 1fr;
 }
 
-// .home-section {
-//     display: grid;
-//     grid-template-columns: 1fr;
-//     grid-template-rows: auto 1fr;
-//     min-height: 100vh;
-// }
-
-
-// app-list-exercises {
-//     // overflow-y: scroll;
-// }

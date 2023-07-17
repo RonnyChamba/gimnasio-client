@@ -1,4 +1,4 @@
-export  class Login {
+export  class CredentialUser {
 
     cedula: string;
     password: string;

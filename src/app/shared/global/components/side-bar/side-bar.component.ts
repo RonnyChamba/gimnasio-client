@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Renderer2 } from '@angular/core';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -10,10 +11,18 @@ export class SideBarComponent implements OnInit {
   // Recibimos la variable open desde el padre pero le damos un alias flagClose
   @Input('open') flagClose: boolean;
   
+  isAdmin = false;
 
   menuOptions = new Map<string, any>;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(
+    private renderer: Renderer2,
+    private tokenService: TokenService,
+    
+    ) {
+
+      this.isAdmin = this.tokenService.isAdmin();
+    }
   ngOnInit(): void {
 
     this.initMenuOptiosn();
@@ -22,8 +31,9 @@ export class SideBarComponent implements OnInit {
   private initMenuOptiosn (){
 
     this.menuOptions.set("HOME", "Inicio");
-    this.menuOptions.set("ATTENDANCE", "Asistencia");
+    this.menuOptions.set("ATTENDANCE", "Asistencias");
     this.menuOptions.set("ADMIN", "Usuarios");
+    this.menuOptions.set("INSCRIPTION", "Membresías");
     this.menuOptions.set("CUSTOMERS", "Clientes");
     this.menuOptions.set("EXPENSES", "Gastos");
     this.menuOptions.set("DAILIES", "Diarios");
@@ -32,8 +42,8 @@ export class SideBarComponent implements OnInit {
     {title: "Deportiva", 
     options:[ 
       {name: 'Ejercicios', url:'/exercise'},
-      {name: 'Rutina', url:'/routine'},
-      {name: 'Categorias', url:'/category'}]});
+      // {name: 'Rutina', url:'/routine'},
+      {name: 'Categorías', url:'/category'}]});
   }
 
   showSubmenu(event: any){

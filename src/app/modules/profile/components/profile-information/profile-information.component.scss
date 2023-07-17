@@ -1,0 +1,51 @@
+@import "../../../../../assets/scss/SizeDefault.scss";
+
+.container-main {
+  form input {
+
+    font-size: $text-size;
+  }
+
+}
+
+button i {
+  color: #fff;
+  font-size: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.content-img {
+  // background-color: green !important;  
+  // position: relative;
+  max-width: 250px;
+
+  img {
+    display: block;
+    width: 70px;
+    height: 70px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 1.3rem;
+    color: #fff;
+    cursor: pointer;
+
+    &--hide {
+      display: none;
+
+    }
+  }
+}
+
+.btn {
+  @include boton-comun;
+  width: auto;
+}

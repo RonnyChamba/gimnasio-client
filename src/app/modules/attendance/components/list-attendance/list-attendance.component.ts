@@ -1,67 +1,131 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Attendance } from 'src/app/core/models/attendance.model';
 import { PageRender, PaginatorAttendanceAndMembresias } from 'src/app/core/models/page-render.model';
 import { CustomerService } from 'src/app/modules/customer/services/customer.service';
 import { TransactionSrService } from 'src/app/services/transaction-sr.service';
 import * as dayjs from "dayjs";
-import { AttendanceService } from '../../services/attendance.service';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError, of, tap } from 'rxjs';
+import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
+import { ToastrService } from 'ngx-toastr';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-list-attendance',
   templateUrl: './list-attendance.component.html',
   styleUrls: ['./list-attendance.component.scss']
 })
-export class ListAttendanceComponent  implements OnInit, OnDestroy{
-  
+export class ListAttendanceComponent implements OnInit, OnDestroy {
+
+  isAdmin = false;
+
+  @Input() idCustomer: number = 0;
+
+  // Determina si se debe mostrar o no ciertas columnas de la tabla
+  @Input() reduceColumns: boolean = false;
+
 
   listData: Attendance[];
   pageRender: PageRender;
   sumaTotalElements = 0;
-  paramPaginator: PaginatorAttendanceAndMembresias = { page: 0, size: 5, typeUser: "", typeData: "ATTENDANCE"};
+  // Importante asignar el tipo typeData desde el inicio
+  paramPaginator: PaginatorAttendanceAndMembresias = { page: 0, size: 5, typeUser: "", typeData: "ATTENDANCE" };
 
   subscription: Subscription = new Subscription();
 
+  // Para mostrar u ocular la fecha de salida
+  showColumn: boolean = false;
+
+
   constructor(
-      private customerService: CustomerService,
-      private transactionService: TransactionSrService,
-      private attendanceService: AttendanceService
-    ) { }
-    ngOnInit(): void {
-      this.findAll();
+    private customerService: CustomerService,
+    private transactionService: TransactionSrService,
+    private utilFiltersService: UtilFiltersService,
+    private toaster: ToastrService,
+    private tokenService: TokenService,
+    private messageService: MessageService
+  ) {
+    this.isAdmin = this.tokenService.isAdmin();
+  }
+  ngOnInit(): void {
+    this.findAll();
 
-      this.subscription.add(
-        this.attendanceService.refreshFilterAsObservable()
-          .subscribe(resp => {
 
-            // puede retonar null o un objeto con los datos de los filtros
-            if (resp) {
-              this.paramPaginator = resp;
-              this.paramPaginator.typeData = "ATTENDANCE";
-              this.paramPaginator.page = 0;
-            }
-            this.findAll();
-          }
-          )
-      )
-    }
+    this.subscription.add(
+      this.utilFiltersService.eventFiltersObservable().subscribe(resp => {
 
-    ngOnDestroy(): void {
-      
-      this.subscription.unsubscribe();
 
-    }
+        console.log("Respuesta del filtro", resp)
+
+
+        // asignar los valores de los filtros al servicio de utilidades, este  es el caso que se desea generar un reporte
+        this.utilFiltersService.params = this.paramPaginator;
+
+        /**
+         * 
+         * Procesos cuando se ejecuta el observable
+         * 
+         * 1) Se ejecuta cuando los filtro o parametros de busqueda cambian en el componente de busqueda con 
+         * el fin de listar los datos segun los filtros que se envien, en este caso reciben  como argumento los filtros 
+         * que fueron seleccionados, 
+         * 
+         * 2) Cuando se elimina o edita un registro de la tabla  para actualizar toda la tabla, en este caso se envia como argumento
+         * un valor null para que se ejecute el metodo de listar todos los registros.
+         * 
+         * 3) Cuando se desea generar un reporte desde el component CustomerEditComponent, en este caso se envia como parametro un string 
+         * con el valor "REPORT", en este caso, lo que se debe hacer es simplemente asignar los valores de los filtros que
+         *  se encuentran en el componente de busqueda, para que se genere el reporte con los filtros que se encuentran en el componente
+         * de busqueda. Ademas, no debe actualizar la tabla, por lo tanto no debe ejecutar el metodo de listar todos los registros.
+         * 
+         */
+
+        // Verificar si se desea generar un reporte o actualizar la tabla
+        if (resp && resp == "REPORT") {
+          // indica que se desea generar un reporte, por lo tanto no debe actualizar la tabla ni filtrar
+          console.log("dento del report",);
+          return;
+
+        }
+
+        // Filtro de busqueda
+        if (resp) {
+          this.paramPaginator = resp as PaginatorAttendanceAndMembresias;
+          // Cuando cambia algun filtro, siempre que empieza por la pgina 0
+          this.paramPaginator.page = 0;
+        } // actaulizada la tabla despues de eliminar o editar la inscripcion
+
+        // actualizar
+        this.findAll();
+      })
+    )
+
+  }
+
+  ngOnDestroy(): void {
+
+    this.subscription.unsubscribe();
+
+  }
   private findAll() {
 
-    // el valor 0 representa que no es ningun cliente por lo tanto debe traer todos los registros de asistencia
-    this.customerService.findAllMembresiasByCustomer(0, this.paramPaginator).subscribe(resp => {
-      
-      console.log(resp)
-      this.listData = resp.data;
-      this.pageRender = resp.page;
-      this.calculSumaRegister();
-    })
+    this.messageService.loading(true);
+    setTimeout(() => {
+
+      // Importante asignar esto, sirve tanto para listar los registros como para generar el reporte
+      this.paramPaginator.typeData = "ATTENDANCE";
+      // el valor 0 representa que no es ningun cliente por lo tanto debe traer todos los registros de asistencia
+      this.customerService.findAllMembresiasByCustomer(this.idCustomer, this.paramPaginator).subscribe(resp => {
+
+        console.log(resp)
+        this.listData = resp.data;
+        this.pageRender = resp.page;
+        this.calculSumaRegister();
+        this.messageService.loading(false);
+      })
+    }, 200);
+
+
+
   }
 
   updateDateLeave(ide: any, date: string) {
@@ -78,14 +142,22 @@ export class ListAttendanceComponent  implements OnInit, OnDestroy{
       const fechaFormateada = dateParse.format('YYYY-MM-DD HH:mm:ss');
       console.log(fechaFormateada)
 
-      this.transactionService.updateDateLeaveAttendance(ide, fechaFormateada).subscribe(resp => {
 
-        console.log(resp)
-        alert("asistencia actualizada")
-        console.log("asitencia actualizada..")
-      })
 
-    } else alert("La fecha no es valida")
+      this.transactionService.updateDateLeaveAttendance(ide, fechaFormateada).pipe(
+        tap(resp => {
+          console.log(resp)
+          this.toaster.info("Fecha de salida actualizada correctamente");
+          this.findAll();
+        }),
+        catchError(err => {
+          console.log(err)
+          this.toaster.error("Error al actualizar la fecha de salida")
+          return of(null);
+        })
+      ).subscribe();
+
+    } else this.toaster.warning("Debe seleccionar una fecha de salida");
   }
 
   changePage(numberPage?: number) {
@@ -95,15 +167,23 @@ export class ListAttendanceComponent  implements OnInit, OnDestroy{
     this.findAll();
   }
 
-  delete(ide: any ){
+  delete(ide: any) {
 
 
-    this.transactionService.deleteAttendance(ide as number).subscribe(resp => {
-      console.log(resp)
-      alert("asistencia eliminada")
 
-      this.findAll();
-    })
+    this.transactionService.deleteAttendance(ide as number).pipe(
+
+      tap(resp => {
+        console.log(resp)
+        this.toaster.info("Asistencia eliminada corratamente");
+        this.findAll();
+      }),
+      catchError(err => {
+        console.log(err)
+        this.toaster.error("Error al eliminar la asistencia")
+        return of(null);
+      })
+    ).subscribe();
   }
 
   calculSumaRegister() {

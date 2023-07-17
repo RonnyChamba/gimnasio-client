@@ -3,6 +3,8 @@ import { UserService } from '../../services/user.service';
 import { UserModel } from 'src/app/core/models/person-model';
 import Swal from 'sweetalert2';
 import { catchError, of, tap } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-list-users',
@@ -13,7 +15,13 @@ export class ListUsersComponent implements OnInit{
 
 
   listData: UserModel[] = [];
-  constructor(  private userService: UserService,) { }
+    
+  reduceColumns: boolean = false;
+  constructor(
+      private userService: UserService,
+      private toaster: ToastrService,
+      private messageService: MessageService
+      ) { }
 
   ngOnInit() {
 
@@ -23,10 +31,18 @@ export class ListUsersComponent implements OnInit{
 
   findall() {
   
-    this.userService.findAll().subscribe((data) => {
-      this.listData = data.data;
-      console.log(this.listData);
-    });
+    this.messageService.loading(true);
+
+    setTimeout(() => {
+
+      this.userService.findAll().subscribe((data) => {
+        this.listData = data.data;
+        console.log(this.listData);
+        this.messageService.loading(false);
+      });
+    }, 200);
+
+    
   
   }
 
@@ -34,7 +50,6 @@ export class ListUsersComponent implements OnInit{
   edit(ide: any){
 
   }
-
   delete(ide: any, status: boolean){
 
 
@@ -42,7 +57,6 @@ export class ListUsersComponent implements OnInit{
 
     let subtitle = status ? 'El usuario no podrá acceder al sistema hasta que sea activado nuevamente por un administrador'
     : 'El usuario podrá acceder al sistema nuevamente';
-
 
     console.log("registro desactivar: " + ide)
 
@@ -60,17 +74,20 @@ export class ListUsersComponent implements OnInit{
         this.userService.updateStatus(ide).pipe(
 
           tap((data) => {
-            console.log(data);
-
-            alert("Registro actualizado correctamente");
-            // this.findall();
+            // console.log(data);
+            this.toaster.success('Registro actualizado correctamente');
+            // alert("Registro actualizado correctamente");
+            this.findall();
           }),
           catchError((err) => {
-            Swal.fire({
-              title: 'Error',
-              text: err.error.message,
-              icon: 'error',
-            });
+
+            this.toaster.error(`${err.error.message}`, 'Error');
+
+            // Swal.fire({
+            //   title: 'Error',
+            //   text: err.error.message,
+            //   icon: 'error',
+            // });
             return of(null);
           })
   

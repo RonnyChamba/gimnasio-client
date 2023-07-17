@@ -13,13 +13,13 @@ import { environment } from 'src/environments/environment';
 export class CustomerService {
   pathApi = environment._APIUrl;
 
-  private refreshUpdateTable = new Subject<void>();
+  // private refreshUpdateTable = new Subject<void>();
 
   constructor(private httpClient: HttpClient) { }
 
-  getRefreshUpdateTableObservable(): Observable<void> {
-    return this.refreshUpdateTable.asObservable();
-  }
+  // getRefreshUpdateTableObservable(): Observable<void> {
+  //   return this.refreshUpdateTable.asObservable();
+  // }
 
   
   save(customerFull: CustomerFull): Observable<any> {
@@ -71,8 +71,8 @@ export class CustomerService {
         page: filterProperties.page || 0,
         size: filterProperties.size || 5,
         order: filterProperties.order || "",
-        dateBegin: filterProperties.dateBegin || "",
-        dateEnd: filterProperties.dateEnd || "",
+        dateBegin: filterProperties.dateBegin || "", // IMPORTANTE ENVIAR VACIO PARA QUE NO DE ERROR SI ESQUE ES NULL
+        dateEnd: filterProperties.dateEnd || "", // // IMPORTANTE ENVIAR VACIO PARA QUE NO DE ERROR SI ESQUE ES NULL
         typeUser: filterProperties.typeUser || "",
         typePay: filterProperties.typePay || "",
         typeData: filterProperties.typeData
@@ -99,8 +99,7 @@ export class CustomerService {
 
   delete(ide: number): Observable<any> {
     return this.httpClient
-      .delete(`${this.pathApi}/customers/${ide}`)
-      .pipe(tap(() => this.refreshUpdateTable.next()));
+      .delete(`${this.pathApi}/customers/${ide}`);
   }
 
   /**
@@ -142,4 +141,5 @@ export class CustomerService {
 
     return this.httpClient.get(`${this.pathApi}/customers/${ide}/inscriptions/maxDateBegin`);
   }
+
 }

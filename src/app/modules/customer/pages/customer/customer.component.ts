@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PaginatorCustomer } from 'src/app/core/models/page-render.model';
 import { TypeOperationFormInsCustomer } from 'src/app/utils/utilForm';
 import { FormCustomersComponent } from '../../components/form-customers/form-customers.component';
 import { UtilCustomerService } from '../../services/util-customer.service';
+import { typeModel } from 'src/app/utils/types';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-customer',
@@ -14,43 +14,25 @@ import { UtilCustomerService } from '../../services/util-customer.service';
 export class CustomerComponent  implements OnInit{
 
   flagClose = true;
-  formData: FormGroup;
-  // filteProperties: FilterProperties;
+  typeModel: typeModel ="CUSTOMER"
 
-  constructor(private modalService: NgbModal,
-    private utilCustomerService: UtilCustomerService){}
-  ngOnInit(): void {
+  constructor(
+    private modalService: NgbModal,
+    private tokenService: TokenService
+    ){
+
+      this.flagClose = this.tokenService.getFlagClose();
+    }
   
-    this.createForm();
-    this.onChangeListeners();
-  }
-  private onChangeListeners() {
-    
-    this.formData.valueChanges.subscribe (data =>{
-      // this.paramPaginator = data;
-
-      this.utilCustomerService.getRefreshFilterTable.next(data as PaginatorCustomer);
-
-    })
-
- 
-    
-  }
-  private createForm() {
-    
-    this.formData = new FormGroup(
-      {
-        size: new FormControl(5, []),
-        dateBegin: new FormControl(null, []),
-        dateEnd: new FormControl(null, []),
-        valueSearch: new FormControl(null, []),
-      });
-  }
-
   
-  onClickMenu(value:boolean){  
+    ngOnInit(): void {
+  
+  }
+  
+    onClickMenu(value:boolean){  
 
     this.flagClose = value;
+    this.tokenService.setFlagClose(this.flagClose);
   }
 
 
@@ -70,8 +52,7 @@ export class CustomerComponent  implements OnInit{
     
     references.componentInstance.operationForm = param;
 
-  
-        
+    
   }
 
 }

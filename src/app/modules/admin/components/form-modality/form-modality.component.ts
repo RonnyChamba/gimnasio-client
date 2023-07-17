@@ -4,6 +4,8 @@ import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationEr
 import { validMessagesError } from 'src/app/utils/MessagesValidation';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, catchError, map, of, tap } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { UtilAdminService } from '../../services/util-admin.service';
 
 @Component({
   selector: 'app-form-modality',
@@ -17,7 +19,9 @@ export class FormModalityComponent implements OnInit {
 
   constructor(
     private modalityService: ModalityService,
-    public modal: NgbActiveModal) { }
+    public modal: NgbActiveModal,
+    private admiUtil: UtilAdminService,
+    private toaster: ToastrService) { }
 
 
   formData: FormGroup;
@@ -84,12 +88,15 @@ export class FormModalityComponent implements OnInit {
       tap((value) => {
         console.log(value);
 
-        alert("Guardado con exito");
+        this.toaster.success("Modalidad Guardada con exito");
+        // alert("Guardado con exito");
         this.modal.close(value);
+        this.admiUtil.getSubjectModality.next(true);
       })
       , catchError((error) => {
 
-        alert("Error al guardar");
+        // alert("Error al guardar");
+        this.toaster.error("Error al guardar", "Error");
         console.log(error);
         return of(null);
       })
@@ -104,12 +111,15 @@ export class FormModalityComponent implements OnInit {
 
       tap((value) => {
         console.log(value);
-        alert("Actualizado con exito");
+        // alert("Actualizado con exito");
         this.modal.close(value);
+        this.toaster.success("Modalidad Actualizada con exito");
+        this.admiUtil.getSubjectModality.next(true);
       })
       , catchError((error) => {
 
-        alert("Error al actualizar");
+        this.toaster.error("Error al actualizar", "Error");
+        // alert("Error al actualizar");
         console.log(error);
         return of(null);
       })

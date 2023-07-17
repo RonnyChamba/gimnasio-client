@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { InscriptionModel } from '../core/models/inscription-model';
 import { AttendanceAttributes } from '../core/models/attendance.model';
-import { CategoryService } from '../modules/category/services/category.service';
+import { PaginatorDiary } from '../core/models/page-render.model';
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +41,26 @@ export class TransactionSrService implements OnInit, OnDestroy {
     return this.httpClient.delete(`${this.pathApi}/attendances/${ide}`);
   }
 
+  findAll(paramPage: PaginatorDiary): Observable<any> {
+    return this.httpClient.get(`${this.pathApi}/transactions/data`, {
+      params: {
+        page: paramPage.page,
+        size: paramPage.size,
+        valueSearch: paramPage.valueSearch || "",
+        dateBegin: paramPage.dateBegin || "",
+        dateEnd: paramPage.dateEnd || "",
+        typeUser: paramPage.typeUser,
+        typePay: paramPage.typePay  || "",
+        type: paramPage.type  || "",
+        typeData: paramPage.typeData
+      },
+    });
+  }
+
+  deleteInscription(ide: number): Observable<any> {
+    
+    return this.httpClient.delete(`${this.pathApi}/inscriptions/${ide}`);
+
+  }
 
 }

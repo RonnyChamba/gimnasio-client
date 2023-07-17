@@ -1,5 +1,10 @@
 @import '../../../../../assets/scss/Colors.scss';
 
+.form-title {
+  font-weight: 400;
+  font-size: 1.5rem;
+}
+
 .form-subtitle{
     // color: red;
     // border-bottom: 1.5px solid  opacify($color: $color-primary, $amount: 0.8) ;
@@ -9,7 +14,7 @@
 }
 
 .content-img {
-  background-color: green !important;
+  // background-color: green !important;
   position: relative;
   max-width: 250px;
   display: inline-block;
@@ -18,19 +23,10 @@
   //   max-width: 100%;
   // }
 
-  .delete {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    font-size: 1.3rem;
-    color: #fff;
-    cursor: pointer;
-    color: red;
-  }
-
   img {
     display: block;
     width: 100%;
+
     // height: 100%;
     object-fit: cover;
   }
@@ -51,19 +47,19 @@
   }
 }
 
-label[for="fileInput"] {
-  display: none;
-}
-.custom-file-upload {
-  display: inline-block;
-  padding: 6px 12px;
-  cursor: pointer;
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
-  border-radius: 4px;
-}
+// label[for="fileInput"] {
+//   display: none;
+// }
+// .custom-file-upload {
+//   display: inline-block;
+//   padding: 6px 12px;
+//   cursor: pointer;
+//   color: #fff;
+//   background-color: #007bff;
+//   border-color: #007bff;
+//   border-radius: 4px;
+// }
 
-.custom-file-upload i {
-  margin-right: 8px;
-}
+// .custom-file-upload i {
+//   margin-right: 8px;
+// }

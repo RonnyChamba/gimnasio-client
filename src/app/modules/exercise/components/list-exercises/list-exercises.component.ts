@@ -7,6 +7,9 @@ import { Subscription, catchError, of, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormExercisesComponent } from '../form-exercises/form-exercises.component';
+import Swal from 'sweetalert2';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-list-exercises',
@@ -15,10 +18,16 @@ import { FormExercisesComponent } from '../form-exercises/form-exercises.compone
 })
 export class ListExercisesComponent implements OnInit, OnDestroy {
 
+  isAdmin = false;
+
+  urlImgDefault = "../../../../../assets//img//Default_pfp.svg.png";
   textAccordion = "más";
   listData: ExerciseAttributes[] = [];
 
-  @Output("size") size= new EventEmitter<number>();
+  // este se pinta en el html
+  listDataFilter: ExerciseAttributes[] = [];
+
+  searchText = '';
 
   // this variable don't use by now
   page: PageRender;
@@ -30,7 +39,12 @@ export class ListExercisesComponent implements OnInit, OnDestroy {
     private exerciseService: ExerciseService,
     private exerciseUtil: UtilExerciseService,
     private modalService: NgbModal,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private tokenService: TokenService,
+    private messageService: MessageService
+  ) {
+    this.isAdmin = this.tokenService.isAdmin();
+  }
 
   ngOnInit(): void {
     this.findAll();
@@ -56,77 +70,121 @@ export class ListExercisesComponent implements OnInit, OnDestroy {
   }
 
   findAll() {
-    this.exerciseService.findAll(this.paramsFilter.page,
-      this.paramsFilter.size).pipe(
 
-        tap((response: any) => {
-          this.page = response.page;
-          this.listData = response.data;
-          this.size.emit(this.listData.length);
-            
-          // this.toastr.success('Datos actualizados correctamente', 'Correcto');
+    this.messageService.loading(true);
 
-        }),
-        catchError((error) => {
-          console.log(error);
-          
-          this.toastr.error('Error al cargar los datos', 'Error');
 
-           return of(null);
-        })
+    setTimeout(() => {
 
-      ).subscribe();
+      this.exerciseService.findAll(this.paramsFilter.page,
+        this.paramsFilter.size).pipe(
+
+          tap((response: any) => {
+            this.page = response.page;
+            this.listData = response.data;
+            console.log(this.listData);
+            this.listDataFilter = this.listData;
+
+            // this.toastr.success('Datos actualizados correctamente', 'Correcto');
+
+            this.messageService.loading(false);
+
+          }),
+          catchError((error) => {
+            console.log(error);
+
+            this.messageService.loading(false);
+            this.toastr.error('Error al cargar los datos', 'Error');
+
+
+            return of(null);
+          })
+
+        ).subscribe();
+    }, 200);
+
+
   }
 
-  edit(ide: any){
+  edit(ide: any) {
 
 
+    // const target = event.target as HTMLElement;
 
-    // alert(ide);
-
-   const ref =    this.modalService.open(FormExercisesComponent, { size: "lg" });
+    // El accordeon es un button por eso se valida que no sea un button para que no se abra el modal
+    // if (target.tagName != 'BUTTON') {
+    const ref = this.modalService.open(FormExercisesComponent, { size: "md", backdrop: 'static', keyboard: false});
     ref.componentInstance.idExercise = ide;
 
+    // }
+
+
+
   }
 
-  // Aquí puedes manejar el evento de scroll
-  // onScroll = (event: any): void => {
+  onSearchChange(event: Event) {
+
+    if (this.searchText === '') {
+      // Se hizo clic en la "x"  o el texto quedo vacio
+
+      console.log('Se hizo clic en la "x"');
+      this.listDataFilter = this.listData;
+    } else {
+      // El valor del input cambió
+      console.log('El valor del input cambió');
+      this.listDataFilter = this.listData.filter(item => item.name.includes(this.searchText));
+    }
 
 
-  //   // get the current viewport height
-  //   const viewportHeight = window.innerHeight;
+  }
 
-  //   // get the current vertical position
-  //   const scrollY = window.scrollY;
+  calcularIde(item: ExerciseAttributes): string {
+    return `acordeon${item.ide}`;
+  }
 
-  //   const maxHeigthByPage = 50;
-  //   const maxHeigth = maxHeigthByPage * this.page.totalPages;
+  delete(ide: any) {
 
-
-
-  //   console.log(maxHeigth);
-
-  //   if (scrollY >= 50 && scrollY <= 60) {
-  //     // Aquí puedes manejar el evento de scroll
-
-  //     const totalPage = this.page.totalPages;
-  //     const currentPage = this.page.currentPage;
-
-  //     if (currentPage < totalPage) {
-  //       this.paramsFilter.page = this.paramsFilter.page + 1;
-  //       this.findAll();
-  //     }
+    // el nombre ya existe en la bd, se pregunta si desea guardar de todos modos
+    Swal.fire({
+      title: '¿Eliminar Ejercicio?',
+      text: ``,
+      icon: 'question',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.value) {
 
 
-  //   }
+        this.exerciseService.delete(ide).pipe(
+
+          tap((response: any) => {
+
+            this.toastr.info('Ejercicio eliminado correctamente');
+            this.findAll();
+          }),
+          catchError((error) => {
+            console.log(error);
+
+            this.toastr.error('Error al eliminar el ejercicio', 'Error');
+
+            return of(null);
+          })).subscribe();
 
 
-  //   console.log(window.innerHeight);
-  //   console.log(window.scrollY);
+      }
+    });
+  }
 
-  //   console.log('Evento de scroll detectado');
-  // }
+  openModal() {
 
+    // console.log("Abrir modal");
 
-
+    this.modalService.open(FormExercisesComponent, {
+      size: "md"
+    });
+  }
 }
+
+

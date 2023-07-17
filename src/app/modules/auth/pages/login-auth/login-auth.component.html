@@ -10,25 +10,25 @@
           <input
             type="text"
             class="form-control"
-            id="cedula"
+            id="username"
             placeholder=""
-            formControlName="cedula"
+            formControlName="username"
           />
-          <label for="cedula">C&eacute;dula</label>
+          <label for="username">C&eacute;dula</label>
           <div
             *ngIf="
-            formLogin.controls['cedula'].invalid &&
-              (formLogin.controls['cedula'].dirty || formLogin.controls['cedula'].touched)
+            formLogin.controls['username'].invalid &&
+              (formLogin.controls['username'].dirty || formLogin.controls['username'].touched)
             "
             class="form-text text-danger"
           >
-            <div *ngFor="let validation of validMessage.cedula">
+            <div *ngFor="let validation of validMessage.username">
               <div
                 style="font-size: smaller !important"
                 *ngIf="
-                formLogin.get('cedula')?.hasError(validation.type) &&
-                  (formLogin.get('cedula')?.dirty ||
-                  formLogin.get('cedula')?.touched)
+                formLogin.get('username')?.hasError(validation.type) &&
+                  (formLogin.get('username')?.dirty ||
+                  formLogin.get('username')?.touched)
                 "
               >
                 {{ validation.message }}

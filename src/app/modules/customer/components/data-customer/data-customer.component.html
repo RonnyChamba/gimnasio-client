@@ -2,7 +2,7 @@
   <div class="row m-0 row-cols-1 row-cols-sm-2 mb-3">
     <!--  -->
     <div class="col-sm-3">
-      <label>Membresia</label>
+      <label>Membres&iacute;a</label>
     </div>
     <div class="col-sm-9">
       <input class="form-control" formControlName="codInterno" readonly />
@@ -163,7 +163,7 @@
   <div class="row m-0 row-cols-1 row-cols-sm-2 mb-3">
     <!--  -->
     <div class="col-sm-3">
-      <label>Cumpleaños</label>
+      <label>F. nacimiento</label>
     </div>
     <div class="col-sm-9">
       <input
@@ -245,7 +245,7 @@
   <div class="row m-0 row-cols-1 row-cols-sm-2 mb-3">
     <!--  -->
     <div class="col-sm-3">
-      <label>Genero</label>
+      <label>G&eacute;nero</label>
     </div>
 
     <div class="d-flex mt-1">
@@ -285,8 +285,11 @@
 
   <div class="d-flex justify-content-end m-0 mb-3">
    
-    <button type="button" class="btn btn-secondary me-2" (click)="fnCancel()" >CANCELAR</button>
-    <input  type="submit"  class="btn btn-primary" value="ACTUALIZAR"    [disabled]="formData.invalid" />
+    <!--  -->
+    <button type="button" class="btn btn-secondary me-2" (click)="fnCancel()">CANCELAR</button>
+    <button  type="submit"  class="btn btn-primary" [disabled]="formData.invalid" >
+      ACTUALIZAR
+    </button>
     
 
   </div>

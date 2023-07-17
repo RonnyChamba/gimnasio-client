@@ -48,10 +48,14 @@ import {
   validatorDni,
 } from 'src/app/utils/validators/person.validator';
 
-import { firstValueFrom } from 'rxjs';
+import { catchError, firstValueFrom, of, tap } from 'rxjs';
 import Swal from 'sweetalert2';
 import { TypeOperationFormInsCustomer } from 'src/app/utils/utilForm';
 import { TransactionSrService } from 'src/app/services/transaction-sr.service';
+import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
+import { ToastrService } from 'ngx-toastr';
+import { ReportService } from 'src/app/modules/report/services/report.service';
+import { ReportParams } from 'src/app/core/models/page-render.model';
 
 // const DEFAULT_ID_MODALITY = 1;
 
@@ -86,8 +90,11 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     public modal: NgbActiveModal,
     private modalityService: ModalityService,
     private utilCustomerService: UtilCustomerService,
+    private toaster: ToastrService,
     private customerService: CustomerService,
-    private transactionService: TransactionSrService
+    private utilFiltersService: UtilFiltersService,
+    private transactionService: TransactionSrService,
+    private reportService: ReportService,
   ) { }
 
   ngAfterViewInit(): void {
@@ -124,10 +131,10 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
   }
 
-  
-/**
- * Obtiene la inscripcion selecciona para editarla 
- */
+
+  /**
+   * Obtiene la inscripcion selecciona para editarla 
+   */
   private putDataUpdateInscription() {
 
     this.customerService.findByIdeInscriptionFetch(this.operationForm.ideInscription as number)
@@ -148,7 +155,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
         this.formData.get('evolution.height')?.setValue(fullInscription.evolutionCtm?.height);
         this.formData.get('evolution.imc')?.setValue(fullInscription.evolutionCtm?.imc);
         this.formData.get('evolution.resultImc')?.setValue(fullInscription.evolutionCtm?.resultImc);
-        this.formData.get('evolution.typeWeight')?.setValue(fullInscription.evolutionCtm?.typeWeight);  
+        this.formData.get('evolution.typeWeight')?.setValue(fullInscription.evolutionCtm?.typeWeight);
         this.formData.get('evolution.description')?.setValue(fullInscription.evolutionCtm?.description);
 
         // Modality
@@ -253,7 +260,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
         dateBegin: new FormControl(this.getCurrentDate(0), [
           Validators.required,
           Validators.pattern('^[0-9]{4}(-|/)[0-9]{2}(-|/)[0-9]{2}$'),
-        ],   [validDateBegin(this.customerService, this.operationForm)]),
+        ], [validDateBegin(this.customerService, this.operationForm)]),
         dateFinalize: new FormControl(this.getCurrentDate(1), [
           Validators.required,
           Validators.pattern('^[0-9]{4}(-|/)[0-9]{2}(-|/)[0-9]{2}$'),
@@ -467,6 +474,15 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
       onlySelf: true,
       // emitEvent: false,
     });
+
+    this.formData.get('name')?.valueChanges.subscribe((data) => {
+
+
+      this.formData.patchValue({ name: data.toUpperCase() as string }, {  
+        emitEvent: false,
+        });
+    });
+
   }
   private incrementDateFinalize(
     numberMonthOrDays: number,
@@ -541,10 +557,10 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
   }
 
   private async saveNewCustomer() {
-    // Verificar si el nombre ya esta registrado en la bd, solo si no ha ingresado una cedula
 
     let isNameExist = false;
 
+    // Verificar si el nombre ya esta registrado en la bd, solo si no ha ingresado una cedula
     if (!this.customerFull.customer.dni) {
       const obs = this.customerService.verifyIsExistCustomer(
         this.customerFull.customer.name,
@@ -553,20 +569,44 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
       isNameExist = await firstValueFrom(obs, { defaultValue: false });
     }
 
+    // El nombre no existe en la bd o el cliente tiene cedula se guarda directamente
     if (!isNameExist) {
 
-      this.customerService.save(this.customerFull).subscribe(data => {
-        console.log(data);
-        this.modal.dismiss()
-      }, error => {
-        console.log(error)
+
+      this.executeSaveNewCustomer();
+
+      // this.customerService.save(this.customerFull).pipe(
+      //   tap((data) => {
+      //     console.log(data);
+      //     this.modal.dismiss();
+      //     this.toaster.success('Cliente guardado correctamente');
+      //     // Emitir evento para actualizar la tabla de clientes
+      //     // this.utilFiltersService.eventFiltersEmit(null);
+      //   }),
+      //   catchError((error) => {
+      //     console.log(error);
+      //     this.toaster.error('Surgio un error al guardar cliente');
+      //     return of(null);
+      //   })
+      // ).subscribe();
 
 
-      });
+      // this.customerService.save(this.customerFull).subscribe(data => {
+      //   console.log(data);
+      //   this.modal.dismiss()
+      // }, error => {
+
+      //   console.log(error)
+
+
+      // });
 
 
 
     } else {
+
+
+      // el nombre ya existe en la bd, se pregunta si desea guardar de todos modos
       Swal.fire({
         title: '¿Guardar Nuevo Cliente?',
         html: `<p><span style ="color: yellow">Advertencia</span>: El nombre  <b>${this.customerFull.customer.name}</b> ya esta registrado en el sistema, le sugerimos que agregue el número de cédula antes de guardar <p>`,
@@ -579,13 +619,30 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
         cancelButtonText: 'Cancelar',
       }).then((result) => {
         if (result.value) {
-          this.customerService.save(this.customerFull).subscribe((data) => {
-            console.log(data);
-          });
+
+          this.executeSaveNewCustomer();
+
         }
       });
     }
 
+  }
+  private executeSaveNewCustomer() {
+
+    this.customerService.save(this.customerFull).pipe(
+      tap((data) => {
+        console.log(data);
+        this.modal.dismiss();
+        this.toaster.success('Cliente guardado correctamente');
+        // Emitir evento para actualizar la tabla de clientes
+        this.utilFiltersService.eventFiltersEmit(null);
+      }),
+      catchError((error) => {
+        console.log(error);
+        this.toaster.error('Surgio un error al guardar cliente');
+        return of(null);
+      })
+    ).subscribe();
 
   }
 
@@ -602,13 +659,36 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
   private saveUpdateInscription() {
 
     // Aqui no deseo la informacion del clientes, solo de la inscripcion
+
     this.transactionService.updateInscription(this.operationForm.ideInscription as number,
-      this.customerFull.inscription).subscribe(resp =>{
+      this.customerFull.inscription).pipe(
+        tap(resp => {
+          console.log(resp)
+
+          this.modal.dismiss();
+          this.toaster.success("Membresía actualizada con exito");
+
+          // Actualizar la tabla de inscripciones
+          this.utilFiltersService.eventFiltersEmit(null);
+
+        }),
+        catchError(err => {
+          console.log(err)
+          this.toaster.error("Error al actualizar la membresía");
+
+          return of(null)
+        })
+      ).subscribe();
+
+
+
+    this.transactionService.updateInscription(this.operationForm.ideInscription as number,
+      this.customerFull.inscription).subscribe(resp => {
 
         console.log(resp)
         console.log("registro actualizado")
 
-      })  
+      })
   }
 
   private getCurrentDate(numberMonthMore: number): string {
@@ -637,7 +717,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
       transaction: this.createTransaction()
     };
 
-    
+
     let evolution = this.createEvolution();
     if (evolution) inscription.evolution = evolution;
     return inscription;
@@ -672,7 +752,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
       evolution.resultImc = resultImc;
       return evolution;
 
-    }return  null;
+    } return null;
 
   }
 
@@ -691,8 +771,8 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
   public getTitleForm(): string {
 
     if (this.operationForm.type == "newInscription") return "Nueva Membresía";
-    if (this.operationForm.type == "updateInscription"   && this.operationForm.write) return "Actualizar Membresía";
-    if (this.operationForm.type == "updateInscription"   && !this.operationForm.write) return "Membresía Finalizada (no editable)";
+    if (this.operationForm.type == "updateInscription" && this.operationForm.write) return "Actualizar Membresía";
+    if (this.operationForm.type == "updateInscription" && !this.operationForm.write) return "Membresía Finalizada (no editable)";
     return "Nuevo Cliente";
 
   }
@@ -701,26 +781,56 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     return this.operationForm.type == "newCliente";
   }
 
-  private canWriteField(){
+  private canWriteField() {
 
     if (!this.operationForm.write) {
       this.formData.disable();
     }
 
     // Cuando sea editar la membresia no se podrá cambiar el nombre de cliente
-    if (this.operationForm.type =="updateInscription"){
+    if (this.operationForm.type == "updateInscription") {
       this.formData.get('name')?.disable();
     }
-}
+  }
 
-generateReport(){
-  alert("generar Reporte")
-}
+  generateReport() {
+
+    const params: ReportParams = {
+      typeReport: "INSCRIPTION_BY_CUSTOMER",
+      typeAction: "REPORT",
+      customer: `${this.operationForm.ideInscription}`, // este dato en el backend representa el ide de la inscripcion que se desea generar el repporte, to
+      // todos los reportes se generan en la aplicacion web, apuntan a un unico endpoint, y este se encarga de generar el reporte
+      typeUser: "", // esttos no se usan
+      modality: "" // esttos no se usan
+    }
 
 
-showBtnReport(): boolean{
 
-  return this.operationForm.type == "updateInscription";
-}
+    this.reportService.generateReportInscriptions(params, "blob").pipe(
+      tap((resp: any) => {
+        console.log("resp", resp);
+        const blob = new Blob([resp], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+      }),
+      catchError((err) => {
+        console.log("err", err);
+
+        alert("Error al generar el reporte");
+        return of(null);
+        // return throwError(err);
+      }
+
+
+      )).subscribe();
+
+    // alert("generar Reporte")
+  }
+
+
+  showBtnReport(): boolean {
+
+    return this.operationForm.type == "updateInscription";
+  }
 
 }

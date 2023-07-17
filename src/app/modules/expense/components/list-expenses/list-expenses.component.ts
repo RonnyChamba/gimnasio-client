@@ -1,12 +1,16 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError, of, tap } from 'rxjs';
 import { ExpenseAttribute } from 'src/app/core/models/expense.model';
-import { PageRender, PaginatorExpense } from 'src/app/core/models/page-render.model';
+import { PageRender, PaginatorDiary } from 'src/app/core/models/page-render.model';
 import { ExpenseService } from '../../services/expense.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormExpensesComponent } from '../form-expenses/form-expenses.component';
 import Swal from 'sweetalert2';
-import { UtilExpenseService } from '../../services/util-expense.service';
+import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
+import { TransactionSrService } from 'src/app/services/transaction-sr.service';
+import { ToastrService } from 'ngx-toastr';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-list-expenses',
@@ -15,6 +19,7 @@ import { UtilExpenseService } from '../../services/util-expense.service';
 })
 export class ListExpensesComponent implements OnInit, OnDestroy {
 
+isAdmin = false;
 
   listData: ExpenseAttribute[];
   pageRender: PageRender;
@@ -22,71 +27,105 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
 
   @Output("sumaTotalByPage") sumaTotalByPage = new EventEmitter<number>;
 
-  paramPaginator: PaginatorExpense = { page: 0, size: 5, typeUser: "all", typeData: "EXPENSE" };
+  paramPaginator: PaginatorDiary = { page: 0, size: 5, typeUser: "", typeData: "EXPENSE" };
 
   // here add suscriptiones
   private subscription: Subscription = new Subscription();
 
-  constructor(private expenseService: ExpenseService,
-    private modalService: NgbModal,    private utilExpenseService: UtilExpenseService) { }
+  constructor(
+    private expenseService: ExpenseService,
+    private modalService: NgbModal,
+    private transactionSrService: TransactionSrService,
+    private toaster: ToastrService,
+    private utilFiltersService: UtilFiltersService,
+    private tokenService: TokenService,
+    private messageService: MessageService
+    
+    ) { 
+      this.isAdmin = this.tokenService.isAdmin();
+    }
 
   ngOnInit(): void {
 
     this.findAll();
     this.addSubscription();
   }
-  
+
   ngOnDestroy(): void {
 
     this.subscription.unsubscribe();
   }
 
-  private findAll(){
+  private findAll() {
 
-    this.expenseService.findAll( this.paramPaginator).subscribe(resp =>{
-      console.log(resp)
+
+    this.messageService.loading(true);
+
+    setTimeout(() => {
       
+      
+    this.paramPaginator.typeData = "EXPENSE";
+    this.transactionSrService.findAll(this.paramPaginator).subscribe(resp => {
+
       this.listData = resp.data;
       this.pageRender = resp.page;
-      
-      this.sumaTotalByPage.next (resp.sumaTotalPageable as number);
+
+      this.sumaTotalByPage.next(resp.sumaTotalPageable as number);
 
       this.calculSumaRegister();
+      this.messageService.loading(false);
     })
+    }, 200) ;
+
+    
 
   }
   private addSubscription() {
 
-    this.utilExpenseService.filterTableAsObservable().subscribe(filtePro => {
+    this.subscription.add(
+
+      this.utilFiltersService.eventFiltersObservable().subscribe(filtePro => {
 
 
-      console.log(filtePro)
+        if (filtePro) {
 
-      let currentPage = this.paramPaginator.page;
+          let currentPage = this.paramPaginator.page;
 
-      this.paramPaginator = filtePro;
-      this.paramPaginator.page = currentPage;
-      this.changePage();
-    })
+
+
+          this.paramPaginator = filtePro;
+          this.paramPaginator.page = currentPage;
+          this.changePage();
+
+          // Cuando se actualizaa un registro o elimnar se manda a actualizar todos los registros
+        } else this.findAll();
+      }
+      )
+
+    );
+
+
+
+
   }
   changePage(numberPage?: number) {
-    
-    // console.log("Number  of  page" +  numberPage)
-    this.paramPaginator.page = numberPage || numberPage==0? numberPage: this.paramPaginator.page;
 
-    
+    // console.log("Number  of  page" +  numberPage)
+    this.paramPaginator.page = numberPage || numberPage == 0 ? numberPage : this.paramPaginator.page;
+
+
     /**
      * If there is a text input, begggin page 0
      * 
      * If sizePage is mayor que el total de elemntos, entonces que muestre los resultado en la pagina 0 
      */
-    
-    if (this.paramPaginator.valueSearch || (this.paramPaginator.size>= this.pageRender.totalElements)) this.paramPaginator.page =0;
+
+    if (this.paramPaginator.valueSearch || (this.paramPaginator.size >= this.pageRender.totalElements)) this.paramPaginator.page = 0;
 
     this.findAll();
   }
 
-  
+
   calculSumaRegister() {
     // console.log(this.pageRender)
 
@@ -107,10 +146,10 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
 
   edit(ide: number) {
     // alert("hola " + ide)
- 
 
-    const references =   this.modalService.open(FormExpensesComponent, {
-      size: "lg"
+
+    const references = this.modalService.open(FormExpensesComponent, {
+      size: "md"
     });
 
     references.componentInstance.ideExpense = ide;
@@ -120,7 +159,7 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
 
     Swal.fire({
       title: '¿Eliminar Registro?',
-      
+
       text: `Seguro desea eliminar el registro`,
       icon: 'question',
       allowOutsideClick: false,
@@ -130,15 +169,24 @@ export class ListExpensesComponent implements OnInit, OnDestroy {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
-      
-        this.expenseService.delete(ide).subscribe(resp =>{
 
-         alert("eliminado con eexito, falta actualiza la tabla")
-        })
+        this.expenseService.delete(ide).pipe(
+          tap(resp => {
+            // console.log(resp);
+
+            this.toaster.info("Registro eliminado exitosamente");
+            this.findAll();
+
+          }), catchError(err => {
+            // console.log(err)
+            this.toaster.error("Error al eliminar");
+            return of(null);
+          })
+        ).subscribe();
       }
     });
-  
- 
+
+
   }
 
 }

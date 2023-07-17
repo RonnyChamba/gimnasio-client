@@ -37,9 +37,15 @@ export class CategoryService {
     return this.httpClient.get<CategoryAttribute>(`${this.pathApi}/categories/${ide}`);
   }
 
-  update( ide: number, model: CategoryAttribute): Observable<any>{
+  persistCategory( ide: number, model: CategoryAttribute): Observable<any>{
 
-    return this.httpClient.put(`${this.pathApi}/categories/${ide}`, model);
+    if (ide && ide>0){
+      return this.httpClient.put(`${this.pathApi}/categories/${ide}`, model);
+    }
+
+    return this.httpClient.post(`${this.pathApi}/categories`, model);
+
+    
  
    }
    
@@ -47,6 +53,22 @@ export class CategoryService {
 
     return this.httpClient.delete(`${this.pathApi}/categories/${ide}`);
  
+   }
+
+   existsByName(name: string, ide: number): Observable<boolean> {
+    return this.httpClient.get<boolean>(`${this.pathApi}/categories/isExists`,
+    
+    {
+      params: {
+        name: name,
+        ide: ide ? ide.toString() : "0",
+
+        isNewOrUpdate: ide ? "false" : "true" // new is true, update is false
+      }
+    }
+    
+    );
+
    }
   
 

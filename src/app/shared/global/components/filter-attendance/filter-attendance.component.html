@@ -1,0 +1,129 @@
+<form class=" mt-2" [formGroup]="formData">
+
+    <nav class="navbar navbar-expand-lg navbar-light border-top border-bottom">
+        <div class="container-fluid px-0">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <!-- <a class="nav-link active" aria-current="page" href="#">Home</a> -->
+                        <div class="d-flex ">
+                            <div class="d-flex  align-items-center">
+                                <span> Mostrar</span>
+                                <select class="form-select mx-3" style="max-width: 100px" formControlName="size">
+                                    <option value="5" selected>5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                </select>
+                            </div>
+
+                            <div class="d-flex align-items-center" *ngIf="typeModel !='CATEGORY'">
+                                <input type="date" class="form-control" formControlName="dateBegin" />
+                                <span class="mx-2">Hasta</span>
+                                <input type="date" class="form-control" formControlName="dateEnd" />
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+                <div class="" *ngIf="showFilters || typeModel=='CUSTOMER' || typeModel=='CATEGORY' ">
+                    <div class="ms-auto d-flex">
+                        <select class="form-select me-2" formControlName="typeUser"
+                            *ngIf="typeModel !='CATEGORY' && typeModel !='EVOLUTION' && typeModel !='CUSTOMER' ">
+                            <option value="" selected>Todos los usuarios</option>
+                            <option value="me">Solo mis registros</option>
+                        </select>
+
+                        <select class="form-select" formControlName="typePay"
+                            *ngIf="typeModel =='INSCRIPTION' || typeModel =='EXPENSE' || typeModel =='DAILY'">
+                            <option value="" selected>Todos</option>
+                            <option value="EFECTIVO" selected>Efectivo (E)</option>
+                            <option value="TRANSFERENCIA">Transferencia (T)</option>
+                        </select>
+
+                    </div>
+
+                    <div class="d-flex" *ngIf="typeModel =='EXPENSE'">
+                        <select class="form-select" formControlName="type">
+
+                            <option value="">Todos</option>
+                            <option value="{{ envi.key }}" *ngFor="let envi of typeExpenses">
+                                {{ envi.value }}
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="" *ngIf="typeModel =='DAILY' || typeModel =='CATEGORY'  || typeModel =='CUSTOMER'"  >
+                        <input type="search" placeholder="{{typeModel =='CUSTOMER'? 'Buscar nombre o cédula...':'Buscar descripción...'}}" formControlName="valueSearch"
+                            class="form-control" />
+                    </div>
+                </div>
+
+                <div *ngIf="typeModel  !='CUSTOMER' && typeModel  !='EVOLUTION' && typeModel  !='CATEGORY' ">
+
+                    <button class="btn btn-info" title="Ver mas filtros" (click)="showFilters =!showFilters"  >
+                        <i class="fa-solid fa-filter"></i>
+                        
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+<!-- 
+    <div class="d-flex align-items-center">
+
+        <div class="d-flex  align-items-center">
+            <span> Mostrar</span>
+            <select class="form-select mx-3" style="max-width: 100px" formControlName="size">
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+            </select>
+        </div>
+
+        <div class="d-flex align-items-center" *ngIf="typeModel !='CATEGORY'">
+            <input type="date" class="form-control" formControlName="dateBegin" />
+            <span class="mx-2">Hasta</span>
+            <input type="date" class="form-control" formControlName="dateEnd" />
+        </div>
+
+        <div class="ms-auto d-flex ">
+            <select class="form-select" formControlName="typeUser"
+                *ngIf="typeModel !='CATEGORY' && typeModel !='EVOLUTION'">
+                <option value="" selected>Todos los usuarios</option>
+                <option value="me">Solo mis registros</option>
+            </select>
+
+            <select class="form-select" formControlName="typePay"
+                *ngIf="typeModel =='INSCRIPTION' || typeModel =='EXPENSE' || typeModel =='DAILY'">
+                <option value="" selected>Todos</option>
+                <option value="EFECTIVO" selected>Efectivo (E)</option>
+                <option value="TRANSFERENCIA">Transferencia (T)</option>
+            </select>
+
+        </div>
+
+        <div class="d-flex" *ngIf="typeModel =='EXPENSE'">
+            <select class="form-select" formControlName="type">
+
+                <option value="">Todos</option>
+                <option value="{{ envi.key }}" *ngFor="let envi of typeExpenses">
+                    {{ envi.value }}
+                </option>
+            </select>
+
+        </div>
+
+
+        <div class="" *ngIf="typeModel =='EXPENSE' || typeModel =='DAILY' || typeModel =='CATEGORY'">
+            <input type="search" placeholder="Buscar descripción ..." formControlName="valueSearch"
+                class="form-control" />
+        </div>
+    </div> -->
+</form>

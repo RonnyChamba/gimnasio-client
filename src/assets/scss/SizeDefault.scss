@@ -1,0 +1,9 @@
+$title_page: 1.3rem;
+$text-size: 0.9rem;
+$text-size-menu: 1rem;
+$text-size-icon: 1.5rem;
+@mixin boton-comun{
+    width: 130px;
+    text-align: center;
+    font-size: 0.9rem;
+}

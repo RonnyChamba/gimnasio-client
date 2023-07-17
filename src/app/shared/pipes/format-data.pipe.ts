@@ -43,3 +43,35 @@ export class TrimNameRolPipe implements PipeTransform {
   }
 }
 
+
+@Pipe({
+  name: 'trimDateToMonthPipe',
+})
+export class TrimDateToMonthPipe implements PipeTransform {
+
+  transform(date: any): string {
+    if (!date)  return 'NA';
+
+    let partsDate = date.split("-");
+    const month = MONTHS[Number.parseInt(partsDate[1]) - 1];
+    return `${partsDate[2]}  ${month}`;
+  }
+}
+
+
+
+const MONTHS = [
+  'Enero',
+  'Febrero',
+  'Marzo',
+  'Abril',
+  'Mayo',
+  'Junio',
+  'Julio',
+  'Agosto',
+  'Septiembre',
+  'Octubre',
+  'Noviembre',
+  'Diciembre'
+];
+

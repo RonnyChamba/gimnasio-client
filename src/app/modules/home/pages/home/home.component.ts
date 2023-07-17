@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeService } from '../../services/home.service';
 import { catchError, of, tap } from 'rxjs';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
+// import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-home',
@@ -11,9 +13,17 @@ export class HomeComponent implements OnInit{
 
   flagClose = true;
   listData: any[] = [];
+
+  isAdmin = false;
   private titlesModels = this.creatTitleModel();
 
-  constructor(private homeService: HomeService){}
+  constructor(
+    private homeService: HomeService,
+    private tokenService: TokenService
+    ){
+      this.isAdmin = this.tokenService.isAdmin();
+      this.flagClose = this.tokenService.getFlagClose();
+    }
   
   
   ngOnInit(): void {
@@ -23,6 +33,7 @@ export class HomeComponent implements OnInit{
 
   onClickMenu(value:boolean){  
     this.flagClose = value;
+    this.tokenService.setFlagClose(this.flagClose);
   }
 
   countRegister(){
@@ -53,6 +64,9 @@ export class HomeComponent implements OnInit{
       let model = this.titlesModels.find((model:any) =>model.ide === key);
 
       // console.log(model);
+      
+      if (model?.ide =="user" && !this.isAdmin) return;
+
 
       this.listData.push(
         {
@@ -91,7 +105,7 @@ export class HomeComponent implements OnInit{
       },
       {
         ide : 'inscription',
-        title: 'Inscripciones',
+        title: 'Membresías',
         url: '/inscription',
       },
       {

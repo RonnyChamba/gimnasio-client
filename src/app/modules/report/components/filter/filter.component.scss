@@ -1,0 +1,17 @@
+@import "../../../../../assets/scss/SizeDefault.scss";
+.container-filter{
+    font-size: $text-size;
+}
+
+
+
+.wrap-inscrption{
+    display:  flex;
+    
+    // Manejar el responsive de los filtros de fecha
+    @media screen and (min-width: 768px) {
+        flex-direction: column;
+       
+    }
+    
+}

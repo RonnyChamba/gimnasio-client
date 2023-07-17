@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormCustomersComponent } from 'src/app/modules/customer/components/form-customers/form-customers.component';
-import { GroupDailyComponent } from 'src/app/modules/daily/components/group-daily/group-daily.component';
+import { FormDailiesComponent } from 'src/app/modules/daily/components/form-dailies/form-dailies.component';
 import { FormExpensesComponent } from 'src/app/modules/expense/components/form-expenses/form-expenses.component';
 import { TypeOperationFormInsCustomer } from 'src/app/utils/utilForm';
 
@@ -43,8 +43,9 @@ export class DirectAccessComponent implements OnInit {
 
   openModalDaily(){
 
+    // alert("Hola aqui se abrira un modal de asiste");
 
-    this.modalService.open(GroupDailyComponent, {
+    this.modalService.open(FormDailiesComponent, {
       size: "lg"
     });
   }
