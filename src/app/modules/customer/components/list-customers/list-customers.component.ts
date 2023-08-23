@@ -110,7 +110,7 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
             this.pageRender = resp.page;
 
             // console.log(resp);
-            // console.log(this.listData);
+            console.log(this.listData);
             this.messageService.loading(false);
             this.calculSumaRegister();
           }),

@@ -216,7 +216,9 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
 
 
     const references = this.modalService.open(FormCustomersComponent, {
-      size: "lg"
+      size: "lg",
+      backdrop: "static",
+      keyboard: false,
     });
 
     const param: TypeOperationFormInsCustomer = {

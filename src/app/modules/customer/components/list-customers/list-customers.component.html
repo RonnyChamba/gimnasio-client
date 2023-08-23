@@ -40,8 +40,9 @@
         </td>
         <td>{{ item.dateRegister | date:"dd/MM/yyyy" }}</td>
         <td>{{ item.dni }}</td>
-        <td>
-          {{item.dateEndInscription| date:"dd/MM/yyyy"}}
+        <td >
+          <span [ngClass]="{'bg-danger': item.dateExpired, 'text-white': item.dateExpired}"  style="padding: 5px; width: 50px; border-radius: 4px;" >{{item.dateEndInscription| date:"dd/MM/yyyy"}}</span>
+          
         </td>
 
 
@@ -50,7 +51,7 @@
 
           <div class="btn-group">
             <button type="button" class="btn btn-info" title="Registrar Asistencia"
-              (click)="registerAttendance(item.ide)"> <i class="fa-solid fa-clipboard-user"></i></button>
+              (click)="registerAttendance(item.ide)"  [disabled]="item.dateExpired"   > <i class="fa-solid fa-clipboard-user"></i></button>
             <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
               aria-expanded="false">
               <span class="visually-hidden">Toggle Dropdown</span>

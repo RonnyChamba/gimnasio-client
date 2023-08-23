@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { Subscription, catchError, of, tap } from 'rxjs';
 import { UtilAdminService } from '../../services/util-admin.service';
 import { ToastrService } from 'ngx-toastr';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-list-modality',
@@ -22,10 +23,12 @@ export class ListModalityComponent implements OnInit, OnDestroy {
     private modalityService: ModalityService,
     private admiUtil: UtilAdminService,
     private toater: ToastrService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
+    this.messageService.loading(true);
     this.findAll();
     this.addSubscription();
   }
@@ -43,9 +46,15 @@ export class ListModalityComponent implements OnInit, OnDestroy {
   }
 
   findAll() {
+
     this.modalityService.getModalities().subscribe((data: any) => {
       this.listData = data.data;
       console.log(data);
+      this.messageService.loading(false);
+    },
+    (err) => {
+      console.log(err);
+      this.messageService.loading(false);
     });
   }
 

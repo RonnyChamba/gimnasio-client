@@ -492,7 +492,7 @@
           <h2 class="accordion-header" id="headingControl">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapseControl" aria-expanded="false" aria-controls="collapseTwo">
-              Datos Control  de Evoluci&oacute; (Opcional)
+              Datos Control  de Evoluci&oacute;n (Opcional)
             </button>
           </h2>
           <div id="collapseControl" class="accordion-collapse collapse" aria-labelledby="headingControl"
@@ -559,12 +559,11 @@
 
         <div>
           <button type="button" class="btn btn-secondary me-2" (click)="modal.close()">
-            <!-- <i class="fa-solid fa-ban"></i>  -->
+          
              CANCELAR
           </button>
           <button *ngIf="operationForm.write" type="submit" [disabled]="formData.invalid" class="btn btn-primary"
              >
-            <!-- <i class="fa-solid fa-floppy-disk"></i>  -->
             GUARDAR
           </button>
 

@@ -45,4 +45,5 @@ export interface CustomerAttributes extends PersonAttributes{
 export interface CustomerList  extends  PersonAttributes {
  
     dateEndInscription: string;
+    dateExpired?: boolean
 }
