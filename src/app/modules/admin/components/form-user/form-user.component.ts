@@ -9,6 +9,8 @@ import { validatorDni } from 'src/app/utils/validators/person.validator';
 import { UserService } from '../../services/user.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserModel } from 'src/app/core/models/person-model';
+import { ToastrService } from 'ngx-toastr';
+import { UtilAdminService } from '../../services/util-admin.service';
 
 @Component({
   selector: 'app-form-user',
@@ -23,6 +25,8 @@ export class FormUserComponent implements OnInit {
   constructor(
     private userUtilService: UserSrvService,
     private userService: UserService,
+    private toaster: ToastrService,
+    private utilAdminService: UtilAdminService,
     public modal: NgbActiveModal) { }
 
   ngOnInit(): void {
@@ -108,20 +112,26 @@ export class FormUserComponent implements OnInit {
         .pipe
         (
           tap((value) => {
-            alert("Registro guardado correctamente");
+            // alert("Registro guardado correctamente");
             this.modal.close(value);
+            this.toaster.success("Registro guardado correctamente");
+            this.utilAdminService.getSubjectReloadTableUser.next(true);
           }),
           catchError((err) => {
             console.log("err", err);
 
-            alert("Error  al guardar registro");
+            this.modal.close();
+            // alert("Error  al guardar registro");
+            this.toaster.error("Error  al guardar registro");
             return of(null);
             // return throwError(err);
           })
 
         ).subscribe();
 
-    } else alert("Campos incorrectos")
+    } else {
+      this.toaster.info("Formulario invalido");
+    }
 
   }
 

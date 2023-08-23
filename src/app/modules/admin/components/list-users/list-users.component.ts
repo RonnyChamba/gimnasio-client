@@ -1,31 +1,48 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { UserModel } from 'src/app/core/models/person-model';
 import Swal from 'sweetalert2';
-import { catchError, of, tap } from 'rxjs';
+import { Subscription, catchError, of, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'src/app/services/message.service';
+import { UtilAdminService } from '../../services/util-admin.service';
 
 @Component({
   selector: 'app-list-users',
   templateUrl: './list-users.component.html',
   styleUrls: ['./list-users.component.scss']
 })
-export class ListUsersComponent implements OnInit{
+export class ListUsersComponent implements OnInit, OnDestroy{
 
 
   listData: UserModel[] = [];
-    
+
+  subcriptionUser: Subscription = new Subscription();
+
   reduceColumns: boolean = false;
   constructor(
       private userService: UserService,
       private toaster: ToastrService,
+      private utilAdminService: UtilAdminService,
       private messageService: MessageService
       ) { }
 
   ngOnInit() {
 
     this.findall();
+
+
+    this.subcriptionUser = this.utilAdminService.getSubjectReloadTableUser.subscribe((data) => {
+      if (data) {
+        this.findall();
+      }
+    }
+    );
+  }
+
+  ngOnDestroy(): void {
+
+    this.subcriptionUser.unsubscribe();
   }
 
 
