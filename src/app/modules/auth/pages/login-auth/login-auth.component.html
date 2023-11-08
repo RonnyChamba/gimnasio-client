@@ -1,6 +1,24 @@
 <div class="container-login p-2 d-flex justify-content-center align-items-center  pt-sm-5 align-items-sm-start">
     <!-- <h2 class="title">GIMNASIO - CROSSFIT</h2> -->
     <div class="content-login p-4">
+      <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+          <span 
+          class="nav-link"
+          [ngClass]="{'active': tipoLogin, 'pointer': !tipoLogin}" 
+          (click)="clickTipoLogin(true)"
+          aria-current="page">Usuarios</span>
+          <!-- <a class="nav-link active" aria-current="page" href="#"  >Usuarios</a> -->
+        </li>
+        <li class="nav-item">
+          <span 
+          class="nav-link"
+          [ngClass]="{'active': !tipoLogin,  'pointer': tipoLogin}" 
+          (click)="clickTipoLogin(false)"
+          >Clientes</span>
+          <!-- <a class="nav-link active" href="#">Clientes</a> -->
+        </li>
+      </ul>
       <h2 class="form-title">INICIAR SESIÓN</h2>
       <h2 class="form-title form-title--modify">ENER GYM</h2>
       <form class="mt-4" [formGroup]="formLogin" (ngSubmit)="onLogin()">
@@ -36,7 +54,7 @@
             </div>
           </div>
         </div>
-        <div class="form-floating mb-3">
+        <div class="form-floating mb-3" *ngIf="tipoLogin">
           <input
             type="password"
             class="form-control"
@@ -79,4 +97,3 @@
       </form>
     </div>
   </div>
-  

@@ -20,6 +20,7 @@ export class LoginAuthComponent implements OnInit {
   formLogin: FormGroup;
   login: CredentialUser = new CredentialUser();
   miliseconds = 1500;
+  tipoLogin: boolean = true;
 
   constructor(
     private authService: AuthService,
@@ -32,50 +33,6 @@ export class LoginAuthComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
   }
-  onLogin() {
-    if (this.formLogin.valid) {
-
-
-      this.messageServie.loadingGeneral(true, 'Ingresando al sistema, por favor espere...');
-
-      setTimeout(() => {
-        this.login = this.formLogin.value;
-
-        this.authService.onLogin(this.login).pipe(
-
-          tap((resp: any) => {
-            this.tokenService.setToken(resp.token);
-
-            // Por defecto el sidebar esta cerrado
-            this.tokenService.setFlagClose(true);
-
-            this.messageServie.loading(false);
-
-            this.router.navigate([URL_INICIO]);
-
-          })
-          , catchError(err => {
-
-            if (err.status == 401) {
-
-              this.messageServie.mensajeErrorLogout("Credenciales incorrectas");
-            } else {
-
-              this.messageServie.mensajeErrorLogout("Ocurrio un error al ingresar, comuniquese con el administrador del sistema.");
-            }
-            return of(null);
-          })
-        ).subscribe();
-
-
-      }, this.miliseconds);
-
-    } else {
-
-      this.toaster.warning('Ingrese los datos correctamente', 'Advertencia');
-    }
-  }
-
   private createForm() {
     this.formLogin = new FormGroup({
       username: new FormControl('', [
@@ -90,6 +47,58 @@ export class LoginAuthComponent implements OnInit {
       ]),
     });
   }
+  onLogin() {
+    if (this.formLogin.valid) {
+
+      if (this.tipoLogin) {
+        this.loginUsuario();
+      } else this.loginClientes();
+    } else {
+      this.toaster.warning('Ingrese los datos correctamente', 'Advertencia');
+    }
+  }
+  private loginUsuario() {
+
+    this.messageServie.loadingGeneral(true, 'Ingresando al sistema, por favor espere...');
+
+    setTimeout(() => {
+      this.login = this.formLogin.value;
+
+      this.authService.onLogin(this.login).pipe(
+
+        tap((resp: any) => {
+          this.tokenService.setToken(resp.token);
+
+          // Por defecto el sidebar esta cerrado
+          this.tokenService.setFlagClose(true);
+
+          this.messageServie.loading(false);
+
+          this.router.navigate([URL_INICIO]);
+
+        })
+        , catchError(err => {
+
+          if (err.status == 401) {
+
+            this.messageServie.mensajeErrorLogout("Credenciales incorrectas");
+          } else {
+
+            this.messageServie.mensajeErrorLogout("Ocurrio un error al ingresar, comuniquese con el administrador del sistema.");
+          }
+          return of(null);
+        })
+      ).subscribe();
+
+
+    }, this.miliseconds);
+  }
+
+  private loginClientes() {
+
+    
+  }
+
 
   validMessage = {
     username: [
@@ -116,4 +125,26 @@ export class LoginAuthComponent implements OnInit {
       },
     ],
   };
+
+  clickTipoLogin(tipoBoolean: boolean) {
+    this.tipoLogin = tipoBoolean;
+    if (this.tipoLogin) {
+
+      this.formLogin.get("password")?.addValidators([
+        Validators.required,
+        Validators.minLength(MIN_PASSWORD),
+        Validators.maxLength(MAX_PASSWORD)]);
+    } else {
+      this.formLogin.get("password")?.clearValidators();
+    }
+    this.formLogin.get("password")?.markAsUntouched();
+    this.formLogin.get("username")?.markAsUntouched();
+    this.formLogin.get("password")?.updateValueAndValidity({});
+    this.formLogin.get("username")?.updateValueAndValidity({});
+
+
+
+
+
+  }
 }
