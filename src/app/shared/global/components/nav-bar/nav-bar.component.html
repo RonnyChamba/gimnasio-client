@@ -17,7 +17,7 @@
         <input type="checkbox" id="check"    class="show-profile"  style="display: none" />
         <div class="data-profile">
           <ul class="">
-            <li [routerLink]="['/profile']"> <i class="fa-solid fa-user"></i> Perfil</li>
+            <li [routerLink]="[getUrlProfile]"> <i class="fa-solid fa-user"></i> Perfil</li>
             <li (click)  ="logOut()"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesion</li>
           </ul>
         </div>

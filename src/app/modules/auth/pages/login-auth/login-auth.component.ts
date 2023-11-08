@@ -8,16 +8,18 @@ import { ToastrService } from 'ngx-toastr';
 import { catchError, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { MessageService } from 'src/app/services/message.service';
+import { URL_INICIO } from 'src/app/utils/constants-url-path';
 
 @Component({
   selector: 'app-login-auth',
   templateUrl: './login-auth.component.html',
   styleUrls: ['./login-auth.component.scss']
 })
-export class LoginAuthComponent implements OnInit{
+export class LoginAuthComponent implements OnInit {
 
   formLogin: FormGroup;
   login: CredentialUser = new CredentialUser();
+  miliseconds = 1500;
 
   constructor(
     private authService: AuthService,
@@ -25,25 +27,23 @@ export class LoginAuthComponent implements OnInit{
     private toaster: ToastrService,
     private router: Router,
     private messageServie: MessageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.createForm();
   }
-
   onLogin() {
     if (this.formLogin.valid) {
 
 
-      this.messageServie.loading(true);
+      this.messageServie.loadingGeneral(true, 'Ingresando al sistema, por favor espere...');
 
+      setTimeout(() => {
         this.login = this.formLogin.value;
-        // console.log(this.login);
 
         this.authService.onLogin(this.login).pipe(
 
-          tap( (resp: any) => {
-            console.log(resp);
+          tap((resp: any) => {
             this.tokenService.setToken(resp.token);
 
             // Por defecto el sidebar esta cerrado
@@ -51,27 +51,26 @@ export class LoginAuthComponent implements OnInit{
 
             this.messageServie.loading(false);
 
-            // this.toaster.success('Bienvenido', 'Ingreso Exitoso');
-            this.router.navigate(['/']);
+            this.router.navigate([URL_INICIO]);
 
           })
-          ,catchError( err => {
-            // console.log(err);
+          , catchError(err => {
 
-            if (err.status == 401) { 
-              
+            if (err.status == 401) {
+
               this.messageServie.mensajeErrorLogout("Credenciales incorrectas");
-              // this.toaster.error('Credenciales incorrectas', 'Error');
-            }else {
+            } else {
 
-              this.toaster.error('Error en el servidor, intentelo mas tarde', 'Error');
+              this.messageServie.mensajeErrorLogout("Ocurrio un error al ingresar, comuniquese con el administrador del sistema.");
             }
-            
             return of(null);
           })
         ).subscribe();
 
-    }else {
+
+      }, this.miliseconds);
+
+    } else {
 
       this.toaster.warning('Ingrese los datos correctamente', 'Advertencia');
     }

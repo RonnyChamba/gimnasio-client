@@ -1,5 +1,6 @@
 import { InscriptionAttributes } from "./inscription-model";
 import { Person } from "./person-model";
+import { Transaction } from "./transaction-model";
 
 export class Customer extends Person{
 
@@ -44,6 +45,9 @@ export interface CustomerAttributes extends PersonAttributes{
 
 export interface CustomerList  extends  PersonAttributes {
  
+    dateBegin: string;
     dateEndInscription: string;
-    dateExpired?: boolean
+    dateExpired?: boolean;
+    transaction?: Transaction;
+    statusInscription?: string;
 }

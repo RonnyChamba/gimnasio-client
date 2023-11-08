@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { URL_BASE_AUTH } from 'src/app/utils/constants-url-path';
 
 const TOKEN_KEY = 'AuthToken';
 
@@ -62,7 +63,7 @@ export class TokenService {
 
   public logOut(): void {
     window.localStorage.clear();
-    this.router.navigate(['/auth']);
+    this.router.navigate([URL_BASE_AUTH]);
 
     // this.refresh.next();
 

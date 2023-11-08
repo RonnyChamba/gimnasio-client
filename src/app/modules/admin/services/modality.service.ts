@@ -23,6 +23,15 @@ export class ModalityService {
     return this.httpCliente.get<any>(`${this.pathApi}/modalities/fetch`);
   }
 
+  getModalitiesByStatus(status: string): Observable<any> {
+
+    return this.httpCliente.get<any>(`${this.pathApi}/modalities/fetchByStatus`, {
+      params: {
+        status
+      }
+    });
+  }
+
   existModality(name: string, ide: string): Observable<any> {
 
     return this.httpCliente.get<any>(`${this.pathApi}/modalities/isExist`, {

@@ -6,6 +6,11 @@
     </div>
 
     <form class="mt-2 card-body" [formGroup]="formData" (ngSubmit)="fnSubmit()">
+      <div class="alert alert-info" 
+      *ngIf="operationForm && operationForm.type=='newInscription'  && !operationForm.dateExpired  "
+      >
+     El cliente tiene una mensualidad activa, si registra una nueva, se finalizara la actual.
+    </div>
       <div class="card p-3 mb-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <!-- <legend class="fz-1 form-subtitle">Datos Factura</legend> -->

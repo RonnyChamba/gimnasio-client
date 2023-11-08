@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HomeService } from '../../services/home.service';
 import { catchError, of, tap } from 'rxjs';
 import { TokenService } from 'src/app/modules/auth/service/token.service';
+import { URL_ADMINISTRACION, URL_ASISTENCIA, URL_CLIENTES, URL_DIARIOS, URL_GASTOS, URL_INSCRIPCION } from 'src/app/utils/constants-url-path';
 // import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
@@ -86,37 +87,37 @@ export class HomeComponent implements OnInit{
       {
         ide:'customer',
         title: 'Clientes',
-        url: '/customer',
+        url: URL_CLIENTES,
       },
       {
         ide:'expense',
         title: 'Gastos',
-        url: '/expense',
+        url: URL_GASTOS,
       },
       {
         ide:'daily',
         title: 'Diarios',
-        url: '/daily',
+        url: URL_DIARIOS,
       },
       {
         ide:'user',
         title: 'Usuarios',
-        url: '/admin',
+        url: URL_ADMINISTRACION,
       },
       {
         ide : 'inscription',
         title: 'Membresías',
-        url: '/inscription',
+        url: URL_INSCRIPCION,
       },
       {
         ide: 'modality',
         title: 'Modalidades',
-        url: '/admin',
+        url: URL_ADMINISTRACION,
       },
       {
         ide: 'attendance',
         title: 'Asistencias',
-        url: '/attendance',
+        url: URL_ASISTENCIA,
       },
       {
         ide: 'exercise',

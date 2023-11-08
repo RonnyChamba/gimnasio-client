@@ -121,6 +121,13 @@ export const validMessagesError = {
     },
   ],
 
+  total: [
+    {
+      type: 'required',
+      message: `Campo obligatorio`,
+    },
+  ],
+
   // Valor de campo gastos e diarios
   price: [
     {

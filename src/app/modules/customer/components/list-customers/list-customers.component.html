@@ -1,16 +1,19 @@
 <div  class="my-2" [ngClass]="{'height-data-empty': listData && listData.length<1, 'height-data':  listData && listData.length>=1}">
-  <table class="table">
+  <table class="table caption-top">
+    <caption class="alert alert-info">
+      <b>{{leyendaTable}}</b>
+    </caption>
     <thead class="table-light">
       <tr>
         <th scope="col">Nro</th>
         <th scope="col">Foto</th>
         <th scope="col">Nombres</th>
-        <th scope="col">Registro</th>
-        <th scope="col">CI/DNI</th>
-        <th scope="col">Fin Membresia</th>
-        <!-- <th scope="col">Email</th> -->
+        <!-- <th scope="col">CI/DNI</th> -->
+        <th scope="col">F. Inicio</th>
+        <th scope="col">F. Fin</th>
+        <th scope="col">Saldo Pe.</th>
+        <th scope="col">Estado Ms.</th>
         <!-- <th scope="col">estado</th> -->
-
         <th scope="col" class="text-end">Acciones</th>
       </tr>
     </thead>
@@ -32,19 +35,15 @@
           <span>
             {{ item.name | uppercase }}
           </span>
-          <!-- <span class="position-absolute  btn btn-primary top-0 start-0"   
-          [ngClass]="{ 'visually-hidden-focusable': !show, 'position-absolute  btn btn-primary top-0 start-0': true }">
-            
-            Asistencia
-          </span> -->
         </td>
-        <td>{{ item.dateRegister | date:"dd/MM/yyyy" }}</td>
-        <td>{{ item.dni }}</td>
+        <!-- <td>{{ item.dni }}</td> -->
+        <!-- <td>{{ item.dateRegister | date:"dd/MM/yyyy" }}</td> -->
+        <td>{{ item?.dateBegin | date:"dd/MM/yyyy" }}</td>
         <td >
           <span [ngClass]="{'bg-danger': item.dateExpired, 'text-white': item.dateExpired}"  style="padding: 5px; width: 50px; border-radius: 4px;" >{{item.dateEndInscription| date:"dd/MM/yyyy"}}</span>
-          
         </td>
-
+        <td>$ {{item?.transaction?.balance}}</td>
+        <td> {{item?.statusInscription}}</td>
 
         <td class="text-end">
 
@@ -58,16 +57,22 @@
             </button>
             <ul class="dropdown-menu">
               <li>
-                <span class="dropdown-item" role="button" (click)="edit(item.ide)"><i class="fa-solid fa-plus"></i>
-                  Nueva Membresia</span>
+                <span class="dropdown-item" role="button" (click)="edit(item.ide, item.dateExpired )"><i class="fa-solid fa-plus"></i>
+                  Nueva Mensualidad</span>
               </li>
-              <li *ngIf="isAdmin" ><span class="dropdown-item" role="button" (click)="delete(item.ide)"> <i class="bx bx-trash"></i>
-                  Eliminar</span></li>
+              <!-- Solo si la mensualidad esta vigente, puede activar o desactivarla -->
+              <!-- <li *ngIf="!item.dateExpired">
+                <span class="dropdown-item" role="button" (click)="cancelarActivarMensualidad(item)"><i class="fa-solid fa-plus"></i>
+                  {{item?.statusInscription==='Activo'? 'Finalizar' :'Activar'}} Mensualidad</span>
+              </li> -->
+              <li><a class="dropdown-item" [routerLink]="[getUrlCustomer, item.ide]"><i
+                class="fa-solid fa-address-card"></i> Ver Perfil</a></li>
+              
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" [routerLink]="['/customer', item.ide]"><i
-                    class="fa-solid fa-address-card"></i> Ver Perfil</a></li>
+              <li *ngIf="isAdmin" ><span class="dropdown-item" role="button" (click)="delete(item.ide)"> <i class="bx bx-trash"></i>
+                Eliminar</span></li>
 
             </ul>
           </div>

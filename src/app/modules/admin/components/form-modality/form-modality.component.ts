@@ -65,6 +65,9 @@ export class FormModalityComponent implements OnInit {
         Validators.required,
         Validators.pattern(/^[0-9]+(.[0-9]+)?$/)
       ]),
+      status: new FormControl("", [
+        Validators.required,
+      ]),
     });
   }
 

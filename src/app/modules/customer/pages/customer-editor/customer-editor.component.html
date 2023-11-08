@@ -12,7 +12,7 @@
     <div class="home-content">
       <!--    -->
       <div class="d-flex flex-wrap justify-content-between align-item-center mt-3">
-        <h4 class="home-subtitle"><a routerLink="/customer">Clientes</a>/{{ nombre}} </h4>
+        <h4 class="home-subtitle"><a [routerLink]="[getUrlClientes]">Clientes</a>/{{ nombre}} </h4>
         <!-- <button class="btn btn-danger d-flex align-items-center" (click)="generateReport()" 
         *ngIf="statusBtn"  title="Generar reporte {{title}}" >
           <i class="fa-solid fa-file-pdf"></i><span class="ms-1" >{{title}}</span>
@@ -22,7 +22,7 @@
           
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><i class="fa-solid fa-house"></i></li>
-            <li class="breadcrumb-item"><a  [routerLink]="['/']"  class="home">Inicio</a></li>
+            <li class="breadcrumb-item"><a  [routerLink]="[getUrlInicio]"  class="home">Inicio</a></li>
             <li class="breadcrumb-item">></li>
             <li class="breadcrumb-item active" aria-current="page">Administrar clientes</li>
           </ol>

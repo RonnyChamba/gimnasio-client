@@ -5,125 +5,21 @@
       <span class="logo_name">ENER GYM</span>
     </div>
     <ul class="nav-links">
-      <li>
-        <a href="#" [routerLink]="['']" >
-          <!-- <i class="bx bx-grid-alt"></i> -->
-          <i class="fa-solid fa-house"></i>
-          <span class="link_name">{{menuOptions.get('HOME')}}</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#" [routerLink]="['']" >{{menuOptions.get('HOME')}}</a></li>
-        </ul>
-      </li>
 
-      <li *ngIf="isAdmin" >
-        <a href="#" [routerLink]="['/admin']">
-          <!-- <i class="bx bx-grid-alt"></i> -->
-          <i class="fa-solid fa-people-roof"></i>
-          <span class="link_name">{{menuOptions.get('ADMIN')}}</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#" [routerLink]="['/admin']" >{{menuOptions.get('ADMIN')}}</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#" [routerLink]="['/customer']" >
-          <!-- <i class="bx bx-pie-chart-alt-2"></i> -->
-          <i class="fa-solid fa-users"></i>
-          <span class="link_name">{{menuOptions.get('CUSTOMERS')}}</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#" [routerLink]="['/customer']" >{{menuOptions.get('CUSTOMERS')}}</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="#" [routerLink]="['/inscription']" >
-          <i class="bx bx-pie-chart-alt-2"></i>
-          <span class="link_name">{{menuOptions.get('INSCRIPTION')}}</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#" [routerLink]="['/inscription']" >{{menuOptions.get('INSCRIPTION')}}</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a [routerLink]="['/attendance']"  >
-          <!-- <i class="bx bx-line-chart"></i> -->
-          <!-- <i class="fa-sharp fa-regular fa-calendar-users"></i> -->
-          <!-- <i class="fa-duotone fa-bell-concierge"></i> -->
-          <i class="fa-solid fa-clipboard-user"></i>
-          <span class="link_name">{{menuOptions.get('ATTENDANCE')}}</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" [routerLink]="['/attendance']">{{menuOptions.get('ATTENDANCE')}}</a></li>
-        </ul>
-      </li>
-
-
-
-      <li>
-        <a [routerLink]="['/expense']"  >
-          <!-- <i class="bx bx-line-chart"></i> -->
-          <i class="fa-solid fa-hand-holding-dollar"></i>
-          <span class="link_name">{{menuOptions.get('EXPENSES')}}</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" [routerLink]="['/expense']">{{menuOptions.get('EXPENSES')}}</a></li>
-        </ul>
-      </li>
-      <!-- <li>
-        <div class="iocn-link">
-          <a role="button">
-       
-            <i class="fa-solid fa-dumbbell"></i>
-            <span class="link_name" >{{menuOptions.get('SPORTS').title}}</span>
-          </a>
-          <i class="bx bxs-chevron-down arrow" (click)="showSubmenu($event)" ></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" role="button" >{{menuOptions.get('SPORTS').title}}</a></li>
+      <ng-container *ngFor="let item of menuOptions">
+        
+        <li *ngIf="item?.view && item?.isAdmin == isAdmin">
+          <a href="#" [routerLink]="[item.url]" >
           
-          <ng-container *ngFor="let option of menuOptions.get('SPORTS').options ">
-  
-            <li><a href="#" [routerLink]="[option.url]" >{{option.name}}</a></li>
-  
-          </ng-container>
-        </ul>
-      </li> -->
-      <li>
-        <a  [routerLink]="['/daily']" >
-          <i class="bx bx-compass"></i>
-          <span class="link_name">{{menuOptions.get('DAILIES')}}</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" [routerLink]="['/daily']">{{menuOptions.get('DAILIES')}}</a></li>
-        </ul>
-      </li>
-     
+            <i [class]="item?.icon"></i>
+            <span class="link_name">{{item?.title}}</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="#" [routerLink]="[item.url]" >{{item?.title}}</a></li>
+          </ul>
+        </li>
+      </ng-container>
 
-      <li>
-        <a  [routerLink]="['/report']" >
-          <!-- <i class="bx bx-compass"></i> -->
-          <!-- <i class="fa-sharp fa-solid fa-file-pdf"></i> -->
-          <i class="fa-sharp fa-solid fa-file-export"></i>
-          <span class="link_name">{{menuOptions.get('REPORTS')}}</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" [routerLink]="['/report']">{{menuOptions.get('REPORTS')}}</a></li>
-        </ul>
-      </li>
-
-<!-- 
-      <li>
-        <a href="#">
-          <i class="bx bx-cog"></i>
-          <span class="link_name">Setting</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Setting</a></li>
-        </ul>
-      </li> -->
       <li>
         <div class="profile-details">
           <div class="profile-content">

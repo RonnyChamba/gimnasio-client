@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TokenService } from 'src/app/modules/auth/service/token.service';
+import { URL_CLIENTES, URL_INICIO } from 'src/app/utils/constants-url-path';
 import { typeModel } from 'src/app/utils/types';
 
 @Component({
@@ -41,5 +42,11 @@ export class CustomerEditorComponent implements OnInit{
     this.tokenService.setFlagClose(this.flagClose);
   }
 
+  get getUrlClientes(){
+    return URL_CLIENTES;
+  }
+  get getUrlInicio(){
+    return URL_INICIO;
+  }
 
 }

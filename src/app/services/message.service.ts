@@ -25,6 +25,20 @@ export class MessageService {
     }
   }
 
+  public loadingGeneral(activo: boolean, mensaje?: string) {
+    if (activo) {
+      Swal.fire({
+        title: 'Espere',
+        text: mensaje ? mensaje : 'Procesando Información',
+        icon: 'info',
+        allowOutsideClick: false,
+      });
+      Swal.showLoading();
+    } else {
+      Swal.close();
+    }
+  }
+
   public loadingForm(activo: boolean) {
     if (activo) {
       Swal.fire({

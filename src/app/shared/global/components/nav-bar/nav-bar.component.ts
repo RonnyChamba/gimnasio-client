@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TokenService } from 'src/app/modules/auth/service/token.service';
+import { URL_PERFIL } from 'src/app/utils/constants-url-path';
 
 @Component({
   selector: 'app-nav-bar',
@@ -36,8 +37,10 @@ export class NavBarDosComponent implements OnInit {
 
   logOut(){
     this.tolkenService.logOut();
+  }
 
-
+  get getUrlProfile(){
+    return URL_PERFIL;
   }
 
 }

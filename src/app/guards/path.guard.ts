@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
 import { TokenService } from '../modules/auth/service/token.service';
+import { URL_BASE_AUTH } from '../utils/constants-url-path';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class PathGuard implements CanActivate {
 
     // Verificar si hay token
     if (!this.tokenService.isLogged()){
-       this.router.navigate(['/auth']);
+       this.router.navigate([URL_BASE_AUTH]);
       // // console.log("dentro del aqui")
       return false;  
     }

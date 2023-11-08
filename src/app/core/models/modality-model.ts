@@ -4,5 +4,7 @@ export class Modality {
     name: string;
     price: number;
     numberInscription?: number;
+    status?: string;
+    statusDelete?: boolean;
 
 }

@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription, catchError, of, tap } from 'rxjs';
+import { Subscription, catchError, of, retry, tap } from 'rxjs';
 import { CustomerList } from 'src/app/core/models/customer-model';
 import {
   PageRender,
@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
 import { TokenService } from 'src/app/modules/auth/service/token.service';
 import { MessageService } from 'src/app/services/message.service';
+import { URL_CLIENTES } from 'src/app/utils/constants-url-path';
 @Component({
   selector: 'app-list-customers',
   templateUrl: './list-customers.component.html',
@@ -33,6 +34,8 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
 
   // here add suscriptiones
   private subscription: Subscription = new Subscription();
+
+  leyendaTable = "Se muestran los clientes con su última mensualidad";
 
   constructor(
     private modalService: NgbModal,
@@ -138,7 +141,7 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
       // );
     }, 200);
   }
-  edit(ide: number) {
+  edit(ide: number, dateExpired: any) {
     // console.log('Abrir modal customer');
 
     const references = this.modalService.open(FormCustomersComponent, {
@@ -153,6 +156,8 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
       // paso el ide del cliente para obtener su  utlima inscripcion
       ideCustomer: ide,
       write: true,
+      // el estado de la ultima inscripcion de cliente
+      dateExpired
     };
 
     references.componentInstance.operationForm = param;
@@ -162,8 +167,8 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
     console.log('gistro a eliminar: ' + ide);
 
     Swal.fire({
-      title: '¿Seguro eliminar cliente?',
-      text: 'Se eliminará todos los registros asociados del cliente a eliminar',
+      title: '¿Seguro desea eliminar el cliente?',
+      text: 'Se eliminará todos los registros asociados del cliente',
       // text: ``,
       icon: 'question',
       allowOutsideClick: false,
@@ -172,7 +177,7 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
 
       cancelButtonText: 'Cancelar',
     }).then((result) => {
-      if (result.value) {
+      if (result.value) { 
         this.customerService
           .delete(ide)
           .pipe(
@@ -181,7 +186,7 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
 
               this.toaster.success('Cliente eliminado correctamente');
 
-              this.findAll();
+              // this.findAll();
             }),
             catchError((err) => {
               console.log(err);
@@ -191,9 +196,9 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
           )
           .subscribe();
 
-        this.customerService.delete(ide).subscribe((resp) => {
-          console.log(resp);
-        });
+        // this.customerService.delete(ide).subscribe((resp) => {
+        //   console.log(resp);
+        // });
       }
     });
   }
@@ -252,5 +257,9 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+  }
+
+  get getUrlCustomer(){
+    return URL_CLIENTES;
   }
 }

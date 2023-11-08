@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Renderer2 } from '@angular/core';
 import { TokenService } from 'src/app/modules/auth/service/token.service';
+import { URL_ADMINISTRACION, URL_ASISTENCIA, URL_CLIENTES, URL_DEPORTE, URL_DIARIOS, URL_GASTOS, URL_INICIO, URL_INSCRIPCION, URL_REPORTE } from 'src/app/utils/constants-url-path';
 
 @Component({
   selector: 'app-side-bar',
@@ -13,7 +14,7 @@ export class SideBarComponent implements OnInit {
   
   isAdmin = false;
 
-  menuOptions = new Map<string, any>;
+  menuOptions:any[]= [];
 
   constructor(
     private renderer: Renderer2,
@@ -30,16 +31,70 @@ export class SideBarComponent implements OnInit {
 
   private initMenuOptiosn (){
 
-    this.menuOptions.set("HOME", "Inicio");
-    this.menuOptions.set("ATTENDANCE", "Asistencias");
-    this.menuOptions.set("ADMIN", "Usuarios");
-    this.menuOptions.set("INSCRIPTION", "Membresías");
-    this.menuOptions.set("CUSTOMERS", "Clientes");
-    this.menuOptions.set("EXPENSES", "Gastos");
-    this.menuOptions.set("DAILIES", "Diarios");
-    this.menuOptions.set("REPORTS", "Reportes");
-    this.menuOptions.set("SPORTS",  
-    {title: "Deportiva", 
+    this.menuOptions.push({
+      title:'Inicio',
+      isAdmin: this.isAdmin,
+      icon:'fa-solid fa-house',
+      url:URL_INICIO,
+      view: true
+    });
+    this.menuOptions.push({
+      title:'Administración',
+      isAdmin: this.isAdmin? this.isAdmin: !this.isAdmin,
+      icon: 'fa-solid fa-people-roof',
+      url:URL_ADMINISTRACION,
+      view: true
+    });
+    this.menuOptions.push({
+      title:  "Clientes",
+      isAdmin: this.isAdmin,
+      icon:'fa-solid fa-users',
+      url:URL_CLIENTES,
+      view: true
+    });
+    this.menuOptions.push({
+      title: "Membresías",
+      isAdmin: this.isAdmin,
+      icon:'bx bx-pie-chart-alt-2',
+      url:URL_INSCRIPCION,
+      view: true
+    });
+    this.menuOptions.push({
+      title:'Asistencias',
+      isAdmin: this.isAdmin,
+      icon:'fa-solid fa-clipboard-user',
+      url:URL_ASISTENCIA,
+      view: true
+
+    });
+    this.menuOptions.push( {
+      title: "Diarios",
+      isAdmin: this.isAdmin,
+      icon:'bx bx-compass',
+      url:URL_DIARIOS,
+      view: true
+    });
+    this.menuOptions.push({
+      title: "Gastos",
+      isAdmin: this.isAdmin,
+      icon:'fa-solid fa-hand-holding-dollar',
+      url:URL_GASTOS,
+      view: true
+    });
+  
+    this.menuOptions.push({
+      title:"Reportes",
+      isAdmin: this.isAdmin,
+      icon:'fa-sharp fa-solid fa-file-export',
+      url:URL_REPORTE,
+      view: true
+    });
+    this.menuOptions.push(  
+    {title: "Deportiva",
+    isAdmin: this.isAdmin,
+    url:URL_DEPORTE,
+    icon:'fa-solid fa-dumbbell',
+    view: false,
     options:[ 
       {name: 'Ejercicios', url:'/exercise'},
       // {name: 'Rutina', url:'/routine'},

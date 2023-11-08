@@ -392,7 +392,7 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
     return null;
   }
   private getModalities() {
-    this.modalityService.getModalities().subscribe((response) => {
+    this.modalityService.getModalitiesByStatus("Activo").subscribe((response) => {
       this.listModalities.push(...response.data);
       this.setValueDefault();
     });
@@ -648,12 +648,24 @@ export class FormCustomersComponent implements OnInit, AfterViewInit {
 
   private saveNewInscription() {
 
-    this.customerService.saveNewInscription(this.operationForm.ideCustomer as number, this.customerFull).subscribe(resp => {
-      console.log("Nueva incripcion fue guardada")
-      console.log(resp)
-    });
+    this.customerService.saveNewInscription(this.operationForm.ideCustomer as number, this.customerFull)
+    .pipe( 
+      
+      tap(resp => {
+        this.toaster.success("Mensualidad guardada con exito");
+        this.modal.dismiss();
+        this.utilFiltersService.eventFiltersEmit(null);
+      }),
+      catchError(err => {
+        console.log(err)
+        this.toaster.error("Error al guardar la membresía");
+        this.modal.dismiss();
+        return of(null)
+      })
+    )
+    .subscribe();
 
-    return;
+    // return;
   }
 
   private saveUpdateInscription() {
