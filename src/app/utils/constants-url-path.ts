@@ -1,5 +1,6 @@
 export const NAME_PATH_BASE ='sistema';
 export const NAME_PATH_AUTH ='auth';
+export const NAME_PATH_VER_DATOS_CLIENTES ='ver-clientes';
 export const NAME_PATH_ADMIN ='admin';
 export const NAME_PATH_CLIENTES ='customer';
 export const NAME_PATH_INSCRIPCION ='inscription';
@@ -12,6 +13,7 @@ export const NAME_PATH_PERFIL ='profile';
 
 
 export const URL_BASE_AUTH= `/${NAME_PATH_AUTH}`;
+export const URL_BASE_VER_DATOS_CLIENTES= `/${NAME_PATH_VER_DATOS_CLIENTES}`;
 
 export const URL_BASE= `/${NAME_PATH_BASE}`;
 export const URL_INICIO= `${URL_BASE}`;

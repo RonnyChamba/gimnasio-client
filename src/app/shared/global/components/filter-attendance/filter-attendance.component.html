@@ -2,7 +2,8 @@
 
     <nav class="navbar navbar-expand-lg navbar-light border-top border-bottom">
         <div class="container-fluid px-0">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+            <button class="navbar-toggler" 
+            type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
                 aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -64,13 +65,16 @@
                     </div>
                 </div>
 
-                <div *ngIf="typeModel  !='CUSTOMER' && typeModel  !='EVOLUTION' && typeModel  !='CATEGORY' ">
+                <ng-container *ngIf="!isCliente">
+                    <div *ngIf="typeModel  !='CUSTOMER' && typeModel  !='EVOLUTION' && typeModel  !='CATEGORY' ">
 
-                    <button class="btn btn-info" title="Ver mas filtros" (click)="showFilters =!showFilters"  >
-                        <i class="fa-solid fa-filter"></i>
-                        
-                    </button>
-                </div>
+                        <button class="btn btn-info" title="Ver mas filtros" (click)="showFilters =!showFilters"  >
+                            <i class="fa-solid fa-filter"></i>
+                            
+                        </button>
+                    </div>
+                </ng-container>
+                
 
             </div>
         </div>

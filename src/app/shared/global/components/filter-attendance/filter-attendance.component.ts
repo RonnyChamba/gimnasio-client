@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 import { UtilService } from 'src/app/services/util-service.service';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
 import { typeModel } from 'src/app/utils/types';
@@ -19,7 +20,8 @@ export class FilterAttendanceComponent implements OnInit {
 
   constructor(
     private utilFiltersService: UtilFiltersService,
-    private utilService: UtilService
+    private utilService: UtilService,
+    private tokenService: TokenService
   ) { }
 
   ngOnInit(): void {
@@ -51,6 +53,10 @@ export class FilterAttendanceComponent implements OnInit {
         type: new FormControl("", []), // para listar en expense
         valueSearch: new FormControl("", []), // para listar en expense
       });
+  }
+
+  get isCliente(){
+    return this.tokenService.isCliente();
   }
 
 }

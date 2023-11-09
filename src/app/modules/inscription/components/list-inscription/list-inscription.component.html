@@ -37,7 +37,11 @@
                 </th>
                 <th scope="col" *ngIf="showDetails">Saldo</th>
                 <th scope="col">Usuario</th>
-                <th scope="col" class="text-end">Acciones</th>
+                <!-- A los clientes no se les muestra esta columna -->
+                <th scope="col" 
+                *ngIf="!isCliente"
+                class="text-end"
+                >Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -56,7 +60,8 @@
                 <td *ngIf="showDetails"> {{item.transaction.balance}} </td>
                 <td> {{item.user | trimNameUser }} </td>
 
-                <td class="action text-end">
+                <!-- A los clientes no se les muestra esta columna -->
+                <td class="action text-end" *ngIf="!isCliente">
                     <span class="bg-warning p-1 rounded-start" role="button"
                         (click)="edit(item.ide, item.valid, item.ideCustomer)">
                         <i class="fa-solid fa-pen"></i>

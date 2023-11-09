@@ -204,4 +204,8 @@ export class ListAttendanceComponent implements OnInit, OnDestroy {
     }
   }
 
+  get isCliente() {
+    return this.tokenService.isCliente();
+  }
+
 }

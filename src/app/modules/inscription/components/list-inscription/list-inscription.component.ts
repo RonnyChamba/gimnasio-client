@@ -241,4 +241,8 @@ export class ListInscriptionComponent implements OnInit, OnDestroy {
 
   //   alert("generar reporte")
   // }
+
+  get isCliente(){
+    return this.tokenService.isCliente();
+  }
 }

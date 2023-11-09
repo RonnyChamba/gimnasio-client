@@ -1,37 +1,47 @@
-<div class="sidebar" [ngClass]="{'close': flagClose, '': !flagClose}" > 
-    <div class="logo-details">
-      <i class="bx bxl-c-plus-plus"></i>
-      <!-- <span class="logo_name" >YM</span> -->
-      <span class="logo_name">ENER GYM</span>
-    </div>
-    <ul class="nav-links">
-
-      <ng-container *ngFor="let item of menuOptions">
-        
-        <li *ngIf="item?.view && item?.isAdmin == isAdmin">
-          <a href="#" [routerLink]="[item.url]" >
-          
-            <i [class]="item?.icon"></i>
-            <span class="link_name">{{item?.title}}</span>
-          </a>
-          <ul class="sub-menu blank">
-            <li><a class="link_name" href="#" [routerLink]="[item.url]" >{{item?.title}}</a></li>
-          </ul>
-        </li>
-      </ng-container>
-
-      <li>
-        <div class="profile-details">
-          <div class="profile-content">
-            <!--<img src="image/profile.jpg" alt="profileImg">-->
-          </div>
-          <div class="name-job">
-            <div class="profile_name">Ronny Chamba</div>
-            <div class="job">Software Developer</div>
-          </div>
-          <!-- <i class="bx bx-log-out"></i> -->
-        </div>
-      </li>
-    </ul>
+<div class="sidebar" [ngClass]="{'close': flagClose, '': !flagClose}">
+  <div class="logo-details">
+    <i class="bx bxl-c-plus-plus"></i>
+    <!-- <span class="logo_name" >YM</span> -->
+    <span class="logo_name">ENER GYM</span>
   </div>
-  
+  <ul class="nav-links">
+
+    <ng-container *ngFor="let item of menuOptions">
+
+      <li *ngIf="item?.view && item?.isAdmin == isAdmin">
+        <a href="#" [routerLink]="[item.url]">
+
+          <i [class]="item?.icon"></i>
+          <span class="link_name">{{item?.title}}</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#" [routerLink]="[item.url]">{{item?.title}}</a></li>
+        </ul>
+      </li>
+    </ng-container>
+
+    <li style="cursor: pointer" (click)="logout()">
+      <a href="#" [routerLink]="">
+
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span class="link_name">Cerrar sesi&oacute;n</span>
+      </a>
+      <ul class="sub-menu blank">
+        <li><a class="link_name" href="#" [routerLink]="">Cerrar sesi&oacute;n</a></li>
+      </ul>
+    </li>
+
+    <li>
+      <div class="profile-details">
+        <div class="profile-content">
+          <!--<img src="image/profile.jpg" alt="profileImg">-->
+        </div>
+        <div class="name-job">
+          <div class="profile_name">Ronny Chamba</div>
+          <div class="job">Software Developer</div>
+        </div>
+        <!-- <i class="bx bx-log-out"></i> -->
+      </div>
+    </li>
+  </ul>
+</div>

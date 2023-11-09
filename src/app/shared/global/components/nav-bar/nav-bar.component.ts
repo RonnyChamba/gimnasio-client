@@ -34,13 +34,14 @@ export class NavBarDosComponent implements OnInit {
     
     this.newItemEvent.emit(this.flagClose);
   }
-
-  logOut(){
-    this.tolkenService.logOut();
-  }
-
   get getUrlProfile(){
     return URL_PERFIL;
   }
 
+  get isCliente(){
+    return this.tolkenService.isCliente();
+  }
+  logOut(){
+    this.tolkenService.logOut();
+  }
 }

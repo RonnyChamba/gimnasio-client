@@ -27,6 +27,7 @@ import { CustomerService } from '../../services/customer.service';
 import { messagesErrorCustomer } from '../../util/MessageValidationCustomer';
 import { dniOrEmailValidator } from '../../util/validator';
 import { ToastrService } from 'ngx-toastr';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-data-customer',
@@ -51,7 +52,8 @@ export class DataCustomerComponent implements OnInit, OnDestroy {
 
   constructor(
     private customerService: CustomerService,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private tokerService: TokenService
   ) { }
 
   ngOnInit(): void {
@@ -179,7 +181,9 @@ export class DataCustomerComponent implements OnInit, OnDestroy {
   }
 
   private updateData(customerData: Customer) {
-    this.customerService
+
+    if (!this.tokerService.isCliente()){
+      this.customerService
       .update(this.idCustomer, customerData)
       .pipe(
         tap((resp) => {
@@ -195,10 +199,14 @@ export class DataCustomerComponent implements OnInit, OnDestroy {
         })
 
       ).subscribe();
+    }else alert("Accion no permitida");
+
   }
   private refresfData() {
     this.customerEvent.next(this.customerCurrent);
     this.formData.patchValue(this.customerCurrent);
+
+    this.disableFieldForWhenClientes();
   }
 
   private setNullEmptyValues() {
@@ -209,5 +217,26 @@ export class DataCustomerComponent implements OnInit, OnDestroy {
         this.formData.controls[key].reset();
       }
     }
+  }
+
+  /**
+   * Desabilitar los campos cuando el usuario autenticado en un Cliente
+   */
+  private disableFieldForWhenClientes(){
+
+    if (this.tokerService.isCliente()){
+
+      this.formData.get("dni")?.disable({emitEvent:false});
+      this.formData.get("name")?.disable({emitEvent:false});
+      this.formData.get("phone")?.disable({emitEvent:false});
+      this.formData.get("email")?.disable({emitEvent:false});
+      this.formData.get("genero")?.disable({emitEvent:false});
+      this.formData.get("address")?.disable({emitEvent:false});
+      this.formData.get("born")?.disable({emitEvent:false});
+    }
+  }
+
+  get isCliente(){
+    return this.tokerService.isCliente();
   }
 }

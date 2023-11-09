@@ -14,7 +14,7 @@ const routes: Routes = [
     path: ':ideCustomer', component: CustomerEditorComponent,
    title: 'Gimnasio | Clientes', 
    canActivate: [PathGuard],
-   data: { expectedRol: ['admin', 'user'] } } 
+   data: { expectedRol: ['admin', 'user', 'cliente'] } } 
 ];
 
 @NgModule({

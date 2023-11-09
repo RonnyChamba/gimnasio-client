@@ -26,14 +26,20 @@
         <td> {{item.dateInto}} </td>
 
         <td class="d-flex"  *ngIf="showColumn">  
-          <input type="datetime-local" value="{{item.dateLeave}}"  #valueDate class="form-control" style="max-width: 180px;"  />
-          <span class="btn btn bx bx-edit" (click)="updateDateLeave(item.ide,  valueDate.value)"  title="Actualizar fecha de salida"></span>
+          <input type="datetime-local" 
+          [disabled]="isCliente"
+          value="{{item.dateLeave}}"  
+          #valueDate class="form-control" style="max-width: 180px;"  />
+          <span 
+          *ngIf="!isCliente"
+          class="btn btn bx bx-edit"
+          (click)="updateDateLeave(item.ide,  valueDate.value)"  
+          title="Actualizar fecha de salida"></span>
         </td>
         <td> {{item.user  |  trimNameUser}} </td>
 
-        <td class="action text-end">
-       
-          <span *ngIf="isAdmin"   class="bg-danger p-1 rounded" role="button" (click)="delete(item.ide)">
+        <td class="action text-end" *ngIf="isAdmin">
+          <span   class="bg-danger p-1 rounded" role="button" (click)="delete(item.ide)">
             <i class="fa-solid fa-x"></i>
           </span>
         </td>

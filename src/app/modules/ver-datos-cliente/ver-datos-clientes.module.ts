@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SharedGlobalModule } from 'src/app/shared/global/shared-global.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { VerDatosClientesRoutingModule } from './ver-datos-clientes-routing.module';
+import { VerDatosClientesComponent } from './pages/ver-datos-clientes/ver-datos-clientes.component';
 
 
 
@@ -13,6 +14,8 @@ import { VerDatosClientesRoutingModule } from './ver-datos-clientes-routing.modu
     // ListRoutinesComponent,
     // RoutineEditorComponent,
     // FormRoutinesComponent
+  
+    VerDatosClientesComponent
   ],
   imports: [
     CommonModule, 

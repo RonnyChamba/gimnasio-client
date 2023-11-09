@@ -30,7 +30,7 @@ export class TokenService {
 
 
   private getValuesPayload() {
-    
+
     const payload = this.getToken()!.split('.')[1];
 
     const payloadDecoded = atob(payload);
@@ -46,8 +46,7 @@ export class TokenService {
       return null;
     }
 
-    const valuePayloadRuc = this.getValuesPayload()['sub']
-
+    const valuePayloadRuc = this.getValuesPayload()['sub'];
     return valuePayloadRuc;
   }
 
@@ -58,6 +57,16 @@ export class TokenService {
     }
     const roles = [...this.getValuesPayload()['authorities']];
     return roles.find(autho => autho.authority == 'ROLE_ADMIN')
+
+  }
+
+  public isCliente(): boolean {
+
+    if (!this.isLogged()) {
+      return false;
+    }
+    const roles = [...this.getValuesPayload()['authorities']];
+    return roles.find(autho => autho.authority == 'ROLE_CLIENTE')
 
   }
 
@@ -76,5 +85,13 @@ export class TokenService {
   getFlagClose(): boolean {
     const flag = window.localStorage.getItem('flagClose');
     return JSON.parse(flag!);
+  }
+
+  getIdPersona(){
+    if (!this.isLogged()) {
+      return null;
+    }
+    const valuePayloadIde = this.getValuesPayload()['ide'];
+    return valuePayloadIde;
   }
 }

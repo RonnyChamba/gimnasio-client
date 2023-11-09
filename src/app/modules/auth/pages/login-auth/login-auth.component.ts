@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { catchError, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { MessageService } from 'src/app/services/message.service';
-import { URL_INICIO } from 'src/app/utils/constants-url-path';
+import { URL_BASE_VER_DATOS_CLIENTES, URL_CLIENTES, URL_INICIO } from 'src/app/utils/constants-url-path';
 
 @Component({
   selector: 'app-login-auth',
@@ -45,14 +45,21 @@ export class LoginAuthComponent implements OnInit {
         Validators.minLength(MIN_PASSWORD),
         Validators.maxLength(MAX_PASSWORD),
       ]),
+      // true = login  usuario, false = login clientes, es obligatorio ya que en el backend se valida el tipo de login
+      typeLogin: new FormControl(true, [
+        Validators.required,
+      ]),
+    
     });
   }
   onLogin() {
     if (this.formLogin.valid) {
 
-      if (this.tipoLogin) {
-        this.loginUsuario();
-      } else this.loginClientes();
+      if (!this.tipoLogin){
+        this.formLogin.get("password")?.setValue("cualquiervalor");
+
+      }
+      this.loginUsuario();
     } else {
       this.toaster.warning('Ingrese los datos correctamente', 'Advertencia');
     }
@@ -74,11 +81,19 @@ export class LoginAuthComponent implements OnInit {
 
           this.messageServie.loading(false);
 
+          if (this.tipoLogin)
           this.router.navigate([URL_INICIO]);
+        else{
+          this.router.navigate([URL_CLIENTES, this.tokenService.getIdPersona()]);
+          // this.router.navigate([URL_BASE_VER_DATOS_CLIENTES, this.tokenService.getIdPersona()]);
+        }  
+        
+      
 
         })
         , catchError(err => {
 
+          console.log(err);
           if (err.status == 401) {
 
             this.messageServie.mensajeErrorLogout("Credenciales incorrectas");
@@ -93,12 +108,6 @@ export class LoginAuthComponent implements OnInit {
 
     }, this.miliseconds);
   }
-
-  private loginClientes() {
-
-    
-  }
-
 
   validMessage = {
     username: [
@@ -128,6 +137,8 @@ export class LoginAuthComponent implements OnInit {
 
   clickTipoLogin(tipoBoolean: boolean) {
     this.tipoLogin = tipoBoolean;
+
+    this.formLogin.get("typeLogin")?.setValue(this.tipoLogin);
     if (this.tipoLogin) {
 
       this.formLogin.get("password")?.addValidators([

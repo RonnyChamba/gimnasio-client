@@ -49,4 +49,8 @@ export class CustomerEditorComponent implements OnInit{
     return URL_INICIO;
   }
 
+  get isCliente(){
+    return this.tokenService.isCliente();
+  }
+
 }
