@@ -113,7 +113,7 @@ export class ProfileInformationComponent implements OnInit {
 
         if (type == 'DNI' && field.length == 10) {
 
-          return this.userService.verifyIsExistUser(field, type)
+          return this.userService.verifyIsExistUser(field, type, 'UPDATE', null)
             .pipe(
               map((value) => value ? { alreadyExist: 'Cédula ya esta registrada' } : null)
             );
@@ -122,7 +122,7 @@ export class ProfileInformationComponent implements OnInit {
 
         if (type == 'EMAIL' && field.length >= 6) {
 
-          return this.userService.verifyIsExistUser(field, type)
+          return this.userService.verifyIsExistUser(field, type, 'UPDATE', null)
             .pipe(
               map((value) => value ? { alreadyExist: 'Email ya esta registrado' } : null)
             );

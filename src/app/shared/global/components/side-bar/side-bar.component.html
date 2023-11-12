@@ -2,13 +2,14 @@
   <div class="logo-details">
     <i class="bx bxl-c-plus-plus"></i>
     <!-- <span class="logo_name" >YM</span> -->
-    <span class="logo_name">ENER GYM</span>
+    <span class="logo_name">{{systemName}}</span>
   </div>
   <ul class="nav-links">
 
     <ng-container *ngFor="let item of menuOptions">
 
-      <li *ngIf="item?.view && item?.isAdmin == isAdmin">
+      <!-- <li *ngIf="item?.view && item?.isAdmin == isAdmin" -->
+      <li *ngIf="item?.view">
         <a href="#" [routerLink]="[item.url]">
 
           <i [class]="item?.icon"></i>

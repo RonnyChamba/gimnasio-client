@@ -56,6 +56,7 @@ export class LoginAuthComponent implements OnInit {
     if (this.formLogin.valid) {
 
       if (!this.tipoLogin){
+        // Si es login de clientes, se envia cualquier valor en el campo password para que pase la validacion del backend
         this.formLogin.get("password")?.setValue("cualquiervalor");
 
       }
@@ -74,7 +75,9 @@ export class LoginAuthComponent implements OnInit {
       this.authService.onLogin(this.login).pipe(
 
         tap((resp: any) => {
+          console.log(resp);
           this.tokenService.setToken(resp.token);
+          this.tokenService.setParamSystem(resp?.data);
 
           // Por defecto el sidebar esta cerrado
           this.tokenService.setFlagClose(true);

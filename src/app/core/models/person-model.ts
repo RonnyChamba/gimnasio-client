@@ -27,4 +27,6 @@ export class UserModel extends Person {
 
   password?: string;
   roles?: string[];
+  menus?: any[];
+  editPassword?: boolean;
 }

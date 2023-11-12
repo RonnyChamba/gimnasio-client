@@ -37,9 +37,6 @@ export class AdminComponent implements OnInit {
 
 
   openModal() {
-
-    console.log("Abrir modal");
-
     if (this.typePanel) {
       this.modalService.open(FormUserComponent, {
         size: "md",

@@ -60,7 +60,13 @@ export class TransactionSrService implements OnInit, OnDestroy {
   deleteInscription(ide: number): Observable<any> {
     
     return this.httpClient.delete(`${this.pathApi}/inscriptions/${ide}`);
-
   }
 
+  userHaveAccessToMenu(nemonicoMenu: string){
+    return this.httpClient.get(`${this.pathApi}/users/haveAccessToMenu`,{
+      params: {
+        nemonicoMenu
+      }
+    } ) as any;
+  }
 }

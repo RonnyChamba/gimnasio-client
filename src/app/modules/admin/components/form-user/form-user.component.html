@@ -1,7 +1,7 @@
 <div class="container-user">
   <div class="content-user mx-auto card rounded-3">
     <div class="card-header d-flex justify-content-between align-items-center">
-      <h4 class="form-title">Nuevo Usuario</h4>
+      <h4 class="form-title">{{title}}</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()"></button>
     </div>
 
@@ -125,10 +125,23 @@
               </div>
             </div>
           </div>
+          <div class="form-floating col-sm-6" *ngIf="ideUserEdit">
+            <div class="form-check mb-3 col-sm-12">
+              <input class="form-check-input"
+              id="editarPassword"
+              (change)="editarPassword($event)"
+              type="checkbox">
+              <label class="form-check-label" for="editarPassword">
+              Editar Contraseña
+              </label>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <div class="accordion" id="accordionExample">
+      <!-- Seccion Datos Personales -->
+      <div class="accordion  mb-3" id="accordionExample">
         <div class="accordion-item">
           <h2 class="accordion-header" id="headingTwo">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -237,24 +250,48 @@
         </div>
       </div>
 
+      <!-- seccion perfiles -->
+
+      <div class="accordion" id="accordionExamplePerfiles">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwoPerfil">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapsePerfil" aria-expanded="false" aria-controls="collapsePerfil">
+              Configuraci&oacute;n Perfiles
+            </button>
+          </h2>
+          <div id="collapsePerfil" class="accordion-collapse collapse" aria-labelledby="headingTwoPerfil"
+            data-bs-parent="#accordionExamplePerfiles">
+            <div class="accordion-body">
+              <div class="row">
+                <div class="form-check mb-3 col-sm-6"  *ngFor="let item of perfiles">
+                  <input class="form-check-input" 
+                  (change)="fnChangePerfil($event)"
+                  type="checkbox" 
+                  [value]="item?.ide" 
+                  [id]="item?.ide"
+                  [checked]="item?.checked"
+                  >
+                  <label class="form-check-label" [for]="item?.ide">
+                    {{item?.title}}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="text-end mt-3">
-        <button
-          type="button"
-          class="btn btn-secondary me-2"
-          (click)="modal.close()"
-        >
-        <!-- <i class="fa-solid fa-ban"></i> -->
-        CANCELAR
+        <button type="button" class="btn btn-secondary me-2" (click)="modal.close()">
+          <!-- <i class="fa-solid fa-ban"></i> -->
+          CANCELAR
         </button>
-    
-        <button
-          type="submit"
-          [disabled]="formData.invalid"
-          class="btn btn-primary"
-        >
-        <!-- <i class="fa-solid fa-floppy-disk"></i> -->
+
+        <button type="submit" [disabled]="formData.invalid" class="btn btn-primary">
+          <!-- <i class="fa-solid fa-floppy-disk"></i> -->
           GUARDAR
-      </button>
+        </button>
       </div>
     </form>
   </div>

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { URL_BASE_AUTH } from 'src/app/utils/constants-url-path';
 
 const TOKEN_KEY = 'AuthToken';
+const DATA_KEY = 'ParamSystem';
 
 @Injectable({
   providedIn: 'root'
@@ -93,5 +94,25 @@ export class TokenService {
     }
     const valuePayloadIde = this.getValuesPayload()['ide'];
     return valuePayloadIde;
+  }
+
+  public setParamSystem(param: object): void {
+    window.localStorage.removeItem(DATA_KEY);
+    window.localStorage.setItem(DATA_KEY, JSON.stringify(param));
+  }
+
+  getSystemParam(): any {
+    const param = window.localStorage.getItem(DATA_KEY);
+    return JSON.parse(param!);
+  }
+
+  getSystemName(): string {
+    const param = this.getSystemParam();
+    return param?.systemName;
+  }
+
+  getMenuItems(): any[] {
+    const param = this.getSystemParam();
+    return param?.menuItems || [];
   }
 }

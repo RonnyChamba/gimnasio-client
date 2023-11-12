@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { typeFilterField } from 'src/app/utils/types';
 import { UserModel } from 'src/app/core/models/person-model';
+import { MENU_PADRE } from 'src/app/utils/constants-menu';
 
 @Injectable({
   providedIn: 'root'
@@ -18,17 +19,29 @@ export class UserService implements OnInit {
   ngOnInit(): void {
   }
 
-  verifyIsExistUser(valueField: string, type: typeFilterField): Observable<boolean> {
+  verifyIsExistUser(valueField: string, 
+                  type: typeFilterField,
+                  typeAction : string,
+                  ide: any | null): Observable<boolean> {
     return this.httpCliente.get<boolean>(`${this.pathApi}/users/isExist`,{
         params: {
           valueField,
           type,
-          isUpdateOrNew: "true"
+          typeAction,
+          ide: ide 
         },
       });
   }
 
-  save(model: UserModel) : Observable<any>{
+  save(model: any, ideUser?: any) : Observable<any>{
+
+  
+    if(ideUser){
+      console.log("ideUser: ", ideUser);
+      console.log("model: ", model);
+      return this.httpCliente.put(`${this.pathApi}/users/${ideUser}`, model);
+    }
+
     return this.httpCliente.post(`${this.pathApi}/users`, model);
 
   }
@@ -37,8 +50,15 @@ export class UserService implements OnInit {
     return this.httpCliente.get<any>(`${this.pathApi}/users`);
   }
 
+  findByIde(ideUser: string) : Observable<any>{
+    return this.httpCliente.get<any>(`${this.pathApi}/users/${ideUser}`);
+  }
+
   updateStatus(ide: number) : Observable<any>{
     return this.httpCliente.patch(`${this.pathApi}/users/${ide}/status`, {});
+  }
+  updateStatusDelete(ide: number) : Observable<any>{
+    return this.httpCliente.put(`${this.pathApi}/users/${ide}/delete`, {});
   }
 
   findUserCurrent() : Observable<any>{
@@ -51,6 +71,18 @@ export class UserService implements OnInit {
 
   countDataByUser(){
     return this.httpCliente.get(`${this.pathApi}/users/countDataByUser`);
+  }
+
+  findAllMenuByNemonicoPadre(nemonicoMenuPadre: string){
+    return this.httpCliente.get(`${this.pathApi}/users/menus`, {
+      params: {
+        nemonicoMenuPadre: nemonicoMenuPadre || MENU_PADRE
+      }
+    })
+  }
+
+  findAllMenuByUser(ideUser: number){
+    return this.httpCliente.get(`${this.pathApi}/users/menusByUser/${ideUser}`);
   }
 
 }

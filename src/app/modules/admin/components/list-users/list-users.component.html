@@ -17,7 +17,7 @@
       <th scope="col"  *ngIf="reduceColumns">Registro</th>
       <th scope="col">Rol</th>
       <th scope="col" class="text-end">Estado</th>
-      <!-- <th scope="col" class="text-end">Acciones</th> -->
+      <th scope="col" class="text-end">Acciones</th>
     </tr>
   </thead>
   <tbody class="position-relative">
@@ -44,11 +44,24 @@
         class="btn status"  
         title="{{item.status? 'Desactivar usuario': 'Activar usuario'}}"
         [ngClass]="{'btn-success': item.status, 'btn-danger': !item.status}"
-        (click)="delete(item.ide, item.status)"
+        (click)="desactivar(item.ide, item.status)"
         
         >{{ item.status? 'activado': 'desactivado'}}</span>
         <!-- <b>{{ item.status? 'Si': 'No'}}</b> -->
       
+      </td>
+
+      <td class="action text-end">
+        
+        <span class="bg-warning p-1 rounded-start" data-bs-toggle="tooltip" data-bs-placement="top"
+          title="Editar Modalidad" role="button" (click)="edit(item.ide)">
+          <i class="fa-solid fa-pen"></i>
+        </span>
+        <span class="bg-danger p-1 rounded-end" data-bs-toggle="tooltip" data-bs-placement="top"
+          title="Eliminar Modalidad" role="button" (click)="delete(item.ide)">
+          <i class="fa-solid fa-x"></i>
+        </span>
+
       </td>
 
     </tr>

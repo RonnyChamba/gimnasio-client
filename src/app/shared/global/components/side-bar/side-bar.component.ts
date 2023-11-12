@@ -13,8 +13,8 @@ export class SideBarComponent implements OnInit {
   @Input('open') flagClose: boolean;
   
   isAdmin = false;
-
   menuOptions:any[]= [];
+  systemName = "GymApp";
 
   constructor(
     private renderer: Renderer2,
@@ -23,6 +23,7 @@ export class SideBarComponent implements OnInit {
     ) {
 
       this.isAdmin = this.tokenService.isAdmin();
+      this.systemName = this.tokenService.getSystemName() || 'GymApp';
     }
   ngOnInit(): void {
 
@@ -32,74 +33,95 @@ export class SideBarComponent implements OnInit {
   private initMenuOptiosn (){
 
     if (!this.tokenService.isCliente()){
-      this.menuOptions.push({
-        title:'Inicio',
-        isAdmin: this.isAdmin,
-        icon:'fa-solid fa-house',
-        url:URL_INICIO,
-        view: true
+
+      
+      const itemsMenu = this.tokenService.getMenuItems() || [];
+
+      if (itemsMenu.length == 0) return;
+
+      // ordernar por el campo position de menor a mayor
+      itemsMenu.sort((a, b) => a.position - b.position);
+
+
+      itemsMenu.forEach((item:any) => {
+        this.menuOptions.push({
+          title: item?.title,
+          isAdmin: this.isAdmin,
+          icon: item?.icon,
+          url: item?.url,
+          view: item?.visible,
+        });
       });
-      this.menuOptions.push({
-        title:'Administración',
-        isAdmin: this.isAdmin? this.isAdmin: !this.isAdmin,
-        icon: 'fa-solid fa-people-roof',
-        url:URL_ADMINISTRACION,
-        view: true
-      });
-      this.menuOptions.push({
-        title:  "Clientes",
-        isAdmin: this.isAdmin,
-        icon:'fa-solid fa-users',
-        url:URL_CLIENTES,
-        view: true
-      });
-      this.menuOptions.push({
-        title: "Membresías",
-        isAdmin: this.isAdmin,
-        icon:'bx bx-pie-chart-alt-2',
-        url:URL_INSCRIPCION,
-        view: true
-      });
-      this.menuOptions.push({
-        title:'Asistencias',
-        isAdmin: this.isAdmin,
-        icon:'fa-solid fa-clipboard-user',
-        url:URL_ASISTENCIA,
-        view: true
+
+
+      // this.menuOptions.push({
+      //   title:'Inicio',
+      //   isAdmin: this.isAdmin,
+      //   icon:'fa-solid fa-house',
+      //   url:URL_INICIO,
+      //   view: true
+      // });
+      // this.menuOptions.push({
+      //   title:'Administración',
+      //   isAdmin: this.isAdmin? this.isAdmin: !this.isAdmin,
+      //   icon: 'fa-solid fa-people-roof',
+      //   url:URL_ADMINISTRACION,
+      //   view: true
+      // });
+      // this.menuOptions.push({
+      //   title:  "Clientes",
+      //   isAdmin: this.isAdmin,
+      //   icon:'fa-solid fa-users',
+      //   url:URL_CLIENTES,
+      //   view: true
+      // });
+      // this.menuOptions.push({
+      //   title: "Membresías",
+      //   isAdmin: this.isAdmin,
+      //   icon:'bx bx-pie-chart-alt-2',
+      //   url:URL_INSCRIPCION,
+      //   view: true
+      // });
+      // this.menuOptions.push({
+      //   title:'Asistencias',
+      //   isAdmin: this.isAdmin,
+      //   icon:'fa-solid fa-clipboard-user',
+      //   url:URL_ASISTENCIA,
+      //   view: true
   
-      });
-      this.menuOptions.push( {
-        title: "Diarios",
-        isAdmin: this.isAdmin,
-        icon:'bx bx-compass',
-        url:URL_DIARIOS,
-        view: true
-      });
-      this.menuOptions.push({
-        title: "Gastos",
-        isAdmin: this.isAdmin,
-        icon:'fa-solid fa-hand-holding-dollar',
-        url:URL_GASTOS,
-        view: true
-      });
+      // });
+      // this.menuOptions.push( {
+      //   title: "Diarios",
+      //   isAdmin: this.isAdmin,
+      //   icon:'bx bx-compass',
+      //   url:URL_DIARIOS,
+      //   view: true
+      // });
+      // this.menuOptions.push({
+      //   title: "Gastos",
+      //   isAdmin: this.isAdmin,
+      //   icon:'fa-solid fa-hand-holding-dollar',
+      //   url:URL_GASTOS,
+      //   view: true
+      // });
     
-      this.menuOptions.push({
-        title:"Reportes",
-        isAdmin: this.isAdmin,
-        icon:'fa-sharp fa-solid fa-file-export',
-        url:URL_REPORTE,
-        view: true
-      });
-      this.menuOptions.push(  
-      {title: "Deportiva",
-      isAdmin: this.isAdmin,
-      url:URL_DEPORTE,
-      icon:'fa-solid fa-dumbbell',
-      view: false,
-      options:[ 
-        {name: 'Ejercicios', url:'/exercise'},
-        // {name: 'Rutina', url:'/routine'},
-        {name: 'Categorías', url:'/category'}]});
+      // this.menuOptions.push({
+      //   title:"Reportes",
+      //   isAdmin: this.isAdmin,
+      //   icon:'fa-sharp fa-solid fa-file-export',
+      //   url:URL_REPORTE,
+      //   view: true
+      // });
+      // this.menuOptions.push(  
+      // {title: "Deportiva",
+      // isAdmin: this.isAdmin,
+      // url:URL_DEPORTE,
+      // icon:'fa-solid fa-dumbbell',
+      // view: false,
+      // options:[ 
+      //   {name: 'Ejercicios', url:'/exercise'},
+      //   // {name: 'Rutina', url:'/routine'},
+      //   {name: 'Categorías', url:'/category'}]});
     }
 
 

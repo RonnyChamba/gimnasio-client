@@ -6,6 +6,8 @@ import { Subscription, catchError, of, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'src/app/services/message.service';
 import { UtilAdminService } from '../../services/util-admin.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormUserComponent } from '../form-user/form-user.component';
 
 @Component({
   selector: 'app-list-users',
@@ -24,17 +26,18 @@ export class ListUsersComponent implements OnInit, OnDestroy{
       private userService: UserService,
       private toaster: ToastrService,
       private utilAdminService: UtilAdminService,
-      private messageService: MessageService
+      private messageService: MessageService,
+      private modalService: NgbModal
       ) { }
 
   ngOnInit() {
 
-    this.findall();
+    this.findAll();
 
 
     this.subcriptionUser = this.utilAdminService.getSubjectReloadTableUser.subscribe((data) => {
       if (data) {
-        this.findall();
+        this.findAll();
       }
     }
     );
@@ -46,7 +49,7 @@ export class ListUsersComponent implements OnInit, OnDestroy{
   }
 
 
-  findall() {
+  findAll() {
   
     this.messageService.loading(true);
 
@@ -66,8 +69,46 @@ export class ListUsersComponent implements OnInit, OnDestroy{
 
   edit(ide: any){
 
+   const modalRef = this.modalService.open(FormUserComponent, {
+      size: "md",
+      backdrop: "static",
+      keyboard: false,
+    });
+
+    modalRef.componentInstance.ideUserEdit = ide;
   }
-  delete(ide: any, status: boolean){
+
+  delete(ide: any){
+    Swal.fire({
+      title:  `¿Eliminar Usuario?` ,
+      text: 'El usuario será eliminado permanentemente.',
+      icon: 'question',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.value) {
+       
+        console.log("registro eliminar: " + ide)
+        this.userService.updateStatusDelete(ide).pipe(
+
+          tap((data) => {
+            // console.log(data);
+            this.toaster.success('Registro eliminado correctamente');
+            this.findAll();
+          }),
+          catchError((err) => {
+
+            this.toaster.error(`${err.error.message}`, 'Error');
+            return of(null);
+          })
+  
+        ).subscribe();
+      }
+    });
+  }
+  desactivar(ide: any, status: boolean){
 
 
     let title = status ? 'Desactivar' : 'Activar';
@@ -94,7 +135,7 @@ export class ListUsersComponent implements OnInit, OnDestroy{
             // console.log(data);
             this.toaster.success('Registro actualizado correctamente');
             // alert("Registro actualizado correctamente");
-            this.findall();
+            this.findAll();
           }),
           catchError((err) => {
 
