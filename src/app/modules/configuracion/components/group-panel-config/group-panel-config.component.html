@@ -1,0 +1,15 @@
+<ul class="nav nav-tabs mt-2">
+    <li class="nav-item">
+      <!-- <a class="nav-link active" aria-current="page" href="#" role="button">Usuarios</a> -->
+      <span class="nav-link" [ngClass]="{'active': typePanel}"   aria-current="page" role="button"  (click) ="changeTypePanel(true)">Menus</span>
+    </li>
+    <!-- <li class="nav-item">
+    
+      <span class="nav-link" role="button"   [ngClass]="{'active': !typePanel}"  (click) ="changeTypePanel(false)">Otros</span>
+    </li> -->
+  </ul>
+
+<app-list-menus *ngIf="typePanel"></app-list-menus>
+
+<!-- <app-list-modality *ngIf="!typePanel"></app-list-modality> -->
+

@@ -62,4 +62,14 @@ export class MessageService {
       confirmButtonText: 'OK',
     });
   }
+
+  public mensajeError(mensaje: string) {
+    Swal.close();
+    Swal.fire({
+      title: 'Error',
+      text: mensaje,
+      icon: 'error',
+      confirmButtonText: 'OK',
+    });
+  }
 }

@@ -8,3 +8,4 @@ export const MENU_DIARIO = "MENU_DIARIO";
 export const MENU_GASTO = "MENU_GASTO";
 export const MENU_REPORTE = "MENU_REPORTE";
 export const MENU_PERFIL = "MENU_PERFIL";
+export const MENU_CONFIGURACION = "MENU_CONFIGURACION";

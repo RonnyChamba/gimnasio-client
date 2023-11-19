@@ -10,6 +10,7 @@ export const NAME_PATH_GASTOS ='expense';
 export const NAME_PATH_REPORTE ='report';
 export const NAME_PATH_DEPORTE ='sport';
 export const NAME_PATH_PERFIL ='profile';
+export const NAME_PATH_CONFIGURACION ='configuration';
 
 
 export const URL_BASE_AUTH= `/${NAME_PATH_AUTH}`;
@@ -26,3 +27,4 @@ export const URL_GASTOS= `${URL_BASE}/${NAME_PATH_GASTOS}`;
 export const URL_REPORTE= `${URL_BASE}/${NAME_PATH_REPORTE}`;
 export const URL_DEPORTE=`${URL_BASE}/${NAME_PATH_DEPORTE}`;
 export const URL_PERFIL=`${URL_BASE}/${NAME_PATH_PERFIL}`;
+export const URL_CONFIGURACION=`${URL_BASE}/${NAME_PATH_CONFIGURACION}`;

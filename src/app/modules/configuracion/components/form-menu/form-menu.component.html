@@ -1,0 +1,226 @@
+<div class="container-user">
+    <div class="content-user mx-auto card rounded-3">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="form-title"> {{ideMenu? 'Actualizar': 'Nuevo'}} Menu</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()"></button>
+        </div>
+
+        <form class="card-body mt-2" [formGroup]="formData" (ngSubmit)="fnSubmit()">
+            <div class="mb-3">
+                <div class="row justify-content-center align-items-center">
+
+                    <div class="form-floating mb-3 col-sm-6">
+                        <input type="text" class="form-control" id="title" formControlName="title"
+                            placeholder="" />
+                        <label for="title" class="ms-1">Titulo</label>
+                        <div *ngIf="
+                                    formData.controls['title'].invalid &&
+                                    (formData.controls['title'].dirty ||
+                                    formData.controls['title'].touched)
+                                " class="form-text text-danger">
+                            <!-- Los sms de error para el tipo de datos de valores numeros o precios estan en el objeto value -->
+                            <div *ngFor="let validation of validMessage.requerid">
+                                <div style="font-size: smaller !important" *ngIf="
+                  formData.get('title')?.hasError(validation.type) &&
+                  (formData.get('title')?.dirty ||
+                    formData.get('title')?.touched)
+                ">
+                                    {{ validation.message }}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-3 col-sm-6">
+                        <input type="text" class="form-control" id="icon" formControlName="icon"
+                            placeholder="" />
+                        <label for="icon" class="ms-1">Icono</label>
+                        <div *ngIf="
+                                    formData.controls['icon'].invalid &&
+                                    (formData.controls['icon'].dirty ||
+                                    formData.controls['icon'].touched)
+                                " class="form-text text-danger">
+                            <!-- Los sms de error para el tipo de datos de valores numeros o precios estan en el objeto value -->
+                            <div *ngFor="let validation of validMessage.requerid">
+                                <div style="font-size: smaller !important" *ngIf="
+                  formData.get('icon')?.hasError(validation.type) &&
+                  (formData.get('icon')?.dirty ||
+                    formData.get('icon')?.touched)
+                ">
+                                    {{ validation.message }}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-floating mb-3 col-sm-6">
+                        <input type="text" class="form-control" id="nemonico" formControlName="nemonico"
+                            placeholder="" />
+                        <label for="nemonico" class="ms-1">Nemonico</label>
+                        <div *ngIf="
+                                    formData.controls['nemonico'].invalid &&
+                                    (formData.controls['nemonico'].dirty ||
+                                    formData.controls['nemonico'].touched)
+                                " class="form-text text-danger">
+                            <!-- Los sms de error para el tipo de datos de valores numeros o precios estan en el objeto value -->
+                            <div *ngFor="let validation of validMessage.requerid">
+                                <div style="font-size: smaller !important" *ngIf="
+                  formData.get('nemonico')?.hasError(validation.type) &&
+                  (formData.get('nemonico')?.dirty ||
+                    formData.get('nemonico')?.touched)
+                ">
+                                    {{ validation.message }}
+                                </div>
+                            </div>
+
+                            <div style="font-size: smaller !important" *ngIf="
+                  formData.get('nemonico')?.hasError('alreadyExist') &&
+                  (formData.get('nemonico')?.dirty ||
+                    formData.get('nemonico')?.touched)
+                ">
+                                {{ formData.get("name")?.getError("alreadyExist") }}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="mb-3 form-floating mb-3 col-sm-6">
+                        <input type="text" class="form-control" id="nemonicoPadre" formControlName="nemonicoPadre"
+                            placeholder="2.00" />
+                        <label for="nemonicoPadre" class="form-label">Nemonico Padre</label>
+                        <div *ngIf="
+              formData.controls['nemonicoPadre'].invalid &&
+              (formData.controls['nemonicoPadre'].dirty ||
+                formData.controls['nemonicoPadre'].touched)
+            " class="form-text text-danger">
+                            <!-- Los sms de error para el tipo de datos de valores numeros o precios estan en el objeto value -->
+                            <div *ngFor="let validation of validMessage.requerid">
+                                <div style="font-size: smaller !important" *ngIf="
+                  formData.get('nemonicoPadre')?.hasError(validation.type) &&
+                  (formData.get('nemonicoPadre')?.dirty || formData.get('nemonicoPadre')?.touched)
+                ">
+                                    {{ validation.message }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-3 col-sm-6">
+                        <input type="text" class="form-control" id="url" formControlName="url"
+                            placeholder="" />
+                        <label for="url" class="ms-1">Url</label>
+                        <div *ngIf="
+                                    formData.controls['url'].invalid &&
+                                    (formData.controls['url'].dirty ||
+                                    formData.controls['url'].touched)
+                                " class="form-text text-danger">
+                            <!-- Los sms de error para el tipo de datos de valores numeros o precios estan en el objeto value -->
+                            <div *ngFor="let validation of validMessage.requerid">
+                                <div style="font-size: smaller !important" *ngIf="
+                  formData.get('url')?.hasError(validation.type) &&
+                  (formData.get('url')?.dirty ||
+                    formData.get('url')?.touched)
+                ">
+                                    {{ validation.message }}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-3 col-sm-6">
+                        <input type="number" class="form-control" id="position" formControlName="position"
+                            placeholder="" />
+                        <label for="url" class="ms-1">Positi&oacute;n</label>
+                        <div *ngIf="
+                                    formData.controls['position'].invalid &&
+                                    (formData.controls['position'].dirty ||
+                                    formData.controls['position'].touched)
+                                " class="form-text text-danger">
+                            <!-- Los sms de error para el tipo de datos de valores numeros o precios estan en el objeto value -->
+                            <div *ngFor="let validation of validMessage.requerid">
+                                <div style="font-size: smaller !important" *ngIf="
+                  formData.get('position')?.hasError(validation.type) &&
+                  (formData.get('position')?.dirty ||
+                    formData.get('position')?.touched)
+                ">
+                                    {{ validation.message }}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mb-3 form-floating mb-3 col-sm-6">
+                        <!-- <input type="number" class="form-control" id="price" formControlName="status"
+                            placeholder="Activo" /> -->
+                            <select formControlName="status" id="" class="form-select">
+                                <option value="">Seleccione un estado</option>
+                                <option value="Activo">Activado</option>
+                                <option value="Cancelado">Cancelado</option>
+                            </select>
+                        <!-- <label for="price" class="form-label">Estado</label> -->
+                        <div *ngIf="
+              formData.controls['status'].invalid &&
+              (formData.controls['status'].dirty ||
+                formData.controls['status'].touched)
+            " class="form-text text-danger">
+                            <!-- Los sms de error para el tipo de datos de valores numeros o precios estan en el objeto value -->
+                            <div *ngFor="let validation of validMessage.requerid">
+                                <div style="font-size: smaller !important" *ngIf="
+                  formData.get('status')?.hasError(validation.type) &&
+                  (formData.get('status')?.dirty || formData.get('status')?.touched)
+                ">
+                                    {{ validation.message }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="mb-3 form-floating mb-3 col-sm-6">
+                        <!-- <input type="number" class="form-control" id="price" formControlName="status"
+                            placeholder="Activo" /> -->
+                            <select formControlName="visible" id="" class="form-select">
+                                <option value="">Seleccione visibilidad</option>
+                                <option value="true">Mostrar</option>
+                                <option value="false">Ocultar</option>
+                            </select>
+                        <!-- <label for="price" class="form-label">Estado</label> -->
+                        <div *ngIf="
+              formData.controls['visible'].invalid &&
+              (formData.controls['visible'].dirty ||
+                formData.controls['visible'].touched)
+            " class="form-text text-danger">
+                            <!-- Los sms de error para el tipo de datos de valores numeros o precios estan en el objeto value -->
+                            <div *ngFor="let validation of validMessage.requerid">
+                                <div style="font-size: smaller !important" *ngIf="
+                  formData.get('visible')?.hasError(validation.type) &&
+                  (formData.get('visible')?.dirty || formData.get('visible')?.touched)
+                ">
+                                    {{ validation.message }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="text-end mt-3">
+                <button type="button" class="btn btn-secondary me-2" (click)="modal.close()">
+                    <!-- <i class="fa-solid fa-ban"></i> -->
+                    CANCELAR
+                </button>
+
+                <button type="submit" [disabled]="formData.invalid" class="btn btn-primary">
+                    <!-- <i class="fa-solid fa-floppy-disk"></i> -->
+                    GUARDAR
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>

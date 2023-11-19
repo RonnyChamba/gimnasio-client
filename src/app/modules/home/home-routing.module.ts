@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { PathGuard } from 'src/app/guards/path.guard';
-import { NAME_PATH_ADMIN, NAME_PATH_ASISTENCIA, NAME_PATH_CLIENTES, NAME_PATH_DIARIOS, NAME_PATH_GASTOS, NAME_PATH_INSCRIPCION, NAME_PATH_PERFIL, NAME_PATH_REPORTE } from 'src/app/utils/constants-url-path';
-import { MENU_ADMIN, MENU_ASISTENCIA, MENU_CLIENTE, MENU_DIARIO, MENU_GASTO, MENU_HOME, MENU_INSCRIPCION, MENU_PERFIL, MENU_REPORTE } from 'src/app/utils/constants-menu';
+import { NAME_PATH_ADMIN, NAME_PATH_ASISTENCIA, NAME_PATH_CLIENTES, NAME_PATH_CONFIGURACION, NAME_PATH_DIARIOS, NAME_PATH_GASTOS, NAME_PATH_INSCRIPCION, NAME_PATH_PERFIL, NAME_PATH_REPORTE } from 'src/app/utils/constants-url-path';
+import { MENU_ADMIN, MENU_ASISTENCIA, MENU_CLIENTE, MENU_CONFIGURACION, MENU_DIARIO, MENU_GASTO, MENU_HOME, MENU_INSCRIPCION, MENU_PERFIL, MENU_REPORTE } from 'src/app/utils/constants-menu';
 import { roleGuard } from 'src/app/guards/role.guard';
 
 const routes: Routes = [
@@ -27,6 +27,13 @@ const routes: Routes = [
     canActivateChild: [roleGuard],
     loadChildren: () =>
       import('../daily/daily.module').then((cp) => cp.DailyModule),
+  },
+  {
+    path: NAME_PATH_CONFIGURACION,
+    data: { menuId: MENU_CONFIGURACION},
+    // canActivateChild: [roleGuard],
+    loadChildren: () =>
+      import('../configuracion/confiiguracion.module').then((cp) => cp.ConfiguracionModule),
   },
   {
     path: NAME_PATH_INSCRIPCION,

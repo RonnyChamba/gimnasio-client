@@ -8,13 +8,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { interceptorProvider } from './modules/auth/interceptor/general.interceptor';
-
-
 @NgModule({
   declarations: [
     AppComponent,
 
-    
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,
 
