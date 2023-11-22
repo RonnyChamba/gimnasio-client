@@ -9,6 +9,7 @@ import { catchError, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { MessageService } from 'src/app/services/message.service';
 import { URL_BASE_VER_DATOS_CLIENTES, URL_CLIENTES, URL_INICIO } from 'src/app/utils/constants-url-path';
+import { MenuService } from 'src/app/modules/configuracion/services/menu.service';
 
 @Component({
   selector: 'app-login-auth',
@@ -22,16 +23,21 @@ export class LoginAuthComponent implements OnInit {
   miliseconds = 1500;
   tipoLogin: boolean = true;
 
+  imgBackground = '../../../../../assets/gym.jpeg';
+  nameSystema = 'Gym';
+
   constructor(
     private authService: AuthService,
     private tokenService: TokenService,
     private toaster: ToastrService,
     private router: Router,
-    private messageServie: MessageService
+    private messageServie: MessageService,
+    private menuService: MenuService
   ) { }
 
   ngOnInit(): void {
     this.createForm();
+    this.getDataForLogin();
   }
   private createForm() {
     this.formLogin = new FormGroup({
@@ -155,10 +161,19 @@ export class LoginAuthComponent implements OnInit {
     this.formLogin.get("username")?.markAsUntouched();
     this.formLogin.get("password")?.updateValueAndValidity({});
     this.formLogin.get("username")?.updateValueAndValidity({});
+  }
+
+  private getDataForLogin() {
 
 
-
-
-
+    this.menuService.getDataForLogin().pipe(
+      tap((resp: any) => {
+        this.imgBackground = resp?.data?.pathImgBackground;
+        this.nameSystema = resp?.data?.nameSystema;
+        console.log(resp);
+        // this.tokenService.setParamSystem(resp?.data);
+      })
+    ).subscribe();
+  
   }
 }

@@ -3,6 +3,7 @@ import { HomeService } from '../../services/home.service';
 import { catchError, of, tap } from 'rxjs';
 import { TokenService } from 'src/app/modules/auth/service/token.service';
 import { URL_ADMINISTRACION, URL_ASISTENCIA, URL_CLIENTES, URL_DIARIOS, URL_GASTOS, URL_INSCRIPCION } from 'src/app/utils/constants-url-path';
+import { MenuService } from 'src/app/modules/configuracion/services/menu.service';
 // import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
@@ -16,11 +17,13 @@ export class HomeComponent implements OnInit{
   listData: any[] = [];
 
   isAdmin = false;
+  imgBackground ='';
   private titlesModels = this.creatTitleModel();
 
   constructor(
     private homeService: HomeService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private menuService: MenuService
     ){
       this.isAdmin = this.tokenService.isAdmin();
       this.flagClose = this.tokenService.getFlagClose();
@@ -30,6 +33,7 @@ export class HomeComponent implements OnInit{
   ngOnInit(): void {
   
     this.countRegister();
+    this.getDataForLogin();
   }
 
   onClickMenu(value:boolean){  
@@ -41,11 +45,7 @@ export class HomeComponent implements OnInit{
 
     this.homeService.countRegister().pipe(
       tap((res:any) => {
-        // console.log(res);
-
         this.createListData(res);
-
-
       }),
       catchError((err:any) => {
         console.log(err);
@@ -132,5 +132,16 @@ export class HomeComponent implements OnInit{
     ]
   }
 
+  private getDataForLogin() {
 
+
+    this.menuService.getDataForLogin().pipe(
+      tap((resp: any) => {
+        this.imgBackground = resp?.data?.pathImgBackground;
+       
+        // this.tokenService.setParamSystem(resp?.data);
+      })
+    ).subscribe();
+  
+  }
 }

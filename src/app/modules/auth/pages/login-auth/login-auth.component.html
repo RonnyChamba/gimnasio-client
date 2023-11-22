@@ -1,4 +1,6 @@
-<div class="container-login p-2 d-flex justify-content-center align-items-center  pt-sm-5 align-items-sm-start">
+<div class="container-login p-2 d-flex justify-content-center align-items-center  pt-sm-5 align-items-sm-start"
+[ngStyle]="{'background-image': 'url(' + imgBackground + ')'}"
+>
     <!-- <h2 class="title">GIMNASIO - CROSSFIT</h2> -->
     <div class="content-login p-4">
       <ul class="nav nav-tabs mb-3">
@@ -20,7 +22,7 @@
         </li>
       </ul>
       <h2 class="form-title">INICIAR SESIÓN</h2>
-      <h2 class="form-title form-title--modify">ENER GYM</h2>
+      <h2 class="form-title form-title--modify">{{nameSystema}}</h2>
       <form class="mt-4" [formGroup]="formLogin" (ngSubmit)="onLogin()">
   
   

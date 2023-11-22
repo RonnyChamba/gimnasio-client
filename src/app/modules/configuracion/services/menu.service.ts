@@ -34,5 +34,9 @@ export class MenuService {
     return this.httpCliente.get<any>(`${this.pathApi}/configuration/menus/${id}`);
   }
 
+  getDataForLogin(): Observable<any> {
+
+    return this.httpCliente.get<any>(`${this.pathApi}/public/aut/dataforlogin`);
+  }
   
 }

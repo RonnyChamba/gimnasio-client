@@ -23,7 +23,7 @@
         <div class="grid-container">
           <div *ngFor="let item of listData" class="grid-container__item card">
             <div class="">
-              <img src="../../../../../assets/gym.jpeg" class="img-fluid" />
+              <img [src]="imgBackground" class="img-fluid" />
             </div>
             <h4 class="mt-2 mb-1 title">{{item.title}}</h4>
             <p class="paragraph my-0"><span> <i class="bx bx-grid-alt" style="font-size: 15px;"></i></span>:
