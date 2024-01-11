@@ -7,13 +7,15 @@ import { SharedGlobalModule } from 'src/app/shared/global/shared-global.module';
 import { GroupPanelConfigComponent } from './components/group-panel-config/group-panel-config.component';
 import { ListMenusComponent } from './components/list-menus/list-menus.component';
 import { FormMenuComponent } from './components/form-menu/form-menu.component';
+import { InformationCompanyComponent } from './components/information-company/information-company.component';
 
 @NgModule({
   declarations: [
     ConfigurationComponent,
     GroupPanelConfigComponent,
     ListMenusComponent,
-    FormMenuComponent
+    FormMenuComponent,
+    InformationCompanyComponent
   ],
   imports: [
     CommonModule , ConfiguracionRoutingModule, ReactiveFormsModule,  SharedGlobalModule

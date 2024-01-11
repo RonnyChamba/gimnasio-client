@@ -29,8 +29,7 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-            
+            "styles": [        
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss",
               "node_modules/ngx-toastr/toastr.css"
@@ -41,8 +40,6 @@
             ]
           },
           "configurations": {
-            
-
             "production": {
 
                 "fileReplacements": [
@@ -64,11 +61,6 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
                   "maximumWarning": "3mb",
                   "maximumError": "20mb"
                 },
@@ -134,6 +126,6 @@
     }
   },
   "cli": {
-    "analytics": "7935ba59-ee6c-40b2-ba31-9c8ec5e504fd"
+    "analytics": false
   }
 }

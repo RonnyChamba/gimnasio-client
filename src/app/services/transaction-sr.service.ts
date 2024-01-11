@@ -69,4 +69,12 @@ export class TransactionSrService implements OnInit, OnDestroy {
       }
     } ) as any;
   }
+
+  updateBusinessInformation(request: any): Observable<any> {
+    return this.httpClient.put(`${this.pathApi}/users/businessInformation`,request );
+  }
+
+  getBusinessInformation(): Observable<any> {
+    return this.httpClient.get(`${this.pathApi}/users/businessInformation`);
+  }
 }

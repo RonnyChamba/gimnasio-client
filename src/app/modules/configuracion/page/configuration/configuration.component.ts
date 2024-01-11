@@ -15,7 +15,8 @@ export class ConfigurationComponent implements OnInit {
    flagClose = true;
 
   // default users
-  typePanel = true;
+  typePanel = "MENUS";
+  isSuperAdmin = false;
 
   constructor(
     private modalService: NgbModal,
@@ -23,6 +24,7 @@ export class ConfigurationComponent implements OnInit {
     ) {
 
       this.flagClose = this.tokenService.getFlagClose();
+      this.isSuperAdmin = this.tokenService.isSuperAdmin();
      }
   ngOnInit(): void {
 
@@ -38,7 +40,7 @@ export class ConfigurationComponent implements OnInit {
 
 
   openModal() {
-    if (this.typePanel) {
+    if (this.typePanel == "MENUS") {
       this.modalService.open(FormMenuComponent, {
         size: "md",
         backdrop: "static",

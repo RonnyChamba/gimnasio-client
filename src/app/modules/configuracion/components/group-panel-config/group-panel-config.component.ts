@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { TokenService } from 'src/app/modules/auth/service/token.service';
 
 @Component({
   selector: 'app-group-panel-config',
@@ -7,14 +8,28 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class GroupPanelConfigComponent implements OnInit {
 
-  typePanel = true;
+  namePanelMenu = "MENUS";
+  namePanelInformationCompany = "INFORMATION_COMPANY";
 
-  @Output() typePanelChange = new EventEmitter<boolean>();
-  constructor() { }
+  typePanel = this.namePanelInformationCompany;
+  @Output() typePanelChange = new EventEmitter<string>();
+  isSuperAdmin = false;
+  constructor(
+    private tokenService: TokenService
+  ) { 
+    this.isSuperAdmin = this.tokenService.isSuperAdmin();
+
+    // asignar el panel por defecto
+   if (this.isSuperAdmin){
+    this.typePanel = this.namePanelMenu;
+   }else {
+    this.typePanel = this.namePanelInformationCompany;
+   }
+  }
   ngOnInit(): void {
   }
 
-  changeTypePanel(type: boolean) {
+  changeTypePanel(type: string) {
 
     if (this.typePanel != type) {
       this.typePanel = type;

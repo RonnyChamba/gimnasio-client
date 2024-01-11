@@ -1,0 +1,55 @@
+<div class="container-user">
+    <div class="content-user mx-auto card rounded-3">
+        <div class="card-header d-flex justify-content-between align-items-center mt-2">
+            <h6 class="form-title"> {{title}} </h6>
+        </div>
+
+        <form class="card-body mt-2" [formGroup]="formData" (ngSubmit)="fnSubmit()">
+            <div class="mb-3">
+                <div class="row justify-content-center align-items-center">
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fa-solid fa-building"></i></span>
+                        <input type="text" class="form-control"  formControlName="fullName"  placeholder="Nombre Establecimiento" aria-label="">
+                        <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
+                        <input type="text" class="form-control" placeholder="Ruc/cedula"  formControlName="ruc" aria-label="Ruc">
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
+                        <input type="text" class="form-control" placeholder="Celular principal" formControlName="phoneOne" aria-label="Celular principal">
+                        <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
+                        <input type="text" class="form-control" placeholder="Celular secundario"  formControlName="phoneTwo" aria-label="">
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+                        <input type="text" class="form-control" placeholder="Correo electronico" formControlName="email"  aria-label="">
+                        <span class="input-group-text"><i class="fa-solid fa-globe"></i></span>
+                        <input type="text" class="form-control" placeholder="Sitio web" formControlName="webSite" aria-label="Sitio Web">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
+                        <textarea class="form-control" aria-label="With textarea" formControlName="address"  placeholder="Dirección"></textarea>
+                      </div>
+                </div>
+
+            </div>
+            <div class="text-end mt-3">
+                <button type="button" class="btn btn-secondary me-2"
+                
+                [disabled]="!formData.dirty"
+                (click)="cancel()">
+                    <!-- <i class="fa-solid fa-ban"></i> -->
+                    CANCELAR
+                </button>
+
+                <button type="submit" [disabled]="formData.invalid" class="btn btn-primary">
+                    <!-- <i class="fa-solid fa-floppy-disk"></i> -->
+                    GUARDAR
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>

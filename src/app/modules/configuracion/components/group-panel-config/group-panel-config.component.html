@@ -1,15 +1,15 @@
 <ul class="nav nav-tabs mt-2">
-    <li class="nav-item">
+    <li class="nav-item" *ngIf="isSuperAdmin">
       <!-- <a class="nav-link active" aria-current="page" href="#" role="button">Usuarios</a> -->
-      <span class="nav-link" [ngClass]="{'active': typePanel}"   aria-current="page" role="button"  (click) ="changeTypePanel(true)">Menus</span>
+      <span class="nav-link" [ngClass]="{'active': typePanel== namePanelMenu}"   aria-current="page" role="button"  (click)="changeTypePanel(namePanelMenu)">Menus</span>
     </li>
-    <!-- <li class="nav-item">
+    <li class="nav-item">
     
-      <span class="nav-link" role="button"   [ngClass]="{'active': !typePanel}"  (click) ="changeTypePanel(false)">Otros</span>
-    </li> -->
+      <span class="nav-link" role="button"   [ngClass]="{'active': typePanel == namePanelInformationCompany}"  (click)="changeTypePanel('INFORMATION_COMPANY')">Establecimiento</span>
+    </li>
   </ul>
-
-<app-list-menus *ngIf="typePanel"></app-list-menus>
+<app-list-menus *ngIf="typePanel == namePanelMenu  && isSuperAdmin"></app-list-menus>
+<app-information-company *ngIf="typePanel == namePanelInformationCompany"></app-information-company>
 
 <!-- <app-list-modality *ngIf="!typePanel"></app-list-modality> -->
 

@@ -24,7 +24,7 @@ export class LoginAuthComponent implements OnInit {
   tipoLogin: boolean = true;
 
   imgBackground = '../../../../../assets/gym.jpeg';
-  nameSystema = 'Gym';
+  nameSystema = 'GymControl';
 
   constructor(
     private authService: AuthService,
@@ -81,7 +81,7 @@ export class LoginAuthComponent implements OnInit {
       this.authService.onLogin(this.login).pipe(
 
         tap((resp: any) => {
-          console.log(resp);
+          // console.log(resp);
           this.tokenService.setToken(resp.token);
           this.tokenService.setParamSystem(resp?.data);
 

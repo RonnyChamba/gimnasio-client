@@ -9,7 +9,6 @@ import {
 import { TypeOperationFormInsCustomer } from 'src/app/utils/utilForm';
 import Swal from 'sweetalert2';
 import { CustomerService } from '../../services/customer.service';
-import { UtilCustomerService } from '../../services/util-customer.service';
 import { FormCustomersComponent } from '../form-customers/form-customers.component';
 import { ToastrService } from 'ngx-toastr';
 import { UtilFiltersService } from 'src/app/shared/services/util-filters.service';
@@ -56,30 +55,7 @@ export class ListCustomersComponent implements OnInit, OnDestroy {
   }
 
   private addSubscription() {
-    // Add una subcription, se execute by update table
-
-    // this.subscription.add(
-
-    //   this.customerService.getRefreshUpdateTableObservable().subscribe(resp => {
-
-    //     this.findAll();
-    //   })
-    // )
-    //     this.subscription.add(
-    //   this.utilCustomerService.filterTableAsObservable().subscribe(filtePro => {
-
-    //     this.paramPaginator.size = filtePro.size;
-    //     this.paramPaginator.valueSearch = filtePro.valueSearch;
-    //     this.paramPaginator.dateBegin = filtePro.dateBegin;
-    //     this.paramPaginator.dateEnd = filtePro.dateEnd;
-    //     this.paramPaginator.page=0;
-
-    //     this.changePage();
-
-    //     // console.log(filtePro)
-    //   })
-    // )
-
+  
     this.subscription.add(
       this.utilFiltersService.eventFiltersObservable().subscribe((resp) => {
         console.log('eventFiltersObservable in list-customers');

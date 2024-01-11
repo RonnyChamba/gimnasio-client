@@ -58,7 +58,14 @@ export class TokenService {
     }
     const roles = [...this.getValuesPayload()['authorities']];
     return roles.find(autho => autho.authority == 'ROLE_ADMIN')
+  }
 
+  isSuperAdmin(): boolean {
+    if (!this.isLogged()) {
+      return false;
+    }
+    const roles = [...this.getValuesPayload()['authorities']];
+    return roles.find(autho => autho.authority == 'ROLE_SUPER_ADMIN')
   }
 
   public isCliente(): boolean {
@@ -108,7 +115,17 @@ export class TokenService {
 
   getSystemName(): string {
     const param = this.getSystemParam();
-    return param?.systemName;
+    return param?.NOMBRE_SISTEMA;
+  }
+
+  getCompanyName(): string {
+    const param = this.getSystemParam();
+    return param?.NOMBRE_EMPRESA;
+  }
+
+  getCompanyLeyend(): string {
+    const param = this.getSystemParam();
+    return param?.LEYENDA_EMPRESA;
   }
 
   getMenuItems(): any[] {

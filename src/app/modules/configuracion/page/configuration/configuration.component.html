@@ -23,10 +23,17 @@
       </div>
       <div style="background-color: white" class="content-main  p-3">
 
-        <button class="btn btn-primary d-flex align-items-center" (click)="openModal()">
-          {{typePanel? 'Nuevo Menu':'Nueva Modalidad' }}
-         
-         
+        <button class="btn btn-primary d-flex align-items-center" 
+        *ngIf="typePanel =='MENUS' && isSuperAdmin"
+        (click)="openModal()">
+          {{ 'Nuevo Menu'}}
+        </button>
+
+        <!-- Este boton solo es para que no afecte en el layout, no se notara por el opacity -->
+        <button class="btn btn-primary d-flex align-items-center"
+        style="z-index: -100; opacity: 0; " 
+        *ngIf="typePanel =='INFORMATION_COMPANY'">
+          {{ 'RELLENO'}}
         </button>
         <app-group-panel-config (typePanelChange)="typePanel =$event"></app-group-panel-config>
       </div>

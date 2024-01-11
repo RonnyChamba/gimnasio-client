@@ -129,7 +129,7 @@ export class ListUsersComponent implements OnInit, OnDestroy{
     }).then((result) => {
       if (result.value) {
        
-        this.userService.updateStatus(ide).pipe(
+        this.userService.updateStatus(ide, status).pipe(
 
           tap((data) => {
             // console.log(data);

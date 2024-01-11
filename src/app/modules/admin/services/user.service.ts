@@ -54,8 +54,13 @@ export class UserService implements OnInit {
     return this.httpCliente.get<any>(`${this.pathApi}/users/${ideUser}`);
   }
 
-  updateStatus(ide: number) : Observable<any>{
-    return this.httpCliente.patch(`${this.pathApi}/users/${ide}/status`, {});
+  updateStatus(ide: number, statusCurrent: boolean) : Observable<any>{
+
+  
+    // si es true es para desactivar, si es false es para activar
+    const path = statusCurrent ? `${this.pathApi}/users/${ide}/inactive` : `${this.pathApi}/users/${ide}/active`;
+
+    return this.httpCliente.patch(path, {});
   }
   updateStatusDelete(ide: number) : Observable<any>{
     return this.httpCliente.put(`${this.pathApi}/users/${ide}/delete`, {});

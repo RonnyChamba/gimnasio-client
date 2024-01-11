@@ -14,7 +14,9 @@ export class SideBarComponent implements OnInit {
   
   isAdmin = false;
   menuOptions:any[]= [];
-  systemName = "GymApp";
+  systemName = "GymControl";
+  companyName = "SoftFusion";
+  companyLeyend = "Software Administrativo";
 
   constructor(
     private renderer: Renderer2,
@@ -23,7 +25,9 @@ export class SideBarComponent implements OnInit {
     ) {
 
       this.isAdmin = this.tokenService.isAdmin();
-      this.systemName = this.tokenService.getSystemName() || 'GymApp';
+      this.systemName = this.tokenService.getSystemName() || 'GymControl';
+      this.companyName = this.tokenService.getCompanyName() || 'SoftFusion';
+      this.companyLeyend = this.tokenService.getCompanyLeyend() || 'Software Administrativo';
     }
   ngOnInit(): void {
 
@@ -52,76 +56,6 @@ export class SideBarComponent implements OnInit {
           view: item?.visible,
         });
       });
-
-
-      // this.menuOptions.push({
-      //   title:'Inicio',
-      //   isAdmin: this.isAdmin,
-      //   icon:'fa-solid fa-house',
-      //   url:URL_INICIO,
-      //   view: true
-      // });
-      // this.menuOptions.push({
-      //   title:'Administración',
-      //   isAdmin: this.isAdmin? this.isAdmin: !this.isAdmin,
-      //   icon: 'fa-solid fa-people-roof',
-      //   url:URL_ADMINISTRACION,
-      //   view: true
-      // });
-      // this.menuOptions.push({
-      //   title:  "Clientes",
-      //   isAdmin: this.isAdmin,
-      //   icon:'fa-solid fa-users',
-      //   url:URL_CLIENTES,
-      //   view: true
-      // });
-      // this.menuOptions.push({
-      //   title: "Membresías",
-      //   isAdmin: this.isAdmin,
-      //   icon:'bx bx-pie-chart-alt-2',
-      //   url:URL_INSCRIPCION,
-      //   view: true
-      // });
-      // this.menuOptions.push({
-      //   title:'Asistencias',
-      //   isAdmin: this.isAdmin,
-      //   icon:'fa-solid fa-clipboard-user',
-      //   url:URL_ASISTENCIA,
-      //   view: true
-  
-      // });
-      // this.menuOptions.push( {
-      //   title: "Diarios",
-      //   isAdmin: this.isAdmin,
-      //   icon:'bx bx-compass',
-      //   url:URL_DIARIOS,
-      //   view: true
-      // });
-      // this.menuOptions.push({
-      //   title: "Gastos",
-      //   isAdmin: this.isAdmin,
-      //   icon:'fa-solid fa-hand-holding-dollar',
-      //   url:URL_GASTOS,
-      //   view: true
-      // });
-    
-      // this.menuOptions.push({
-      //   title:"Reportes",
-      //   isAdmin: this.isAdmin,
-      //   icon:'fa-sharp fa-solid fa-file-export',
-      //   url:URL_REPORTE,
-      //   view: true
-      // });
-      // this.menuOptions.push(  
-      // {title: "Deportiva",
-      // isAdmin: this.isAdmin,
-      // url:URL_DEPORTE,
-      // icon:'fa-solid fa-dumbbell',
-      // view: false,
-      // options:[ 
-      //   {name: 'Ejercicios', url:'/exercise'},
-      //   // {name: 'Rutina', url:'/routine'},
-      //   {name: 'Categorías', url:'/category'}]});
     }
 
 
